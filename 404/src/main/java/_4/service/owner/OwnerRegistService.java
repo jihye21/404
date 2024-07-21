@@ -1,8 +1,8 @@
 package _4.service.owner;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import _4.command.OwnerCommand;
 import _4.domain.OwnerDTO;
@@ -19,11 +19,15 @@ public class OwnerRegistService {
 	@Autowired
 	AutoNumService autoNumService;
 	
+	@Autowired
+	PasswordEncoder passwordEncoder;
+	
 	public void execute(OwnerCommand ownerCommand) {
 		OwnerDTO ownerDTO = new OwnerDTO();
 		
 		ownerDTO.setOwnerId(ownerCommand.getOwnerId());
-		ownerDTO.setOwnerPw(ownerCommand.getOwnerPw());
+		String encodePw = passwordEncoder.encode(ownerCommand.getOwnerPw());
+		ownerDTO.setOwnerPw(encodePw);
 		ownerDTO.setOwnerName(ownerCommand.getOwnerName());
 		ownerDTO.setOwnerBirth(ownerCommand.getOwnerBirth());
 		ownerDTO.setOwnerEmail(ownerCommand.getOwnerEmail());
