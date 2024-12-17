@@ -18,12 +18,15 @@ import org.apache.mina.core.session.IoSession;
 import org.apache.mina.transport.socket.DatagramAcceptor;
 import org.apache.mina.transport.socket.DatagramSessionConfig;
 import org.apache.mina.transport.socket.nio.NioDatagramAcceptor;
-import _4.kafka.StockA3; //(packageName).StockA3(fileName)
+
+import _4.kafka.StockA3;
+
 import java.util.Objects;
 
 public class MultiThreadedUDPServer {
     private static final MultiThreadedUDPServer instance = new MultiThreadedUDPServer();
     private KafkaProducer<String, String> producer;
+    
     public static MultiThreadedUDPServer getInstance() {
         return instance;
     }

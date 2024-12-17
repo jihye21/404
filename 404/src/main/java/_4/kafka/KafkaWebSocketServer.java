@@ -17,11 +17,14 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class KafkaWebSocketServer extends WebSocketServer {
+	
     private Set<WebSocket> connections = ConcurrentHashMap.newKeySet();
+    
     public KafkaWebSocketServer(InetSocketAddress address) {
-        super(address);
+        super(address);//주소 초기화
     }
-    @Override
+    
+    @Override          //연결           //연결 초기 정보
     public void onOpen(WebSocket conn, ClientHandshake handshake) {
         connections.add(conn);
         System.out.println("New WebSocket connection: " + conn.getRemoteSocketAddress());
@@ -50,7 +53,7 @@ public class KafkaWebSocketServer extends WebSocketServer {
         }
     }
     public static void main(String[] args) {
-        InetSocketAddress address = new InetSocketAddress("localhost", 8080);
+        InetSocketAddress address = new InetSocketAddress("localhost", 8081);
         KafkaWebSocketServer server = new KafkaWebSocketServer(address);
         server.start();
         System.out.println("WebSocket server started on port: " + server.getPort());

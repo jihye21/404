@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Real-time Stock Data</title>
+</head>
+<body>
+  <div className="App">
+      <h1>Real-time Stock Data</h1>
+      <h2>날짜 : {formatDate()}</h2> {/* 오늘의 날짜 표시 */}
+      <h2>삼성전자 누적 거래량: {formatNumber(cumulativeVolume)}</h2>
+      <table className="stock-table">
+        <thead>
+          <tr>
+            <th>거래시간</th>
+            <th>주식코드</th>
+            <th>거래금액</th>
+            <th>거래량</th>
+          </tr>
+        </thead>
+        <tbody>
+          {stockData.map((stock, index) => (
+            <tr key={index}>
+              <td>{formatTime(stock.timestamp)}</td>
+              <td>{stock.symbol}</td>
+              <td>{formatNumber(stock.price)}</td>
+              <td>{formatNumber(stock.volume)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  
+</body>
+</html>
