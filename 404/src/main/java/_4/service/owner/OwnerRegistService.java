@@ -29,7 +29,8 @@ public class OwnerRegistService {
 		ownerDTO.setOwnerEmail(ownerCommand.getOwnerEmail());
 		ownerDTO.setOwnerPhone(ownerCommand.getOwnerPhone());
 		
-		autoNumService.execute("OWNER", "OWNER_NUM", "owner_", model);
+		String ownerNum = autoNumService.execute("OWNER", "OWNER_NUM", "owner_", model);
+		ownerDTO.setOwnerNum(ownerNum);
 		
 		ownerMapper.ownerForm(ownerDTO);
 	}
