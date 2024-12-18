@@ -1,10 +1,18 @@
 package _4.service.member;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import _4.command.MemberCommand;
+import _4.domain.MemberDTO;
 
 @Service
 public class MemberRegistService {
-	public void execute() {
-		System.out.println("'ㅅ'ㄴㅇㄹㄴㅇsefyhdtewㄹ");
+	@Autowired
+	MemberMapper memberMapper; 
+	
+	public void execute(MemberCommand memberCommand) {
+		MemberDTO dto = new MemberDTO();
+		dto.setMemberNum(memberCommand.getMemberNum);
 	}
 }
