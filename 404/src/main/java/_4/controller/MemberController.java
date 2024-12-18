@@ -26,7 +26,7 @@ public class MemberController {
 	}
 	
 	@GetMapping("memberRegist")
-	public String memberRegist() {
+	public String memberRegist(Model model) {
 		return "thymeleaf/member/memberForm";
 	}
 	

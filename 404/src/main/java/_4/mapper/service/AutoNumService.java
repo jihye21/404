@@ -10,9 +10,8 @@ import _4.mapper.MainMapper;
 public class AutoNumService {
 	@Autowired
 	MainMapper mainMapper;
-	public String execute(String tableName, String columnName, String headName, Model model) {
+	public String execute(String tableName, String columnName, String headName) {
 		String autoNum = mainMapper.autoNumSelect(tableName, columnName, headName);
-		model.addAttribute("autoNum", autoNum);
 		return autoNum;
 	}
 }

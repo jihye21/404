@@ -20,7 +20,7 @@ public class MemberRegistService {
 	
 	public void execute(MemberCommand memberCommand) {
 		MemberDTO dto = new MemberDTO();
-		String autoNum = autoNumService.execute("member", "mem_num", "mem_", null);
+		String autoNum = autoNumService.execute("member", "mem_num", "mem_");
 		dto.setMemNum(autoNum);
 		dto.setMemName(memberCommand.getMemName());
 		dto.setMemId(memberCommand.getMemId());
