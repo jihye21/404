@@ -11,32 +11,37 @@
 <table border="1" width="600" align="center">
 <tr>
 	<td>회원번호</td>
-	<td><input type="text" name="memNum" readonly="readonly" /> </td>
+	<td><input type="text" name="memNum" readonly="readonly" /></td>
 </tr>
 
 <tr>
 	<td>회원 이름</td>
-	<td><input type="text" name="memName" /></td>
+	<td><input type="text" name="memName" />
+		<span style="color:red" th:if="${#fields.hasErrors('memName')}"th:errors="*{memName}"></span></td>
 </tr>
 
 <tr>
 	<td>회원 아이디</td>
-	<td><input type="text" name="memId" /></td>
+	<td><input type="text" name="memId" />
+		<span style="color:red" th:if="${#fields.hasErrors('memId')}"th:errors="*{memId}"></span></td>
 </tr>
 
 <tr>
 	<td>비밀번호</td>
-	<td><input type="password" name="memPw" /></td>
+	<td><input type="password" name="memPw" />
+		<span style="color:red" th:if="${#fields.hasErrors('memPw')}"th:errors="*{memPw}"></span></td>
 <tr>
 
 <tr>
 	<td>비밀번호 확인</td>
-	<td><input type="password" name="memPwCon" /></td>
+	<td><input type="password" name="memPwCon" />
+		<span style="color:red" th:if="${#fields.hasErrors('memPwCon')}"th:errors="*{memPwCon}"></span></td>
 <tr>
 
 <tr>
 	<td>회원 생년월일</td>
-	<td><input type="date" name="memBirth" /></td>
+	<td><input type="date" name="memBirth" />
+		<span style="color:red" th:if="${#fields.hasErrors('memBirth')}"th:errors="*{memBirth}"></span></td>
 </tr>
 
 <tr>
@@ -47,12 +52,14 @@
 
 <tr>
 	<td>회원 전화번호</td>
-	<td><input type="tel" name="memPhone" /></td>
+	<td><input type="tel" name="memPhone" />
+		<span style="color:red" th:if="${#fields.hasErrors('memPhone')}"th:errors="*{memPhone}"></span></td>
 </tr>
 
 <tr>
 	<td>회원 이메일</td>
-	<td><input type="email" name="memEmail" /></td>
+	<td><input type="email" name="memEmail" />
+		<span style="color:red" th:if="${#fields.hasErrors('memEmail')}"th:errors="*{memEmail}"></span></td>
 </tr>
 </table>
 </form>

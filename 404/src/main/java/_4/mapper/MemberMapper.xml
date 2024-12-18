@@ -8,7 +8,7 @@
 insert into member(MEM_NUM, MEM_ID, MEM_PW, MEM_NAME
 		MEM_BIRTH_DATE, MEM_EMAIL, MEM_PHONE, MEM_EMAIL_CONF, MEM_POINT)
 values (#{memNum}, #{memId}, #{memPw}, #{memName}
-		#{memBirth}, #{memEmail}, #{memPhone}, null, 0)
+		, #{memBirth}, #{memEmail}, #{memPhone}, null, 0)
 </insert>
 
 </mapper>
