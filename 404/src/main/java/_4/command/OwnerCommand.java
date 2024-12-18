@@ -13,8 +13,8 @@ public class OwnerCommand {
 	String ownerId;
 	String ownerPw;
 	String ownerName;
-	//@DateTimeFormat(pattern = "yyyy-MM-dd")
-	//Date ownerBirth;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	Date ownerBirth;
 	String ownerEmail;
 	String ownerPhone;
 }

@@ -2,10 +2,12 @@ package _4.service.owner;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import _4.command.OwnerCommand;
 import _4.domain.OwnerDTO;
 import _4.mapper.OwnerMapper;
+import _4.mapper.service.AutoNumService;
 
 
 @Service
@@ -14,17 +16,21 @@ public class OwnerRegistService {
 	@Autowired
 	OwnerMapper ownerMapper;
 	
-	public void execute(OwnerCommand ownerCommand) {
+	@Autowired
+	AutoNumService autoNumService;
+	
+	public void execute(OwnerCommand ownerCommand,  Model model) {
 		OwnerDTO ownerDTO = new OwnerDTO();
 		
 		ownerDTO.setOwnerId(ownerCommand.getOwnerId());
 		ownerDTO.setOwnerPw(ownerCommand.getOwnerPw());
 		ownerDTO.setOwnerName(ownerCommand.getOwnerName());
-		//ownerDTO.setOwnerBirth(ownerCommand.getOwnerBirth());
+		ownerDTO.setOwnerBirth(ownerCommand.getOwnerBirth());
 		ownerDTO.setOwnerEmail(ownerCommand.getOwnerEmail());
 		ownerDTO.setOwnerPhone(ownerCommand.getOwnerPhone());
 		
-		System.out.println(ownerDTO);
+		autoNumService.execute("OWNER", "OWNER_NUM", "owner_", model);
+		
 		ownerMapper.ownerForm(ownerDTO);
 	}
 	
