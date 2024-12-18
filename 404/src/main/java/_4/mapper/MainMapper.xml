@@ -5,6 +5,6 @@
 	
 <mapper namespace="_4.mapper.MainMapper">
 <select id="autoNumSelect" resultType="string">
-select concat(#{haedName},max(substr(${columnName}), length(#{headName}))+1) from ${tableName}
+select concat(#{headName},max(substr(${columnName}), length(#{headName}))+1) from ${tableName}
 </select>
 </mapper>

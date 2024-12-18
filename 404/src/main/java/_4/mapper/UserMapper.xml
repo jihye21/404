@@ -5,8 +5,9 @@
 	
 <mapper namespace="_4.mapper.UserMapper">
 <select id="login" parameterType="string" resultType="authDTO">
-select mem_id as userId, mem_pw as userPw, 'member' as grade from member
-union select emp_id, emp_pw, 'employee' from employee
-union select owner_id, owner_pw, 'owner' from owner
+select mem_id as userId, mem_pw as userPw, 'member' as grade from member where mem_id = #{userId}
+ union select emp_id, emp_pw, 'employee' from employee where emp_id = #{userId}
+ union select owner_id, owner_pw, 'owner' from owner where owner_id	 = #{userId}
+
 </select>
 </mapper>

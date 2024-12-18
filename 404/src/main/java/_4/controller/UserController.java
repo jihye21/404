@@ -2,7 +2,9 @@ package _4.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,13 +18,17 @@ public class UserController {
 	@Autowired
 	LoginService loginService;
 	@GetMapping("loginForm")
-	public String loginForm() {
+	public String loginForm(Model model, UserCommand userCommand) {
+		model.addAttribute("userCommand", userCommand);
 		return "thymeleaf/user/loginForm";
 	}
 	
 	@PostMapping("login")
-	public String login(UserCommand userCommand, BindingResult result) {
+	public String login(@Validated UserCommand userCommand, BindingResult result) {
 		loginService.execute(userCommand, result);
+		if(result.hasErrors()) {
+			return "thymeleaf/user/loginForm";
+		}
 		return "redirect:/";
 	}
 }
