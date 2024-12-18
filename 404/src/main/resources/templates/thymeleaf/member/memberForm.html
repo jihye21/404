@@ -7,7 +7,45 @@
 <body>
 회원등록 페이지
 
-업데이트 되나?
+<form action="memberRegist" method="post">
+<table border="1" width="600" align="center">
+<tr>
+	<td>회원번호</td>
+	<td><input type="text" name="memberNum" readonly="readonly" /> </td>
+</tr>
+
+<tr>
+	<td>회원 이름</td>
+	<td><input type="text" name="memberName" /></td>
+</tr>
+
+<tr>
+	<td>회원 아이디</td>
+	<td><input type="text" name="memberId" /></td>
+</tr>
+
+<tr>
+	<td>회원 생년월일</td>
+	<td><input type="date" name="memberBirth" /></td>
+</tr>
+
+<tr>
+	<td>회원 성별</td>
+	<td><input type="radio" name="gender" value="M" checked="checked" />남자
+		<input type="radio" name="gender" value="F" />여자</td>
+</tr>
+
+<tr>
+	<td>회원 전화번호</td>
+	<td><input type="tel" name="memerPhone" /></td>
+</tr>
+
+<tr>
+	<td>회원 이메일</td>
+	<td><input type="email" name="memberEmail" /></td>
+</tr>
+</table>
+</form>
 
 </body>
 </html>
