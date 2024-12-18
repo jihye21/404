@@ -8,18 +8,18 @@ import lombok.Data;
 
 @Data
 public class MemberCommand {
-	String memberNum;
-	String memberId;
-	String memberPw;
-	String memberPwCon;
-	String memberName;
-	String memberAddr;
-	String memberAddrDetail;
+	String memNum;
+	String memId;
+	String memPw;
+	String memPwCon;
+	String memName;
+	String memAddr;
+	String memAddrDetail;
+	String memPost;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	String memberPost;
-	Date memberBirth;
+	Date memBirth;
 	String gender;
-	String memberPhone;
-	String memberEmail;
+	String memPhone;
+	String memEmail;
 	
 }

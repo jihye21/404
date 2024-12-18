@@ -8,19 +8,19 @@ import org.springframework.format.annotation.DateTimeFormat;
 import lombok.Data;
 
 @Data
-@Alias("mem")
+@Alias("memberDTO")
 public class MemberDTO {
-	String memberNum;
-	String memberId;
-	String memberPw;
-	String memberPwCon;
-	String memberName;
-	String memberAddr;
-	String memberAddrDetail;
+	String memNum;
+	String memId;
+	String memPw;
+	String memPwCon;
+	String memName;
+	String memAddr;
+	String memAddrDetail;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	String memberPost;
-	Date memberBirth;
+	String memPost;
+	Date memBirth;
 	String gender;
-	String memberPhone;
-	String memberEmail;
+	String memPhone;
+	String memEmail;
 }

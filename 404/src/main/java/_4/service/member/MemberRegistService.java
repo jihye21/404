@@ -13,6 +13,7 @@ public class MemberRegistService {
 	
 	public void execute(MemberCommand memberCommand) {
 		MemberDTO dto = new MemberDTO();
-		dto.setMemberNum(memberCommand.getMemberNum);
+		dto.setMemNum(memberCommand.getMemNum());
+		dto.get
 	}
 }
