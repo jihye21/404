@@ -3,22 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <title>ownerForm</title>
+<script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
 </head>
 <body>
 <h1>사장님 회원가입</h1>
 
 <form action = "ownerForm" method = "post">
-아이디: <input type = "text" name = "ownerId" id = "ownerId"> 
+<span style = "color:pink" th:if="${fields.hasErrors('ownerId')}" th:errors = "*{ownerId}"></span>
+아이디: <input type = "text" name = "ownerId" id = "ownerId" placeholder="아이디를 입력해주세요."> 
 <br>
-비밀번호: <input type = "password" name = "ownerPw" id = "ownerPw">
+비밀번호: <input type = "password" name = "ownerPw" id = "ownerPw" placeholder="비밀번호를 입력해주세요.">
 <br>
-이름: <input type = "text" name = "ownerName" id = "ownerName">
+이름: <input type = "text" name = "ownerName" id = "ownerName" placeholder = "이름을 입력해주세요.">
 <br>
-생년월일: <input type = "date" name = "ownerBirth" id = "ownerBirth">
+생년월일: <input type = "date" name = "ownerBirth" id = "ownerBirth" placeholder = "생년월일을 입력해주세요.">
 <br>
-이메일: <input type= "email" name = "ownerEmail" id = "ownerEmail">
+이메일: <input type= "email" name = "ownerEmail" id = "ownerEmail" placeholder="이메일을 입력해주세요.">
 <br>
-전화번호: <input type = "tel" name = "ownerPhone" id = "ownerPhone">
+전화번호: <input type = "tel" name = "ownerPhone" id = "ownerPhone" placeholder="전화번호를 입력해주세요.">
 <br>
 <input type = "submit" value = "등록">
 </form>
