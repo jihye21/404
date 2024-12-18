@@ -9,12 +9,11 @@
 <form action="/user/login" method="post" >
 <table align="center" border="1">
 	<tr><td colspan="2">아이디 저장<input type="checkbox" /></td></tr>
-	<tr><td>아이디:<input type="text" name="userId"/>
-			<span th:if="${#fields.hasErrors('userCommand.userId')}" th:errors="${userCommand.userId}"></span></td>
+	<tr><td>아이디:<input type="text" name="userId"/></td>
 		<td rowspan="2"><input type="submit" value="로그인"/></td></tr>
 	<tr><td>비밀번호:<input type="password" name="userPw"/></td>
 			</tr>
-	<tr><td colspan="2">아이디 찾기 | 비밀번호 찾기 | <a href="/member/mebmerRegist">회원가입</a></td></tr>
+	<tr><td colspan="2">아이디 찾기 | 비밀번호 찾기 | <a href="/member/memberRegist">회원가입</a></td></tr>
 </table>
 </form>
 </body>
