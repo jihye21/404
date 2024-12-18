@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import _4.command.MemberCommand;
 import _4.service.member.MemberDetailService;
 import _4.service.member.MemberRegistService;
+import _4.service.member.MemberUpdateService;
 
 @Controller
 @RequestMapping("member")
@@ -19,6 +20,8 @@ public class MemberController {
 	MemberRegistService memberRegistService;
 	@Autowired
 	MemberDetailService memberDetailService;
+	@Autowired
+	MemberUpdateService memberUpdateService;
 	
 	@RequestMapping("memberList")
 	public String memberList() {
@@ -40,4 +43,13 @@ public class MemberController {
 	public String memberDetail(String memNum, Model model) {
 		return "thymeleaf/member/memInfo";
 	}
+	
+	@RequestMapping("memberModify")
+	public String memberModify(MemberCommand memberCommand) {
+		memberUpdateService.execute(memberCommand);
+		return "thymeleaf/member/memberModify";
+	}
+	
+	
+	
 }

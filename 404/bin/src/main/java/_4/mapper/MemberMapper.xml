@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="_4.mapper.MemberMapper">
+<insert id="memberRegist">
+insert into member(MEM_NUM, MEM_ID, MEM_PW, MEM_NAME
+		, MEM_BIRTH_DATE, MEM_EMAIL, MEM_PHONE, MEM_EMAIL_CONF, MEM_POINT)
+values (#{memNum}, #{memId}, #{memPw}, #{memName}
+		, #{memBirth}, #{memEmail}, #{memPhone}, null, 0)
+</insert>
+
+</mapper>

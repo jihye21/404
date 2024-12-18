@@ -11,7 +11,7 @@
 <li><a href="memberModify"></a></li>
 <table border="2" width = 600 align="center">
 <tr><td>이름</td>
-	<td>[[${memberCommand.}]]</td></tr>
+	<td>[[${memberCommand.memName}]]</td></tr>
 
 <tr><td>아이디</td>
 	<td>[[${memberCommand.}]]</td></tr>
@@ -21,10 +21,10 @@
 		<span th:if="${memberCommand.gender =='F'}">여자</span></td></tr>
 
 <tr><td>생년월일</td>
-	<td>[[${memberCommand.}]]</td></tr>
+	<td>[[${memberCommand.memBirth}]]</td></tr>
 
 <tr><td>전화번호</td>
-	<td>[[${memberCommand.}]]</td></tr>
+	<td>[[${memberCommand.memPhone}]]</td></tr>
 
 <tr><td>이메일</td>
 	<td>[[${memberCommand.}]]</td></tr>

@@ -4,11 +4,29 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
 <mapper namespace="_4.mapper.MemberMapper">
-<insert id="memberRegist">
+<sql id="memberBaseColumns">
+MEM_NUM, MEM_ID, MEM_PW, MEM_NAME, MEM_BIRTH_DATE, MEM_EMAIL, MEM_PHONE, MEM_EMAIL_CONF, MEM_POINT
+</sql>
+
+<insert id="memberRegist" parameterType="memberDTO">
 insert into member(MEM_NUM, MEM_ID, MEM_PW, MEM_NAME
 		, MEM_BIRTH_DATE, MEM_EMAIL, MEM_PHONE, MEM_EMAIL_CONF, MEM_POINT)
 values (#{memNum}, #{memId}, #{memPw}, #{memName}
 		, #{memBirth}, #{memEmail}, #{memPhone}, null, 0)
 </insert>
 
+<select id="memberSelectOne" parameterType="string" resultType="memberDTO">
+	select <include refid="memberBaseColumns"/>
+	from member
+	where MEM_NUM = #{memNum}
+</select>
+
+<update id="memberUpdate" parameterType="memberDTO">
+update member
+	MEM_EMAIL = #{memEmail},
+	MEM_PHONE = #{memPhone}
+	<where>
+		MEM_NUM = #{memNum}
+	</where>
+</update>
 </mapper>
