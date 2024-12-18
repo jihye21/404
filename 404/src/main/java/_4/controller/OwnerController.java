@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import _4.command.OwnerCommand;
 import _4.service.owner.OwnerRegistService;
 
 
@@ -16,14 +17,17 @@ public class OwnerController {
 	@Autowired
 	OwnerRegistService ownerRegistService;
 	
+	@Autowired
+	OwnerCommand ownerCommand;
+	
 	@GetMapping("ownerForm")
 	public String ownerForm() {
 		return "thymeleaf/owner/ownerForm";
 	}
 	
 	@PostMapping("ownerForm")
-	public String insert() {
-		ownerRegistService.execute();
+	public String insert(OwnerCommand ownerCommand) {
+		ownerRegistService.execute(ownerCommand);
 		return "redirect:ownerForm";
 	}
 }
