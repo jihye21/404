@@ -14,14 +14,14 @@ public class OwnerController {
 	@Autowired
 	OwnerService ownerService;
 	
-	@GetMapping("form")
-	public String form() {
-		return "thymeleaf/owner/form";
+	@GetMapping("ownerForm")
+	public String ownerForm() {
+		return "thymeleaf/owner/ownerForm";
 	}
 	
-	@PostMapping("form")
+	@PostMapping("ownerForm")
 	public String insert() {
 		ownerService.execute();
-		return "redirect:form";
+		return "redirect:ownerForm";
 	}
 }
