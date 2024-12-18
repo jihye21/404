@@ -12,7 +12,7 @@ public class OwnerDTO {
 	String ownerId;
 	String ownerPw;
 	String ownerName;
-	Date ownerBirth;
+	//Date ownerBirth;
 	String ownerEmail;
 	String ownerPhone;
 	

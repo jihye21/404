@@ -17,14 +17,15 @@ public class OwnerRegistService {
 	public void execute(OwnerCommand ownerCommand) {
 		OwnerDTO ownerDTO = new OwnerDTO();
 		
-		ownerDTO.getOwnerId();
-		ownerDTO.getOwnerPw();
-		ownerDTO.getOwnerName();
-		ownerDTO.getOwnerBirth();
-		ownerDTO.getOwnerEmail();
-		ownerDTO.getOwnerPhone();
+		ownerDTO.setOwnerId(ownerCommand.getOwnerId());
+		ownerDTO.setOwnerPw(ownerCommand.getOwnerPw());
+		ownerDTO.setOwnerName(ownerCommand.getOwnerName());
+		//ownerDTO.setOwnerBirth(ownerCommand.getOwnerBirth());
+		ownerDTO.setOwnerEmail(ownerCommand.getOwnerEmail());
+		ownerDTO.setOwnerPhone(ownerCommand.getOwnerPhone());
 		
-		ownerMapper.ownerForm();
+		System.out.println(ownerDTO);
+		ownerMapper.ownerForm(ownerDTO);
 	}
 	
 }

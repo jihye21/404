@@ -7,8 +7,8 @@
 		<insert id="ownerForm" parameterType="ownerDTO">
 			insert into owner 
 			(OWNER_NUM, OWNER_ID, OWNER_PW, OWNER_NAME
-			, OWNER_BIRTH, OWNER_EMAIL, OWNER_PHONE)
-			values (NULL, #{ownerId}, #{ownerPw}, #{ownerName}
-			, #{ownerBirth}, #{ownerEmail}, #{ownerPhone})
+			, OWNER_EMAIL, OWNER_PHONE)
+			values ('1', #{ownerId}, #{ownerPw}, #{ownerName}
+			, #{ownerEmail}, #{ownerPhone})
 		</insert>
 	</mapper>
