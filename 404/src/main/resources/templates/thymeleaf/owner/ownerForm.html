@@ -8,19 +8,26 @@
 <body>
 <h1>사장님 회원가입</h1>
 
-<form action = "ownerForm" method = "post">
-<span style = "color:pink" th:if="${fields.hasErrors('ownerId')}" th:errors = "*{ownerId}"></span>
-아이디: <input type = "text" name = "ownerId" id = "ownerId" placeholder="아이디를 입력해주세요."> 
+<form action = "ownerForm" method = "post" th:object = "${ownerCommand}">
+
+아이디: <input type = "text" placeholder="아이디" th:field="*{ownerId}"> 
+<span style = "color:red" th:if="${#fields.hasErrors('ownerId')}" th:errors = "*{ownerId}"></span>
 <br>
-비밀번호: <input type = "password" name = "ownerPw" id = "ownerPw" placeholder="비밀번호를 입력해주세요.">
+비밀번호: <input type = "password" placeholder="비밀번호" th:field="*{ownerPw}">
+
+<span style = "color:red" th:if="${#fields.hasErrors('ownerPw')}" th:errors = "*{ownerPw}"></span>
 <br>
-이름: <input type = "text" name = "ownerName" id = "ownerName" placeholder = "이름을 입력해주세요.">
+이름: <input type = "text" placeholder = "이름" th:field="*{ownerName}">
+<span style = "color:red" th:if="${#fields.hasErrors('ownerName')}" th:errors = "*{ownerName}"></span>
 <br>
-생년월일: <input type = "date" name = "ownerBirth" id = "ownerBirth" placeholder = "생년월일을 입력해주세요.">
+생년월일: <input type = "date" placeholder = "생년월일">
+
 <br>
-이메일: <input type= "email" name = "ownerEmail" id = "ownerEmail" placeholder="이메일을 입력해주세요.">
+이메일: <input type= "email" placeholder="이메일" th:field="*{ownerEmail}">
+<span style = "color:red" th:if="${#fields.hasErrors('ownerEmail')}" th:errors = "*{ownerEmail}"></span>
 <br>
-전화번호: <input type = "tel" name = "ownerPhone" id = "ownerPhone" placeholder="전화번호를 입력해주세요.">
+전화번호: <input type = "tel" placeholder="전화번호" th:field="*{ownerPhone}">
+<span style = "color:red" th:if="${#fields.hasErrors('ownerPhone')}" th:errors = "*{ownerPhone}"></span>
 <br>
 <input type = "submit" value = "등록">
 </form>

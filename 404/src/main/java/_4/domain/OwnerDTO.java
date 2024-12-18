@@ -9,6 +9,7 @@ import lombok.Data;
 @Data
 @Alias("ownerDTO")
 public class OwnerDTO {
+	String ownerNum;
 	String ownerId;
 	String ownerPw;
 	String ownerName;
