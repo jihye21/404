@@ -6,12 +6,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import _4.service.owner.OwnerRegistService;
+
 
 @Controller
 @RequestMapping("owner")
 public class OwnerController {
 	
-	
+	@Autowired
+	OwnerRegistService ownerRegistService;
 	
 	@GetMapping("ownerForm")
 	public String ownerForm() {
@@ -20,6 +23,7 @@ public class OwnerController {
 	
 	@PostMapping("ownerForm")
 	public String insert() {
+		ownerRegistService.execute();
 		return "redirect:ownerForm";
 	}
 }
