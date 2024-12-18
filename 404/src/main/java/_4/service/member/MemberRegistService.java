@@ -15,7 +15,7 @@ public class MemberRegistService {
 	public void execute(MemberCommand memberCommand) {
 		MemberDTO dto = new MemberDTO();
 		dto.setMemNum(memberCommand.getMemNum());
-		System.out.println("아이");
+		System.out.println("아이ㅇ");
 	}
 	
 	
