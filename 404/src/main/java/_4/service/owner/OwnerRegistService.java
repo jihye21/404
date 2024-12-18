@@ -1,9 +1,9 @@
-package _4.service;
+package _4.service.owner;
 
 import org.springframework.stereotype.Service;
 
 @Service
-public class OwnerService {
+public class OwnerRegistService {
 
 	public void execute() {
 		
