@@ -27,6 +27,6 @@ public class MemberController {
 	@PostMapping("memberRegist")
 	public String memberRegist1() {
 		memberRegistService.execute();
-		 return "로그인 페이지";
+		 return "로그인 페이ert지";
 	}
 }
