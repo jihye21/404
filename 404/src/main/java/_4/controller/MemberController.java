@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import _4.command.MemberCommand;
 import _4.service.member.MemberRegistService;
 
 @Controller
@@ -25,8 +26,8 @@ public class MemberController {
 	}
 	
 	@PostMapping("memberRegist")
-	public String memberRegist1() {
-		memberRegistService.execute();
-		 return "로그인 페이ert지";
+	public String memberRegist(MemberCommand memberCommand) {
+		memberRegistService.execute(memberCommand);
+		 return "";
 	}
 }

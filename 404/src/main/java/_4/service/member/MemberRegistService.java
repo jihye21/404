@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import _4.command.MemberCommand;
 import _4.domain.MemberDTO;
+import _4.mapper.MemberMapper;
 
 @Service
 public class MemberRegistService {
