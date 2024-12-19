@@ -25,10 +25,13 @@ public class UserController {
 	
 	@PostMapping("login")
 	public String login(@Validated UserCommand userCommand, BindingResult result) {
-		loginService.execute(userCommand, result);
+		String grade = loginService.execute(userCommand, result);
 		if(result.hasErrors()) {
 			return "thymeleaf/user/loginForm";
 		}
-		return "redirect:/";
+		if(grade.equals("member")) return "redirect:/member/memberMainPage";
+		else if(grade.equals("employee")) return "redirect:/employee/employeeMainPage";
+		else if(grade.equals("owner")) return "redirect:/owner/ownerMainPage";
+		else return "thymeleaf/user/loginForm";
 	}
 }
