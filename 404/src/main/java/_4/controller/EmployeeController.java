@@ -29,18 +29,18 @@ public class EmployeeController {
 		return "thymeleaf/employee/employeeList";
 	}
 	
-	@GetMapping("empRegist")
+	@GetMapping("employeeRegist")
 	public String empRegist() {
 		return "thymeleaf/employee/empForm";
 	}
 	
-	@PostMapping("empRegist")
+	@PostMapping("employeeRegist")
 	public String empRegist(EmployeeCommand employeeCommand) {
 		employeeRegistService.execute(employeeCommand);
 		return "redirect:employeeList";
 	}
 	
-	@GetMapping("empDetail")
+	@GetMapping("employeeDetail")
 	public String empDetail(String empNum, Model model, EmployeeCommand employeeCommand) {
 		empDetailService.execute(empNum, model, employeeCommand);
 		return "thymeleaf/employee/empInfo";
