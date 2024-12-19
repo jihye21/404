@@ -14,17 +14,17 @@
 			, #{empJumin}, 0 )	
 </insert>
 
-<resultMap type="emp" id="employeeResultMap">
-	<id column="EMP_NUM"				jdbcType="VARCHAR2"			property="empNum"/>
-	<result column="EMP_ID"				jdbcType="VARCHAR2"			property="empId"/>
-	<result column="EMP_PW"				jdbcType="VARCHAR2"			property="empPw"/>
-	<result column="EMP_NAME"			jdbcType="VARCHAR2"			property="empName"/>
+<resultMap type="empDTO" id="employeeResultMap">
+	<id column="EMP_NUM"				jdbcType="VARCHAR"			property="empNum"/>
+	<result column="EMP_ID"				jdbcType="VARCHAR"			property="empId"/>
+	<result column="EMP_PW"				jdbcType="VARCHAR"			property="empPw"/>
+	<result column="EMP_NAME"			jdbcType="VARCHAR"			property="empName"/>
 	<result column="EMP_BIRTH_DATE"		jdbcType="DATE"				property="empBirthDate"/>
-	<result column="EMP_EMAIL"			jdbcType="VARCHAR2"			property="empEmail"/>
-	<result column="EMP_PHONE"			jdbcType="VARCHAR2"			property="empPhone"/>
+	<result column="EMP_EMAIL"			jdbcType="VARCHAR"			property="empEmail"/>
+	<result column="EMP_PHONE"			jdbcType="VARCHAR"			property="empPhone"/>
 	<result column="EMP_HIRE_DATE"		jdbcType="DATE"				property="empHireDate"/>
-	<result column="EMP_JUMIN"			jdbcType="VARCHAR2"			property="empJumin"/>
-	<result column="EMP_POINT"			jdbcType="NUMBER"			property="empPoint"/>
+	<result column="EMP_JUMIN"			jdbcType="VARCHAR"			property="empJumin"/>
+	<result column="EMP_POINT"			jdbcType="INTEGER"			property="empPoint"/>
 </resultMap>
 
 <select id="employeeAllSelect" resultMap="employeeResultMap" >

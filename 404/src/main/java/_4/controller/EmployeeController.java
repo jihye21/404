@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import _4.command.EmployeeCommand;
+import _4.service.employee.EmpDetailService;
 import _4.service.employee.EmployeeListService;
 import _4.service.employee.EmployeeRegistService;
 
@@ -17,7 +18,8 @@ public class EmployeeController {
 	@Autowired
 	EmployeeRegistService employeeRegistService;
 	@Autowired
-	EmployeeListService employeeListService; 
+	EmployeeListService employeeListService;
+	
 	
 	@GetMapping("employeeList")
 	public String emplist(Model model) {
@@ -35,6 +37,11 @@ public class EmployeeController {
 		employeeRegistService.execute(employeeCommand);
 		return "redirect:employeeList";
 	}
-	
-	@GetMapping
+	/*
+	@GetMapping("empDetail")
+	public String empDetail() {
+		empDetailService.execute();
+		return "thyme/employee/empInfo";
+	}
+	*/
 }
