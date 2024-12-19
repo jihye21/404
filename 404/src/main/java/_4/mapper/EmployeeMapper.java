@@ -9,6 +9,7 @@ import _4.domain.EmployeeDTO;
 
 @Mapper
 public interface EmployeeMapper {
+	
 	public void employeeRegist(EmployeeDTO dto);
 	public List<EmployeeDTO> employeeAllSelect();
 }
