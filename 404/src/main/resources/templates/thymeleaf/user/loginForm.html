@@ -7,12 +7,17 @@
 <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Roboto" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <script type="text/javascript">
-$('#password').focusin(function(){
+
+$(document).ready(function() {
+	$('#password').focusin(function(){
+	
 	  $('form').addClass('up')
 	});
+
 	$('#password').focusout(function(){
 	  $('form').removeClass('up')
 	});
+});
 
 	// Panda Eye move
 	$(document).on( "mousemove", function( event ) {
@@ -37,39 +42,40 @@ $('#password').focusin(function(){
 	});
 </script>
 <style>
-/* Basic reset and box-sizing */
-*,
-*::after,
-*::before {
+/* Importing the Google Fonts */
+@import url(https://fonts.googleapis.com/css?family=Dancing+Script|Roboto);
+
+/* Box-sizing reset */
+*, *:after, *:before {
   box-sizing: border-box;
 }
 
-/* Body styling */
-body {
-  background: #FF4081;
-  text-align: center;
-  font-family: Roboto, sans-serif;
+/* Define primary color */
+:root {
+  --primary: #D8A7FF;
 }
 
-/* Panda styling */
+body {
+  background: rgba(var(--primary), 1.25);
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+}
+
 .panda {
   position: relative;
   width: 200px;
   margin: 50px auto;
 }
-
-/* Face styling */
 .face {
   width: 200px;
   height: 200px;
   background: #fff;
-  border-radius: 100%;
+  border-radius: 50%;
   margin: 50px auto;
-  box-shadow: 0 10px 15px rgba(0, 0, 0, .15);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
   z-index: 50;
   position: relative;
 }
-
 /* Ear styling */
 .ear {
   position: absolute;
@@ -86,7 +92,7 @@ body {
 .ear::after {
   content: '';
   position: absolute;
-  left: 125px;
+  left: 150px;
   top: 0;
   width: 80px;
   height: 80px;
@@ -106,12 +112,13 @@ body {
   top: 35px;
   left: 25px;
   transform: rotate(220deg);
-  border-radius: 25px 20px 30px 40px;
+  border-radius: 30px 30px 40px 20px;
 }
 
 .eye-shade.rgt {
   transform: rotate(140deg);
   left: 105px;
+  border-radius: 30px 40px 20px 50px;
 }
 
 /* Eye White */
@@ -154,7 +161,6 @@ body {
   width: 20px;
   height: 20px;
 }
-
 /* Nose */
 .nose {
   position: absolute;
@@ -168,7 +174,6 @@ body {
   transform: rotate(15deg);
   background: #000;
 }
-
 /* Body */
 .body {
   background: #fff;
@@ -177,7 +182,7 @@ body {
   left: -20px;
   border-radius: 100px 100px 100px 100px / 126px 126px 96px 96px;
   width: 250px;
-  height: 282px;
+  height: 400px;
   box-shadow: 0 5px 10px rgba(0, 0, 0, .3);
 }
 
@@ -194,15 +199,22 @@ body {
   left: -25px;
 }
 
-.hand::after, .hand::before {
+.hand::after,
+.hand::before {
   content: '';
+  display: block;
+  width: 40px;
+  height: 30px;
+  border-radius: 50px;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, .15);
+  background: #000;
   position: absolute;
   left: -5px;
   top: 11px;
-  width: 40px;
-  height: 30px;
-  background: #000;
-  border-radius: 50px;
+}
+
+.hand::before {
+  top: 26px;
 }
 
 .hand.rgt {
@@ -210,14 +222,15 @@ body {
   right: -25px;
 }
 
-.hand.rgt::after, .hand.rgt::before {
+.hand.rgt::after,
+.hand.rgt::before {
   left: auto;
   right: -5px;
 }
 
 /* Foot */
 .foot {
-  top: 360px;
+  top: 500px;
   left: -80px;
   position: absolute;
   background: #000;
@@ -228,19 +241,37 @@ body {
   height: 120px;
 }
 
-.foot::after {
+.foot:after {
   content: '';
   width: 55px;
   height: 65px;
   background: #222;
-  border-radius: 100%;
+  border-radius: 50%;
   position: absolute;
   bottom: 10px;
   left: 0;
   right: 0;
   margin: auto;
 }
+.foot.rgt {
+  left: auto;
+  right: -80px;
+}
 
+.foot.rgt .finger {
+  left: 5px;
+  right: auto;
+}
+
+.foot.rgt .finger:after {
+  left: 30px;
+  right: auto;
+}
+
+.foot.rgt .finger:before {
+  left: 55px;
+  right: auto;
+}
 /* Finger */
 .finger {
   position: absolute;
@@ -249,7 +280,7 @@ body {
   background: #222;
   border-radius: 100%;
   top: 10px;
-  right: 5px;
+  right: 30px;
 }
 
 .finger::after, .finger::before {
@@ -259,10 +290,11 @@ body {
   height: 35px;
   background: #222;
   border-radius: 100%;
+  right: -25px;
 }
 
 .finger::before {
-  right: 55px;
+  right: 30px;
   top: 5px;
 }
 
@@ -278,14 +310,13 @@ body {
 .finger.rgt::before {
   left: 55px;
 }
-
 /* Form */
 form {
   display: none;
   max-width: 400px;
   padding: 20px 40px;
   background: #fff;
-  height: 300px;
+  height: 400px;
   margin: auto;
   display: block;
   box-shadow: 0 10px 15px rgba(0, 0, 0, .15);
@@ -302,7 +333,7 @@ form.up {
 
 /* Heading */
 h1 {
-  color: #FF4081;
+  color: #D8A7FF;
   font-family: 'Dancing Script', cursive;
 }
 
@@ -312,17 +343,17 @@ h1 {
   padding: 5px;
   width: 150px;
   height: 35px;
-  border: 1px solid #FF4081;
+  border: 1px solid #D8A7FF;
   margin-top: 25px;
   cursor: pointer;
   transition: .3s;
-  box-shadow: 0 50px #FF4081 inset;
+  box-shadow: 0 50px #D8A7FF inset;
   color: #fff;
 }
 
 .btn:hover {
-  box-shadow: 0 0 #FF4081 inset;
-  color: #FF4081;
+  box-shadow: 0 0 #D8A7FF inset;
+  color: #D8A7FF;
 }
 
 .btn:focus {
@@ -368,13 +399,13 @@ h1 {
 .form-control:focus,
 .form-control:valid {
   outline: none;
-  box-shadow: 0 1px #FF4081;
-  border-color: #FF4081;
+  box-shadow: 0 1px #D8A7FF;
+  border-color: #D8A7FF;
 }
 
 .form-control:focus + .form-label {
   font-size: 12px;
-  color: #FF4081;
+  color: #D8A7FF;
   transform: translateY(-15px);
 }
 
@@ -441,7 +472,6 @@ h1 {
     left: -20px;
   }
 }
-
 </style>
 </head>
 <body>
@@ -471,9 +501,10 @@ h1 {
 <form action="/user/login" method="post" >
   <div class="hand"></div>
   <div class="hand rgt"></div>
-  <h1>Panda Login</h1>
+  <h1>404 Login</h1>
+  아이디 저장<input type="checkbox" />
+  로그인 유지<input type="checkbox" /><br>
   <div class="form-group">
-  아이디 저장<input type="checkbox" /><br>
     <input type="text" name="userId" class="form-control"/>
     <label class="form-label">Username    </label>
   </div>
@@ -481,8 +512,10 @@ h1 {
     <input id="password" type="password" name="userPw" class="form-control"/>
     <label class="form-label">Password</label>
     <p class="alert">Invalid Credentials..!!</p>
-    <input type="submit" value="로그인"/>
-    <button class="btn">Login </button>
+    <!--  input type="submit" value="로그인"/>-->
+    <br><br>
+    아이디 찾기 | 비밀번호 찾기 | <a href="/member/memberRegist">회원가입</a>
+    <button class="btn" type="submit">Login </button>
   </div>
 </form>
 
