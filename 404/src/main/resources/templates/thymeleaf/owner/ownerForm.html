@@ -20,7 +20,7 @@
 이름: <input type = "text" placeholder = "이름" th:field="*{ownerName}">
 <span style = "color:red" th:if="${#fields.hasErrors('ownerName')}" th:errors = "*{ownerName}"></span>
 <br>
-생년월일: <input type = "date" placeholder = "생년월일">
+생년월일: <input type = "date" placeholder = "생년월일" name = "ownerBirth">
 
 <br>
 이메일: <input type= "email" placeholder="이메일" th:field="*{ownerEmail}">

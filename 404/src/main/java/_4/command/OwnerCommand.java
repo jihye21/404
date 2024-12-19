@@ -12,17 +12,17 @@ import lombok.Data;
 @Component
 @Data
 public class OwnerCommand {
-	@NotNull(message ="아이디를 입력해주세요.")
+	//@NotNull(message ="아이디를 입력해주세요.")
 	String ownerId;
-	@NotNull
+	//@NotNull(message ="아이디를 입력해주세요.")
 	String ownerPw;
-	@NotNull
+	//@NotNull(message ="아이디를 입력해주세요.")
 	String ownerName;
 	@DateTimeFormat(pattern = "yyyy-MM-dd") 
 	Date ownerBirth;
-	@NotNull
+	//@NotNull(message ="아이디를 입력해주세요.")
 	String ownerEmail;
-	@NotNull
+	//@NotNull(message ="아이디를 입력해주세요.")
 	String ownerPhone;
 	
 	

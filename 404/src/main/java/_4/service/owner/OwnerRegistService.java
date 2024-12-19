@@ -19,7 +19,7 @@ public class OwnerRegistService {
 	@Autowired
 	AutoNumService autoNumService;
 	
-	public void execute(OwnerCommand ownerCommand,  Model model) {
+	public void execute(OwnerCommand ownerCommand) {
 		OwnerDTO ownerDTO = new OwnerDTO();
 		
 		ownerDTO.setOwnerId(ownerCommand.getOwnerId());
@@ -29,10 +29,10 @@ public class OwnerRegistService {
 		ownerDTO.setOwnerEmail(ownerCommand.getOwnerEmail());
 		ownerDTO.setOwnerPhone(ownerCommand.getOwnerPhone());
 		
-		String ownerNum = autoNumService.execute("OWNER", "OWNER_NUM", "owner_", model);
+		String ownerNum = autoNumService.execute("OWNER", "OWNER_NUM", "owner_");
 		ownerDTO.setOwnerNum(ownerNum);
 		
-		ownerMapper.ownerForm(ownerDTO);
+		ownerMapper.ownerFormInsert(ownerDTO);
 	}
 	
 }
