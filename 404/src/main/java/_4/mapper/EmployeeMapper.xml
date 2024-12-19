@@ -6,7 +6,7 @@
 <mapper namespace="_4.mapper.EmployeeMapper">
 
 <insert id="employeeRegist" parameterType="empDTO">
-	insert into employees (EMP_NUM, EMP_ID, EMP_PW, EMP_NAME
+	insert into employee (EMP_NUM, EMP_ID, EMP_PW, EMP_NAME
 					, EMP_BIRTH_DATE, EMP_EMAIL, EMP_PHONE, EMP_HIRE_DATE
 					, EMP_JUMIN, EMP_POINT )
 	values (#{empNum}, #{empId}, #{empPw}, #{empName}
@@ -14,23 +14,23 @@
 			, #{empJumin}, 0 )	
 </insert>
 
-<resultMap type="empDTO" id="employeeResultMap">
-	<id column="EMP_NUM"				jdbcType="VARCHAR"			property="empNum"/>
-	<result column="EMP_ID"				jdbcType="VARCHAR"			property="empId"/>
-	<result column="EMP_PW"				jdbcType="VARCHAR"			property="empPw"/>
-	<result column="EMP_NAME"			jdbcType="VARCHAR"			property="empName"/>
-	<result column="EMP_BIRTH_DATE"		jdbcType="DATE"				property="empBirthDate"/>
-	<result column="EMP_EMAIL"			jdbcType="VARCHAR"			property="empEmail"/>
-	<result column="EMP_PHONE"			jdbcType="VARCHAR"			property="empPhone"/>
-	<result column="EMP_HIRE_DATE"		jdbcType="DATE"				property="empHireDate"/>
-	<result column="EMP_JUMIN"			jdbcType="VARCHAR"			property="empJumin"/>
-	<result column="EMP_POINT"			jdbcType="INTEGER"			property="empPoint"/>
-</resultMap>
 
-<select id="employeeAllSelect" resultMap="employeeResultMap" >
-	select <include refid="employeeResultMap" />
-	from employees
+
+<select id="employeeAllSelect" resultType="empDTO" >
+	select EMP_NUM, EMP_ID, EMP_PW, EMP_NAME
+		, EMP_BIRTH_DATE, EMP_EMAIL, EMP_PHONE, EMP_HIRE_DATE
+		, EMP_JUMIN, EMP_POINT
+	from employee
 </select>
 
+<select id="employeeOneSelect" parameterType="string" resultType="empDTO">
+	select EMP_NUM, EMP_ID, EMP_PW, EMP_NAME
+		, EMP_BIRTH_DATE, EMP_EMAIL, EMP_PHONE, EMP_HIRE_DATE
+		, EMP_JUMIN, EMP_POINT
+	from employee
+	<where>
+		EMP_NUM = #{empNum}
+	</where>
+</select>
 
 </mapper>

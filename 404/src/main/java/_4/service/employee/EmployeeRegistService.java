@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import _4.command.EmployeeCommand;
 import _4.domain.EmployeeDTO;
 import _4.mapper.EmployeeMapper;
+import _4.mapper.service.AutoNumService;
 
 @Service
 public class EmployeeRegistService {
@@ -14,10 +15,13 @@ public class EmployeeRegistService {
 	EmployeeMapper employeeMapper;
 	@Autowired
 	PasswordEncoder passwordEncoder;
+	@Autowired
+	AutoNumService autoNumService;
 	
 	public void execute(EmployeeCommand employeeCommand) {
 		EmployeeDTO dto = new EmployeeDTO();
-		dto.setEmpNum(employeeCommand.getEmpNum());
+		String autoNum = autoNumService.execute("employee", "emp_num", "emp_");
+		dto.setEmpNum(autoNum);
 		dto.setEmpName(employeeCommand.getEmpName());
 		dto.setEmpId(employeeCommand.getEmpId());
 		// dto.setEmpPw(employeeCommand.getEmpPw());
