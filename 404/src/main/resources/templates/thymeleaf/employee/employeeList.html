@@ -5,12 +5,12 @@
 <title>Insert title here</title>
 </head>
 <body>
-<a href="empRegist">직원 등록</a><br/>
+<a href="employeeRegist">직원 등록</a><br/>
 <table border="1" width="500" align="center">
 <tr><td>번호</td><td>이름</td><td>아이디</td><td>등록일</td></tr>
 <tr th:each = "employeeCommand : ${list}">
 	<td>[[${employeeCommand.empNum}]]</td>
-	<td><a th:href="|empDetail?empNum=${employeeCommand.empNum}|">[[${employeeCommand.empName}]]</a></td>
+	<td><a th:href="|employeeDetail?empNum=${employeeCommand.empNum}|">[[${employeeCommand.empName}]]</a></td>
 	<td>[[${employeeCommand.empId}]]</td>
 	<td>[[${employeeCommand.empHireDate}]]</td>
 </tr>
