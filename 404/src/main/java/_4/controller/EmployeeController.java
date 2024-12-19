@@ -31,7 +31,7 @@ public class EmployeeController {
 	
 	@GetMapping("employeeRegist")
 	public String empRegist() {
-		return "thymeleaf/employee/empForm";
+		return "thymeleaf/employee/employeeForm";
 	}
 	
 	@PostMapping("employeeRegist")
@@ -43,6 +43,11 @@ public class EmployeeController {
 	@GetMapping("employeeDetail")
 	public String empDetail(String empNum, Model model, EmployeeCommand employeeCommand) {
 		empDetailService.execute(empNum, model, employeeCommand);
-		return "thymeleaf/employee/empInfo";
+		return "thymeleaf/employee/employeeInfo";
+	}
+	
+	@GetMapping("employeeMainPage")
+	public String employeeMainPage() {
+		return "thymeleaf/employee/employeeMainPage";
 	}
 }
