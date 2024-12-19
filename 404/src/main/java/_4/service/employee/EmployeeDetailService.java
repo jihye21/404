@@ -9,12 +9,17 @@ import _4.domain.EmployeeDTO;
 import _4.mapper.EmployeeMapper;
 
 @Service
-public class EmpDetailService {
+public class EmployeeDetailService {
 	@Autowired
 	EmployeeMapper employeeMapper;
 	
 	public void execute(String empNum, Model model, EmployeeCommand employeeCommand) {
 		EmployeeDTO dto = employeeMapper.employeeOneSelect(empNum);
-		model.addAttribute("dto", dto);
+		employeeCommand.setEmpName(dto.getEmpName());
+		employeeCommand.setEmpId(dto.getEmpId());
+		employeeCommand.setEmpHireDate(dto.getEmpHireDate());
+		employeeCommand.setEmpEmail(dto.getEmpEmail());
+		employeeCommand.setEmpPhone(dto.getEmpPhone());
+		model.addAttribute("employeeCommand", employeeCommand);
 	}
 }

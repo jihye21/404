@@ -33,4 +33,13 @@
 	</where>
 </select>
 
+<update id="employeeUpdate" parameterType="empDTO">
+	update employee set
+		EMP_EMAIL = #{empEmail},
+		EMP_PHONE = #{empPhone}
+	where EMP_NUM = #{empNum}
+		
+
+</update>
+
 </mapper>

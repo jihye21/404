@@ -12,4 +12,5 @@ public interface EmployeeMapper {
 	public void employeeRegist(EmployeeDTO dto);
 	public List<EmployeeDTO> employeeAllSelect();
 	public EmployeeDTO employeeOneSelect(String empNum);
+	public int employeeUpdate(EmployeeDTO dto);
 }
