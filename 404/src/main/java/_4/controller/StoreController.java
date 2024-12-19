@@ -20,7 +20,7 @@ public class StoreController {
 	UserNumService userNumService;
 		
 	@PostMapping("storeApply")
-	public String storeForm(StoreCommand storeCommand, HttpSession session) {
+	public String storeForm(StoreCommand storeCommand,  HttpSession session) {
 		String ownerNum = userNumService.execute(session);
 		storeApplyService.execute(storeCommand, session, ownerNum);
 		return "thymeleaf/owner/storeApplyFinished";
