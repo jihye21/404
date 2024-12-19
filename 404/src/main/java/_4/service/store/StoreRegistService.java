@@ -31,9 +31,6 @@ public class StoreRegistService {
 		
 		storeDTO.setStoreName(storeCommand.getStoreName());
 		
-		//사장 이름 session?
-		//storeDTO.setOwnerName();
-		
 		storeDTO.setStoreAddr(storeCommand.getStoreAddr());
 		storeDTO.setStoreAddrDetail(storeCommand.getStoreAddrDetail());
 		storeDTO.setStoreIntroduction(storeCommand.getStoreIntroduction());

@@ -9,14 +9,31 @@
 <script type="text/javascript">
 
 $(document).ready(function() {
-	$('#password').focusin(function(){
 	
-	  $('form').addClass('up')
+	//login 버튼에 대한 호버 상태 여부
+	let isButtonHovered = false;
+	
+	$('.btn').mouseenter(function() {
+	    isButtonHovered = true;
+	  });
+	 $('.btn').mouseleave(function() {
+		    isButtonHovered = false;
+		  });
+	 //@@@@@@@@@@@@@@@@@@@@@@@@@@
+	 
+	 //password가 focus이면 form을 위로 움직이도록
+	 $('#password').focusin(function() {
+	    if (!isButtonHovered) {  // login 버튼에 커서가 없을 경우만
+	      $('form').addClass('up');
+	    }
 	});
-
-	$('#password').focusout(function(){
-	  $('form').removeClass('up')
-	});
+	 
+	//password가 focusOut이면 form을 제자리로
+	 $('#password').focusout(function() {
+	    if (!isButtonHovered) {  // login 버튼에 커서가 없을 경우만
+	      $('form').removeClass('up');
+	    }
+	  });
 });
 
 	// Panda Eye move
@@ -32,8 +49,6 @@ $(document).ready(function() {
 	});
 
 	// validation
-
-
 	$('.btn').click(function(){
 	  $('form').addClass('wrong-entry');
 	    setTimeout(function(){ 
@@ -403,13 +418,17 @@ h1 {
   border-color: #D8A7FF;
 }
 
-.form-control:focus + .form-label,
-.form-control:valid + .form-label {
+.form-control:focus + .form-label {
   font-size: 12px;
   color: #D8A7FF;
   transform: translateY(-15px);
 }
 
+.form-control:valid + .form-label {
+  font-size: 12px;
+  color: #D8A7FF;
+  transform: translateY(-15px);
+}
 /* Alert */
 .alert {
   position: absolute;
@@ -506,11 +525,11 @@ h1 {
   아이디 저장<input type="checkbox" />
   로그인 유지<input type="checkbox" /><br>
   <div class="form-group">
-    <input type="text" name="userId" class="form-control"/>
+    <input type="text" name="userId" class="form-control" required="required"/>
     <label class="form-label">Username    </label>
   </div>
   <div class="form-group">
-    <input id="password" type="password" name="userPw" class="form-control"/>
+    <input id="password" type="password" name="userPw" class="form-control" required="required"/>
     <label class="form-label">Password</label>
     <p class="alert">Invalid Credentials..!!</p>
     <!--  input type="submit" value="로그인"/>-->
