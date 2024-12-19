@@ -50,4 +50,5 @@ public class OwnerController {
 		return "thymeleaf/owner/ownerMainPage";
 	}
 	
+	
 }

@@ -7,21 +7,16 @@ import org.apache.ibatis.type.Alias;
 import lombok.Data;
 
 @Data
-@Alias("storeDTO")
-public class StoreDTO {
+@Alias("storeApplicationDTO")
+public class StoreApplicationDTO {
 	String storeApplNum;
 	String storeName;
-	
-	//session으로 추가?
-	String ownerName;
-	
+	String ownerNum;
 	String storeAddr;
 	String storeAddrDetail;
 	String storeIntroduction;
 	Date storeOpenDate;
-	
 	String bussRegistImage;
 	String bussRegistStoreImage;
-	
 	String bussRegistNum;
 }

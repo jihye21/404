@@ -14,6 +14,7 @@ import _4.domain.AuthDTO;
 import _4.mapper.service.UserNumService;
 import _4.service.owner.OwnerLoginService;
 import _4.service.user.LoginService;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("user")
@@ -33,15 +34,15 @@ public class UserController {
 	}
 	
 	@PostMapping("login")
-	public String login(@Validated UserCommand userCommand, BindingResult result) {
-		AuthDTO auth = loginService.execute(userCommand, result);
+	public String login(@Validated UserCommand userCommand, BindingResult result, HttpSession session) {
+		AuthDTO auth = loginService.execute(userCommand, result, session);
 		if(result.hasErrors()) {
 			return "thymeleaf/user/loginForm";
 		}
 		if(auth.getGrade().equals("member")) return "redirect:/member/memberMainPage";
 		else if(auth.getGrade().equals("employee")) return "redirect:/employee/employeeMainPage";
 		else if(auth.getGrade().equals("owner")) {
-			String ownerNum = userNumService.execute(auth.getUserId());
+			String ownerNum = userNumService.execute(session);
 			String link = ownerLoginService.execute(ownerNum);
 			return link;
 		}

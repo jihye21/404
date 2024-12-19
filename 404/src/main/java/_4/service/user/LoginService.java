@@ -7,16 +7,19 @@ import org.springframework.validation.BindingResult;
 import _4.command.UserCommand;
 import _4.domain.AuthDTO;
 import _4.mapper.UserMapper;
+import jakarta.servlet.http.HttpSession;
 
 @Service
 public class LoginService {
 	@Autowired
 	UserMapper userMapper;	
-	public AuthDTO execute(UserCommand userCommand, BindingResult result) {
+	public AuthDTO execute(UserCommand userCommand, BindingResult result, HttpSession session) {
 		AuthDTO auth = userMapper.login(userCommand.getUserId());
 		if(auth != null) {
 			if(auth.getUserPw() != userCommand.getUserPw()) {
 				// 로그인 성공
+				session.setAttribute("auth", auth);
+				System.out.println("세션 정보:" + auth);
 			}
 			else {
 				// 비밀번호가 일치하지 않습니다.

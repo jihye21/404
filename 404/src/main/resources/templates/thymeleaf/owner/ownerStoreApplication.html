@@ -6,15 +6,18 @@
 </head>
 <body>
 사장님의 가게 신청 페이지입니다.
-<table border="1" align="center">
-	<tr><th>가게 신청서</th></tr>
+<form action="/store/storeApply" method="post" enctype="multipart/form-data">
+<table border="1" align="center" >
+	<tr><th colspan="2">가게 신청서</th></tr>
 	<tr><td>가게명 : </td><td><input type="text" name="storeName"/></td></tr>
 	<tr><td>가게 주소 : </td><td><input type="text" name="storeAddr"/></td></tr>
 	<tr><td>가게 상세 주소 : </td><td><input type="text" name="storeAddrDetail"/></td></tr>
 	<tr><td>가게 소개 : </td><td><input type="text" name="storeIntroduction"/></td></tr>
-	<tr><td>개업일 : </td><td><input type="text" name="storeOpenDate"/></td></tr>
-	<tr><td>사업자 등록증 : </td><td><input type="text" name="bussRegistImage"/></td></tr>
+	<tr><td>개업일 : </td><td><input type="date" name="storeOpenDate"/></td></tr>
+	<tr><td>사업자 등록증 : </td><td><input type="file" name="bussRegistImage"/></td></tr>
 	<tr><td>사업자 등록 번호 : </td><td><input type="text" name="bussRegistNum"/></td></tr>
+	<tr><td colspan="2"><input type="submit"/></td></tr>
 </table>
+</form>
 </body>
 </html>
