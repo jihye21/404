@@ -41,13 +41,13 @@ public class MemberController {
 	
 	@GetMapping("memberDetail")
 	public String memberDetail(String memNum, Model model) {
-		return "thymeleaf/member/memInfo";
+		return "thymeleaf/member/memInfo";	// 내 정보 보기
 	}
 	
 	@RequestMapping("memberModify")
 	public String memberModify(MemberCommand memberCommand) {
 		memberUpdateService.execute(memberCommand);
-		return "thymeleaf/member/memberModify";
+		return "thymeleaf/member/memberModify";		// 내 정보 수정
 	}
 	
 	
