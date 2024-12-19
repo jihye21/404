@@ -11,8 +11,8 @@
 <table border="1" width="600" align="center">
 	<tr><td colspan="2">연락처 정보</td></tr>
 	<input type="hidden" name="empNum" th:value="${employeeCommand.empNum}">
-	<tr><td>변경할 이메일</td><td><input type="text" name="empEmail" th:value="${employeeCommand.empEmail}" /></td></tr>
-	<tr><td>변경할 휴대전화 번호</td><td><input type="text" name="empPhone" th:value="${employeeCommand.empPhone}"/></td></tr>
+	<tr><td>변경할 이메일</td><td><input type="email" name="empEmail" th:value="${employeeCommand.empEmail}" /></td></tr>
+	<tr><td>변경할 휴대전화 번호</td><td><input type="tel" name="empPhone" th:value="${employeeCommand.empPhone}"/></td></tr>
 	
 	<tr><td colspan="2" align="center"><input type="submit" value="수정 완료" /></td></tr>
 </table>
