@@ -15,12 +15,9 @@ public class MemberDTO {
 	String memPw;
 	String memPwCon;
 	String memName;
-	String memAddr;
-	String memAddrDetail;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	String memPost;
-	Date memBirth;
-	String gender;
+	Date memBirthDate;
+	// String gender;
 	String memPhone;
 	String memEmail;
 }

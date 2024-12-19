@@ -13,7 +13,7 @@ public class UserNumService {
 	MainMapper mainMapper;
 	public String execute(HttpSession session) {
 		AuthDTO auth = (AuthDTO)session.getAttribute("auth");
-		System.out.println("서비스에 있느 ㄴ세션 : " + mainMapper.userNumSelect(auth.getUserId()));
+		System.out.println("서비스에 있는 세션 : " + mainMapper.userNumSelect(auth.getUserId()));
 		return mainMapper.userNumSelect(auth.getUserId());
 	}
 }

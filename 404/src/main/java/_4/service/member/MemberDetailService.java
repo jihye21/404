@@ -13,14 +13,8 @@ public class MemberDetailService {
 	@Autowired
 	MemberMapper memberMapper;
 	
-	public void execute(String memNum, Model model) {
+	public void execute(String memNum, Model model, MemberCommand memberCommand) {
 		MemberDTO dto = memberMapper.memberSelectOne(memNum);
-		MemberCommand memberCommand = new MemberCommand();
-		memberCommand.setMemName(dto.getMemName());
-		memberCommand.setMemId(dto.getMemId());
-		memberCommand.setGender(dto.getGender());
-		memberCommand.setMemBirth(dto.getMemBirth());
-		memberCommand.setMemPhone(dto.getMemPhone());
-		memberCommand.setMemEmail(dto.getMemEmail());
+		model.addAttribute("dto", dto);
 	}
 }

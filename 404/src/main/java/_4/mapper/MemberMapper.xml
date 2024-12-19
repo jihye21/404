@@ -12,7 +12,7 @@ MEM_NUM, MEM_ID, MEM_PW, MEM_NAME, MEM_BIRTH_DATE, MEM_EMAIL, MEM_PHONE, MEM_EMA
 insert into member(MEM_NUM, MEM_ID, MEM_PW, MEM_NAME
 		, MEM_BIRTH_DATE, MEM_EMAIL, MEM_PHONE, MEM_EMAIL_CONF, MEM_POINT)
 values (#{memNum}, #{memId}, #{memPw}, #{memName}
-		, #{memBirth}, #{memEmail}, #{memPhone}, null, 0)
+		, #{memBirthDate}, #{memEmail}, #{memPhone}, null, 0)
 </insert>
 
 <select id="memberSelectOne" parameterType="string" resultType="memberDTO">
@@ -22,7 +22,7 @@ values (#{memNum}, #{memId}, #{memPw}, #{memName}
 </select>
 
 <update id="memberUpdate" parameterType="memberDTO">
-update member
+update member set
 	MEM_EMAIL = #{memEmail},
 	MEM_PHONE = #{memPhone}
 	<where>

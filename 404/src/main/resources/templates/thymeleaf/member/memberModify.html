@@ -7,31 +7,15 @@
 <body>
 내 정보 수정페이지.<br />
 <a href="memberPwModify">비밀번호 수정</a>
-
 <form action="memberModify" method="post">
-<table border="1" width="600" align="center">
-	<tr><td colspan="2">기본 정보</td></tr>
-	<tr><td>이름</td><td>[[${memberCommand.memName}]]</td></tr>
-	<tr><td>생년월일</td><td>[[${memberCommand.memBirth}]]</td></tr>
-	<tr><td>성별</td><td>[[${memberCommand.gender}]]</td></tr>
-
+<table border="1" width="600" align="center" th:object="${memberCommand}">
 	<tr><td colspan="2">연락처 정보</td></tr>
-	<tr><td rowspan="2">이메일</td><td>현재 이메일 : [[${memberCommand.memEmail}]]</td></tr>
-	<tr><td>변경할 이메일 : <input type="email" name="memEmail" /></td></tr>
-	<tr><td rowspan="2">휴대 전화</td><td>현재 휴대전화 번호 : [[${memberCommand.memPhone}]]</td></tr>
-	<tr><td>변경할 휴대전화 번호 : <input type="tel" name="memPhone" /></td></tr>
+	<input type="hidden" name="memNum" th:value="${memberCommand.memNum}">
+	<tr><td>변경할 이메일 : <input type="email" name="memEmail" th:value="${memberCommand.memEmail}" /></td></tr>
+	<tr><td>변경할 휴대전화 번호 : <input type="tel" name="memPhone" th:value="${memberCommand.memPhone}" /></td></tr>
 	
 	<tr><td colspan="2" align="center"><input type="submit" value="수정 완료" /></td></tr>
 </table>
-<!-- 
-<table border="1" width="600" align="center">
-	<tr><td colspan="2">주소</td></tr>
-	<tr><td>주소</td><td>[[${memberCommand.}]]</td></tr>
-	<tr><td>상세주소</td><td>[[${memberCommand.}]]</td></tr>
-	<tr><td>우편번호</td><td>[[${memberCommand.}]]</td></tr>
-</table>
--->
-
 </form>
 </body>
 </html>

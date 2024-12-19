@@ -2,6 +2,7 @@ package _4.service.member;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import _4.command.MemberCommand;
 import _4.domain.MemberDTO;
@@ -12,12 +13,11 @@ public class MemberUpdateService {
 	@Autowired
 	MemberMapper memberMapper;
 	
-	public void execute(MemberCommand memberCommand) {
+	public void execute(MemberCommand memberCommand, Model model) {
 		MemberDTO dto = new MemberDTO();
+		dto.setMemNum(memberCommand.getMemNum());
 		dto.setMemEmail(memberCommand.getMemEmail());
-		dto.setMemPhone(memberCommand.getMemPhone());
-		// 주소 변경사항
-		
+		dto.setMemPhone(memberCommand.getMemPhone());		
 		memberMapper.memberUpdate(dto);
 	}
 }

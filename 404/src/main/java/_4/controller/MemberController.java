@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import _4.command.MemberCommand;
+import _4.mapper.service.UserNumService;
 import _4.service.member.MemberDetailService;
 import _4.service.member.MemberRegistService;
 import _4.service.member.MemberUpdateService;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("member")
@@ -22,6 +24,15 @@ public class MemberController {
 	MemberDetailService memberDetailService;
 	@Autowired
 	MemberUpdateService memberUpdateService;
+	@Autowired
+	UserNumService userNumService;
+	
+	@GetMapping("memberMainPage")
+	public String memberMainPage(HttpSession session, Model model) {
+		String memNum = userNumService.execute(session);
+		model.addAttribute("memNum", memNum);
+        return "thymeleaf/member/memberMainPage";
+	}
 	
 	@RequestMapping("memberList")
 	public String memberList() {
@@ -40,14 +51,20 @@ public class MemberController {
 	}
 	
 	@GetMapping("memberDetail")
-	public String memberDetail(String memNum, Model model) {
-		return "thymeleaf/member/memInfo";	// 내 정보 보기
+	public String memberDetail(String memNum, Model model, MemberCommand memberCommand) {
+		memberDetailService.execute(memNum, model, memberCommand);
+		return "thymeleaf/member/memberInfo";	// 내 정보 보기
 	}
 	
-	@RequestMapping("memberModify")
-	public String memberModify(MemberCommand memberCommand) {
-		memberUpdateService.execute(memberCommand);
+	@GetMapping("memberModify")
+	public String memberModify(MemberCommand memberCommand, Model model) {
 		return "thymeleaf/member/memberModify";		// 내 정보 수정
+	}
+	
+	@PostMapping("memberModify")
+	public String memberUpdate(MemberCommand memberCommand, Model model) {
+		memberUpdateService.execute(memberCommand, model);
+		return "redirect:memberDetail?memNum=" + memberCommand.getMemNum();
 	}
 	
 	

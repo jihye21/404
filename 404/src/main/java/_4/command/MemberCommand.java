@@ -21,8 +21,8 @@ public class MemberCommand {
 	String memPwCon;
 	String memName;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	Date memBirth;
-	String gender;
+	Date memBirthDate;
+	// String gender;
 	String memPhone;
 	String memEmail;
 	
