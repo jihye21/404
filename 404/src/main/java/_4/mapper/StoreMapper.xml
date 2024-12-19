@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+	<mapper namespace="_4.mapper.StoreMapper">
+		
+		<insert id="storeFormInsert" parameterType="storeDTO">
+			insert into store_application (STORE_APPL_NUM, STORE_NAME, OWNER_NAME
+			, STORE_ADDR, STORE_ADDR_DETAIL, STORE_INTRODUCTION
+			, STORE_OPEN_DATE, BUSS_REGIST_IMAGE, BUSS_REGIST_STORE_IMAGE
+			, BUSS_REGIST_NUM)
+			values (#{storeApplNum}, #{storeName}, NULL
+			, #{storeAddr}, #{storeAddrDetail}, #{storeIntroduction}
+			, #{storeOpenDate}, #{bussRegistImage}, #{bussRegistStoreImage}
+			, #{bussRegistNum})
+		</insert>
+	</mapper>
