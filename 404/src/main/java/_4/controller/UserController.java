@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import _4.command.UserCommand;
+import _4.domain.AuthDTO;
+import _4.mapper.service.UserNumService;
+import _4.service.owner.OwnerLoginService;
 import _4.service.user.LoginService;
 
 @Controller
@@ -17,6 +20,12 @@ import _4.service.user.LoginService;
 public class UserController {
 	@Autowired
 	LoginService loginService;
+	@Autowired
+	UserNumService userNumService;
+	@Autowired
+	OwnerLoginService ownerLoginService;
+	
+	
 	@GetMapping("loginForm")
 	public String loginForm(Model model, UserCommand userCommand) {
 		model.addAttribute("userCommand", userCommand);
@@ -25,13 +34,17 @@ public class UserController {
 	
 	@PostMapping("login")
 	public String login(@Validated UserCommand userCommand, BindingResult result) {
-		String grade = loginService.execute(userCommand, result);
+		AuthDTO auth = loginService.execute(userCommand, result);
 		if(result.hasErrors()) {
 			return "thymeleaf/user/loginForm";
 		}
-		if(grade.equals("member")) return "redirect:/member/memberMainPage";
-		else if(grade.equals("employee")) return "redirect:/employee/employeeMainPage";
-		else if(grade.equals("owner")) return "redirect:/owner/ownerMainPage";
+		if(auth.getGrade().equals("member")) return "redirect:/member/memberMainPage";
+		else if(auth.getGrade().equals("employee")) return "redirect:/employee/employeeMainPage";
+		else if(auth.getGrade().equals("owner")) {
+			String ownerNum = userNumService.execute(auth.getUserId());
+			String link = ownerLoginService.execute(ownerNum);
+			return link;
+		}
 		else return "thymeleaf/user/loginForm";
 	}
 }

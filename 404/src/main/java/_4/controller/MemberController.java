@@ -36,7 +36,7 @@ public class MemberController {
 	@PostMapping("memberRegist")
 	public String memberRegist(@Validated MemberCommand memberCommand) {
 		memberRegistService.execute(memberCommand);
-		 return "";
+		 return "redirect:/";
 	}
 	
 	@GetMapping("memberDetail")

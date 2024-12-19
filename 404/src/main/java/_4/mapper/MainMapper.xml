@@ -5,6 +5,12 @@
 	
 <mapper namespace="_4.mapper.MainMapper">
 <select id="autoNumSelect" resultType="string">
-select concat(#{headName}, nvl(max(substr(${columnName}, length(#{headName}))), 100000)+1) from ${tableName}
+select concat(#{headName}, nvl(max(substr(${columnName}, length(#{headName})+1)), 100000)+1) from ${tableName}
 </select> 
+
+<select id="userNumSelect" parameterType="string" resultType="string">
+select mem_num as userNum from member where mem_id = #{userId}
+ union select emp_num from employee where emp_id = #{userId}
+ union select owner_num from owner where owner_id = #{userId}
+</select>
 </mapper>

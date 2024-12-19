@@ -7,30 +7,16 @@
 </head>
 <body>
 <h1>사장님 회원가입</h1>
-
 <form action = "ownerForm" method = "post" th:object = "${ownerCommand}">
-
-아이디: <input type = "text" placeholder="아이디" th:field="*{ownerId}"> 
-<span style = "color:red" th:if="${#fields.hasErrors('ownerId')}" th:errors = "*{ownerId}"></span>
-<br>
-비밀번호: <input type = "password" placeholder="비밀번호" th:field="*{ownerPw}">
-
-<span style = "color:red" th:if="${#fields.hasErrors('ownerPw')}" th:errors = "*{ownerPw}"></span>
-<br>
-이름: <input type = "text" placeholder = "이름" th:field="*{ownerName}">
-<span style = "color:red" th:if="${#fields.hasErrors('ownerName')}" th:errors = "*{ownerName}"></span>
-<br>
-생년월일: <input type = "date" placeholder = "생년월일" name = "ownerBirth">
-
-<br>
-이메일: <input type= "email" placeholder="이메일" th:field="*{ownerEmail}">
-<span style = "color:red" th:if="${#fields.hasErrors('ownerEmail')}" th:errors = "*{ownerEmail}"></span>
-<br>
-전화번호: <input type = "tel" placeholder="전화번호" th:field="*{ownerPhone}">
-<span style = "color:red" th:if="${#fields.hasErrors('ownerPhone')}" th:errors = "*{ownerPhone}"></span>
-<br>
-<input type = "submit" value = "등록">
+<table align="center" border="1">
+	<tr><td>아이디:</td><td><input type = "text" placeholder="아이디" th:field="*{ownerId}"></td></tr>
+	<tr><td>비밀번호:</td><td><input type = "password" placeholder="비밀번호" th:field="*{ownerPw}"></td></tr>
+	<tr><td>이름:</td><td><input type = "text" placeholder = "이름" th:field="*{ownerName}"></td></tr>
+	<tr><td>생년월일:</td><td><input type = "date" placeholder = "생년월일" name = "ownerBirth"></td></tr>
+	<tr><td>이메일:</td><td><input type= "email" placeholder="이메일" th:field="*{ownerEmail}"></td></tr>
+	<tr><td>전화번호:</td><td><input type = "tel" placeholder="전화번호" th:field="*{ownerPhone}"></td></tr>
+	<tr><td colspan="2"><input type = "submit" value = "등록"></td></tr>
+</table>
 </form>
-
 </body>
 </html>

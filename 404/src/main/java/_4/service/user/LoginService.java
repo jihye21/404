@@ -12,7 +12,7 @@ import _4.mapper.UserMapper;
 public class LoginService {
 	@Autowired
 	UserMapper userMapper;	
-	public String execute(UserCommand userCommand, BindingResult result) {
+	public AuthDTO execute(UserCommand userCommand, BindingResult result) {
 		AuthDTO auth = userMapper.login(userCommand.getUserId());
 		if(auth != null) {
 			if(auth.getUserPw() != userCommand.getUserPw()) {
@@ -27,6 +27,6 @@ public class LoginService {
 			// 아이디가 존재하지 않습니다.
 			result.rejectValue("userId", "loginCommand.userId", "아이디가 존재하지 않습니다.");
 		}
-		return auth.getGrade();
+		return auth;
 	}
 }

@@ -6,7 +6,6 @@ import _4.domain.StoreDTO;
 
 @Mapper
 public interface StoreMapper {
-
 	public void storeFormInsert(StoreDTO storeDTO);
-	
+	public String checkStoreAppl(String ownerNum);
 }

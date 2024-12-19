@@ -15,4 +15,7 @@
 			, #{storeOpenDate}, #{bussRegistImage}, #{bussRegistStoreImage}
 			, #{bussRegistNum})
 		</insert>
+		<select id="checkStoreAppl" parameterType="string">
+			select store_appl_num from store_application where owner_num = #{ownerNum}
+		</select>
 	</mapper>
