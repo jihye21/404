@@ -24,13 +24,10 @@ public class MemberRegistService {
 		dto.setMemNum(autoNum);
 		dto.setMemName(memberCommand.getMemName());
 		dto.setMemId(memberCommand.getMemId());
-		
-		// dto.setMemPw(memberCommand.getMemPw());
-		// dto.setMemPwCon(memberCommand.getMemPwCon());
 		String encodePw = passwordEncoder.encode(memberCommand.getMemPw());
 		dto.setMemPw(encodePw);
-		dto.setMemPwCon(encodePw);
-		dto.setMemBirth(memberCommand.getMemBirth());
+		dto.setGender(memberCommand.getGender());
+		dto.setMemBirthDate(memberCommand.getMemBirthDate());
 		dto.setMemPhone(memberCommand.getMemPhone());
 		dto.setMemEmail(memberCommand.getMemEmail());
 		memberMapper.memberRegist(dto);

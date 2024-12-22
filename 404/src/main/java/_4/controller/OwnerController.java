@@ -33,15 +33,10 @@ public class OwnerController {
 	
 	@PostMapping("ownerForm")
 	public String ownerForm(OwnerCommand ownerCommand) {
-		
-		/*
-		if(result.hasErrors()) {
+		/*if(result.hasErrors()) {
 			return "thymeleaf/owner/ownerForm";
-		}
-		*/
+		}*/
 		ownerRegistService.execute(ownerCommand);
-		
-		//다음 어느 페이지로 이동하게 할지?
 		return "redirect:/";
 	}
 	

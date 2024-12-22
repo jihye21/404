@@ -1,17 +1,24 @@
 package _4.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import _4.command.EmployeeCommand;
+import _4.domain.StoreApplicationDTO;
+import _4.mapper.StoreApplMapper;
 import _4.service.employee.EmployeeDetailService;
-import _4.service.employee.EmployeeUpdateService;
 import _4.service.employee.EmployeeListService;
 import _4.service.employee.EmployeeRegistService;
+import _4.service.employee.EmployeeUpdateService;
+import _4.service.store.StoreApplDeleteService;
+import _4.service.store.StoreRegistService;
 
 @Controller
 @RequestMapping("employee")
@@ -24,6 +31,13 @@ public class EmployeeController {
 	EmployeeDetailService employeeDetailService;
 	@Autowired
 	EmployeeUpdateService employeeUpdateService;
+	@Autowired
+	StoreRegistService storeRegistService;
+	@Autowired
+	StoreApplDeleteService storeApplDeleteService;
+	
+	@Autowired
+	StoreApplMapper storeApplMapper;
 	
 	@GetMapping("employeeList")
 	public String emplist(Model model) {
@@ -63,4 +77,30 @@ public class EmployeeController {
 	public String employeeMainPage() {
 		return "thymeleaf/employee/employeeMainPage";
 	}
+	
+	@GetMapping("storeApplList")
+	public String storeApplList(Model model) {
+		List<StoreApplicationDTO> list = storeApplMapper.storeApplSelectAll();
+		model.addAttribute("list", list);
+		return "thymeleaf/employee/storeApplList";
+	}
+	
+	@GetMapping("storeApplDetail")
+	public String storeApplDetail(@RequestParam("storeApplNum") String storeApplNum, Model model) {
+		StoreApplicationDTO dto = storeApplMapper.storeApplSelectOne(storeApplNum);
+		model.addAttribute("dto", dto);
+		return "thymeleaf/employee/storeApplDetail";
+	}
+	
+	@PostMapping("storeApplOk")
+	public void storeApplOk(@RequestParam("storeApplNum") String storeApplNum, @RequestParam("category") String category) {
+		storeRegistService.execute(storeApplNum, category);
+		storeApplDeleteService.execute(storeApplNum);
+	}
+	
+	@PostMapping("storeApplNo")
+	public void storeApplNo(@RequestParam("storeApplNum") String storeApplNum) {
+		storeApplDeleteService.execute(storeApplNum);
+	}
+	
 }

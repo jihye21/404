@@ -2,10 +2,9 @@ package _4.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import _4.domain.StoreApplicationDTO;
+import _4.domain.StoreDTO;
 
 @Mapper
 public interface StoreMapper {
-	public void storeFormInsert(StoreApplicationDTO storeDTO);
-	public String checkStoreAppl(String ownerNum);
+	public StoreDTO storeSelectOne(String ownerNum);
 }

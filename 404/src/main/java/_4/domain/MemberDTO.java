@@ -13,11 +13,10 @@ public class MemberDTO {
 	String memNum;
 	String memId;
 	String memPw;
-	String memPwCon;
 	String memName;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	Date memBirthDate;
-	// String gender;
+	String gender;
 	String memPhone;
 	String memEmail;
 }

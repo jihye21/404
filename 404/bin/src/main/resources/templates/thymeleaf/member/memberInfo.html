@@ -6,28 +6,23 @@
 </head>
 <body>
 내 정보 페이지<br />
-
 <li><a href="/">홈으로</a></li>
-<li><a href="memberModify"></a></li>
+<li><a th:href="|memberModify?memNum=${dto.memNum}|">내 정보 변경</a></li>
 <table border="2" width = 600 align="center">
 <tr><td>이름</td>
-	<td>[[${memberCommand.}]]</td></tr>
-
+	<td>[[${dto.memName}]]</td></tr>
+	
 <tr><td>아이디</td>
-	<td>[[${memberCommand.}]]</td></tr>
-
-<tr><td>성별</td>
-	<td><span th:if="${memberCommand.gender =='M'}">남자</span>
-		<span th:if="${memberCommand.gender =='F'}">여자</span></td></tr>
+	<td>[[${dto.memId}]]</td></tr>
 
 <tr><td>생년월일</td>
-	<td>[[${memberCommand.}]]</td></tr>
+	<td>[[${#dates.format(dto.memBirthDate, 'yyyy-MM-dd')}]]</td></tr>
 
 <tr><td>전화번호</td>
-	<td>[[${memberCommand.}]]</td></tr>
+	<td>[[${dto.memPhone}]]</td></tr>
 
 <tr><td>이메일</td>
-	<td>[[${memberCommand.}]]</td></tr>
+	<td>[[${dto.memEmail}]]</td></tr>
 </table>
 </body>
 </html>

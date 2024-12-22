@@ -22,7 +22,7 @@ public class MemberCommand {
 	String memName;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	Date memBirthDate;
-	// String gender;
+	String gender;
 	String memPhone;
 	String memEmail;
 	

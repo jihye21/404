@@ -5,11 +5,21 @@
 <title>Insert title here</title>
 </head>
 <body>
-Hello world
+<th:block th:if="${session.auth != null}">
+	안녕하세요 님
+</th:block>
+
 <ul>
 	<li><a href="/member/memberList">회원 리스트</a></li>
 	<li><a href="/employee/employeeList">회원 리스트</a></li>
 </ul>
-<a href="/user/loginForm">로그인</a>
+<th:block th:if="${session.auth == null}">
+	<a href="/user/loginForm">로그인</a>
+</th:block>
+<th:block th:if="${session.auth != null}">
+	<a href="/user/logout">로그아웃</a>
+</th:block>
+<br/>
+<a href="/owner/ownerForm">사장 회원가입</a>
 </body>
 </html>

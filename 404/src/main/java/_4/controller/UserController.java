@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import _4.command.UserCommand;
 import _4.domain.AuthDTO;
+import _4.domain.MemberDTO;
+import _4.mapper.MemberMapper;
 import _4.mapper.service.UserNumService;
 import _4.service.owner.OwnerLoginService;
 import _4.service.user.LoginService;
@@ -26,6 +28,8 @@ public class UserController {
 	@Autowired
 	OwnerLoginService ownerLoginService;
 	
+	@Autowired
+	MemberMapper memberMapper;
 	
 	@GetMapping("loginForm")
 	public String loginForm(Model model, UserCommand userCommand) {
@@ -34,12 +38,17 @@ public class UserController {
 	}
 	
 	@PostMapping("login")
-	public String login(@Validated UserCommand userCommand, BindingResult result, HttpSession session) {
+	public String login(@Validated UserCommand userCommand, BindingResult result, HttpSession session, Model model) {
 		AuthDTO auth = loginService.execute(userCommand, result, session);
 		if(result.hasErrors()) {
 			return "thymeleaf/user/loginForm";
 		}
-		if(auth.getGrade().equals("member")) return "redirect:/member/memberMainPage";
+		if(auth.getGrade().equals("member")) {
+			String memberNum = userNumService.execute(session);
+			MemberDTO dto = memberMapper.memberSelectOne(memberNum);
+			model.addAttribute("dto", dto);
+			return "thymeleaf/index";
+		}
 		else if(auth.getGrade().equals("employee")) return "redirect:/employee/employeeMainPage";
 		else if(auth.getGrade().equals("owner")) {
 			String ownerNum = userNumService.execute(session);
@@ -47,5 +56,11 @@ public class UserController {
 			return link;
 		}
 		else return "thymeleaf/user/loginForm";
+	}
+	
+	@GetMapping("logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/";
 	}
 }
