@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<li><a href="/">홈으로</a></li>
+<li><a href="employeeRegist">직원 등록</a></li><br/>
+<table border="1" width="500" align="center">
+<tr><td>번호</td><td>이름</td><td>아이디</td><td>등록일</td></tr>
+<tr th:each = "list : ${list}">
+	<td>[[${list.empNum}]]</td>
+	<td><a th:href="|employeeDetail?empNum=${list.empNum}|">[[${list.empName}]]</a></td>
+	<td>[[${list.empId}]]</td>
+	<td>[[${list.empHireDate}]]</td>
+</tr>
+</table>
+</body>
+</html>

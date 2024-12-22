@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="_4.mapper.UserMapper">
+<select id="login" parameterType="string" resultType="authDTO">
+select mem_id as userId, mem_pw as userPw, 'member' as grade from member where mem_id = #{userId}
+ union select emp_id, emp_pw, 'employee' from employee where emp_id = #{userId}
+ union select owner_id, owner_pw, 'owner' from owner where owner_id	 = #{userId}
+
+</select>
+</mapper>

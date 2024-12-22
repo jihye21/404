@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script type="text/javascript">
+function storeApplOk(storeApplNum){
+var category = $("#category").val();
+	$.ajax({
+		type: "post",
+		url: "/employee/storeApplOk",
+		data: {"storeApplNum":storeApplNum,"category":category},
+		success: function(){
+			location.href="/employee/storeApplList";
+		},
+		error: function(){
+			location.href="/employee/storeApplList";
+		}
+	})
+}
+function storeApplNo(storeApplNum){
+	var category = $("#category").val();
+	$.ajax({
+		type: "post",
+		url: "/employee/storeApplNo",
+		data: {"storeApplNum":storeApplNum},
+		success: function(){
+			location.href="/employee/storeApplList";
+		},
+		error: function(){
+			location.href="/employee/storeApplList";
+		}
+	})
+}
+</script>
+</head>
+<body>
+
+<table border="1" align="center">
+	<tr><th colspan="2">가게 신청서 상세 페이지</th></tr>
+	<tr><td>가게명</td><td>[[${dto.storeName}]]</td></tr>
+	<tr><td>사장이름</td><td>[[${dto.ownerNum}]]</td></tr>
+	<tr><td>가게 주소</td><td>[[${dto.storeAddr}]]</td></tr>
+	<tr><td>가게 상세 주소</td><td>[[${dto.storeAddrDetail}]]</td></tr>
+	<tr><td>개업일</td><td>[[${dto.storeOpenDate}]]</td></tr>
+	<tr><td>사업자 등록증</td><td><img th:src="|/static/upload/${bussRegistStoreImage}|"/></td></tr>
+	<tr><td>카테고리</td><td><input type="text" name="category" id="category" required="required"/></td>
+	<tr><td colspan="2"><button type="button" th:attr="onclick=|storeApplOk('${dto.storeApplNum}')|">승인</button>
+						<button type="button" th:attr="onclick=|storeApplNo('${dto.storeApplNum}')|">거절</button>
+						<button type="button" onclick="location.href='/employee/storeApplList'">뒤로가기</button></td></tr>			
+</table>
+
+</body>
+</html>

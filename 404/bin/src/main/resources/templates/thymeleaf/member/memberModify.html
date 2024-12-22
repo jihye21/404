@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+내 정보 수정페이지.<br />
+<a href="memberPwModify">비밀번호 수정</a>
+<form action="memberModify" method="post">
+<table border="1" width="600" align="center" th:object="${memberCommand}">
+	<tr><td colspan="2">연락처 정보</td></tr>
+	<input type="hidden" name="memNum" th:value="${memberCommand.memNum}">
+	<tr><td>변경할 이메일 : <input type="email" name="memEmail" th:value="${memberCommand.memEmail}" /></td></tr>
+	<tr><td>변경할 휴대전화 번호 : <input type="tel" name="memPhone" th:value="${memberCommand.memPhone}" /></td></tr>
+	
+	<tr><td colspan="2" align="center"><input type="submit" value="수정 완료" /></td></tr>
+</table>
+</form>
+</body>
+</html>

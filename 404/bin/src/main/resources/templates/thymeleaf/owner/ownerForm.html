@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ownerForm</title>
+<script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
+</head>
+<body>
+<h1>사장님 회원가입</h1>
+<form action = "ownerForm" method = "post" th:object = "${ownerCommand}">
+<table align="center" border="1">
+	<tr><td>아이디:</td><td><input type = "text" placeholder="아이디" th:field="*{ownerId}"></td></tr>
+	<tr><td>비밀번호:</td><td><input type = "password" placeholder="비밀번호" th:field="*{ownerPw}"></td></tr>
+	<tr><td>이름:</td><td><input type = "text" placeholder = "이름" th:field="*{ownerName}"></td></tr>
+	<tr><td>생년월일:</td><td><input type = "date" placeholder = "생년월일" name = "ownerBirth"></td></tr>
+	<tr><td>이메일:</td><td><input type= "email" placeholder="이메일" th:field="*{ownerEmail}"></td></tr>
+	<tr><td>전화번호:</td><td><input type = "tel" placeholder="전화번호" th:field="*{ownerPhone}"></td></tr>
+	<tr><td colspan="2"><input type = "submit" value = "등록"></td></tr>
+</table>
+</form>
+</body>
+</html>

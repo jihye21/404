@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+내 정보 페이지 - 직원.ver
+<li><a href="/">홈으로</a></li>
+<li><a href="employeeList">직원 목록 페이지</a></li>
+<li><a th:href="|employeeModify?empNum=${employeeCommand.empNum}|">직원 정보 수정</a></li>
+
+<table border="1" width="500" align="center">
+<tr>
+	<td>이름</td>
+	<td>[[${employeeCommand.empName}]]</td>
+</tr>
+
+<tr>
+	<td>아이디</td>
+	<td>[[${employeeCommand.empId}]]</td>
+</tr>
+
+<tr>
+	<td>등록일</td>
+	<td>[[${#dates.format(employeeCommand.empHireDate, 'yyyy-MM-dd')}]]</td>
+</tr>
+
+<tr>
+	<td>이메일</td>
+	<td>[[${employeeCommand.empEmail}]]</td>
+</tr>
+
+<tr>
+	<td>휴대전화</td>
+	<td>[[${employeeCommand.empPhone}]]</td>
+</tr>
+</table>
+</body>
+</html>
