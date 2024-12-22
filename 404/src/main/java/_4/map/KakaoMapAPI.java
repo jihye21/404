@@ -13,7 +13,7 @@ public class KakaoMapAPI {
 	public void execute() {
 		try {
 	        String API_URL = "https://dapi.kakao.com/v2/directions.json";
-	        String API_KEY = "b35992399c2e02f83076852b326605fb"; // 발급받은 API 키
+	        String API_KEY = ""; // 발급받은 API 키
 
 	        // 출발지와 도착지 좌표 (예: 서울역 -> 강남역)
 	        double[] start = {126.977969, 37.566535}; // 서울역

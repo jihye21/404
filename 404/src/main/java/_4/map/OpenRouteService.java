@@ -7,7 +7,7 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
 public class OpenRouteService {
-	private static final String API_KEY = "5b3ce3597851110001cf62480b834cea2e37414fa8826bf659bec1b2";  // OpenRouteService API 키
+	private static final String API_KEY = "";  // OpenRouteService API 키
     private static final String API_URL = "https://api.openrouteservice.org/v2/directions/driving-car";
 
     public static void main(String[] args) {
