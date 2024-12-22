@@ -15,7 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Service
 public class InstaLocationService {
 	private static final String INSTAGRAM_ACCESS_TOKEN = "";
-
+ 
     //public static String getLocationId(double latitude, double longitude) throws Exception {
 	public static String getLocationId(double latitude, double longitude) throws Exception {
     	String encodedToken = URLEncoder.encode(INSTAGRAM_ACCESS_TOKEN, StandardCharsets.UTF_8);
