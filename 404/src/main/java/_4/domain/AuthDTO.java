@@ -10,4 +10,6 @@ public class AuthDTO {
 	String userId;
 	String userPw;
 	String grade;
+	String userEmail;
+	String userName;
 }
