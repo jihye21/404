@@ -6,7 +6,6 @@ import _4.domain.OwnerDTO;
 
 @Mapper
 public interface OwnerMapper {
-
 	public void ownerFormInsert(OwnerDTO ownerDTO);
-	
+
 }

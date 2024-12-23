@@ -28,7 +28,7 @@ top: 200px;
 left: 0px;
 width: 20%;
 height: 500px;
-background: green;
+background: lightgreen;
 
 }
 
@@ -59,6 +59,46 @@ justify-content: center;
 
 
 </style>
+<script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	menuManage();
+	$("#menuManage").click(function(){
+		menuManage();
+	});
+	$("#storeInfoManage").click(function(){
+		storeInfoManage();
+	});
+	$("#bookManage").click(function(){
+		bookManage();
+	});
+	$("#reviewManage").click(function(){
+		reviewManage();
+	});
+});
+function menuManage(){
+	$.ajax({
+		type: "post",
+		url : "",
+		data: "",
+		success: function(){
+			
+		},
+		error: function(){
+			
+		}
+	})
+}
+function storeInfoManage(){
+	
+}
+function bookManage(){
+	
+}
+function reviewManage(){
+	
+}
+</script>
 </head>
 <body>
 
@@ -69,7 +109,12 @@ justify-content: center;
  ❤️🤍| 리뷰 | 공유
 </div>
 <div class = "left-bar">
-왼쪽 바
+<ul>
+	<li><span id="menuManage">메뉴 수정</span></li>
+	<li><span id="storeInfoManage">가게 정보 수정</span></li>
+	<li><span id="bookManage">예약 관리</span></li>
+	<li><span id="reviewManage">리뷰 관리</span></li>
+</ul>
 </div>
 
 <div class = "right-bar">
