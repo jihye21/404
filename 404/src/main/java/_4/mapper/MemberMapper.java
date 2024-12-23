@@ -9,5 +9,5 @@ public interface MemberMapper {
 	public void memberRegist(MemberDTO dto);
 	public MemberDTO memberSelectOne(String memNum);
 	public int memberUpdate(MemberDTO dto);
-	public void wishCheck(String ownerNum);	
+	public void wishCheck(String userNum, String storeNum);	
 }

@@ -6,8 +6,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import _4.command.MemberCommand;
 import _4.mapper.service.UserNumService;
@@ -71,10 +73,12 @@ public class MemberController {
 		return "redirect:memberDetail?memNum=" + memberCommand.getMemNum();
 	}
 	
-	@PostMapping("wishCheck")
-	public void wishCheck(@RequestParam String storeNum, HttpSession session) {
-		
+	@RequestMapping("wishCheck")
+	public @ResponseBody  void wishCheck(@RequestBody @RequestParam("storeNum") String storeNum, HttpSession session) {
 		wishService.execute(storeNum, session);
+		
 	}
+	
+	
 	
 }

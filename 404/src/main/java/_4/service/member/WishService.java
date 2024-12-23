@@ -14,9 +14,10 @@ public class WishService {
 	@Autowired
 	UserNumService userNumService;
 	
-	public void execute(String ownerNum, HttpSession session) {
+	public void execute(String storeNum, HttpSession session) {
 		String userNum = userNumService.execute(session);
 		
-		memberMapper.wishCheck(userNum);
+		memberMapper.wishCheck(userNum, storeNum);
+		
 	}
 }

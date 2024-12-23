@@ -18,4 +18,7 @@ select <include refid="storeBaseColumn"></include> from store
 select <include refid="storeBaseColumn"></include> from store 
 where owner_num = #{ownerNum}
 </select>
+<select id="WishCheck" parameterType="string">
+select 1 from wish where mem_num = #{memNum} and store_num = #{storeNum}
+</select>
 </mapper>
