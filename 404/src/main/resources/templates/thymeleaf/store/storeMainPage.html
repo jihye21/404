@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <style type="text/css">
 
 body{
@@ -60,26 +61,48 @@ justify-content: center;
 
 </style>
 <script type="text/javascript">
-/*
+
 $(function(){
 	$(".heart").click(function(){
-		$.ajax({
-			type: "post",
-			url: "heartClick",
+		
+		if($(".heart").html() == '❤️'){
+			$(".heart").html('🤍');
+		}
+		
+		else if($(".heart").html() == '🤍'){
+			$(".heart").html('❤️');
+		}
+		
+		heartClick();
+	});
+});
+
+function heartClick(){
+	
+	$.ajax({
+		type: "post",
+		url: "/member/wishCheck",
+		data: {"storeNum":"[[${storeNum}]]"},
+		success: function(){
 			
-		});
+		}, 
+		error: function(){
+			alert("로그인이 필요합니다.");
+		}
 	});
 	
-});
-*/
+}
+
 </script>
 </head>
 <body>
+
 <div class = "banner">
 	<h1>가게 메인 페이지입니다.</h1>
 </div>
 <div class = "center-bar" style = "background:skyblue;">
-<p style = "margin: 0px;"><span class = "heart">❤️🤍</span>| 리뷰 | 공유</p>
+<span class = "heart">❤️</span>
+<span style = "margin: 0px;">| 리뷰 | 공유</span>
 </div>
 <div class = "left-bar">
 왼쪽 바
@@ -90,6 +113,10 @@ $(function(){
 </div>
 
 <div class = "content">
+<tr th:each = "dto: ${dto}">
+<input type = "hidden" name = "storeNum" id = "storeNum" th:value = "${dto.storeNum}">
+[[${dto}]]
+</tr>
 내용
 </div>
 </body>

@@ -14,10 +14,12 @@ public class StoreInfoService {
 	@Autowired
 	StoreMapper storeMapper;
 	
-	public void execute(Model model) {
+	public void execute(Model model, String ownerNum) {
 		
 		StoreDTO storeDTO = new StoreDTO();
 		
-		//List<StoreDTO> list = storeMapper.storeInfoSelectAll();
+		storeDTO = storeMapper.storeInfoSelectAll(ownerNum);
+		
+		model.addAttribute("dto", storeDTO);
 	}
 }

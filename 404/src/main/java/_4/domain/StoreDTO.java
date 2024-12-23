@@ -12,6 +12,7 @@ public class StoreDTO {
 	String storeNum;
 	String bussRegistNum;
 	String ownerNum;
+	String storeName;
 	String storeType;
 	String storeIntroduction;
 	String storeClosedDate;

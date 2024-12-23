@@ -37,4 +37,12 @@
 
 <div style="border:1px solid black;width:800px;height:700px;position:absolute;left:550px;top:450px">
 가게 리스트
+<br>
+<table>
+<tr th:each = "list: ${list}">
+	<th:block>
+	<a th:href = "|/store/storeMainPage?ownerNum=${list.ownerNum}|">가게명: [[${list.storeName}]] [[${list.storeProfileImage}]]</a>
+	</th:block>
+</tr>
+</table>
 </html>

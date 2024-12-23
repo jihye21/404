@@ -29,4 +29,7 @@ update member set
 		MEM_NUM = #{memNum}
 	</where>
 </update>
+<update id="wishCheck" parameterType="string">
+	
+</update>
 </mapper>

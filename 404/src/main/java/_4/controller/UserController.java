@@ -15,12 +15,15 @@ import _4.domain.MemberDTO;
 import _4.mapper.MemberMapper;
 import _4.mapper.service.UserNumService;
 import _4.service.owner.OwnerLoginService;
+import _4.service.store.StoreListService;
 import _4.service.user.LoginService;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("user")
 public class UserController {
+	@Autowired
+	StoreListService storeListService;//storeList
 	@Autowired
 	LoginService loginService;
 	@Autowired
@@ -47,6 +50,7 @@ public class UserController {
 			String memberNum = userNumService.execute(session);
 			MemberDTO dto = memberMapper.memberSelectOne(memberNum);
 			model.addAttribute("dto", dto);
+			storeListService.execute(model);//storeList
 			return "thymeleaf/index";
 		}
 		else if(auth.getGrade().equals("employee")) return "redirect:/employee/employeeMainPage";

@@ -7,17 +7,21 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import _4.command.MemberCommand;
 import _4.mapper.service.UserNumService;
 import _4.service.member.MemberDetailService;
 import _4.service.member.MemberRegistService;
 import _4.service.member.MemberUpdateService;
+import _4.service.member.WishService;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("member")
 public class MemberController {
+	@Autowired
+	WishService wishService;
 	@Autowired
 	MemberRegistService memberRegistService;
 	@Autowired
@@ -67,6 +71,10 @@ public class MemberController {
 		return "redirect:memberDetail?memNum=" + memberCommand.getMemNum();
 	}
 	
-	
+	@PostMapping("wishCheck")
+	public void wishCheck(@RequestParam String storeNum, HttpSession session) {
+		
+		wishService.execute(storeNum, session);
+	}
 	
 }

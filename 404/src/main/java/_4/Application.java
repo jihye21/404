@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpSession;
 @SpringBootApplication
 public class Application {
 	@Autowired
-	StoreListService storeListService;
+	StoreListService storeListService;//storeList
 	
 	@Autowired
 	UserNumService userNumService;
@@ -29,7 +29,7 @@ public class Application {
 	
 	@GetMapping("/")
 	public String index(HttpSession session, Model model) {
-		storeListService.execute(model);
+		storeListService.execute(model);//storeList
 		return "thymeleaf/index";
 	}
 	

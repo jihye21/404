@@ -10,7 +10,7 @@ import _4.domain.StoreDTO;
 public interface StoreMapper {
 	public StoreDTO storeSelectOne(String ownerNum);
 	
-	public List<StoreDTO> storeInfoSelectAll();
+	public StoreDTO storeInfoSelectAll(String ownerNum);
 
 	public List<StoreDTO> storeSelectAll();
 }

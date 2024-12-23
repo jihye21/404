@@ -18,7 +18,8 @@ public class StoreListService {
 	public void execute(Model model) {
 		
 		List<StoreDTO> list = storeMapper.storeSelectAll();
-	
+		
 		model.addAttribute("list", list);
+		
 	}
 }
