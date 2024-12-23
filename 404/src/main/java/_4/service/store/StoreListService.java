@@ -1,5 +1,6 @@
 package _4.service.store;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,14 +11,14 @@ import _4.domain.StoreDTO;
 import _4.mapper.StoreMapper;
 
 @Service
-public class StoreInfoService {
+public class StoreListService {
 	@Autowired
 	StoreMapper storeMapper;
 	
 	public void execute(Model model) {
 		
-		StoreDTO storeDTO = new StoreDTO();
-		
-		//List<StoreDTO> list = storeMapper.storeInfoSelectAll();
+		List<StoreDTO> list = storeMapper.storeSelectAll();
+	
+		model.addAttribute("list", list);
 	}
 }

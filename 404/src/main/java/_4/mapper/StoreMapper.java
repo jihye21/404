@@ -11,4 +11,6 @@ public interface StoreMapper {
 	public StoreDTO storeSelectOne(String ownerNum);
 	
 	public List<StoreDTO> storeInfoSelectAll();
+
+	public List<StoreDTO> storeSelectAll();
 }

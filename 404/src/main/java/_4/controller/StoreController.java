@@ -35,7 +35,7 @@ public class StoreController {
 	
 	@GetMapping("storeMainPage")
 	public String storeMainPage(Model model) {
-		StoreInfoService.execute(model);
+		storeInfoService.execute(model);
 		return "thymeleaf/store/storeMainPage";
 	}
 	
