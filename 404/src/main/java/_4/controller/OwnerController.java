@@ -6,9 +6,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import _4.command.OwnerCommand;
-import _4.mapper.OwnerMapper;
+import _4.domain.StoreDTO;
+import _4.mapper.StoreMapper;
 import _4.mapper.service.UserNumService;
 import _4.service.owner.OwnerRegistService;
 import jakarta.servlet.http.HttpSession;
@@ -24,7 +26,7 @@ public class OwnerController {
 	UserNumService userNumService;
 	
 	@Autowired
-	OwnerMapper ownerMapper;
+	StoreMapper storeMapper;
 	
 	@GetMapping("ownerForm")
 	public String ownerForm(Model model) {
@@ -43,11 +45,17 @@ public class OwnerController {
 	}
 	
 	@GetMapping("ownerMainPage")
-	public String ownerMainPage(HttpSession session) {
+	public String ownerMainPage(HttpSession session, Model model) {
 		String ownerNum = userNumService.execute(session);
-		ownerMapper.sele
+		StoreDTO dto = storeMapper.storeSelectOne(ownerNum);
+		model.addAttribute("dto", dto);
 		return "thymeleaf/owner/ownerMainPage";
 	}
 	
+	@PostMapping("menuManagePage")
+	public String menuManage(@RequestParam("ownerNum") String ownerNum) {
+		
+		return "thymeleaf/store/ownerView/menuManagePage";
+	}
 	
 }

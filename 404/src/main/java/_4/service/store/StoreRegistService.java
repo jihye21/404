@@ -19,6 +19,7 @@ public class StoreRegistService {
 		StoreDTO storeDTO = new StoreDTO();
 		String storeNum = mainMapper.autoNumSelect("store", "store_num", "store_");
 		storeDTO.setStoreNum(storeNum);
+		storeDTO.setStoreName(storeApplDTO.getStoreName());
 		storeDTO.setBussRegistNum(storeApplDTO.getBussRegistNum());
 		storeDTO.setStoreAddr(storeApplDTO.getStoreAddr());
 		storeDTO.setStoreAddrDetail(storeApplDTO.getStoreAddrDetail());

@@ -79,13 +79,14 @@ $(function(){
 function menuManage(){
 	$.ajax({
 		type: "post",
-		url : "",
-		data: "",
-		success: function(){
-			
+		url : "/owner/menuManagePage",
+		data: {"ownerNum":"[[${dto.ownerNum}]]"},
+		dataType: "html",
+		success: function(result){
+			$(".content").html(result);
 		},
 		error: function(){
-			
+			alert("서버 오류");
 		}
 	})
 }
