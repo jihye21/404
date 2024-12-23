@@ -42,10 +42,11 @@ height: 500px;
 }
 
 .center-bar{
+padding-top: 10px;
 margin: 0 auto;
 background: skyblue;
 width: 20%;
-height: 50px;
+height: 35px;
 text-align: center;
 }
 
@@ -57,16 +58,24 @@ height: 2000px;
 justify-content: center;
 }
 
-
 </style>
+<script type="text/javascript">
+$(function(){
+	$(".heart").click();
+	
+	$.ajax({
+		
+	});
+	
+});
+</script>
 </head>
 <body>
-
 <div class = "banner">
-	<h1>사장 메인 페이지입니다.</h1>
+	<h1>가게 메인 페이지입니다.</h1>
 </div>
 <div class = "center-bar" style = "background:skyblue;">
- ❤️🤍| 리뷰 | 공유
+<p style = "margin: 0px;"><span class = "heart">❤️🤍</span>| 리뷰 | 공유</p>
 </div>
 <div class = "left-bar">
 왼쪽 바
@@ -79,6 +88,5 @@ justify-content: center;
 <div class = "content">
 내용
 </div>
-
 </body>
 </html>

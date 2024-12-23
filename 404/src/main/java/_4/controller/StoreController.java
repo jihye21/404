@@ -28,5 +28,10 @@ public class StoreController {
 		return "thymeleaf/owner/storeApplyFinished";
 	}
 	
+	@GetMapping("storeMainPage")
+	public String storeMainPage() {
+		
+		return "thymeleaf/store/storeMainPage";
+	}
 	
 }
