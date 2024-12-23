@@ -2,6 +2,7 @@ package _4.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,12 +11,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import _4.command.StoreApplicationCommand;
 import _4.mapper.service.UserNumService;
 import _4.service.store.StoreApplyService;
+import _4.service.store.StoreInfoService;
 import jakarta.servlet.http.HttpSession;
 
 
 @Controller
 @RequestMapping("store")
 public class StoreController {
+	@Autowired
+	StoreInfoService storeInfoService;
+	
 	@Autowired
 	StoreApplyService storeApplyService;
 	@Autowired
@@ -29,8 +34,8 @@ public class StoreController {
 	}
 	
 	@GetMapping("storeMainPage")
-	public String storeMainPage() {
-		
+	public String storeMainPage(Model model) {
+		StoreInfoService.execute(model);
 		return "thymeleaf/store/storeMainPage";
 	}
 	
