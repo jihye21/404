@@ -10,11 +10,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import _4.domain.MemberDTO;
 import _4.mapper.MemberMapper;
 import _4.mapper.service.UserNumService;
+import _4.service.store.StoreListService;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
 @SpringBootApplication
 public class Application {
+	@Autowired
+	StoreListService storeListService;
+	
 	@Autowired
 	UserNumService userNumService;
 	@Autowired
@@ -25,6 +29,7 @@ public class Application {
 	
 	@GetMapping("/")
 	public String index(HttpSession session, Model model) {
+		storeListService.execute(model);
 		return "thymeleaf/index";
 	}
 	

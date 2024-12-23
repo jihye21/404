@@ -11,5 +11,7 @@ STORE_NUM, BUSS_REGIST_NUM, OWNER_NUM, STORE_TYPE, STORE_INTRODUCTION, STORE_CLO
 <select id="storeSelectOne" parameterType="string" resultType="storeDTO">
 select <include refid="storeBaseColumn"/> from store where owner_num = #{ownerNum}
 </select>
-		
+<select id="storeSelectAll" resultType="storeDTO">
+select <include refid="storeBaseColumn"></include> from store
+</select>
 </mapper>
