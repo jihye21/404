@@ -91,13 +91,46 @@ function menuManage(){
 	})
 }
 function storeInfoManage(){
-	
+	$.ajax({
+		type: "post",
+		url : "/owner/storeInfoManagePage",
+		data: {"ownerNum":"[[${dto.ownerNum}]]"},
+		dataType: "html",
+		success: function(result){
+			$(".content").html(result);
+		},
+		error: function(){
+			alert("서버 오류");
+		}
+	})
 }
 function bookManage(){
-	
+	$.ajax({
+		type: "post",
+		url : "/owner/bookManagePage",
+		data: {"ownerNum":"[[${dto.ownerNum}]]"},
+		dataType: "html",
+		success: function(result){
+			$(".content").html(result);
+		},
+		error: function(){
+			alert("서버 오류");
+		}
+	})
 }
 function reviewManage(){
-	
+	$.ajax({
+		type: "post",
+		url : "/owner/reviewManagePage",
+		data: {"ownerNum":"[[${dto.ownerNum}]]"},
+		dataType: "html",
+		success: function(result){
+			$(".content").html(result);
+		},
+		error: function(){
+			alert("서버 오류");
+		}
+	})
 }
 </script>
 </head>

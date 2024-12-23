@@ -58,4 +58,22 @@ public class OwnerController {
 		return "thymeleaf/store/ownerView/menuManagePage";
 	}
 	
+	@PostMapping("storeInfoManagePage")
+	public String storeInfoManage(HttpSession session, Model model) {
+		String ownerNum = userNumService.execute(session);
+		StoreDTO dto = storeMapper.storeSelectOne(ownerNum);
+		model.addAttribute("dto", dto);
+		return "thymeleaf/store/ownerView/storeInfoManagePage";
+	}
+	
+	@PostMapping("bookManagePage")
+	public String bookManagePage() {
+		return "thymeleaf/store/ownerView/bookManagePage";
+	}
+	
+	@PostMapping("reviewManagePage")
+	public String reviewManagePage() {
+		return "thymeleaf/store/ownerView/reviewManagePage";
+	}
+	
 }

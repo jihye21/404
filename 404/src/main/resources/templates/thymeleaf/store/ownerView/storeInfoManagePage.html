@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div align="center">
+가기 정보 수정 페이지입니다.
+<form action="/store/storeInfoModify" method="post" enctype="multipart/form-data">
+<input type="hidden" name="storeNum" th:value="${dto.storeNum}"/>
+<table align="center" border="1">
+	<tr><th colspan="2">가게 정보 수정</th></tr>
+	<tr><td>가게명:</td><td><input type="text" name="storeName" th:value="${dto.storeName}" readonly="readonly"/></td></tr>
+	<tr><td>가게 분류:</td><td><input type="text" name="storeType" th:value="${dto.storeType}" readonly="readonly"/></td></tr>
+	<tr><td>가게 소개:</td><td><input type="text" name="storeIntroduction" th:value="${dto.storeIntroduction}"/></td></tr>
+	<tr><td>가게 휴무일:</td><td><input type="text" name="storeClosedDate" th:value="${dto.storeClosedDate}"/></td></tr>
+	<tr><td>가게 영업시간:</td><td><input type="text" name="storeOpenTime" th:value="${dto.storeOpenTime}"/></td></tr>
+	<tr><td>가게 주소:</td><td><input type="text" name="storeAddr" th:value="${dto.storeAddr}" readonly="readonly"/></td></tr>
+	<tr><td>가게 상세 주소:</td><td><input type="text" name="storeAddrDetail" th:value="${dto.storeAddrDetail}" readonly="readonly"/></td></tr>
+	<tr><td>가게 프로필 이미지:</td><td><input type="file" name="storeProfileImage" th:value="${dto.storeProfileImage}"/></td></tr>
+	<tr><td>가게 상세 이미지:</td><td><input type="file" name="storeDetailImage" th:value="${dto.storeDetailImage}"/></td></tr>
+	<tr><td colspan="2"><input type="submit" value="수정"/></td></tr>
+</table>
+</form>
+</div>
+</body>
+</html>
