@@ -107,7 +107,5 @@ public class InquireController {
 		return "redirect:/inquireList";
 	}
 	//@@@@@@@@@@@@@@@@@@
-	
-	
-	
 }
+

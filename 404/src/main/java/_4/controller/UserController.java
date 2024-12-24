@@ -51,7 +51,7 @@ public class UserController {
 			MemberDTO dto = memberMapper.memberSelectOne(memberNum);
 			model.addAttribute("dto", dto);
 			storeListService.execute(model);//storeList
-			return "thymeleaf/index";
+			return "redirect:/";
 		}
 		else if(auth.getGrade().equals("employee")) return "redirect:/employee/employeeMainPage";
 		else if(auth.getGrade().equals("owner")) {

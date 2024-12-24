@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+</head>
+<body>
+<div align="center">
+<form action="/theme/themeUpdate" method="post" >
+<input type="hidden" name="themeNum" th:value="${dto.themeNum}"/>
+<input type="hidden" name="storeNum" th:value="${dto.storeNum}"/>
+<table border="1">
+	<tr><th colspan="2">테마 수정</th></tr>
+	<tr><td>테마명</td><td><input type="text" name="themeName" th:value="${dto.themeName}"/></td></tr>
+	<tr><td>테마 설명</td><td><textarea rows="5" cols="10" name="themeIntroduction" >[[${dto.themeIntroduction}]]</textarea></td></tr>
+	<tr><td>테마 이미지</td><td>
+						 [[${dto.themeImage}]]
+					</td></tr>
+	<tr><td>가격</td><td><input type="number" name="themePrice" th:value=${dto.themePrice} /></td></tr>
+	<tr><td>제한 인원</td><td><input type="number" name="limitPeople" th:value=${dto.limitPeople} /></td></tr>
+	<tr><td>시간</td><td><input type="text" name="themeTime" th:value=${dto.themeTime} /></td></tr>
+	<tr><td colspan="2"><input type="submit" value="수정" /></td></tr>
+</table>
+</form>
+</div>	
+</body>
+</html>

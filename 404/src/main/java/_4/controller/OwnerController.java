@@ -52,11 +52,7 @@ public class OwnerController {
 		return "thymeleaf/owner/ownerMainPage";
 	}
 	
-	@PostMapping("menuManagePage")
-	public String menuManage(@RequestParam("ownerNum") String ownerNum) {
-		
-		return "thymeleaf/store/ownerView/menuManagePage";
-	}
+	
 	
 	@PostMapping("storeInfoManagePage")
 	public String storeInfoManage(HttpSession session, Model model) {
