@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import _4.command.MemberCommand;
 import _4.mapper.service.UserNumService;
 import _4.service.member.MemberDetailService;
+import _4.service.member.MemberPwUpdateService;
 import _4.service.member.MemberRegistService;
 import _4.service.member.MemberUpdateService;
 import _4.service.member.WishService;
@@ -32,6 +33,8 @@ public class MemberController {
 	MemberUpdateService memberUpdateService;
 	@Autowired
 	UserNumService userNumService;
+	@Autowired
+	MemberPwUpdateService memberPwUpdateService;
 	
 	@GetMapping("memberMainPage")
 	public String memberMainPage(HttpSession session, Model model) {
@@ -77,6 +80,15 @@ public class MemberController {
 	public @ResponseBody  void wishCheck(@RequestBody @RequestParam("storeNum") String storeNum, HttpSession session) {
 		wishService.execute(storeNum, session);
 		
+	}
+	@GetMapping("memberPwModify")
+	public String memberPwModify() {
+		return "thymeleaf/member/myPwCon";
+	}
+	
+	@PostMapping("memberPwModify")
+	public String newPw(@RequestParam("memberPw") String memberPw, HttpSession session, Model model ) {
+		return memberPwUpdateService.execute(session, model, memberPw);
 	}
 	
 	
