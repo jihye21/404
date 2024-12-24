@@ -43,5 +43,6 @@ public class StoreInfoModifyService {
 				
 		//dto.setStoreProfileImage(storeCommand.getStoreProfileImage());
 		//dto.setStoreDetailImage(storeCommand.getStoreDetailImage());
+		
 	}
 }

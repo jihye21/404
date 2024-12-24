@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+.dialog{
+	display:none;
+	position:fixed;
+	left:0px;
+	top:0px;
+	z-index:10px;
+	width:100%;
+	height:100%;
+	backgroud:rgba(0, 0, 0, 0.4);
+}
+
+.dialog>.tb {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.dialog>.tb .inner {
+  width: 100%;
+  padding: 20px;
+  background: #fff;
+  border-radius: 16px;
+}
+
+.dialog .top {
+  display: flex;
+  align-item: center;
+  border-bottom: 1px solid #ddd;
+  justify-content: space-between;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+}
+
+.dialog .title {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.dialog .ct {
+  max-height: 60vh;
+  height: 60vh;
+  overflow-y: auto;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  background-color: #fff;
+}
+</style>
+<script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	$('.p_closs').on('click', function(e){
+		  e.preventDefault();
+		  const modal = $(this).parents('.dialog');
+		  modal.fadeOut();
+		});
+})
+function themeModify(themeNum){
+	$("#modal").fadeIn();
+	$.ajax({
+		type: "post",
+		url: "/theme/themeModify",
+		data: {"themeNum":themeNum},
+		dataType: "html",
+		success: function(result){
+			$("#modalContent").html(result);
+		},
+		error: function(){
+			alert("서버 오류");
+		}
+	});
+}
+function themeDelete(themeNum){
+	$.ajax({
+		type: "post",
+		url: "/theme/themeDelete",
+		data: {"themeNum":themeNum},
+		success: function(){
+			window.location.reload();
+		},
+		error: function(){
+			alert("서버 오류");
+		}
+	});
+}
+</script>
+</head>
+<body>
+<div align="center">
+메뉴 관리 페이지입니다.
+</div>
+<button type="button" onclick="window.open('/theme/themeAdd', '테마 등록', 'width=500,height=600,left=500,top=500')">테마 추가</button>
+<table border="1" width="800" align="center">
+	<tr><th>테마 리스트</th></tr>
+	<tr th:each="dto : ${list}"><td>
+		<img th:src="|/static/upload/${dto.themeStoreImage}|" width="150" height="150"/>[[${dto.themeName}]]
+		<button type="button" class="btn-open-modal" th:attr="onclick=|themeModify('${dto.themeNum}')|">수정</button>
+		<button type="button" th:attr="onclick=|themeDelete('${dto.themeNum}')|">삭제</button>
+	</td></tr>
+</table>	
+
+<!-- 테마 수정 모달창 -->
+<div id="modal" class="dialog">
+	<div class="tb">
+		<div class="inner" style="max-width:800px;">
+			<div class="top">
+				<div class="title">테마 수정</div>
+				<span class="p_closs">닫기</span>
+			</div>
+			<div class="ct" id="modalContent">
+			</div>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>

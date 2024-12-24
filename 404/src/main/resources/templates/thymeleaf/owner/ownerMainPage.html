@@ -79,7 +79,7 @@ $(function(){
 function menuManage(){
 	$.ajax({
 		type: "post",
-		url : "/owner/menuManagePage",
+		url : "/theme/themeManagePage",
 		data: {"ownerNum":"[[${dto.ownerNum}]]"},
 		dataType: "html",
 		success: function(result){
