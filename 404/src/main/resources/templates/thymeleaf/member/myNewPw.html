@@ -28,7 +28,7 @@ $(function(){
 function resultOk(result, status, xhr, $form){
 	if(status == 'success'){
 		if(result == "true"){
-			location.href="myDetail";
+			location.href="memberList";
 		}else{
 			$("#oldPw").val("");
 			$("#pwErr").text("비밀번호가 틀렸습니다");
