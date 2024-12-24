@@ -124,11 +124,10 @@ function wishCheck(){
 </div>
 
 <div class = "content">
-<tr th:each = "dto: ${dto}">
-<input type = "hidden" name = "storeNum" id = "storeNum" th:value = "${dto.storeNum}">
-[[${dto}]]
-</tr>
-내용
+<table border="1" align="center">
+	<tr><th>가게 상세 이미지</th></tr>
+	<tr><th>테마 종류</th></tr>
+</table>
 </div>
 </body>
 </html>
