@@ -13,9 +13,9 @@ public class MemberPwUpdateService {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 	
-	public String execute(HttpSession session, Model model, String memberPw ) {
+	public String execute(HttpSession session, Model model, String memPw ) {
 		AuthDTO auth = (AuthDTO)session.getAttribute("auth");
-		if(passwordEncoder.matches(memberPw, auth.getUserPw())) {	// session에 저장한 내 비밀번호와 입력한 비밀번호가 같은지 비교 (입력한 비밀번호, 암호된 비밀번호)
+		if(passwordEncoder.matches(memPw, auth.getUserPw())) {	// session에 저장한 내 비밀번호와 입력한 비밀번호가 같은지 비교 (입력한 비밀번호, 암호된 비밀번호)
 			return "thymeleaf/member/myNewPw";					// 맞으면 비밀번호 변경 페이지 이동
 		}else {
 			// 오류에서 메시지 보내기

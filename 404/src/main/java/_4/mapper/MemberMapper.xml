@@ -29,6 +29,7 @@ update member set
 		MEM_NUM = #{memNum}
 	</where>
 </update>
+
 <update id="wishCheck" parameterType="string">
 	merge into wish w
 	using (select mem_num from member) m
@@ -42,4 +43,14 @@ update member set
     insert (MEM_NUM, STORE_NUM, WISH_DATE)
     values(#{userNum}, #{storeNum}, SYSDATE)
 </update>
+
+<update id="memberPwUpdate" >
+	update member
+	set mem_pw = #{_newPw}
+	where mem_id = #{_memId}
+</update>
+
+<select id="memberNumSelect" parameterType="string" resultType="string">
+	select mem_num from member where mem_id = #{memId}
+</select>
 </mapper>

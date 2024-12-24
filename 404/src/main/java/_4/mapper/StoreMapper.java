@@ -15,4 +15,6 @@ public interface StoreMapper {
 	public List<StoreDTO> storeSelectAll();
 
 	public String WishCheck(String memNum, String storeNum);
+
+	public List<StoreDTO> wishSelectList(String memberNum);
 }

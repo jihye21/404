@@ -17,6 +17,8 @@ import _4.service.member.MemberDetailService;
 import _4.service.member.MemberPwUpdateService;
 import _4.service.member.MemberRegistService;
 import _4.service.member.MemberUpdateService;
+import _4.service.member.MyPassConfirmService;
+import _4.service.member.WishListService;
 import _4.service.member.WishService;
 import jakarta.servlet.http.HttpSession;
 
@@ -25,6 +27,8 @@ import jakarta.servlet.http.HttpSession;
 public class MemberController {
 	@Autowired
 	WishService wishService;
+	@Autowired
+	WishListService wishListService;
 	@Autowired
 	MemberRegistService memberRegistService;
 	@Autowired
@@ -35,6 +39,8 @@ public class MemberController {
 	UserNumService userNumService;
 	@Autowired
 	MemberPwUpdateService memberPwUpdateService;
+	@Autowired
+	MyPassConfirmService myPassConfirmService;
 	
 	@GetMapping("memberMainPage")
 	public String memberMainPage(HttpSession session, Model model) {
@@ -81,14 +87,30 @@ public class MemberController {
 		wishService.execute(storeNum, session);
 		
 	}
+	
+	@RequestMapping("wishList")			// 찜 목록 페이지 - 나중에 찜 목록으로 이동하는 a태그 추가해야함
+	public String wishList(HttpSession session, Model model) {
+		wishListService.execute(session, model);
+		return "thymeleaf/member/wishList";
+	}
+	
 	@GetMapping("memberPwModify")
 	public String memberPwModify() {
 		return "thymeleaf/member/myPwCon";
 	}
 	
 	@PostMapping("memberPwModify")
-	public String newPw(@RequestParam("memberPw") String memberPw, HttpSession session, Model model ) {
-		return memberPwUpdateService.execute(session, model, memberPw);
+	public String newPw(@RequestParam("memPw") String memPw, HttpSession session, Model model ) {
+		return memberPwUpdateService.execute(session, model, memPw);
+	}
+	
+	@PostMapping("memberPwUpdate")
+	@ResponseBody // html이 아닌 값을 전달할 때 사용 
+	public boolean memberPwUpdate(
+			@RequestParam("oldPw") String oldPw,
+			@RequestParam(value="newPw") String newPw,
+			HttpSession session) {
+		return myPassConfirmService.execute(newPw, oldPw, session);
 	}
 	
 	
