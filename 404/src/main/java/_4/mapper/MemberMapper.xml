@@ -5,14 +5,14 @@
 	
 <mapper namespace="_4.mapper.MemberMapper">
 <sql id="memberBaseColumns">
-MEM_NUM, MEM_ID, MEM_PW, MEM_NAME, MEM_BIRTH_DATE, MEM_EMAIL, MEM_PHONE, MEM_EMAIL_CONF, MEM_POINT
+MEM_NUM, MEM_ID, MEM_PW, MEM_NAME, MEM_BIRTH_DATE, MEM_EMAIL, MEM_PHONE, MEM_EMAIL_CONF, MEM_POINT, MEM_NICKNAME
 </sql>
 
 <insert id="memberRegist" parameterType="memberDTO">
 insert into member(MEM_NUM, MEM_ID, MEM_PW, MEM_NAME
-		, MEM_BIRTH_DATE, MEM_EMAIL, MEM_PHONE, MEM_EMAIL_CONF, MEM_POINT, mem_regist_date)
+		, MEM_BIRTH_DATE, MEM_EMAIL, MEM_PHONE, MEM_EMAIL_CONF, MEM_POINT, MEM_NICKNAME, mem_regist_date)
 values (#{memNum}, #{memId}, #{memPw}, #{memName}
-		, #{memBirthDate}, #{memEmail}, #{memPhone}, null, 0, sysdate)
+		, #{memBirthDate}, #{memEmail}, #{memPhone}, null, 0, #{memNickname}, sysdate)
 </insert>
 
 <select id="memberSelectOne" parameterType="string" resultType="memberDTO">

@@ -30,6 +30,7 @@ public class MemberRegistService {
 		dto.setMemBirthDate(memberCommand.getMemBirthDate());
 		dto.setMemPhone(memberCommand.getMemPhone());
 		dto.setMemEmail(memberCommand.getMemEmail());
+		dto.setMemNickname(memberCommand.getMemNickname());
 		memberMapper.memberRegist(dto);
 		
 	}
