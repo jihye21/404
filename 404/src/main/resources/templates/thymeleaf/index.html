@@ -23,12 +23,14 @@
 </ul>
 <th:block th:if="${session.auth == null}">
 	<a href="/user/loginForm">로그인</a>
+	<a href="/owner/ownerForm">사장 회원가입</a>
 </th:block>
 <th:block th:if="${session.auth != null}">
 	<a href="/user/logout">로그아웃</a>
+	<br>
+	<a href="/inquire/inquireList">나의 문의</a>
 </th:block>
 <br/>
-<a href="/owner/ownerForm">사장 회원가입</a>
 </body>
 
 <div id="category">

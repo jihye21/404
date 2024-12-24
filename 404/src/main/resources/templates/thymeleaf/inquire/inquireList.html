@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h1>문의 목록</h1>
+
+<th:block th:if="${session.auth.grade != 'employee'}">
+<a href = "/inquire/inquirePage">문의하기</a>
+</th:block>
+<br><br>
+
+<table border = 1>
+	<tr>
+	<th>제목</th><th>종류</th>
+	</tr>
+	
+	<tr th:each = "list:${list}">
+	<td>
+		<a th:href = "|inquireDetail?inquireNum=${list.inquireNum}|">
+		[[${list.inquireSubject}]]
+		</a>
+	</td>
+	<td>[[${list.memberInquireType}]][[${list.ownerInquireType}]]</td>
+	</tr>
+</table>
+
+</body>
+</html>

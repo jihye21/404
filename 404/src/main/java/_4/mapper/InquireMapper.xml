@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+	<mapper namespace="_4.mapper.InquireMapper">
+		<insert id="memberInquireInsert" parameterType="inquireDTO">
+		insert into memberInquire(INQUIRE_NUM, MEM_NUM, INQUIRE_SUBJECT
+		, INQUIRE_CONTENT, MEMBER_INQUIRE_TYPE, INQUIRE_DATE)
+		
+		values(#{inquireNum}, #{memNum}, #{inquireSubject}, #{inquireContent}
+		, #{memberInquireType}, SYSDATE)
+		</insert>
+		<insert id="ownerInquireInsert" parameterType="inquireDTO">
+		insert into ownerInquire (INQUIRE_NUM, OWNER_NUM, INQUIRE_SUBJECT
+		, INQUIRE_CONTENT, OWNER_INQUIRE_TYPE, INQUIRE_DATE)
+		
+		values(#{inquireNum}, #{ownerNum}, #{inquireSubject}, #{inquireContent}
+		, #{ownerInquireType}, SYSDATE)
+		</insert>
+		<select id="memberInquireSelectAll" parameterType="string" resultType="inquireDTO">
+		select INQUIRE_NUM, INQUIRE_SUBJECT, MEMBER_INQUIRE_TYPE from memberInquire
+		where MEM_NUM = #{memNum}
+		</select>
+		<select id="ownerInquireSelectAll" parameterType="string" resultType="inquireDTO">
+		select INQUIRE_NUM, INQUIRE_SUBJECT, OWNER_INQUIRE_TYPE from ownerInquire
+		where OWNER_NUM = #{ownerNum} and INQUIRE_NUM = #{inquireNum}
+		</select>
+		<select id="employeeInquireSelectAll" resultType="inquireDTO">
+		select INQUIRE_NUM, INQUIRE_SUBJECT, MEMBER_INQUIRE_TYPE from memberInquire
+		union
+		select INQUIRE_NUM, INQUIRE_SUBJECT, OWNER_INQUIRE_TYPE from ownerInquire
+		</select>
+		<select id="memberInquireSelect" parameterType="string" resultType="inquireDTO">
+		select INQUIRE_NUM, INQUIRE_SUBJECT, INQUIRE_CONTENT, MEMBER_INQUIRE_TYPE
+		from memberInquire
+		where MEM_NUM = #{memNum} and INQUIRE_NUM = #{inquireNum}
+		</select>
+		<select id="ownerInquireSelect" parameterType="string" resultType="inquireDTO">
+		select INQUIRE_NUM, INQUIRE_SUBJECT, INQUIRE_CONTENT, OWNER_INQUIRE_TYPE
+		from ownerInquire
+		where OWNER_NUM = #{ownerNum} and INQUIRE_NUM = #{inquireNum}
+		</select>
+		<select id="employeeInquireSelect" parameterType="string" resultType="inquireDTO">
+		select INQUIRE_NUM, INQUIRE_SUBJECT, INQUIRE_CONTENT, MEMBER_INQUIRE_TYPE, INQUIRE_ANSWER
+		from memberInquire
+		where INQUIRE_NUM = #{inquireNum}
+		union
+		select INQUIRE_NUM, INQUIRE_SUBJECT, INQUIRE_CONTENT, OWNER_INQUIRE_TYPE, INQUIRE_ANSWER
+		from ownerInquire
+		where INQUIRE_NUM = #{inquireNum}
+		</select>
+		<update id="memberInquireUpdate" parameterType="inquireDTO">
+		update memberInquire set INQUIRE_SUBJECT = #{inquireSubject}
+		, INQUIRE_CONTENT = #{inquireContent}, MEMBER_INQUIRE_TYPE = #{memberInquireType}
+		where MEM_NUM = #{memNum} and INQUIRE_NUM = #{inquireNum}
+		</update>
+		<update id="ownerInquireUpdate" parameterType="inquireDTO">
+		update ownerInquire set INQUIRE_SUBJECT = #{inquireSubject}
+		, INQUIRE_CONTENT = #{inquireContent}, OWNER_INQUIRE_TYPE = #{ownerInquireType}
+		where OWNER_NUM = #{ownerNum} and INQUIRE_NUM = #{inquireNum}
+		</update>
+		<update id="employeeMemberInquireUpdate" parameterType="inquireDTO">
+		update memberInquire
+		set EMP_NUM = #{empNum}, INQUIRE_ANSWER = #{inquireAnswer}
+		, INQUIRE_ANSWER_DATE = SYSDATE
+		where INQUIRE_NUM = #{inquireNum}
+		</update>
+		<update id="employeeOwnerInquireUpdate" parameterType="inquireDTO">
+		update ownerInquire
+		set EMP_NUM = #{empNum}, INQUIRE_ANSWER = #{inquireAnswer}
+		, INQUIRE_ANSWER_DATE = SYSDATE
+		where INQUIRE_NUM = #{inquireNum}
+		</update>
+		<!-- 문의에 답변이 있는지 확인하는 서비스 -->
+		<select id="memberInquireCheckService" parameterType="string" resultType="string">
+		select emp_num from memberInquire
+		where MEM_NUM = #{memNum} and INQUIRE_NUM = #{inquireNum}
+		</select>
+		<select id="ownerInquireCheckService" parameterType="string" resultType="string">
+		select emp_num from ownerInquire
+		where OWNER_NUM = #{ownerNum} and INQUIRE_NUM = #{inquireNum}
+		</select>
+		<select id="employeeInquireCheckService" parameterType="string" resultType="string">
+		select emp_num from memberInquire
+		where INQUIRE_NUM = #{inquireNum}
+		union
+		select emp_num from ownerInquire
+		where INQUIRE_NUM = #{inquireNum}
+		</select>
+		<delete id="memberInquireDelete" parameterType="string">
+		delete from memberInquire
+		where MEM_NUM = #{memNum} and INQUIRE_NUM = #{inquireNum}
+		</delete>
+		<delete id="ownerInquireDelete" parameterType="string">
+		delete from ownerInquire
+		where OWNER_NUM = #{ownerNum} and INQUIRE_NUM = #{inquireNum}
+		</delete>
+	</mapper>
