@@ -13,6 +13,7 @@ import _4.command.StoreCommand;
 import _4.domain.StoreDTO;
 import _4.mapper.StoreMapper;
 import _4.mapper.service.UserNumService;
+import _4.service.member.WishCheckService;
 import _4.service.store.StoreApplyService;
 import _4.service.store.StoreInfoModifyService;
 import _4.service.store.StoreInfoService;
@@ -22,6 +23,8 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("store")
 public class StoreController {
+	@Autowired
+	WishCheckService wishCheckService;
 	@Autowired
 	StoreInfoService storeInfoService;
 	@Autowired
@@ -41,8 +44,9 @@ public class StoreController {
 	}
 	
 	@GetMapping("storeMainPage")
-	public String storeMainPage(Model model, @RequestParam String ownerNum) {
-		storeInfoService.execute(model, ownerNum);
+	public String storeMainPage(Model model, @RequestParam String ownerNum, HttpSession session) {
+		StoreDTO storeDTO = storeInfoService.execute(model, ownerNum);
+		wishCheckService.execute(storeDTO, session, model);
 		return "thymeleaf/store/storeMainPage";
 	}
 	

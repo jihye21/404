@@ -154,12 +154,7 @@
 			<artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>
 			<version>1.16</version>
 		</dependency>	
-		 email 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-mail</artifactId>
-			<version>3.0.1</version>
-		</dependency>
+		
 		-->
 		
 		<!--mysql-->
@@ -169,6 +164,12 @@
 	        <version>8.0.33</version>
 	    </dependency>
 	    
+	     <!-- email --> 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+			<version>3.0.1</version>
+		</dependency>
 	    
 	</dependencies>
 

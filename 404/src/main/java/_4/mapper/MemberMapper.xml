@@ -29,7 +29,28 @@ update member set
 		MEM_NUM = #{memNum}
 	</where>
 </update>
+
 <update id="wishCheck" parameterType="string">
-	
+	merge into wish w
+	using (select mem_num from member) m
+     on (w.mem_num = m.mem_num)
+     
+	when matched then 
+	update set wish_date = SYSDATE
+    delete where mem_num = #{userNum} and store_num = #{storeNum}
+    
+    when not matched then 
+    insert (MEM_NUM, STORE_NUM, WISH_DATE)
+    values(#{userNum}, #{storeNum}, SYSDATE)
 </update>
+
+<update id="memberPwUpdate" >
+	update member
+	set mem_pw = #{_newPw}
+	where mem_id = #{_memId}
+</update>
+
+<select id="memberNumSelect" parameterType="string" resultType="string">
+	select mem_num from member where mem_id = #{memId}
+</select>
 </mapper>

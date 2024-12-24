@@ -13,4 +13,8 @@ public interface StoreMapper {
 	public StoreDTO storeInfoSelectAll(String ownerNum);
 
 	public List<StoreDTO> storeSelectAll();
+
+	public String WishCheck(String memNum, String storeNum);
+
+	public List<StoreDTO> wishSelectList(String memberNum);
 }

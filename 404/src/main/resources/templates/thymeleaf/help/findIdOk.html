@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div th:if="${userId != null}">
+당신의 아이디는 [[${#strings.substring(userId,0,3)}]]
+<th:block th:each=" i : ${#numbers.sequence(1, #strings.length(userId) -3)}">
+*
+</th:block>
+입니다.
+</div>
+<div th:if="${userId == null}">
+입력하신 정보의 아이디가 존재하지 않습니다.
+</div>
+<a href="/user/loginForm">로그인하러 가기</a>
+</body>
+</html>

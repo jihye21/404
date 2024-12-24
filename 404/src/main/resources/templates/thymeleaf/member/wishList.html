@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+찜 목록<br />
+<table border="1" width="600" align="center">
+<tr><th>가게 이름</th></tr>
+<tr th:each=" dto : ${list} ">
+	<th>[[${dto.storeType}]]</th></tr>
+</table>
+</body>
+</html>
