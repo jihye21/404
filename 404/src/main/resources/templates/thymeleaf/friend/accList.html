@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+친구 요청 목록 페이지<br/>
+<table border="1" align="center">
+<input type="hidden" name="friendReqNum" />
+	<tr><th colspan="2">친구 요청 리스트</th></tr>
+	<tr><td>친구 신청 날짜</td><td>닉네임</td></tr>
+	<tr th:each="dto : ${list}"><td><a th:href="|/friend/friendReqDetail?friendReqNum=${dto.friendReqNum}|">[[${dto.friendRegistDate}]]</a></td><td>[[${dto.memNum}]]</td></tr>
+</table>
+</body>
+</html>

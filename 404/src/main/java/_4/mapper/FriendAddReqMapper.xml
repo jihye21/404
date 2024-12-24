@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="_4.mapper.FriendAddReqMapper">
+
+<insert id="friendAddRequestInsert" parameterType="friendAddRequestDTO">
+insert into friend( friend_req_num, mem_num, friend_regist_date )
+values ( #{friendReqNum}, #{memNum}, sysdate )
+</insert>
+
+<select id="friendSelectOne">
+select friend_req_num, mem_num, friend_regist_date 
+from friend where friend_req_num = #{friendReqNum}
+</select>
+
+</mapper>

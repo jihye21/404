@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<table border="1" align="center">
+	<tr><th colspan="2">친구 요청 상세 페이지</th></tr>
+	<tr><td>닉네임</td><td>[[${dto.memNickname}]]</td></tr>
+	<tr><td>신청일</td><td>[[${#dates.format(dto.friendRegistDate, 'yyyy-MM-dd')}]]</td></tr>
+	<tr><td colspan="2"><button type="button" th:attr="onclick=|friendReqOk('${dto.friendReqNum}')|">승인</button>
+						<button type="button" th:attr="onclick=|friendReqNo('${dto.friendReqNum}')|">거절</button>
+						<button type="button" onclick="location.href='/friend/friendsList'">뒤로가기</button></td></tr>			
+</table>
+</body>
+</html>
