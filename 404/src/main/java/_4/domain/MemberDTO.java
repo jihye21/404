@@ -14,6 +14,7 @@ public class MemberDTO {
 	String memId;
 	String memPw;
 	String memName;
+	String memNickname;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	Date memBirthDate;
 	String gender;

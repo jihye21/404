@@ -20,6 +20,7 @@ public class MemberCommand {
 	String memPw;
 	String memPwCon;
 	String memName;
+	String memNickname;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	Date memBirthDate;
 	String gender;

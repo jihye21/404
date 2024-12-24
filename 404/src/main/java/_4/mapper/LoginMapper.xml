@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="_4.mapper.LoginMapper">
+<select id="selectNickCheck" parameterType="string" resultType="string">
+select mem_id from member
+where mem_nickname = #{userNick}
+</select>
+
+<select id="selectIdCheck" parameterType="string" resultType="string">
+select mem_id from member
+where mem_id = #{userId}
+</select>
+</mapper>
