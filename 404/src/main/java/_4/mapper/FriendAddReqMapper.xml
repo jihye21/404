@@ -6,13 +6,13 @@
 <mapper namespace="_4.mapper.FriendAddReqMapper">
 
 <insert id="friendAddRequestInsert" parameterType="friendAddRequestDTO">
-insert into friend( friend_req_num, mem_num, friend_regist_date )
-values ( #{friendReqNum}, #{memNum}, sysdate )
+insert into friend( friend_req_num, from_num, to_num, friend_request_date )
+values ( #{friendReqNum}, #{fromnum}, #{tonum}, sysdate )
 </insert>
 
 <select id="friendSelectOne">
-select friend_req_num, mem_num, friend_regist_date 
-from friend where friend_req_num = #{friendReqNum}
+select friend_req_num, from_num, to_num, friend_request_date
+from friend where from_num = #{fromnum}
 </select>
 
 </mapper>
