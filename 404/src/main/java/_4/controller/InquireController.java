@@ -104,7 +104,7 @@ public class InquireController {
 			inquireDeleteService.execute(session, inquireNum);
 		}
 		
-		return "redirect:/inquireList";
+		return "redirect:inquireList";
 	}
 	//@@@@@@@@@@@@@@@@@@
 }

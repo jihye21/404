@@ -26,17 +26,21 @@ public class InquireUpdateService {
 		inquireDTO.setInquireSubject(inquireCommand.getInquireSubject());
 		inquireDTO.setInquireContent(inquireCommand.getInquireContent());
 		inquireDTO.setInquireNum(inquireCommand.getInquireNum());
-	
+		
+		//문의 종류 저장
+		inquireDTO.setMemberInquireType(inquireCommand.getInquireType());
+		inquireDTO.setOwnerInquireType(inquireCommand.getInquireType());
+		
 		//grade 별 분류
 		AuthDTO auth = (AuthDTO) session.getAttribute("auth");
 		if(auth.getGrade().equals("member")) {
 			inquireDTO.setMemNum(userNum);
-			inquireDTO.setMemberInquireType(inquireCommand.getInquireType());
+			
 			
 			inquireMapper.memberInquireUpdate(inquireDTO);
 		}else if(auth.getGrade().equals("owner")) {
 			inquireDTO.setOwnerNum(userNum);
-			inquireDTO.setOwnerInquireType(inquireCommand.getInquireType());
+			
 			
 			inquireMapper.ownerInquireUpdate(inquireDTO);
 		}else if(auth.getGrade().equals("employee")) {

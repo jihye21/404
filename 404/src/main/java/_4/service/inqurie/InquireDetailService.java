@@ -34,6 +34,7 @@ public class InquireDetailService {
 		}else if(auth.getGrade().equals("owner")) {
 			inquireDTO = inquireMapper.ownerInquireSelect(userNum, inquireNum);
 		}else if(auth.getGrade().equals("employee")) {
+			
 			inquireDTO = inquireMapper.employeeInquireSelect(inquireNum);
 		}
 		

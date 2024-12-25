@@ -31,18 +31,22 @@ public class InquireRegistService {
 		//사용자의 번호 가져오기
 		String userNum = userNumService.execute(session);
 		
-		//문의 번호
-		String inquireNum = autoNumService.execute("memberInquire", "inquire_num", "inquire_");
-		inquireDTO.setInquireNum(inquireNum);
-		
 		//사용자의 grade 구분
 		AuthDTO auth = (AuthDTO) session.getAttribute("auth");
 		if(auth.getGrade().equals("member")) {
+			//문의 번호
+			String inquireNum = autoNumService.execute("memberInquire", "inquire_num", "memInquire_");
+			inquireDTO.setInquireNum(inquireNum);
+			
 			inquireDTO.setMemNum(userNum);
 			inquireDTO.setMemberInquireType(inquireCommand.getInquireType());
 			
 			inquireMapper.memberInquireInsert(inquireDTO);
 		}else if(auth.getGrade().equals("owner")){
+			//문의 번호
+			String inquireNum = autoNumService.execute("ownerInquire", "inquire_num", "ownerInquire_");
+			inquireDTO.setInquireNum(inquireNum);
+			
 			inquireDTO.setOwnerNum(userNum);
 			inquireDTO.setOwnerInquireType(inquireCommand.getInquireType());
 			
