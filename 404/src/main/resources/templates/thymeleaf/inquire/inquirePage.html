@@ -12,7 +12,7 @@
 	
 	<tr>
 		<th>제목</th>
-		<td><input type = "text" name = "inquireSubject"></td>
+		<td><input type = "text" name = "inquireSubject" required="required"></td>
 		<td>
 		
 		<th:block th:if="${session.auth.grade == 'member'}">
@@ -23,8 +23,8 @@
 		</th:block>
 		<th:block th:if="${session.auth.grade == 'owner'}">
 			<select name = "inquireType">
-		<option value = "refund">머라고 쓰지</option>
-		<option value = "report">가게신고</option>
+		<option value = "머라고 쓰지">머라고 쓰지</option>
+		<option value = "가게신고">가게신고</option>
 			</select>
 		</th:block>
 		
@@ -32,7 +32,7 @@
 	</tr>
 	<tr>
 		<th>내용</th>
-		<td colspan="2"><textarea rows="10" cols="34" name = "inquireContent"></textarea></td>
+		<td colspan="2"><textarea rows="10" cols="34" name = "inquireContent" required="required"></textarea></td>
 	</tr>
 	<tr>
 		<th colspan="3"><input type = "submit" value = "등록"></th>

@@ -24,7 +24,7 @@
 		</select>
 		<select id="ownerInquireSelectAll" parameterType="string" resultType="inquireDTO">
 		select INQUIRE_NUM, INQUIRE_SUBJECT, OWNER_INQUIRE_TYPE from ownerInquire
-		where OWNER_NUM = #{ownerNum} and INQUIRE_NUM = #{inquireNum}
+		where OWNER_NUM = #{ownerNum}
 		</select>
 		<select id="employeeInquireSelectAll" resultType="inquireDTO">
 		select INQUIRE_NUM, INQUIRE_SUBJECT, MEMBER_INQUIRE_TYPE from memberInquire
@@ -32,12 +32,12 @@
 		select INQUIRE_NUM, INQUIRE_SUBJECT, OWNER_INQUIRE_TYPE from ownerInquire
 		</select>
 		<select id="memberInquireSelect" parameterType="string" resultType="inquireDTO">
-		select INQUIRE_NUM, INQUIRE_SUBJECT, INQUIRE_CONTENT, MEMBER_INQUIRE_TYPE
+		select INQUIRE_NUM, INQUIRE_SUBJECT, INQUIRE_CONTENT, MEMBER_INQUIRE_TYPE, INQUIRE_ANSWER
 		from memberInquire
 		where MEM_NUM = #{memNum} and INQUIRE_NUM = #{inquireNum}
 		</select>
 		<select id="ownerInquireSelect" parameterType="string" resultType="inquireDTO">
-		select INQUIRE_NUM, INQUIRE_SUBJECT, INQUIRE_CONTENT, OWNER_INQUIRE_TYPE
+		select INQUIRE_NUM, INQUIRE_SUBJECT, INQUIRE_CONTENT, OWNER_INQUIRE_TYPE, INQUIRE_ANSWER
 		from ownerInquire
 		where OWNER_NUM = #{ownerNum} and INQUIRE_NUM = #{inquireNum}
 		</select>
