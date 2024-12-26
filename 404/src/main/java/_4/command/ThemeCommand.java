@@ -12,6 +12,6 @@ public class ThemeCommand {
 	MultipartFile themeImage;
 	Integer themePrice;
 	Integer limitPeople;
-	String themeTime;
+	String themeTime[];
 	String storeNum;
 }

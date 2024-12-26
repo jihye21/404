@@ -9,12 +9,12 @@ import _4.domain.StoreDTO;
 @Mapper
 public interface StoreMapper {
 	public StoreDTO storeSelectOne(String ownerNum);
-	
-	public StoreDTO storeInfoSelectAll(String ownerNum);
 
 	public List<StoreDTO> storeSelectAll();
 
 	public String WishCheck(String memNum, String storeNum);
 
 	public List<StoreDTO> wishSelectList(String memberNum);
+	
+	public void storeUpdate(StoreDTO dto);
 }

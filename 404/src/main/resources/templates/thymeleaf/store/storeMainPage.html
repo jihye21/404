@@ -61,26 +61,18 @@ justify-content: center;
 
 </style>
 <script type="text/javascript">
-
-$(function(){
-	
-	
+$(function(){	
 	$(".heart").click(function(){
-		
 		if($(".heart").html() == '❤️'){
 			$(".heart").html('🤍');
 		}
-		
 		else if($(".heart").html() == '🤍'){
 			$(".heart").html('❤️');
 		}
-		
 		wishCheck();
 	});
 });
-
 function wishCheck(){
-
 	$.ajax({
 		type: "POST",
 		url: "/member/wishCheck",
@@ -92,9 +84,16 @@ function wishCheck(){
 			alert("로그인이 필요합니다.");
 		}
 	});
-	
 }
-
+function themeConfirm(themeNum, themeName){
+	let answer = confirm(themeName + "(으)로 예약하시겠습니까?");
+	if(answer){
+		$("#frm").submit();
+	}
+	else{
+		return false;
+	}
+}
 
 </script>
 </head>
@@ -104,19 +103,18 @@ function wishCheck(){
 	<h1>가게 메인 페이지입니다.</h1>
 </div>
 <div class = "center-bar" style = "background:skyblue;">
-<table>
-<th:block th:if = "${wishCheck != '1'}">
-<span class = "heart">🤍</span>
-</th:block>
-<th:block th:if = "${wishCheck == '1'}">
-<span class = "heart">❤️</span>
-</th:block>
-
-<span style = "margin: 0px;">| 리뷰 | 공유</span>
-</table>
+	<table>
+		<th:block th:if = "${wishCheck != '1'}">
+			<span class = "heart">🤍</span>
+		</th:block>
+		<th:block th:if = "${wishCheck == '1'}">
+			<span class = "heart">❤️</span>
+		</th:block>
+		<span style = "margin: 0px;">| 리뷰 | 공유</span>
+	</table>
 </div>
 <div class = "left-bar">
-왼쪽 바
+	왼쪽 바
 </div>
 
 <div class = "right-bar">
@@ -124,10 +122,32 @@ function wishCheck(){
 </div>
 
 <div class = "content">
-<table border="1" align="center">
+<table border="1" align="center" width="800">
 	<tr><th>가게 상세 이미지</th></tr>
-	<tr><th>테마 종류</th></tr>
+	<tr><td>
+		<div th:each="image, idx :${#strings.arraySplit(dto.storeDetailStoreImage,'[/]')}">
+			<img th:src="|/static/upload/${image}|" width="200" height="200"/>
+		</div>
+	</td></tr>
 </table>
+<form action="/order/themeOrder" method="post" id="frm">
+<table border="1" width="800" align="center">
+	<tr><th colspan="2">테마 종류</th></tr>
+	<tr th:each="themeDTO : ${themeList}">
+		<td width="200"><img th:src="|/static/upload/${themeDTO.themeStoreImage}|" width="200" height="300"  /></td>
+		<td>[[${themeDTO.themeName}]]<br/>
+		<span th:each="themeTimeList : ${themeTimeTotalList}">
+			<span th:each="themeTime : ${themeTimeList}">
+				<th:block th:if="${themeDTO.themeNum} == ${themeTime.themeNum}">
+					<input type="hidden" th:value="${themeDTO.themeNum}">
+					<input type="hidden" th:value="${themeTime.themeTime}"/>
+					<button type="button" th:attr="onclick=|themeConfirm('${themeDTO.themeNum}','${themeDTO.themeName}')|">[[${themeTime.themeTime}]]</button>
+				</th:block>
+			</span>
+		</span><br/><Br/></td>
+	</tr>
+</table>
+</form>
 </div>
 </body>
 </html>

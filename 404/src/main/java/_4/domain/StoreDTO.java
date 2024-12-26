@@ -22,7 +22,7 @@ public class StoreDTO {
 	String storeAddrDetail;
 	String storeCrowded;
 	String storeProfileImage;
-	String storePrifileStoreImage;
+	String storeProfileStoreImage;
 	String storeDetailImage;
 	String storeDetailStoreImage;
 }

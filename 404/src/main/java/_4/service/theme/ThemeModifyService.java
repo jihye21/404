@@ -18,9 +18,9 @@ public class ThemeModifyService {
 		dto.setThemeIntroduction(themeCommand.getThemeIntroduction());
 		dto.setThemePrice(themeCommand.getThemePrice());
 		dto.setLimitPeople(themeCommand.getLimitPeople());
-		dto.setThemeTime(themeCommand.getThemeTime());
 		dto.setStoreNum(themeCommand.getStoreNum());
 		themeMapper.themeUpdate(dto);
+		
 		// 사진 변경 추가해야 함.
 	}
 }

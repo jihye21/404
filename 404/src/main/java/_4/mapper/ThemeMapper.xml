@@ -5,25 +5,29 @@
 <mapper namespace="_4.mapper.ThemeMapper">
 
 <sql id="themeBaseColumn">
-theme_num, theme_name, theme_introduction, theme_image, theme_store_image, theme_price, limit_people, theme_time, store_num
+theme_num, theme_name, theme_introduction, theme_image, theme_store_image, theme_price, limit_people, store_num
 </sql>
 
 <insert id="themeInsert" parameterType="themeDTO">
 insert into theme (<include refid="themeBaseColumn"/>) values (#{themeNum}, #{themeName}, #{themeIntroduction}, #{themeImage}, #{themeStoreImage}
-															 , #{themePrice}, #{limitPeople}, #{themeTime}, #{storeNum})
+															 , #{themePrice}, #{limitPeople}, #{storeNum})
 </insert>
-
+<insert id="themeTimeInsert" parameterType="themeDTO">
+insert into theme_time (theme_num, theme_time) values (#{themeNum}, #{themeTime})
+</insert>
 <select id="themeSelectAll" parameterType="string" resultType="themeDTO">
 select <include refid="themeBaseColumn"/> from theme where store_num = #{storeNum}
 </select>
-
+<select id="themeTimeSelectAll" parameterType="string" resultType="themeTimeDTO">
+select theme_num, theme_time from theme_time where theme_num = #{themeNum}
+</select>
 <select id="themeSelectOne" parameterType="string" resultType="themeDTO">
 select <include refid="themeBaseColumn"/> from theme where theme_num = #{themeNum}
 </select>
 
 <update id="themeUpdate" parameterType="themeDTO">
 update theme set theme_name=#{themeName}, theme_introduction=#{themeIntroduction}, theme_price=#{themePrice}, limit_people=#{limitPeople}
-			   , theme_time=#{themeTime}, store_num=#{storeNum}
+			   ,  store_num=#{storeNum}
 </update>
 
 <delete id="themeDelete" parameterType="string">

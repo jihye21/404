@@ -27,7 +27,6 @@ public class ThemeRegistService {
 		dto.setThemeNum(themeNum);
 		dto.setThemeName(themeCommand.getThemeName());
 		dto.setThemeIntroduction(themeCommand.getThemeIntroduction());
-		
 		URL resource = getClass().getClassLoader().getResource("static/upload");
 		String fileDir = resource.getFile();
 		MultipartFile mf = themeCommand.getThemeImage();
@@ -35,9 +34,7 @@ public class ThemeRegistService {
 		String extension = originalFile.substring(originalFile.lastIndexOf("."));
 		String storeName = UUID.randomUUID().toString().replace("-", "");
 		String storeFileName = storeName + extension;
-				
 		File file = new File(fileDir + "/" + storeFileName);
-		
 		try {
 			mf.transferTo(file);
 		} catch (IllegalStateException e) {
@@ -51,9 +48,10 @@ public class ThemeRegistService {
 		dto.setThemeStoreImage(storeFileName);
 		dto.setThemePrice(themeCommand.getThemePrice());
 		dto.setLimitPeople(themeCommand.getLimitPeople());
-		dto.setThemeTime(themeCommand.getThemeTime());
 		dto.setStoreNum(storeNum);
 		themeMapper.themeInsert(dto);
-		
+		for(String themeTime : themeCommand.getThemeTime()) {
+			themeMapper.themeTimeInsert(themeNum, themeTime);
+		}	
 	}
 }

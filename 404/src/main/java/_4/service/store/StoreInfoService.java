@@ -15,13 +15,9 @@ public class StoreInfoService {
 	StoreMapper storeMapper;
 	
 	public StoreDTO execute(Model model, String ownerNum) {
-		
 		StoreDTO storeDTO = new StoreDTO();
-		
-		storeDTO = storeMapper.storeInfoSelectAll(ownerNum);
-		
+		storeDTO = storeMapper.storeSelectOne(ownerNum);
 		model.addAttribute("dto", storeDTO);
-		
 		return storeDTO;
 	}
 }

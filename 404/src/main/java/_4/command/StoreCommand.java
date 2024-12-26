@@ -21,5 +21,5 @@ public class StoreCommand {
 	String storeAddrDetail;
 	String storeCrowded;
 	MultipartFile storeProfileImage;
-	MultipartFile storeDetailImage;	
+	MultipartFile storeDetailImage[];	
 }

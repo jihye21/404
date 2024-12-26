@@ -76,7 +76,7 @@ public class ThemeController {
 		return "thymeleaf/store/ownerView/themeManagePage";
 	}
 	
-	@PostMapping("themeModify")
+	@PostMapping("themeModifyPage")
 	public String themeModify(String themeNum, Model model) {
 		themeDetailService.execute(themeNum, model);
 		return "thymeleaf/theme/themeModifyForm";

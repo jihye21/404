@@ -14,10 +14,7 @@ select <include refid="storeBaseColumn"/> from store where owner_num = #{ownerNu
 <select id="storeSelectAll" resultType="storeDTO">
 select <include refid="storeBaseColumn"></include> from store
 </select>
-<select id="storeInfoSelectAll" parameterType="String">
-select <include refid="storeBaseColumn"></include> from store 
-where owner_num = #{ownerNum}
-</select>
+
 <select id="WishCheck" parameterType="string">
 select 1 from wish where mem_num = #{memNum} and store_num = #{storeNum}
 </select>
@@ -25,4 +22,11 @@ select 1 from wish where mem_num = #{memNum} and store_num = #{storeNum}
 select <include refid="storeBaseColumn"></include> from store 
 where STORE_NUM in (select STORE_NUM from wish where mem_num = #{memberNum})
 </select>
+
+<update id="storeUpdate" parameterType="storeDTO">
+update store set store_introduction = #{storeIntroduction}, store_closed_date = #{storeClosedDate}, store_open_time = #{storeOpenTime}
+			   , store_profile_image = #{storeProfileImage}, store_profile_store_image = #{storeProfileStoreImage}
+			   , store_detail_image = #{storeDetailImage}, store_detail_store_image = #{storeDetailStoreImage}
+ where store_num = #{storeNum}
+</update>
 </mapper>

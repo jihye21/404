@@ -18,8 +18,12 @@
 	<tr><td>가게 영업시간:</td><td><input type="text" name="storeOpenTime" th:value="${dto.storeOpenTime}"/></td></tr>
 	<tr><td>가게 주소:</td><td><input type="text" name="storeAddr" th:value="${dto.storeAddr}" readonly="readonly"/></td></tr>
 	<tr><td>가게 상세 주소:</td><td><input type="text" name="storeAddrDetail" th:value="${dto.storeAddrDetail}" readonly="readonly"/></td></tr>
-	<tr><td>가게 프로필 이미지:</td><td><input type="file" name="storeProfileImage" th:value="${dto.storeProfileImage}"/></td></tr>
-	<tr><td>가게 상세 이미지:</td><td><input type="file" name="storeDetailImage" th:value="${dto.storeDetailImage}"/></td></tr>
+	<tr><td>가게 프로필 이미지:</td><td><img th:src="|/static/upload/${dto.storeProfileStoreImage}|" width="200" height="200"/>
+						<input type="file" name="storeProfileImage" th:value="${dto.storeProfileImage}"/></td></tr>
+	<tr><td>가게 상세 이미지:</td><td><input type="file" name="storeDetailImage" multiple="multiple"/>
+									<input type="file" name="storeDetailImage" multiple="multiple"/>
+									<input type="file" name="storeDetailImage" multiple="multiple"/>
+	</td></tr>
 	<tr><td colspan="2"><input type="submit" value="수정"/></td></tr>
 </table>
 </form>

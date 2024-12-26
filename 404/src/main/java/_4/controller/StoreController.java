@@ -1,5 +1,8 @@
 package _4.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +20,8 @@ import _4.service.member.WishCheckService;
 import _4.service.store.StoreApplyService;
 import _4.service.store.StoreInfoModifyService;
 import _4.service.store.StoreInfoService;
+import _4.service.theme.ThemeListService;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 
@@ -29,6 +34,8 @@ public class StoreController {
 	StoreInfoService storeInfoService;
 	@Autowired
 	StoreApplyService storeApplyService;
+	@Autowired
+	ThemeListService themelistService;
 	@Autowired
 	StoreInfoModifyService storeInfoModifyService;
 	@Autowired
@@ -47,12 +54,14 @@ public class StoreController {
 	public String storeMainPage(Model model, @RequestParam String ownerNum, HttpSession session) {
 		StoreDTO storeDTO = storeInfoService.execute(model, ownerNum);
 		wishCheckService.execute(storeDTO, session, model);
+		themelistService.execute(storeDTO.getStoreNum(), model);
 		return "thymeleaf/store/storeMainPage";
 	}
 	
 	@PostMapping("storeInfoModify")
-	public void storeInfoModify(StoreCommand storeCommand) {
+	public String storeInfoModify(StoreCommand storeCommand) {
 		storeInfoModifyService.execute(storeCommand);
+		return "redirect:/owner/ownerMainPage";
 	}
 	
 }
