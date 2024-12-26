@@ -61,27 +61,31 @@ justify-content: center;
 
 </style>
 <script type="text/javascript">
-$(function(){	
+$(function(){
 	$(".heart").click(function(){
-		if($(".heart").html() == '❤️'){
-			$(".heart").html('🤍');
-		}
-		else if($(".heart").html() == '🤍'){
-			$(".heart").html('❤️');
-		}
 		wishCheck();
 	});
 });
+function heartChange(){
+	if($(".heart").html() == '❤️'){
+		$(".heart").html('🤍');
+	}
+	else if($(".heart").html() == '🤍'){
+		$(".heart").html('❤️');
+	}
+}
+
 function wishCheck(){
 	$.ajax({
 		type: "POST",
 		url: "/member/wishCheck",
 		data: {"storeNum":"[[${dto.storeNum}]]"},
 		success: function(){
-			
+			heartChange();
 		}, 
 		error: function(){
 			alert("로그인이 필요합니다.");
+			window.location.href = "/user/loginForm";
 		}
 	});
 }
