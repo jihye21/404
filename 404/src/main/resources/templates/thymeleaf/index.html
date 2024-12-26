@@ -43,7 +43,8 @@
 <table>
 <tr th:each = "list: ${list}">
 	<th:block>
-	<a th:href = "|/store/storeMainPage?ownerNum=${list.ownerNum}|">가게명: [[${list.storeName}]] [[${list.storeProfileImage}]]</a>
+	<a th:href = "|/store/storeMainPage?ownerNum=${list.ownerNum}|">가게명: [[${list.storeName}]]</a>
+	<img th:src="|static/uplaod/${list.storeProfileImage}">
 	</th:block>
 </tr>
 </table>
