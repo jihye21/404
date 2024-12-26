@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>couponForm</title>
+</head>
+<body>
+<h1>쿠폰</h1> 
+<br>
+<br>
+<form action ="couponRegist" method = "POST">
+<table border="1">
+
+<tr><td colspan="3">쿠폰 데이터</td></tr>
+
+<tr>
+<td>쿠폰</td><td>할인 형식</td>
+<td>
+<select name = "discountType">
+<option value = "전체 할인">전체 할인</option>
+<option value = "상품 할인">상품 할인</option>
+</select>
+</td>
+</tr>
+
+<tr>
+<td rowspan="2"></td><td>쿠폰 할인 금액 또는 할인율</td><td><input type = "number" name = "discountNum" value = "0" min = "0"></td>
+</tr>
+
+<tr>
+<td>쿠폰 만료일</td>
+<td><input type = "date" name = "expireDate"></td>
+</tr>
+
+<tr>
+<td colspan="3"><input type = "submit" value = "발급하기"></td>
+</tr>
+
+</table>
+</form>
+</body>
+</html>
