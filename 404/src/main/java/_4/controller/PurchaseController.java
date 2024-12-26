@@ -18,7 +18,6 @@ public class PurchaseController {
 	
 	@GetMapping("payment")
 	public String payment(@RequestParam String purchaseNum, Model model) {
-		
 		iniPayReqService.execute(purchaseNum, model);
 		return "thymeleaf/purchase/payment";
 	}
