@@ -11,7 +11,9 @@ import lombok.Data;
 @Alias("friendReqDTO")
 public class FriendAddRequestCommand {
 	String friendReqNum;
-	String memNum;
+	String fromNum;
+	String toNum;
+	String nickName;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	Date friendRegistDate;
+	Date friendRequestDate;
 }

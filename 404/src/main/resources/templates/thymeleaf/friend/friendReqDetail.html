@@ -33,15 +33,14 @@ function friendReqOk(friendReqNum){
 </script>
 </head>
 <body>
-친구 요청 목록 페이지<br/>
-<table border="1" align="center">
-<input type="hidden" name="friendReqNum" />
-	<tr><th colspan="2">친구 요청 리스트</th></tr>
-	<tr><td colspan="2">닉네임</td></tr>
-	<tr th:each="dto : ${list}"><td><a th:href="|/friends/friendReqDetail?friendReqNum=${dto.friendReqNum}|">[[${dto.memNickname}]]</a></td>
-					<td><button type="button" th:attr="onclick=|friendReqOk('${dto.friendReqNum}')|">승인</button> | 
-						<button type="button" th:attr="onclick=|friendReqNo('${dto.friendReqNum}')|">거절</button>
-						</td></tr>
+<a href="friendAccList">뒤로 가기</a>
+<table border="1" width="600" align="center">
+	<tr><th colspan="2">친구 요청 상세 페이지</th></tr>
+	<tr th:each="dto:${dto}"><td>닉네임</td><td align="right">[[${dto.memNickname}]]
+						<button type="button" th:attr="onclick=|friendReqOk('${dto.fromNum}')|">승인</button> | 
+						<button type="button" th:attr="onclick=|friendReqNo('${dto.fromNum}')|">거절</button></td></tr>
+					
+	
 </table>
 </body>
 </html>

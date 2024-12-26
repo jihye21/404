@@ -6,10 +6,13 @@
 </head>
 <body>
 친구 목록<br />
-<a href="friendAdd">친구 추가</a>
-<a href="friendAccList">친구 요청 목록</a>
+<ul>
+	<li><a href="friendAdd">친구 추가</a></li>
+	<li><a href="friendAccList">친구 요청 목록</a></li>
+</ul>
 <table border="1" width="600" align="center">
 <tr><th>친구 이름</th></tr>
+<tr th:each=" dto : ${list}"><th>[[${dto.memNickname}]]</th></tr>
 </table>
 </body>
 </html>

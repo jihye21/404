@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="_4.mapper.FriendMapper">
+
+<insert id="friendAddRequestInsert" parameterType="friendAddRequestDTO">	<!-- 친구 요청 보내기 -->
+insert into friendReqRes( friend_req_num, from_num, to_num, friend_request_date )
+values ( #{friendReqNum}, #{fromNum}, #{toNum}, sysdate )
+</insert>
+
+<select id="friendReqSelectAll" parameterType="string" resultType="friendAddRequestDTO">		<!-- 친구 요청 리스트를 보기 -->
+select friend_req_num, fr.from_num, to_num, friend_request_date, mem_nickname
+ from friendReqRes fr
+ join member m
+ on fr.from_num = m.mem_num
+ where to_num = #{toNum}
+</select>
+
+<select id="changeNick" parameterType="string" resultType="string">		<!-- 수신인의 번호를 닉네임으로 변경 -->
+select mem_num from member where mem_nickname = #{memNickname}
+</select>
+
+<select id="friendSelectOne" parameterType="string" resultType="friendAddRequestDTO">			<!-- 친구 요청 자세히 보기 -->
+select friend_req_num, fr.from_num, to_num, friend_request_date, mem_nickname
+ from friendReqRes fr
+ join member m
+ on fr.from_num = m.mem_num
+ where friend_req_num = #{friendReqNum}
+</select>
+
+<insert id="friendAddInsert" parameterType="friendDTO">		<!-- 친구 요청을 받아 추가하기 -->
+insert into friendList(mem_num, friend_num, friend_regist_date )
+values( #{memNum}, #{friendNum}, sysdate)
+</insert>
+
+<delete id="friendReqDelete" parameterType="string">
+delete from friendReqRes where friend_req_num = #{friendReqNum}
+</delete>
+
+<select id="friendsSelectAll" parameterType="String" resultType="friendDTO">
+select fl.mem_num, friend_num, friend_regist_date, mem_nickname
+from friendList fl
+join member m
+on fl.mem_num = m.mem_num
+where m.mem_nickname = #{memNickname}
+
+</select>
+
+</mapper>
