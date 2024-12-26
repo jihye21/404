@@ -18,6 +18,12 @@ public class iniPayReqService {
 		//DTO에 값 넣기!!
 		PayInfoDTO payinfoDTO = new PayInfoDTO();
 		
+		//임시 값//////////////////////////
+		payinfoDTO.setPurchasePrice(1000);
+		payinfoDTO.setDeliveryName("수빈");
+		payinfoDTO.setPurchaseName("지혜");
+		payinfoDTO.setDeliveryPhone(1234);
+		
 		Integer purchasePrice = payinfoDTO.getPurchasePrice();
 		String deliveryName = payinfoDTO.getDeliveryName();
 		String purchaseName = payinfoDTO.getPurchaseName();
@@ -66,6 +72,7 @@ public class iniPayReqService {
 		model.addAttribute("deliveryPhone", deliveryPhone);
 		
 		//상품명 추가하기!!
-		
+		String goodsName = "치와와 인형";
+		model.addAttribute("goodsName", goodsName);
 	}
 }
