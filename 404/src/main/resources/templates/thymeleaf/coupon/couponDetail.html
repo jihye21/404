@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>couponDetail</title>
+</head>
+<body>
+<h1>[[${dto.couponName}]] 쿠폰</h1>
+<br><br>
+<table border = "1">
+<tr>
+<th>[[${dto.couponName}]]</th><td rowspan="2">[[${dto.discountType}]]</td>
+</tr>
+
+<tr>
+<th><h1>[[${dto.discountRate}]]
+<th:block th:if="${dto.discountRate < 100}">%</th:block>
+<th:block th:if="${dto.discountRate >= 100}">₩</th:block>
+</h1></th>
+</tr>
+<tr>
+<th>쿠폰 만료일</th><td colspan="2">[[${#dates.format(dto.expirationDate, 'yyyy-MM-dd')}]]</td>
+</tr>
+<tr>
+<th>쿠폰 안내</th><td colspan="2">[[${dto.couponNote}]]</td>
+</tr>
+<tr>
+<td colspan="3" style="text-align:center;">
+<form action = "/coupon/couponModify" method = "POST">
+<input type = "hidden" th:value = "${dto.couponNum}" name = "couponNum">
+<input type = "submit" value = "수정">
+<a th:href = "|/coupon/couponDelete?couponNum=${dto.couponNum}|"><button type = "button">삭제</button></a>
+</form></td>
+</tr>
+</table>
+
+</body>
+</html>

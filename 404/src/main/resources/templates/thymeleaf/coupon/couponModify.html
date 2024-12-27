@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>couponModify</title>
+</head>
+<body>
+<h1>[[${dto.couponName}]] 쿠폰</h1>
+<br>
+<form action ="/coupon/couponUpdate" method = "POST">
+<input type = "hidden" name = "couponNum" th:value = "${dto.couponNum}">
+<table border="1">
+
+<tr><th>쿠폰 이름</th>
+<td colspan="2">
+<input type = "text" name = "couponName" th:value = "${dto.couponName}"size = "50"></td></tr>
+<tr>
+<th>쿠폰</th><td>할인 형식</td>
+<td>
+<select name = "discountType">
+<option th:value = "${dto.discountType}">[[${dto.discountType}]]</option>
+
+<th:block th:if="${dto.discountType != '전체 할인'}">
+<option value = "전체 할인">전체 할인</option>
+</th:block>
+<th:block th:if="${dto.discountType != '상품 할인'}">
+<option value = "상품 할인">상품 할인</option>
+</th:block>
+</select>
+</td>
+</tr>
+
+<tr>
+<td rowspan="2"></td><td>쿠폰 할인 금액 또는 할인율</td><td><input type = "number" name = "discountRate" th:value = "${dto.discountRate}" min = "0"></td>
+</tr>
+
+<tr>
+<td>쿠폰 만료일</td>
+<td><input type = "date" name = "expirationDate" th:value ="${#dates.format(dto.expirationDate, 'yyyy-MM-dd')}"></td>
+</tr>
+
+<tr>
+<th>쿠폰 안내</th><td colspan="2"><textarea cols="52" rows="10" name = "couponNote">[[${dto.couponName}]]</textarea></td>
+</tr>
+
+<tr>
+<td colspan="3" style="text-align: center;"><input type = "submit" value = "수정하기"></td>
+</tr>
+
+</table>
+</form>
+</body>
+</html>
