@@ -8,26 +8,17 @@ import org.springframework.ui.Model;
 
 import com.inicis.std.util.SignatureUtil;
 
-import _4.domain.PayInfoDTO;
+import _4.domain.BookDTO;
 
 @Service
-public class iniPayReqService {
+public class IniPayReqService {
 	
-	public void execute(String purchaseNum, Model model) {
-		
-		//DTO에 값 넣기!!
-		PayInfoDTO payinfoDTO = new PayInfoDTO();
-		
-		//임시 값//////////////////////////
-		payinfoDTO.setPurchasePrice(1000);
-		payinfoDTO.setDeliveryName("수빈");
-		payinfoDTO.setPurchaseName("지혜");
-		payinfoDTO.setDeliveryPhone(1234);
-		
-		Integer purchasePrice = payinfoDTO.getPurchasePrice();
-		String deliveryName = payinfoDTO.getDeliveryName();
-		String purchaseName = payinfoDTO.getPurchaseName();
-		Integer deliveryPhone = payinfoDTO.getDeliveryPhone();
+	public void execute(BookDTO dto, Model model) {	
+		Integer purchasePrice = dto.getPrice();
+		String deliveryName = dto.getMemNum();
+		String purchaseName = dto.getStoreNum();
+		Integer deliveryPhone = 1234;
+		String purchaseNum = dto.getBookNum();
 		
 		String mid					= "INIpayTest";		                    // 상점아이디					
 		String signKey			    = "SU5JTElURV9UUklQTEVERVNfS0VZU1RS";	// 웹 결제 signkey
@@ -72,7 +63,7 @@ public class iniPayReqService {
 		model.addAttribute("deliveryPhone", deliveryPhone);
 		
 		//상품명 추가하기!!
-		String goodsName = "치와와 인형";
+		String goodsName = dto.getThemeNum();
 		model.addAttribute("goodsName", goodsName);
 	}
 }
