@@ -92,7 +92,7 @@ function wishCheck(){
 function themeConfirm(themeNum, themeName){
 	let answer = confirm(themeName + "(으)로 예약하시겠습니까?");
 	if(answer){
-		$("#frm").submit();
+		
 	}
 	else{
 		return false;
@@ -134,7 +134,7 @@ function themeConfirm(themeNum, themeName){
 		</div>
 	</td></tr>
 </table>
-<form action="/order/themeOrder" method="post" id="frm">
+
 <table border="1" width="800" align="center">
 	<tr><th colspan="2">테마 종류</th></tr>
 	<tr th:each="themeDTO : ${themeList}">
@@ -143,15 +143,17 @@ function themeConfirm(themeNum, themeName){
 		<span th:each="themeTimeList : ${themeTimeTotalList}">
 			<span th:each="themeTime : ${themeTimeList}">
 				<th:block th:if="${themeDTO.themeNum} == ${themeTime.themeNum}">
-					<input type="hidden" th:value="${themeDTO.themeNum}">
-					<input type="hidden" th:value="${themeTime.themeTime}"/>
-					<button type="button" th:attr="onclick=|themeConfirm('${themeDTO.themeNum}','${themeDTO.themeName}')|">[[${themeTime.themeTime}]]</button>
+					<form action="/order/themeOrder" method="post" th:attr="onsubmit=|return confirm('${themeDTO.themeName}을 예약하시겠습니까?')|">
+						<input type="hidden" name="themeNum" th:value="${themeDTO.themeNum}">
+						<input type="hidden" name="themeTime" th:value="${themeTime.themeTime}"/>
+						<button type="submit">[[${themeTime.themeTime}]]</button>
+					</form>
 				</th:block>
-			</span>
+			</span>	
 		</span><br/><Br/></td>
 	</tr>
 </table>
-</form>
+
 </div>
 </body>
 </html>

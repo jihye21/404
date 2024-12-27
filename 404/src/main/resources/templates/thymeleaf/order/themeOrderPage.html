@@ -3,8 +3,51 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script type="text/javascript">
+var people = $("#people").val();
+people = 1;
+var themePrice = "[[${themeDTO.themePrice}]]";
+var totalPrice = themePrice;
+$(function(){
+	$("#people").text(people);
+	$("#totalPrice").text(themePrice);
+})
+function minusPeople(){
+	if(people <=1 ) return false;
+	people -= 1;
+	$("#people").text(people);	
+	totalPrice = themePrice * people
+	$("#totalPrice").text(totalPrice);
+	$("#lastPeople").val(people);
+	$("#lastPrice").val(totalPrice);
+}
+function plusPeople(){
+	if(people >= "[[${themeDTO.limitPeople}]]"){
+		return false;
+	}
+	people += 1;
+	$("#people").text(people);
+	totalPrice = themePrice * people
+	$("#totalPrice").text(totalPrice);
+	$("#lastPeople").val(people);
+	$("#lastPrice").val(totalPrice);
+}
+</script>
 </head>
 <body>
-테마 주문 창입니다.
+<form action="/order/payment" method="post">
+<input type="hidden" name="themeNum" th:value="${themeDTO.themeNum}"/>
+<input type="hidden" name="themeTime" th:value="${themeTime}"/>
+<input type="hidden" name="people" id="lastPeople"/>
+<input type="hidden" name="price" id="lastPrice"/>
+<div style="width:800px;height:1200px;border:1px solid black;position:absolute;left:550px;" align=center>
+테마 명 : [[${themeDTO.themeName}]]<br/>
+시간 : [[${themeTime}]]<br/>
+인원 : <a href="javascript:minusPeople()">-</a> <span id="people"></span> <a href="javascript:plusPeople()">+</a> <br/>
+가격 : <span id="totalPrice"></span><br/>
+<button type="submit">결제하기</button>
+</div>
+</form>
 </body>
 </html>

@@ -42,12 +42,18 @@ public class ThemeController {
 	@Autowired
 	ThemeMapper themeMapper;
 	
-	@GetMapping("themeAdd")
+	
+	@PostMapping("themeManagePage") // 테마 관리 페이지 이동
+	public String themeManagePage(@RequestParam("ownerNum") String ownerNum, Model model) {
+		String storeNum = storeMapper.storeSelectOne(ownerNum).getStoreNum();
+		themeListService.execute(storeNum, model);
+		return "thymeleaf/theme/themeManagePage";
+	}
+	@GetMapping("themeAdd") // 테마 폼 페이지 이동
 	public String menuAdd() {
 		return "thymeleaf/theme/themeForm";
 	}
-	
-	@PostMapping("themeAdd")
+	@PostMapping("themeAdd") // 테마 추가
 	public void menuAdd(ThemeCommand themeCommand, HttpSession session, HttpServletResponse response) {
 		String ownerNum = userNumService.execute(session);
 		String storeNum = storeMapper.storeSelectOne(ownerNum).getStoreNum();
@@ -67,28 +73,17 @@ public class ThemeController {
 		out.print(str);
 		out.close();
 	}
-	
-	
-	@PostMapping("themeManagePage")
-	public String themeManagePage(@RequestParam("ownerNum") String ownerNum, Model model) {
-		String storeNum = storeMapper.storeSelectOne(ownerNum).getStoreNum();
-		themeListService.execute(storeNum, model);
-		return "thymeleaf/store/ownerView/themeManagePage";
-	}
-	
-	@PostMapping("themeModifyPage")
+	@PostMapping("themeModifyPage") // 테마 수정 페이지 이동
 	public String themeModify(String themeNum, Model model) {
 		themeDetailService.execute(themeNum, model);
 		return "thymeleaf/theme/themeModifyForm";
 	}
-	
-	@PostMapping("themeUpdate")
+	@PostMapping("themeUpdate") // 테마 수정
 	public String themeUpdate(ThemeCommand themeCommand) {
 		themeModifyService.execute(themeCommand);
 		return "redirect:/theme/themeManagePage";
 	}
-	
-	@PostMapping("themeDelete")
+	@PostMapping("themeDelete") // 테마 삭제
 	public @ResponseBody void themeDelete(@RequestBody @RequestParam("themeNum") String themeNum) {
 		themeMapper.themeDelete(themeNum);
 	}

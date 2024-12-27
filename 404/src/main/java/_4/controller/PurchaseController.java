@@ -8,19 +8,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import _4.service.purchase.iniPayReqService;
+import _4.service.purchase.IniPayReqService;
 
 @Controller
 @RequestMapping("purchase")
 public class PurchaseController {
 	@Autowired
-	iniPayReqService iniPayReqService;
-	
-	@GetMapping("payment")
-	public String payment(@RequestParam String purchaseNum, Model model) {
-		iniPayReqService.execute(purchaseNum, model);
-		return "thymeleaf/purchase/payment";
-	}
+	IniPayReqService iniPayReqService;
 	
 	@PostMapping("INIstdpay_pc_return")
 	public String iniReturn (){

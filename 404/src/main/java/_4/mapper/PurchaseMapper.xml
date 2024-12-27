@@ -11,4 +11,8 @@
 		,#{totalPrice},#{resultMessage}
 		,#{payMethod},#{applDate},#{applTime})
 	</insert>
+	
+	<update id="paymentCheck" parameterType="string">
+	update book set book_status = '결제완료' where book_num = #{bookNum}
+	</update>
 </mapper>

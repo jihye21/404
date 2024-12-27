@@ -122,6 +122,7 @@ public class INIstdpayPcReturn {
 					dto.setTotalPrice(resultMap.get("TotPrice"));
 					System.out.println("주문번호 : " + dto.getPurchaseNum());
 					purchaseMapper.paymentInsert(dto);
+					purchaseMapper.paymentCheck(dto.getPurchaseNum());
 				} catch (Exception ex) {
 					//####################################
 					// 실패시 처리(***가맹점 개발수정***)
