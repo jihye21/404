@@ -17,5 +17,5 @@ public class CouponDeleteService {
 		String userNum = userNumService.execute(session);
 		couponMapper.ownerCouponDelete(couponNum, userNum);
 		couponMapper.empCouponDelete(couponNum, userNum);
-	}
+	} 
 }
