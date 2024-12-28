@@ -39,7 +39,25 @@
 		EMP_PHONE = #{empPhone}
 	where EMP_NUM = #{empNum}
 		
-
 </update>
+
+<select id="employeeCount" parameterType="string" resultType="integer">
+select count(*) from employee
+	<if test="searchWord != null">
+		<where>
+			EMP_NAME like '%'||#{searchWord}||'%'
+			or EMP_ID like '%'||#{searchWord}||'%'
+			or EMP_NUM like '%'||#{searchWord}||'%'
+		</where>
+	</if>
+</select>
+
+<delete id="employeesDelete" parameterType="string">
+delete from employee
+where emp_num in
+<foreach collection="employeesNum" item="empNum" open="(" close=")" index="index" separator=",">
+	#{empNum}
+</foreach>
+</delete>
 
 </mapper>

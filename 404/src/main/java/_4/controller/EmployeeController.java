@@ -40,8 +40,11 @@ public class EmployeeController {
 	StoreApplMapper storeApplMapper;
 	
 	@GetMapping("employeeList")
-	public String emplist(Model model) {
-		employeeListService.execute(model);
+	public String emplist(
+			@RequestParam(value = "searchWord", required = false) String searchWord,
+			@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+			Model model) {
+		employeeListService.execute(model, searchWord, page);
 		return "thymeleaf/employee/employeeList";
 	}
 	
