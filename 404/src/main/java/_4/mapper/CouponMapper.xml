@@ -5,16 +5,16 @@
 	
 <mapper namespace="_4.mapper.CouponMapper">
 	<insert id="empCouponRegistInsert" parameterType="couponDTO">
-		insert into empCoupon (COUPON_NUM, COUPON_NAME, DISCOUNT_TYPE, EXPIRATION_DATE
-		, DISCOUNT_RATE, COUPON_NOTE, EMP_NUM)
-		values(#{couponNum}, #{couponName}, #{discountType}, #{expirationDate}
-		, #{discountRate}, #{couponNote}, #{empNum} )
+		insert into empCoupon (COUPON_NUM, COUPON_CODE, COUPON_NAME, DISCOUNT_TYPE
+		, EXPIRATION_DATE, DISCOUNT_RATE, COUPON_NOTE, EMP_NUM)
+		values(#{couponNum}, #{couponCode}, #{couponName}, #{discountType}
+		, #{expirationDate}, #{discountRate}, #{couponNote}, #{empNum} )
 	</insert>
 	<insert id="ownerCouponRegistInsert" parameterType="couponDTO">
-		insert into ownerCoupon (COUPON_NUM, COUPON_NAME, DISCOUNT_TYPE, EXPIRATION_DATE
-		, DISCOUNT_RATE, COUPON_NOTE, OWNER_NUM)
-		values(#{couponNum}, #{couponName}, #{discountType}, #{expirationDate}
-		, #{discountRate}, #{couponNote}, #{ownerNum} )
+		insert into ownerCoupon (COUPON_NUM, COUPON_CODE, COUPON_NAME, DISCOUNT_TYPE
+		, EXPIRATION_DATE, DISCOUNT_RATE, COUPON_NOTE, OWNER_NUM)
+		values(#{couponNum}, #{couponCode}, #{couponName}, #{discountType}
+		, #{expirationDate}, #{discountRate}, #{couponNote}, #{ownerNum} )
 	</insert>
 	<select id="empCouponSelectAll">
 		select * from empCoupon
@@ -53,4 +53,24 @@
 		delete from ownerCoupon 
 		where OWNER_NUM = #{userNum} and COUPON_NUM = #{couponNum}
 	</delete>
+	<select id="couponNumSelect" parameterType="string" resultType="string">
+		select coupon_num from empCoupon
+		where coupon_code = #{couponCode}
+		union 
+		select coupon_num from ownerCoupon
+		where coupon_code = #{couponCode}
+	</select>
+	<insert id="memberCouponInsert">
+		insert into memberCoupon (MEM_NUM, COUPON_NUM, COUPON_REGIST_DATE)
+		values (#{memNum}, #{couponNum}, SYSDATE)
+	</insert>
+	<select id="memberCouponSelectAll" parameterType="string" resultType="couponDTO">
+		select * from ownerCoupon
+		where coupon_code in
+		(select coupon_code from memberCoupon where mem_num = #{memNum})
+		union
+		select * from empCoupon
+		where coupon_code in
+		(select coupon_code from memberCoupon where mem_num = #{memNum})
+	</select>
 </mapper>

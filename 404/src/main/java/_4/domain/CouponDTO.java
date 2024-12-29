@@ -11,6 +11,7 @@ import lombok.Data;
 @Alias("couponDTO")
 public class CouponDTO {
 	String couponNum;
+	String couponCode;
 	String couponName;
 	String discountType;
 	Date expirationDate;

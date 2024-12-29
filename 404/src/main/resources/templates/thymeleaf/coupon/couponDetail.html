@@ -6,7 +6,12 @@
 </head>
 <body>
 <h1>[[${dto.couponName}]] 쿠폰</h1>
-<br><br>
+<th:block th:if="${session.auth.grade != 'member'}">
+<table border = "1">
+<th>쿠폰 코드</th><td colspan="2">[[${dto.couponCode}]]</td>
+</table>
+</th:block>
+<br>
 <table border = "1">
 <tr>
 <th>[[${dto.couponName}]]</th><td rowspan="2">[[${dto.discountType}]]</td>
@@ -24,6 +29,7 @@
 <tr>
 <th>쿠폰 안내</th><td colspan="2">[[${dto.couponNote}]]</td>
 </tr>
+<th:block th:if="${session.auth.grade != 'member'}">
 <tr>
 <td colspan="3" style="text-align:center;">
 <form action = "/coupon/couponModify" method = "POST">
@@ -32,6 +38,7 @@
 <a th:href = "|/coupon/couponDelete?couponNum=${dto.couponNum}|"><button type = "button">삭제</button></a>
 </form></td>
 </tr>
+</th:block>
 </table>
 
 </body>

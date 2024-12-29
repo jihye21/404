@@ -9,6 +9,7 @@ import lombok.Data;
 
 @Data
 public class CouponCommand {
+	String couponCode;
 	String couponName;
 	//전체 할인 혹은 상품 할인
 	String discountType;

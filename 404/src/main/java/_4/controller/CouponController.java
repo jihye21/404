@@ -14,11 +14,17 @@ import _4.service.coupon.CouponDetailService;
 import _4.service.coupon.CouponListService;
 import _4.service.coupon.CouponRegistService;
 import _4.service.coupon.CouponUpdateService;
+import _4.service.coupon.MemberCouponRegistService;
+import _4.service.coupon.memberCouponListService;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("coupon")
 public class CouponController {
+	@Autowired
+	memberCouponListService memberCouponListService;
+	@Autowired
+	MemberCouponRegistService memberCouponRegistService;
 	@Autowired
 	CouponDeleteService couponDeleteService;
 	@Autowired
@@ -66,5 +72,15 @@ public class CouponController {
 	public String couponDelete(@RequestParam String couponNum, HttpSession session) {
 		couponDeleteService.execute(couponNum, session);
 		return "redirect:couponList";
+	}
+	@GetMapping("memberCoupon")
+	public String memberCoupon(HttpSession session, Model model) {
+		memberCouponListService.execute(session, model);
+		return "thymeleaf/coupon/memberCoupon";
+	}
+	@PostMapping("memberCouponRegist")
+	public String memberCouponRegist(HttpSession session, CouponCommand couponCommand) {
+		memberCouponRegistService.execute(session, couponCommand);
+		return "redirect:memberCoupon";
 	}
 }

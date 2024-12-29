@@ -26,5 +26,11 @@ public interface CouponMapper {
 	public void ownerCouponDelete(String couponNum, String userNum);
 
 	public void empCouponDelete(String couponNum, String userNum);
+
+	public String couponNumSelect(String couponCode);
+	
+	public void memberCouponInsert(String memNum, String couponNum);
+
+	public List<CouponDTO> memberCouponSelectAll(String memNum);
 	
 }
