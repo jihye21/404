@@ -15,4 +15,18 @@ insert into book (<include refid="bookBaseColumn"/>) values (#{bookNum}, #{memNu
 <select id="bookSelectOne" parameterType="string" resultType="bookDTO">
 select <include refid="bookBaseColumn"/> from book where book_num = #{bookNum}
 </select>
+
+<select id="bookSelectAllWithMember" parameterType="string" resultType="bookDTO">
+select <include refid="bookBaseColumn"/> from book where mem_num = #{memberNum}
+</select>
+
+<select id="bookSelectAllWithStore" parameterType="string" resultType="bookDTO">
+select <include refid="bookBaseColumn"/> from book where store_num = #{storeNum}
+</select>
+
+
+
+<delete id="waitedBookDelete" parameterType="string">
+delete from book where mem_num = #{memberNum} and book_status = '결제대기중'
+</delete>
 </mapper>

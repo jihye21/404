@@ -43,6 +43,12 @@ public class InquireController {
 		return "thymeleaf/inquire/inquireList";
 	}
 	
+	@PostMapping("inquireList")
+	public String inquireList1	(Model model, HttpSession session) {
+		inquireListService.execute(model, session);
+		return "thymeleaf/inquire/inquireList";
+	}
+	
 	@GetMapping("inquirePage")
 	public String inquirePage() {
 		return "thymeleaf/inquire/inquirePage";

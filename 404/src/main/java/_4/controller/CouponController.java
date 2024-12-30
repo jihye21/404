@@ -41,6 +41,13 @@ public class CouponController {
 		couponListService.execute(session, model);
 		return "thymeleaf/coupon/couponList";
 	}
+	
+	@PostMapping("couponList")
+	public String couponList1(HttpSession session, Model model) {
+		couponListService.execute(session, model);
+		return "thymeleaf/coupon/couponList";
+	}
+	
 	@GetMapping("couponForm")
 	public String couponForm() {
 		return "thymeleaf/coupon/couponForm";

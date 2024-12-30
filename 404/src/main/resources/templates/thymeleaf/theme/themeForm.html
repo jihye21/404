@@ -7,16 +7,32 @@
 <script type="text/javascript">
 var timeInput = "<input type='text' size='4' name='themeTime'/>";
 var item = timeInput;
+$(function(){
+
+})
 
 function themeTimeAdd(){
 	$("#item").append(timeInput);
 }
 function partType(){
 	var plusBtn = "<input type='button' onclick='themeTimeAdd();' value='+'";
-	$("#timeType").append("<tr><td colspan='2'>" + "<span id='item'></span>" + plusBtn + "</td></tr>");
+	if($("#tr").length){
+		$("#tr").remove();
+		$("#timeType").append("<tr id='tr'><td colspan='2'>" + "<span id='item'></span>" + plusBtn + "</td></tr>");
+	}
+	else{
+		$("#timeType").append("<tr id='tr'><td colspan='2'>" + "<span id='item'></span>" + plusBtn + "</td></tr>");
+	}
+	
 }
 function allType(){
-	$("#timeType").append("<tr><td colspan='2'>종일권을 선택하셨습니다.</td></tr>");
+	if($("#tr").length){
+		$("#tr").remove();
+		$("#timeType").append("<tr id='tr'><td colspan='2'>종일권을 선택하셨습니다.<input type='hidden' name='themeTime' value='종일권'/></td></tr>");
+	}
+	else{
+		$("#timeType").append("<tr id='tr'><td colspan='2'>종일권을 선택하셨습니다.<input type='hidden' name='themeTime' value='종일권'/></td></tr>");
+	}
 }
 </script>
 </head>
@@ -31,7 +47,6 @@ function allType(){
 	<tr><td>제한 인원</td><td><input type="number" name="limitPeople" /></td></tr>
 	<tr><td>타임</td><td><button type="button" onclick="partType();">타임별</button>
 						<button type="button" onclick="allType();">종일권</button></td></tr>
-	
 </table>
 <table border="1" width="400">
 	<tr><th colspan="2"><input type="submit" value="등록" /></th></tr>

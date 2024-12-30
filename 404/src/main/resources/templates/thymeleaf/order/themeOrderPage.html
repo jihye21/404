@@ -12,6 +12,8 @@ var totalPrice = themePrice;
 $(function(){
 	$("#people").text(people);
 	$("#totalPrice").text(themePrice);
+	$("#lastPeople").val(people);
+	$("#lastPrice").val(totalPrice);
 })
 function minusPeople(){
 	if(people <=1 ) return false;
