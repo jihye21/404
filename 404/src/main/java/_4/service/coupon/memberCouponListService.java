@@ -20,13 +20,13 @@ public class memberCouponListService {
 	@Autowired
 	UserNumService userNumService;
 	public void execute(HttpSession session, Model model) {
-		List<CouponDTO> list = new ArrayList<CouponDTO>();
+		List<CouponDTO> couponList = new ArrayList<CouponDTO>();
 		
 		String memNum = userNumService.execute(session);
 		
-		list = couponMapper.memberCouponSelectAll(memNum);
+		couponList = couponMapper.memberCouponSelectAll(memNum);
 		
-		model.addAttribute("list", list);
+		model.addAttribute("couponList", couponList);
 		//오늘 날짜 
 		Date today = new Date();
 		model.addAttribute("today", today);

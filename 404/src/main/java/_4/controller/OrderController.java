@@ -48,7 +48,6 @@ public class OrderController {
 	
 	@PostMapping("payment")
 	public String payment(BookCommand bookCommand, Model model, HttpSession session) {
-		System.out.println(bookCommand);
 		String bookNum = themeBookInsertService.execute(bookCommand, session);
 		BookDTO dto = bookMapper.bookSelectOne(bookNum);
 		iniPayReqService.execute(dto, model);

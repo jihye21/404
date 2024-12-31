@@ -35,7 +35,15 @@ public class ThemeBookInsertService {
 		dto.setThemeTime(bookCommand.getThemeTime());
 		dto.setPeople(bookCommand.getPeople());
 		dto.setPrice(bookCommand.getPrice());
-		dto.setCouponNum(bookCommand.getCouponNum());
+		
+		System.out.println(bookCommand);
+		
+		if(bookCommand.getCouponNum() != null) {
+			dto.setCouponNum(bookCommand.getCouponNum());
+		}else {
+			dto.setCouponNum("미사용");
+		}
+		
 		dto.setDiscountedPrice(bookCommand.getDiscountedPrice());
 		//dto.setBookStatus("결제대기중");
 		bookMapper.bookInsert(dto);
