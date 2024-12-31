@@ -14,7 +14,8 @@ $(function(){
 	$("#totalPrice").text(themePrice);
 	$("#lastPeople").val(people);
 	$("#lastPrice").val(totalPrice);
-	$(".lastPrice").text(totalPrice);
+	$(".discountedPrice").text(totalPrice);
+	$("#discountedPrice").val(totalPrice);
 })
 function minusPeople(){
 	if(people <=1 ) return false;
@@ -24,6 +25,7 @@ function minusPeople(){
 	$("#totalPrice").text(totalPrice);
 	$("#lastPeople").val(people);
 	$("#lastPrice").val(totalPrice);
+	$("#discountedPrice").val(totalPrice);
 }
 function plusPeople(){
 	if(people >= "[[${themeDTO.limitPeople}]]"){
@@ -35,6 +37,7 @@ function plusPeople(){
 	$("#totalPrice").text(totalPrice);
 	$("#lastPeople").val(people);
 	$("#lastPrice").val(totalPrice);
+	$("#discountedPrice").val(totalPrice);
 }
 
 $(function(){
@@ -44,18 +47,19 @@ $(function(){
 		
 		var totalPrice = $("#totalPrice").text();
 		//쿠폰 적용 후 금액 (총 금액)
-		var lastPrice = 0;
+		var discountedPrice = 0;
 		
 		// n% 할인
 		if(selectedRadio < 99){
-			lastPrice = totalPrice - totalPrice * (selectedRadio / 100);
+			discountedPrice = totalPrice - totalPrice * (selectedRadio / 100);
 		}
 		// n원 할인
 		else if(selectedRadio >= 100){
-			lastPrice = totalPrice - selectedRadio;
+			discountedPrice = totalPrice - selectedRadio;
 		}
-		
-		$(".lastPrice").text(lastPrice);
+		discountedPrice = Math.ceil(discountedPrice);
+		$(".discountedPrice").text(discountedPrice);
+		$("#discountedPrice").val(discountedPrice);
 	});
 		
 		
@@ -68,6 +72,7 @@ $(function(){
 <input type="hidden" name="themeTime" th:value="${themeTime}"/>
 <input type="hidden" name="people" id="lastPeople"/>
 <input type="hidden" name="price" id="lastPrice"/>
+<input type="hidden" name="discountedPrice" id="discountedPrice" value ="0"/>
 <div style="width:800px;height:1200px;border:1px solid black;position:absolute;left:550px;" align=center>
 테마 명 : [[${themeDTO.themeName}]]<br/>
 시간 : [[${themeTime}]]<br/>
@@ -98,7 +103,7 @@ $(function(){
 </th:block>
 
 <tr>
-<td colspan="3">총 금액: <span class = "lastPrice"></span>₩</td>
+<td colspan="3">총 금액: <span class = "discountedPrice"></span>₩</td>
 </tr>
 <tr>
 <td colspan="3"><button type = "button" name = "useCoupon" class = "useCoupon">쿠폰 적용</button></td>

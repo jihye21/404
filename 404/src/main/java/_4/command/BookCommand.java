@@ -11,6 +11,7 @@ public class BookCommand {
 	String themeTime;
 	Integer people;
 	Integer price;
+	Integer discountedPrice;
 	String couponNum;
 	String bookStatus;
 }
