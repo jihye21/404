@@ -11,5 +11,5 @@ public class FriendDTO {
 	String memNum;
 	String friendNum;
 	Date friendRegistDate;
-	String memNickname;
+	String friendNickname;
 }

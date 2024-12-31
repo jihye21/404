@@ -9,4 +9,8 @@ public interface LoginMapper {
 
 	public String selectIdCheck(String memId);
 
+	public String selectFriendListCheck(String friendNickName);
+
+	public String selectFriendReqCheck(String friendNickname);
+
 }
