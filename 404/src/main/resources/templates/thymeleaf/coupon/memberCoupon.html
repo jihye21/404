@@ -14,6 +14,7 @@
 <th:block th:each="list:${list}">
 <input type = "hidden" class = "expirationDate" name = "expirationDate" th:value = "${list.expirationDate}">
 <th:block th:if="${today < list.expirationDate}">
+<th:block th:if = "${list.couponStatus != '사용완료'}">
 <a th:href = "|/coupon/couponDetail?couponNum=${list.couponNum}|" style="text-decoration: none; color: black;">
 <table border = "1">
 <tr>
@@ -27,6 +28,7 @@
 </tr>
 </table>
 </a>
+</th:block>
 </th:block>
 </th:block>
 

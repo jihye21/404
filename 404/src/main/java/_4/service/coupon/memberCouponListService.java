@@ -27,7 +27,6 @@ public class memberCouponListService {
 		list = couponMapper.memberCouponSelectAll(memNum);
 		
 		model.addAttribute("list", list);
-		
 		//오늘 날짜 
 		Date today = new Date();
 		model.addAttribute("today", today);

@@ -85,6 +85,7 @@ $(function(){
 <input type = "hidden" name = "couponNum" th:value = "${list.couponNum}">
 <input type = "hidden" class = "expirationDate" name = "expirationDate" th:value = "${list.expirationDate}">
 <th:block th:if="${today < list.expirationDate}">
+<th:block th:if = "${list.couponStatus != '사용완료'}">
 <a th:href = "|/coupon/couponDetail?couponNum=${list.couponNum}|" style="text-decoration: none; color: black;">
 
 <tr>
@@ -99,6 +100,7 @@ $(function(){
 </tr>
 
 </a>
+</th:block>
 </th:block>
 </th:block>
 

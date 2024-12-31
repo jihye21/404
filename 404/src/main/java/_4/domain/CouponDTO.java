@@ -16,6 +16,7 @@ public class CouponDTO {
 	String discountType;
 	Date expirationDate;
 	Integer discountRate;
+	String couponStatus;
 	String couponNote;
 	String empNum;
 	String ownerNum;

@@ -65,12 +65,26 @@
 		values (#{memNum}, #{couponNum}, SYSDATE)
 	</insert>
 	<select id="memberCouponSelectAll" parameterType="string" resultType="couponDTO">
-		select * from ownerCoupon
+		select mem_num as memNum, m.coupon_num as couponNum, coupon_regist_date as couponRegistDate, coupon_status as couponStatus, 
+		coupon_code as couponCode, coupon_name as couponName, discount_type as discountType, expiration_date as expirationDate, discount_rate as discountRate
+		, coupon_note as couponNote, emp_num as empNum 
+		from memberCoupon m 
+		join empCoupon e 
+		on e.coupon_Num = m.coupon_Num 
+		where mem_num = #{memNum}
+		union
+		select mem_num as memNum, m.coupon_num as couponNum, coupon_regist_date as couponRegistDate, coupon_status as couponStatus, 
+		coupon_code as couponCode, coupon_name as couponName, discount_type as discountType, expiration_date as expirationDate, discount_rate as discountRate
+		, coupon_note as couponNote, owner_num as ownerNum  from memberCoupon m 
+		join ownerCoupon o  
+		on o.coupon_Num = m.coupon_Num 
+		where mem_num = #{memNum}
+		<!--  select * from ownerCoupon
 		where coupon_num in
 		(select coupon_num from memberCoupon where mem_num = #{memNum})
 		union
 		select * from empCoupon
 		where coupon_num in
-		(select coupon_num from memberCoupon where mem_num = #{memNum})
+		(select coupon_num from memberCoupon where mem_num = #{memNum})-->
 	</select>
 </mapper>
