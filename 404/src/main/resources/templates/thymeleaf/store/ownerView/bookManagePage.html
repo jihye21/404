@@ -3,8 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
 </head>
 <body>
-예약 관리 페이지입니다.
+<table border="1" align="center" width="600">
+	<tr><th>예약 리스트</th></tr>
+	<tr th:each="dto, idx : ${list}"><td>
+		<div id="" th:attr="onclick=|bookReceipt('${dto.bookNum}')|">
+			예약 번호 : [[${dto.bookNum}]]
+		</div>
+	</td></tr>
+</table>
 </body>
 </html>

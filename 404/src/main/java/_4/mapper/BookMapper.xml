@@ -24,7 +24,13 @@ select <include refid="bookBaseColumn"/> from book where mem_num = #{memberNum}
 select <include refid="bookBaseColumn"/> from book where store_num = #{storeNum}
 </select>
 
+<update id="themeTimeUpdate">
+update book set theme_time = #{themeTime} where book_num = #{bookNum}
+</update>
 
+<update id="bookStatusUpdate">
+update book set book_status = #{bookStatus} where book_num = #{bookNum}
+</update>
 
 <delete id="waitedBookDelete" parameterType="string">
 delete from book where mem_num = #{memberNum} and book_status = '결제대기중'

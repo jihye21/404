@@ -57,32 +57,35 @@ height: 2000px;
 justify-content: center;
 }
 
-
-
-
 </style>
 <script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <script type="text/javascript">
 $(function(){
 	menuManage();
 	$("#menuManage").click(function(){
+		bookReceipt("1");
 		menuManage();
 	});
 	$("#storeInfoManage").click(function(){
+		bookReceipt("1");
 		storeInfoManage();
 	});
 	$("#bookManage").click(function(){
 		bookManage();
 	});
 	$("#reviewManage").click(function(){
+		bookReceipt("1");
 		reviewManage();
 	});
 	$("#inquire").click(function(){
+		bookReceipt("1");
 		inquire();
 	});
 	$("#couponManage").click(function(){
+		bookReceipt("1");
 		couponManage();
-	})
+	});
+
 });
 function menuManage(){
 	$.ajax({
@@ -125,6 +128,20 @@ function bookManage(){
 			alert("서버 오류");
 		}
 	})
+}
+function bookReceipt(bookNum){
+	$.ajax({
+		type: "post",
+		url: "/book/bookReceipt",
+		data: {"bookNum":bookNum},
+		dataType: "html",
+		success: function(result){
+			$(".right-bar").html(result);
+		},
+		error: function(){
+			alert("오류");
+		}
+	});
 }
 function reviewManage(){
 	$.ajax({
