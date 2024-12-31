@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script type="text/javascript">
+function bookOk(bookNum){
+	$.ajax({
+		type: "post",
+		url: "/book/bookOk",
+		data: {"bookNum":bookNum},
+		success: function(){
+			bookReceipt(bookNum);
+		},
+		error: function(){
+			alert("오류");
+		}
+	});
+}
+function bookNo(bookNum){
+	$.ajax({
+		type: "post",
+		url: "/book/bookNo",
+		data: {"bookNum":bookNum},
+		success: function(){
+			bookReceipt(bookNum);
+		},
+		error: function(){
+			alert("오류");
+		}
+	});
+}
+function bookFinished(bookNum){
+	$.ajax({
+		type: "post",
+		url: "/book/bookFinished",
+		data: {"bookNum":bookNum},
+		success: function(){
+			bookReceipt(bookNum);
+		},
+		error: function(){
+			alert("오류");
+		}
+	});
+}
+</script>
+</head>
+<body>
+<table border="1" align="center">
+	<tr><th colspan="2">예약 상세 정보</th></tr>
+	<tr><td>예약 번호</td><td>[[${dto.bookNum}]]</td></tr>
+	<tr><td>회원 번호</td><td>[[${dto.memNum}]]</td></tr>
+	<tr><td>테마 번호</td><td>[[${dto.themeNum}]]</td></tr>
+	<tr><td>테마 시간</td><td>[[${dto.themeTime}]]</td></tr>
+	<tr><td>인원</td><td>[[${dto.people}]]</td></tr>
+	<tr><td>가격</td><td>[[${dto.price}]]</td></tr>
+	<tr><td>쿠폰</td><td>[[${dto.couponNum}]]</td></tr>
+	<tr><td>예약 상태</td><td>[[${dto.bookStatus}]]</td></tr>
+	<th:block th:if="${dto.bookStatus == '결제완료'}">
+		<tr><th colspan="2"><button type="button" th:attr="onclick=|bookOk('${dto.bookNum}')|">승인</button> 
+							<button type="button" th:attr="onclick=|bookNo('${dto.bookNum}')|">거절</button></th></tr>
+	</th:block>
+	<th:block th:if="${dto.bookStatus == '예약완료'}">
+		<tr><th colspan="2"><button type="button" th:attr="onclick=|bookFinished('${dto.bookNum}')|">방문 완료</button></th></tr>
+	</th:block>
+	<th:block th:if="${dto.bookStatus == '방문완료'}">
+		<tr><th colspan="2">방문이 완료된 예약 내역입니다.</th></tr>
+	</th:block>
+</table>
+</body>
+</html>

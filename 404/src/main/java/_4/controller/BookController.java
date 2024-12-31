@@ -93,4 +93,10 @@ public class BookController {
 		String bookStatus = "예약취소";
 		bookMapper.bookStatusUpdate(bookNum, bookStatus);
 	}
+	
+	@PostMapping("bookFinished")
+	public @ResponseBody void bookFinished(@RequestParam("bookNum") String bookNum) {
+		String bookStatus = "방문완료";
+		bookMapper.bookStatusUpdate(bookNum, bookStatus);
+	}
 }
