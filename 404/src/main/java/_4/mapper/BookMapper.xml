@@ -9,7 +9,7 @@ book_num, mem_num, store_num, theme_num, theme_time, people, price, coupon_num, 
 </sql>
 <insert id="bookInsert" parameterType="bookDTO">
 insert into book (<include refid="bookBaseColumn"/>) values (#{bookNum}, #{memNum}, #{storeNum}, #{themeNum}, #{themeTime}
-													  , #{people}, #{price}, null, '결제대기중')
+													  , #{people}, #{price}, #{couponNum}, '결제대기중')
 </insert>
 
 <select id="bookSelectOne" parameterType="string" resultType="bookDTO">

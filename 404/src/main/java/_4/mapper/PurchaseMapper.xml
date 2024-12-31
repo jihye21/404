@@ -15,4 +15,13 @@
 	<update id="paymentCheck" parameterType="string">
 	update book set book_status = '결제완료' where book_num = #{bookNum}
 	</update>
+	<!-- 쿠폰 사용 완료 처리 -->
+	<update id="patmentCouponCheck" parameterType="string">
+	update memberCoupon set COUPON_STATUS = '사용완료' 
+	where COUPON_NUM = (select coupon_num from book 
+	where book_num = #{bookNum}) 
+	and MEM_NUM = (select mem_num from book
+	where book_num = #{bookNum})
+	
+	</update>
 </mapper>

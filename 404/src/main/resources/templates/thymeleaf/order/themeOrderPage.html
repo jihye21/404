@@ -14,6 +14,7 @@ $(function(){
 	$("#totalPrice").text(themePrice);
 	$("#lastPeople").val(people);
 	$("#lastPrice").val(totalPrice);
+	$(".lastPrice").text(totalPrice);
 })
 function minusPeople(){
 	if(people <=1 ) return false;
@@ -35,6 +36,30 @@ function plusPeople(){
 	$("#lastPeople").val(people);
 	$("#lastPrice").val(totalPrice);
 }
+
+$(function(){
+	//쿠폰 적용 후 금액 표기
+	$(".useCoupon").click(function(){
+		var selectedRadio = $("input[type=radio][name=selectCoupon]:checked").val();
+		
+		var totalPrice = $("#totalPrice").text();
+		//쿠폰 적용 후 금액 (총 금액)
+		var lastPrice = 0;
+		
+		// n% 할인
+		if(selectedRadio < 99){
+			lastPrice = totalPrice - totalPrice * (selectedRadio / 100);
+		}
+		// n원 할인
+		else if(selectedRadio >= 100){
+			lastPrice = totalPrice - selectedRadio;
+		}
+		
+		$(".lastPrice").text(lastPrice);
+	});
+		
+		
+});
 </script>
 </head>
 <body>
@@ -48,6 +73,40 @@ function plusPeople(){
 시간 : [[${themeTime}]]<br/>
 인원 : <a href="javascript:minusPeople()">-</a> <span id="people"></span> <a href="javascript:plusPeople()">+</a> <br/>
 가격 : <span id="totalPrice"></span><br/>
+<br>
+<!-- 쿠폰 적용 하는 부분 -->
+<table border = "1">
+<th:block th:each="list:${list}">
+<input type = "hidden" name = "couponNum" th:value = "${list.couponNum}">
+<input type = "hidden" class = "expirationDate" name = "expirationDate" th:value = "${list.expirationDate}">
+<th:block th:if="${today < list.expirationDate}">
+<a th:href = "|/coupon/couponDetail?couponNum=${list.couponNum}|" style="text-decoration: none; color: black;">
+
+<tr>
+<td rowspan="2"><input type = "radio" name = "selectCoupon" th:value = "${list.discountRate}"></td>
+<th>[[${list.couponName}]]</th><td rowspan="2">[[${list.discountType}]]</td>
+</tr>
+<tr>
+<th><h1>[[${list.discountRate}]]
+<th:block th:if="${list.discountRate < 100}">%</th:block>
+<th:block th:if="${list.discountRate >= 100}">₩</th:block>
+</h1></th>
+</tr>
+
+</a>
+</th:block>
+</th:block>
+
+<tr>
+<td colspan="3">총 금액: <span class = "lastPrice"></span>₩</td>
+</tr>
+<tr>
+<td colspan="3"><button type = "button" name = "useCoupon" class = "useCoupon">쿠폰 적용</button></td>
+</tr>
+
+</table>
+
+
 <button type="submit">결제하기</button>
 </div>
 </form>

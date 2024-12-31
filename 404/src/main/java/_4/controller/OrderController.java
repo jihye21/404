@@ -14,12 +14,16 @@ import _4.mapper.ThemeMapper;
 import _4.mapper.service.AutoNumService;
 import _4.mapper.service.UserNumService;
 import _4.service.book.ThemeBookInsertService;
+import _4.service.coupon.CouponListService;
+import _4.service.coupon.memberCouponListService;
 import _4.service.purchase.IniPayReqService;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("order")
 public class OrderController {
+	@Autowired
+	memberCouponListService memberCouponListService;
 	@Autowired
 	ThemeMapper themeMapper;
 	@Autowired
@@ -34,10 +38,11 @@ public class OrderController {
 	ThemeBookInsertService themeBookInsertService;
 	
 	@PostMapping("themeOrder")
-	public String themeOrder(String themeNum, String themeTime, Model model) {
+	public String themeOrder(String themeNum, String themeTime, Model model, HttpSession session) {
 		ThemeDTO themeDTO = themeMapper.themeSelectOne(themeNum);
 		model.addAttribute("themeDTO", themeDTO);
 		model.addAttribute("themeTime", themeTime);
+		memberCouponListService.execute(session, model);
 		return "thymeleaf/order/themeOrderPage";
 	}
 	

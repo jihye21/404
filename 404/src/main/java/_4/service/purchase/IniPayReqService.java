@@ -9,10 +9,11 @@ import _4.domain.BookDTO;
 public class IniPayReqService {
 	
 	public void execute(BookDTO dto, Model model) {	
-		Integer purchasePrice = dto.getPrice();
+		//= dto.getPrice();
+		Integer purchasePrice;
 		String deliveryName = dto.getMemNum();
 		String purchaseName = dto.getStoreNum();
-		Integer deliveryPhone = 1234;
+		//Integer deliveryPhone = 1234;
 		String purchaseNum = dto.getBookNum();
 		
 		String mid					= "INIpayTest";		                    // 상점아이디					
@@ -50,9 +51,9 @@ public class IniPayReqService {
 		
 		model.addAttribute("deliveryName", deliveryName);
 		model.addAttribute("purchaseName", purchaseName);
-		model.addAttribute("deliveryPhone", deliveryPhone);
+		//model.addAttribute("deliveryPhone", deliveryPhone);
 		
-		//상품명 추가하기!!
+		//상품명
 		String goodsName = dto.getThemeNum();
 		model.addAttribute("goodsName", goodsName);
 	}

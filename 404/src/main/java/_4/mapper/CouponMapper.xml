@@ -66,11 +66,11 @@
 	</insert>
 	<select id="memberCouponSelectAll" parameterType="string" resultType="couponDTO">
 		select * from ownerCoupon
-		where coupon_code in
-		(select coupon_code from memberCoupon where mem_num = #{memNum})
+		where coupon_num in
+		(select coupon_num from memberCoupon where mem_num = #{memNum})
 		union
 		select * from empCoupon
-		where coupon_code in
-		(select coupon_code from memberCoupon where mem_num = #{memNum})
+		where coupon_num in
+		(select coupon_num from memberCoupon where mem_num = #{memNum})
 	</select>
 </mapper>

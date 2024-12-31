@@ -9,4 +9,5 @@ public interface PurchaseMapper {
 
 	public void paymentInsert(PaymentDTO dto);
 	public void paymentCheck(String bookNum);
+	public void patmentCouponCheck(String bookNum);
 }
