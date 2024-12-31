@@ -8,11 +8,11 @@
 친구 목록<br />
 <ul>
 	<li><a href="friendAdd">친구 추가</a></li>
-	<li><a href="friendAccList">친구 요청 목록</a></li>
+	<li><a href="friendAccList">친구 요청 목록([[${friendAddCount}]])</a></li>
 </ul>
 <table border="1" width="600" align="center">
 <tr><th>친구 이름</th></tr>
-<tr th:each=" dto : ${list}"><td>[[${dto.memNum}]]</td></tr>
+<tr th:each="dto : ${list}"><td><a th:href="|friendDetail?friendNum=${dto.friendNum}|">[[${dto.friendNickname}]]</a></td></tr>
 </table>
 </body>
 </html>

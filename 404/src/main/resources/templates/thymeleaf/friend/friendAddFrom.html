@@ -3,13 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script type = "text/javascript">
+$(function(){
+	// 친구 중복 검사
+	$("#friendNickname").on("change keyup", function(){
+		$.ajax({
+			type : 'post',
+			url : "/login/friendNickCheck",
+			data : {"userFriend" : $("#friendNickname").val()},
+			dataType : 'text',
+			success : function(result) {
+				$("#friendCheck").text(result)
+				if(result.trim() == "친구 가능한 닉네임입니다."){
+					$("#friendCheck").css("color", "blue");
+				}else {
+					$("#friendCheck").css("color", "red");
+				}
+			},
+			error : function() {}
+		});
+	});
+});
+</script>
 </head>
 <body>
 친구 추가 페이지 입니다.<br />
 <a href="주소"></a>
 <form action="friendAddReq" method="post" >
 <table border="1" width="600" align="center">
-<tr><td>닉네임</td><td><input type="text" name="nickName" /></td></tr>
+<tr><td>닉네임</td><td><input type="text" name="nickName" id="friendNickname" />
+					<span id="friendCheck"></span></td></tr>
 <tr><td colspan="2" align="center"><input type="submit" value="친구추가" /></td></tr>
 </table>
 </form>

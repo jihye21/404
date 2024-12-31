@@ -14,7 +14,10 @@
 	
 <tr><td>아이디</td>
 	<td>[[${dto.memId}]]</td></tr>
-
+	
+<tr><td>닉네임</td>
+	<td>[[${dto.memNickname}]]</td></tr>
+	
 <tr><td>생년월일</td>
 	<td>[[${#dates.format(dto.memBirthDate, 'yyyy-MM-dd')}]]</td></tr>
 
@@ -23,6 +26,7 @@
 
 <tr><td>이메일</td>
 	<td>[[${dto.memEmail}]]</td></tr>
+
 </table>
 </body>
 </html>
