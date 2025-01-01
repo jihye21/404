@@ -45,7 +45,7 @@ $(function(){
 	$(".useCoupon").click(function(){
 	
 		var selectedRadio = $("input[type=radio][name=selectCoupon]:checked").val();
-		
+		var selectedCoupon = $("input[type=radio][name=selectCoupon]:checked").closest(".couponNum");
 		if(selectedRadio != undefined){
 			var totalPrice = $("#totalPrice").text();
 			//쿠폰 적용 후 금액 (총 금액)
@@ -59,12 +59,11 @@ $(function(){
 			else if(selectedRadio >= 100){
 				discountedPrice = totalPrice - selectedRadio;
 			}
-			
+			$(selectedCoupon).attr("name", "couponNum");
 			discountedPrice = Math.ceil(discountedPrice);
 			$(".discountedPrice").text(discountedPrice);
 			$("#discountedPrice").val(discountedPrice);
 		}
-		
 		
 	});
 		

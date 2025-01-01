@@ -19,6 +19,13 @@ public class MemberCouponRegistService {
 		String couponCode = couponCommand.getCouponCode();
 		
 		String couponNum = couponMapper.couponNumSelect(couponCode);
-		couponMapper.memberCouponInsert(memNum, couponNum);
+		
+		//이미 등록된 쿠폰인지 확인
+		String couponCheck = couponMapper.memberCouponRegistCheck(memNum, couponNum);
+		
+		if(!"발급된 쿠폰".equals(couponCheck)) {
+			couponMapper.memberCouponInsert(memNum, couponNum);
+		}
+		
 	}
 }
