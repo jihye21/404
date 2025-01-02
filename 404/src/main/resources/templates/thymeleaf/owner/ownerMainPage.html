@@ -63,26 +63,26 @@ justify-content: center;
 $(function(){
 	menuManage();
 	$("#menuManage").click(function(){
-		bookReceipt("1");
+		//bookReceipt("1");
 		menuManage();
 	});
 	$("#storeInfoManage").click(function(){
-		bookReceipt("1");
+		//bookReceipt("1");
 		storeInfoManage();
 	});
 	$("#bookManage").click(function(){
-		bookManage();
+		//bookManage();
 	});
 	$("#reviewManage").click(function(){
-		bookReceipt("1");
+		//bookReceipt("1");
 		reviewManage();
 	});
 	$("#inquire").click(function(){
-		bookReceipt("1");
+		//bookReceipt("1");
 		inquire();
 	});
 	$("#couponManage").click(function(){
-		bookReceipt("1");
+		//bookReceipt("1");
 		couponManage();
 	});
 
@@ -147,7 +147,7 @@ function reviewManage(){
 	$.ajax({
 		type: "post",
 		url : "/owner/reviewManagePage",
-		data: {"ownerNum":"[[${dto.ownerNum}]]"},
+		data: {"storeNum":"[[${dto.storeNum}]]"},
 		dataType: "html",
 		success: function(result){
 			$(".content").html(result);

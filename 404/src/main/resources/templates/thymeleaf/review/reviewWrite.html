@@ -106,13 +106,10 @@ for (let i = 0; i < stars.length; i++) {
 </head>
 <body>
 
-<form action="reviewWrite" method="post" >
-	<!-- 
-	<input type="hidden" name="storeNum" th:value="${}" />
-	
-	 -->
-	 <input type="hidden" name="memNum" />
-	 <input type="hidden" name="reviewNum" />
+<form action="/review/reviewWrite" method="post" >
+
+	 <input type="hidden" name="bookNum" th:value="${dto.bookNum}"/>
+	 <input type="hidden" name="storeNum" th:value="${dto.storeNum}"/>
 	 
  	<table border="1" width="600" align="center">
  	<!-- 별점 기능
@@ -172,7 +169,7 @@ for (let i = 0; i < stars.length; i++) {
  	 -->
 	
 	
-	<tr><td colspan="2">내용</td></tr>
+	<tr><td colspan="2">리뷰를 작성해 주세요!</td></tr>
 	<tr><td colspan="2"><textarea rows="5" cols="60" name="reviewContents"></textarea></td></tr>
 	<tr><td colspan="2" align="center"><input type="submit" value="작성완료" /></td>
 	</table>

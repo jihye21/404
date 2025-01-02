@@ -3,8 +3,38 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script type="text/javascript">
+function reviewAnswerForm(){
+	$.ajax({
+		type: "post",
+		url: "/review/reviewAnswer",
+		data: {"reviewNum":reviewNum},
+		success: function(){
+			$("#reviewFormBtn").html(item);	
+		},
+		error: function(){
+			alert("오류");
+		}
+	})
+	
+}
+function reviewAnswer(reviewNum){
+	
+}
+</script>
 </head>
 <body>
-리뷰 관리 페이지입니다.
+<table border="1" align="center">
+	<tr><th>리뷰 목록</th></tr>
+	<tr th:each="dto : ${list}"><td>
+		[[${dto.memNum}]]<br/>
+		[[${dto.reviewDate}]]<br/>
+		테마 내역 <br/>
+		[[${dto.reviewContents}]]
+		<br/>
+		<span id="reviewFormBtn"><button type="button" th:attr="onclick=|reviewAnswerForm()|">답변하기</button></span>
+	</td></tr>
+</table>
 </body>
 </html>
