@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+리뷰 목록 페이지<br />
+<ul>
+	<li><a href="/">홈으로</a></li>
+</ul>
+<table border="1" width="600" align="center">
+	<tr><td colspan="4" align="center">리뷰 목록</td></tr>
+	<tr><th>리뷰 번호</th><th>작성자</th><th>내용</th><th>작성일</th></tr>
+	<tr th:each=" dto : ${list}" >
+		<td>[[${dto.reviewNum}]]</td>
+		<td>[[${dto.memId}]]</td>
+		<td><a th:href="|reviewDetail?reviewNum=${dto.reviewNum}|">자세히 보기</a></td>
+		<td>[[${dto.reviewContents}]]</td>
+	</tr>
+	
+	
+	<tr><td colspan="4" align="center"><button type="button" onclick="location.href='reviewWrite'">리뷰 작성</button></td></tr>
+</table>
+</body>
+</html>
