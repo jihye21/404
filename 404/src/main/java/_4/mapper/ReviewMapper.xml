@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="_4.mapper.ReviewMapper">
+
+<insert id="reviewInsert" parameterType="reviewDTO">
+insert into review (review_num, review_contents, mem_Num, review_date)
+values (#{reviewNum}, #{reviewContents}, #{memNum}, sysdate)
+</insert>
+
+<select id="reviewSelectOne" parameterType="string" resultType="reviewDTO" >
+select review_num, review_contents, mem_num, review_date
+from review
+where review_num = #{reviewNum}
+</select>
+
+<select id="reviewSelectAll" resultType="reviewDTO">
+select review_num, review_contents, mem_num, review_date
+from review
+</select>
+
+<update id="reviewUpdate" parameterType="reviewDTO">
+update review set
+	review_contents = #{reviewContents},
+	review_date = sysdate
+where review_num = #{reviewNum}
+</update>
+
+<delete id="reviewDelete" parameterType="string">
+delete from review where review_num = #{reviewNum}
+</delete>
+</mapper>
