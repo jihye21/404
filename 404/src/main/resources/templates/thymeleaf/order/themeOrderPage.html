@@ -43,8 +43,8 @@ function plusPeople(){
 $(function(){
 	//쿠폰 적용 후 금액 표기
 	$(".useCoupon").click(function(){
-		//모든 couponNum의 name을 "coupon"으로 초기화
-		var couponSelectAll = $(".couponNum").attr("name", "coupon");
+		//모든 .couponNum의 name을 "coupon"으로 초기화
+		$(".couponNum").attr("name", "coupon");
 		//선택된 라디오 버튼의 값
 		var selectedRadio = $("input[type=radio][name=selectCoupon]:checked").val();
 		//선택된 라디오 버튼의 쿠폰 번호
