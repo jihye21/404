@@ -11,12 +11,14 @@ public interface ReviewMapper {
 
 	public void reviewInsert(ReviewDTO dto);
 
-	public List<ReviewDTO> reviewSelectAll();
-
+	public List<ReviewDTO> reviewSelectAll(String reviewNum);
 	public ReviewDTO reviewSelectOne(String reviewNum);
+	public ReviewDTO reviewSelectOneWithBookNum(String bookNum);
 
 	public void reviewUpdate(ReviewDTO dto);
 
 	public void reviewDelete(String reviewNum);
+	
+	
 
 }

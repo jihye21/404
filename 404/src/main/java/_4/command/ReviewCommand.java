@@ -6,10 +6,11 @@ import lombok.Data;
 
 @Data
 public class ReviewCommand {
-	// String storeNum;
-	String memNum;
-		
 	String reviewNum;
+	String bookNum;
 	String reviewContents;
+	String memNum;
+	String storeNum;
 	Date reviewDate;
+	String revieAnwserContents;
 }

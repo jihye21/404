@@ -3,21 +3,29 @@
 	"-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="_4.mapper.ReviewMapper">
+<sql id="reviewBaseColumn">
+review_num, book_num, mem_num, store_num, review_contents, review_date, review_answer_contents
+</sql>
 
 <insert id="reviewInsert" parameterType="reviewDTO">
-insert into review (review_num, review_contents, mem_Num, review_date)
-values (#{reviewNum}, #{reviewContents}, #{memNum}, sysdate)
+insert into review (<include refid="reviewBaseColumn"/>)
+ values (#{reviewNum}, #{bookNum}, #{memNum}, #{storeNum}, #{reviewContents}, sysdate, null)
 </insert>
 
 <select id="reviewSelectOne" parameterType="string" resultType="reviewDTO" >
-select review_num, review_contents, mem_num, review_date
-from review
-where review_num = #{reviewNum}
+select <include refid="reviewBaseColumn"/>
+ from review
+ where review_num = #{reviewNum}
 </select>
 
-<select id="reviewSelectAll" resultType="reviewDTO">
-select review_num, review_contents, mem_num, review_date
-from review
+<select id="reviewSelectAll" parameterType="string" resultType="reviewDTO">
+select <include refid="reviewBaseColumn"/>
+ from review
+ where store_num = #{storeNum}
+</select>
+
+<select id="reviewSelectOneWithBookNum" parameterType="string" resultType="reviewDTO">
+select <include refid="reviewBaseColumn"/> from review where book_num = #{bookNum}
 </select>
 
 <update id="reviewUpdate" parameterType="reviewDTO">

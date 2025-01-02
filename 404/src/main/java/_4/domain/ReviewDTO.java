@@ -9,10 +9,11 @@ import lombok.Data;
 @Data
 @Alias("reviewDTO")
 public class ReviewDTO {
-	// String storeNum;
-	String memNum;
-	
 	String reviewNum;
+	String bookNum;
 	String reviewContents;
+	String memNum;
+	String storeNum;
 	Date reviewDate;
+	String revieAnwserContents;
 }
