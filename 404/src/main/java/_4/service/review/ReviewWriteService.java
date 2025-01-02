@@ -19,7 +19,7 @@ public class ReviewWriteService {
 		ReviewDTO dto = new ReviewDTO();
 		String autoNum = autoNumService.execute("review", "review_num", "rev_");
 		dto.setReviewNum(autoNum);
-		dto.setMemId(reviewCommand.getMemId());
+		dto.setMemNum(reviewCommand.getMemNum());
 		dto.setReviewContents(reviewCommand.getReviewContents());
 		reviewMapper.reviewInsert(dto);
 	}

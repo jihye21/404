@@ -13,7 +13,7 @@ public interface ReviewMapper {
 
 	public List<ReviewDTO> reviewSelectAll();
 
-	public ReviewDTO reviewSelectOne(String memNum);
+	public ReviewDTO reviewSelectOne(String reviewNum);
 
 	public void reviewUpdate(ReviewDTO dto);
 

@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class ReviewCommand {
 	// String storeNum;
-	String memId;
+	String memNum;
 		
 	String reviewNum;
 	String reviewContents;

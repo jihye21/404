@@ -10,7 +10,7 @@ import lombok.Data;
 @Alias("reviewDTO")
 public class ReviewDTO {
 	// String storeNum;
-	String memId;
+	String memNum;
 	
 	String reviewNum;
 	String reviewContents;

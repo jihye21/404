@@ -5,18 +5,18 @@
 <mapper namespace="_4.mapper.ReviewMapper">
 
 <insert id="reviewInsert" parameterType="reviewDTO">
-insert into review (review_num, review_contents, mem_id, review_date)
-values (#{reviewNum}, #{reviewContents}, #{memId}, sysdate)
+insert into review (review_num, review_contents, mem_Num, review_date)
+values (#{reviewNum}, #{reviewContents}, #{memNum}, sysdate)
 </insert>
 
 <select id="reviewSelectOne" parameterType="string" resultType="reviewDTO" >
-select review_num, review_contents, mem_id, review_date
+select review_num, review_contents, mem_num, review_date
 from review
 where review_num = #{reviewNum}
 </select>
 
 <select id="reviewSelectAll" resultType="reviewDTO">
-select review_num, review_contents, mem_id, review_date
+select review_num, review_contents, mem_num, review_date
 from review
 </select>
 

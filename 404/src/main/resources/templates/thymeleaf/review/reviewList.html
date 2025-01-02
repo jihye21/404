@@ -14,7 +14,7 @@
 	<tr><th>리뷰 번호</th><th>작성자</th><th>내용</th><th>작성일</th></tr>
 	<tr th:each=" dto : ${list}" >
 		<td>[[${dto.reviewNum}]]</td>
-		<td>[[${dto.memId}]]</td>
+		<td>[[${dto.memNum}]]</td>
 		<td><a th:href="|reviewDetail?reviewNum=${dto.reviewNum}|">자세히 보기</a></td>
 		<td>[[${dto.reviewContents}]]</td>
 	</tr>
