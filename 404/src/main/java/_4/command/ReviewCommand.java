@@ -13,4 +13,5 @@ public class ReviewCommand {
 	String storeNum;
 	Date reviewDate;
 	String reviewAnwserContents;
+	String starRate;
 }

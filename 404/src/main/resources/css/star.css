@@ -1,52 +1,38 @@
 @charset "UTF-8";
-.wrap {
-  height: 100vh;
-  min-height: 400px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  gap: 32px;
-}
-
-h1 {
-  font-size: 40px;
-  font-weight: 600;
-}
-
-.rating {
-  float: none;
-  width: 200px;
+.star-rating {
   display: flex;
 }
-.rating__input {
-  display: none;
+
+.star {
+  appearance: none;
+  padding: 1px;
 }
-.rating__label {
-  width: 20px;
-  overflow: hidden;
-  cursor: pointer;
+
+.star::after {
+  content: '☆';
+  color: hsl(60, 80%, 45%);
+  font-size: 20px;
 }
-.rating__label .star-icon {
-  width: 20px;
-  height: 40px;
-  display: block;
-  position: relative;
-  left: 0;
-  background-image: url("https://velog.velcdn.com/images/jellykelly/post/9957327f-f358-4c25-9989-5bb3dd5755d6/image.svg");
-  background-repeat: no-repeat;
-  background-size: 40px;
+
+.star:hover::after {
+  content: '★';
 }
-.rating__label .star-icon.filled {
-  background-image: url(" https://velog.velcdn.com/images/jellykelly/post/10caf033-b0ef-4d58-804b-6e33395e4ea5/image.svg");
+
+.star:has(~ .star:hover)::after {
+  content: '★';
 }
-.rating__label--full .star-icon {
-  background-position: right;
+
+.star:checked::after,
+.star:has(~ .star:checked)::after {
+  content: '★';
 }
-.rating__label--half .star-icon {
-  background-position: left;
+.star:hover::after,
+.star:has(~ .star:hover)::after,
+.star:checked::after,
+.star:has(~ .star:checked)::after {
+  content: '★';
 }
-.rating.readonly .star-icon {
-  opacity: 0.7;
-  cursor: default;
+
+.star:hover ~ .star::after {
+  content: '☆';
 }

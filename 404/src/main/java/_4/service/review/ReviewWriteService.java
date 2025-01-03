@@ -30,6 +30,7 @@ public class ReviewWriteService {
 		dto.setReviewContents(reviewCommand.getReviewContents());
 		dto.setMemNum(memberNum);
 		dto.setStoreNum(reviewCommand.getStoreNum());
+		dto.setStarRate(reviewCommand.getStarRate());
 		reviewMapper.reviewInsert(dto);
 
 	}

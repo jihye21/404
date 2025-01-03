@@ -16,4 +16,5 @@ public class ReviewDTO {
 	String storeNum;
 	Date reviewDate;
 	String reviewAnswerContents;
+	String starRate;
 }
