@@ -16,12 +16,14 @@
 	<tr><td>가게 휴무일</td><td><textarea type="text" name="storeClosedDate" cols="20" rows="5">[[${dto.storeClosedDate}]]</textarea></td></tr>
 	<tr><td>가게 영업시간</td><td><textarea type="text" name="storeOpenTime" cols="20" rows="10">[[${dto.storeOpenTime}]]</textarea></td></tr>
 	<tr><td>가게 주소</td><td><input type="text" name="storeAddr" th:value="${dto.storeAddr}" readonly="readonly"/></td></tr>
-	<tr><td>가게 상세 주소</td><td><input type="text" name="storeAddrDetail" th:value="${dto.storeAddrDetail}" readonly="readonly"/></td></tr>
+	<tr><td>가게 상세 주소</td><td><input type="text" name="storeAddrDetail" th:value="${dto.storeAddrDetail}" /></td></tr>
 	<tr><td>가게 프로필 이미지</td><td><img th:src="|/static/upload/${dto.storeProfileStoreImage}|" width="200" height="200"/>
 						<input type="file" name="storeProfileImage" th:value="${dto.storeProfileImage}"/></td></tr>
-	<tr><td>가게 상세 이미지:</td><td><input type="file" name="storeDetailImage" multiple="multiple"/>
-									<input type="file" name="storeDetailImage" multiple="multiple"/>
-									<input type="file" name="storeDetailImage" multiple="multiple"/>
+	<tr><td>가게 상세 이미지:</td>
+		<td><img th:src="|/static/upload/${dto.storeDetailImage}|" width="200" height="200"/>
+			<input type="file" name="storeDetailImage" multiple="multiple" th:value="${dto.storeDetailImage}" />
+			<input type="file" name="storeDetailImage" multiple="multiple" th:value="${dto.storeDetailImage}" />
+			<input type="file" name="storeDetailImage" multiple="multiple" th:value="${dto.storeDetailImage}" />
 	</td></tr>
 	<tr><th colspan="2"><input type="submit" value="수정"/></th></tr>
 </table>

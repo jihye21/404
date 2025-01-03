@@ -60,8 +60,8 @@ public class StoreController {
 	}
 	
 	@PostMapping("storeInfoModify")
-	public String storeInfoModify(StoreCommand storeCommand) {
-		storeInfoModifyService.execute(storeCommand);
+	public String storeInfoModify(StoreCommand storeCommand, HttpSession session) {
+		storeInfoModifyService.execute(storeCommand, session);
 		return "redirect:/owner/ownerMainPage";
 	}
 	
