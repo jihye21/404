@@ -3,7 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <title>코스 시스템</title>
+<script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script type="text/javascript">
+function moreCaption(){
+	var preview = $(".captionPreview");
+	var showMore = $(".fullCaption");
+	
+	if(preview.css("display")==="none"){
+		showMore.css("display", "block");
+	}else {
+		showMore.css("display", "none");
+	}
+}
 
+function leftImg(){
+	
+}
+function rightImg(){
+	
+}
+</script>
 <style type="text/css">
 
 .location {
@@ -44,10 +63,30 @@ width: 404px;
 
 	<div class = "location">
 		<!-- 키워드 검색 페이지 연동하기 -->
-		<form action = "" method = "post">
+		<form action = "keywordSearch" method = "post">
 			키워드: <input type = "text" name = "keyword">
 			<input type = "submit" value = "검색">
 		</form>
+		<br>
+		<th:block th:each="reel:${reels}">
+			<th:block th:if="${reel['mediaType']!='video'}">
+				<img th:src="${reel['mediaUrl']}" controls style="width: 100%">
+				    <th:block th:if="${#strings.length(reel['caption'])>10}">
+				        <p th:text="${#strings.substring(reel['caption'], 0, 10)}" id="captionPreview"></p>
+				        <button onclick="leftImg()" style="float: left;"> &lt; </button>
+				        <button onclick="rightImg()" style="float: right;"> &gt; </button>
+				        <p th:text="${reel['caption']}" style="display:none;" id="fullCaption"></p>
+				    </th:block>
+		    </th:block>
+		    <th:block th:if="${reel['mediaType']=='video'}">
+			    <video th:src="${reel['mediaUrl']}" controls style="width: 100%"></video>
+				    <th:block th:if="${#strings.length(reel['caption'])>10}">
+					    <p th:text="${#strings.substring(reel['caption'], 0, 10)}" id = "captionPreview"></p>
+					    <button onclick="moreCaption()">more</button>
+					    <p th:text="${reel['caption']}" style="display:none;" id = "fullCaption"></p>
+			    	</th:block>
+		    </th:block>
+		</th:block>
 	</div>
 	
 	<div class = "location">

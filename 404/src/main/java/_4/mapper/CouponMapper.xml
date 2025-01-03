@@ -87,4 +87,8 @@
 		where coupon_num in
 		(select coupon_num from memberCoupon where mem_num = #{memNum})-->
 	</select>
+	<select id="memberCouponRegistCheck" parameterType="string" resultType="string">
+		select '발급된 쿠폰' from memberCoupon 
+		where coupon_num = #{couponNum} and mem_num = #{memNum}
+	</select>
 </mapper>

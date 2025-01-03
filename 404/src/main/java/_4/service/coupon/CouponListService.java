@@ -30,7 +30,6 @@ public class CouponListService {
 		}else if(auth.getGrade().equals("owner")){
 			list = couponMapper.ownerCouponSelectAll(userNum);
 		}
-		
 		model.addAttribute("list", list);
 	}
 }

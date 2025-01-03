@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import _4.domain.BookDTO;
+import _4.domain.ReviewDTO;
 import _4.mapper.BookMapper;
+import _4.mapper.ReviewMapper;
 import _4.mapper.service.UserNumService;
 import jakarta.servlet.http.HttpSession;
 
@@ -25,6 +27,8 @@ public class BookController {
 	UserNumService userNumService;
 	@Autowired
 	BookMapper bookMapper;
+	@Autowired
+	ReviewMapper reviewMapper;
 	
 	@GetMapping("memberBookList")
 	public String memberBookList(HttpSession session, Model model) {
@@ -36,7 +40,9 @@ public class BookController {
 	@GetMapping("memberBookDetail")
 	public String memberBookDetail(String bookNum, Model model) {
 		BookDTO dto = bookMapper.bookSelectOne(bookNum);
+		ReviewDTO reviewDTO = reviewMapper.reviewSelectOneWithBookNum(bookNum);
 		model.addAttribute("dto", dto);
+		model.addAttribute("reviewDTO", reviewDTO);
 		return "thymeleaf/book/memberBookDetail";
 	}
 	

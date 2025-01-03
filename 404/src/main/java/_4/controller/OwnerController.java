@@ -8,11 +8,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import _4.command.OwnerCommand;
 import _4.domain.BookDTO;
+import _4.domain.ReviewDTO;
 import _4.domain.StoreDTO;
 import _4.mapper.BookMapper;
+import _4.mapper.ReviewMapper;
 import _4.mapper.StoreMapper;
 import _4.mapper.service.UserNumService;
 import _4.service.owner.OwnerRegistService;
@@ -32,6 +35,8 @@ public class OwnerController {
 	StoreMapper storeMapper;
 	@Autowired
 	BookMapper bookMapper;
+	@Autowired
+	ReviewMapper reviewMapper;
 	
 	@GetMapping("ownerForm")
 	public String ownerForm(Model model) {
@@ -74,7 +79,9 @@ public class OwnerController {
 	}
 	
 	@PostMapping("reviewManagePage")
-	public String reviewManagePage() {
+	public String reviewManagePage(@RequestParam("storeNum") String storeNum, Model model) {
+		List<ReviewDTO> list = reviewMapper.reviewSelectAll(storeNum);
+		model.addAttribute("list", list);
 		return "thymeleaf/store/ownerView/reviewManagePage";
 	}
 	

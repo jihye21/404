@@ -32,5 +32,7 @@ public interface CouponMapper {
 	public void memberCouponInsert(String memNum, String couponNum);
 
 	public List<CouponDTO> memberCouponSelectAll(String memNum);
+
+	public String memberCouponRegistCheck(String memNum, String couponNum);
 	
 }

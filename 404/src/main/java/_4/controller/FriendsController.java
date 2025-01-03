@@ -18,6 +18,7 @@ import _4.mapper.FriendMapper;
 import _4.mapper.service.UserNumService;
 import _4.service.friend.FriendAddReqService;
 import _4.service.friend.FriendDeleteService;
+import _4.service.friend.FriendListService;
 import _4.service.friend.FriendRegistService;
 import jakarta.servlet.http.HttpSession;
 
@@ -31,12 +32,16 @@ public class FriendsController {
 	@Autowired
 	FriendMapper friendMapper;
 	
+	
+	@Autowired
+	FriendListService friendListService;
 	@RequestMapping("friendsList")
 	public String friendsList(Model model, HttpSession session) {
-		String memNick = userNumService.execute(session);
-		List<FriendDTO> list = friendMapper.friendsSelectAll(memNick);
-		model.addAttribute("list", list);
-		System.out.println(list);
+		friendListService.execute(model, session);
+		String memNum = userNumService.execute(session);
+		List<FriendAddRequestDTO> friendAddReq = friendMapper.friendReqSelectAll(memNum);
+		Integer friendAddCount = friendAddReq.size();
+		model.addAttribute("friendAddCount", friendAddCount);
 		return "thymeleaf/friend/friendsList";
 	}
 	
@@ -62,9 +67,8 @@ public class FriendsController {
 	
 	@GetMapping("friendReqDetail")
 	public String friendReqDetail(@RequestParam("friendReqNum") String friendReqNum, Model model, HttpSession session) {
-		FriendAddRequestDTO dto = friendMapper.friendSelectOne(friendReqNum);
+		FriendAddRequestDTO dto = friendMapper.friendReqSelectOne(friendReqNum);
 		model.addAttribute("dto", dto);
-		System.out.println(dto);
 		return "thymeleaf/friend/friendReqDetail";
 	}
 	
@@ -74,6 +78,7 @@ public class FriendsController {
 	FriendDeleteService friendDeleteService;
 	@PostMapping("friendReqOk")
 	public @ResponseBody void friendReqOk(@RequestParam("friendReqNum") String friendReqNum) {
+		System.out.println(friendReqNum);
 		friendRegistService.execute(friendReqNum);
 		friendDeleteService.execute(friendReqNum);
 	}
@@ -81,5 +86,10 @@ public class FriendsController {
 	@PostMapping("friendReqNo")
 	public void friendReqNo(@RequestParam("friendReqNum") String friendReqNum) {
 		friendDeleteService.execute(friendReqNum);
+	}
+	
+	@GetMapping("friendDetail")
+	public String friendDetail() {
+		return "thymeleaf/friend/friendDetail";
 	}
 }
