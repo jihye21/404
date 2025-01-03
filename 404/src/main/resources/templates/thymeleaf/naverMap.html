@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+<form action="/map/searchRoute" method="post">
+출발 지점: <input type="text" name="start" th:value="${mapCommand.start}"/><br/>
+도착 지점: <input type="text" name="end" th:value="${mapCommand.end}"/>
+<input type="submit" value="길찾기"/>
+</form>
+<div style="position:absolute;left:600px;">
+<iframe src="https://map.naver.com/p/directions" width="450" height="900"></iframe>
+</div>
+</body>
+</html>

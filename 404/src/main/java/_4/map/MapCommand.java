@@ -12,4 +12,7 @@ public class MapCommand {
 	
 	String lastLocation;
 	
+	String start;
+	String end;
+	
 }

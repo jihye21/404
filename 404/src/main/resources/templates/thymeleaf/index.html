@@ -35,7 +35,7 @@
 <div style="border:1px solid black;width:800px;height:700px;position:absolute;left:550px;top:450px">
 <table border="1" width="800">
 <tr th:each = "dto : ${list}">
-	<td><img th:src="|/static/uplaod/${dto.storeProfileStoreImage}" width="20" height="20"></td>
+	<td><img th:src="|/static/upload/${dto.storeProfileStoreImage}|" width="200" height="200"/></td>
 	<td>
 		<a th:href = "|/store/storeMainPage?ownerNum=${dto.ownerNum}|">[[${dto.storeName}]]</a><br/>
 		[[${dto.storeIntroduction}]]<br/>
@@ -43,4 +43,5 @@
 	</td>
 </tr>
 </table>
+</div>
 </html>

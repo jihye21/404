@@ -87,4 +87,14 @@ public class MapController {
 		return "";
 	}
 	
+	@RequestMapping("naverMap")
+	public String naverMap(MapCommand mapCommand, Model model) {
+		model.addAttribute("mapCommand", mapCommand);
+		return "thymeleaf/naverMap";
+	}
+	@PostMapping("searchRoute")
+	public String searchRoute(MapCommand mapCommand, Model model) {
+		model.addAttribute("mapCommand", mapCommand);
+		return "thymeleaf/naverMap";
+	}
 }

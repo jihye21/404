@@ -19,7 +19,7 @@ insert into theme_time (theme_num, theme_time) values (#{themeNum}, #{themeTime}
 select <include refid="themeBaseColumn"/> from theme where store_num = #{storeNum}
 </select>
 <select id="themeTimeSelectAll" parameterType="string" resultType="themeTimeDTO">
-select theme_num, theme_time from theme_time where theme_num = #{themeNum} order by length(theme_time)
+select theme_num, theme_time from theme_time where theme_num = #{themeNum} order by theme_time
 </select>
 <select id="themeSelectOne" parameterType="string" resultType="themeDTO">
 select <include refid="themeBaseColumn"/> from theme where theme_num = #{themeNum}
