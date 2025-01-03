@@ -57,7 +57,7 @@ public class MapController {
 			e.printStackTrace();
 		}
 		
-		return "redirect:mapPage"; 
+		return "redirect:mapPage";  
 	}
 	@PostMapping("mapPage")
 	public String mapPage1() {
