@@ -15,7 +15,7 @@ function themeTimeAdd(){
 	$("#item").append(timeInput);
 }
 function partType(){
-	var plusBtn = "<input type='button' onclick='themeTimeAdd();' value='+'";
+	var plusBtn = "<input type='button' onclick='themeTimeAdd();' value='+' />";
 	if($("#tr").length){
 		$("#tr").remove();
 		$("#timeType").append("<tr id='tr'><td colspan='2'>" + "<span id='item'></span>" + plusBtn + "</td></tr>");
