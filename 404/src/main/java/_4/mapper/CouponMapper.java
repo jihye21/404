@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import _4.domain.CouponDTO;
+import _4.domain.MemberDTO;
 
 @Mapper
 public interface CouponMapper {
@@ -34,5 +35,9 @@ public interface CouponMapper {
 	public List<CouponDTO> memberCouponSelectAll(String memNum);
 
 	public String memberCouponRegistCheck(String memNum, String couponNum);
+
+	public List<MemberDTO> memberSearchSelectAll(String memNickname);
+
+	public void memberCouponSend(String memNum, String couponNum);
 	
 }

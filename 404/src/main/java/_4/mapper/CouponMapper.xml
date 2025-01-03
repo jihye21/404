@@ -91,4 +91,13 @@
 		select '발급된 쿠폰' from memberCoupon 
 		where coupon_num = #{couponNum} and mem_num = #{memNum}
 	</select>
+	<select id="memberSearchSelectAll" parameterType="String" resultType="memberDTO">
+		SELECT mem_nickname
+	    FROM member
+	    WHERE mem_nickname LIKE CONCAT(CONCAT('%', #{memNickName}), '%')
+	</select>
+	<insert id="memberCouponSend" parameterType="String">
+		insert into memberCoupon (mem_num, coupon_num, coupon_regist_date)
+		values (#{memNum}, #{couponNum}, SYSDATE)
+	</insert>
 </mapper>

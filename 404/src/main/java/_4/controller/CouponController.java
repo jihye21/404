@@ -1,5 +1,7 @@
 package _4.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,20 +9,28 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import _4.command.CouponCommand;
+import _4.domain.MemberDTO;
 import _4.service.coupon.CouponDeleteService;
 import _4.service.coupon.CouponDetailService;
 import _4.service.coupon.CouponListService;
 import _4.service.coupon.CouponRegistService;
 import _4.service.coupon.CouponUpdateService;
+import _4.service.coupon.MemberSearchService;
 import _4.service.coupon.MemberCouponRegistService;
+import _4.service.coupon.MemberCouponSend;
 import _4.service.coupon.memberCouponListService;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("coupon")
 public class CouponController {
+	@Autowired
+	MemberCouponSend memberCouponSend;
+	@Autowired
+	MemberSearchService memberSearchService;
 	@Autowired
 	memberCouponListService memberCouponListService;
 	@Autowired
@@ -89,5 +99,21 @@ public class CouponController {
 	public String memberCouponRegist(HttpSession session, CouponCommand couponCommand) {
 		memberCouponRegistService.execute(session, couponCommand);
 		return "redirect:memberCoupon";
+	}
+	
+	//선물 보낼 회원 찾기
+	@PostMapping("memberSearch")
+	public @ResponseBody List<MemberDTO> memberSearch(@RequestParam ("memNickname") String memNickname
+			, Model model) {
+		List<MemberDTO> memberSearchList = memberSearchService.execute(memNickname, model);
+		System.out.println(memberSearchList);
+		return memberSearchList;
+	}
+	
+	//회원에게 쿠폰 코드를 선물보내기
+	@PostMapping("memberCouponSend")
+	public @ResponseBody void memberCouponSend(@RequestParam ("memNickname") String memNickname
+			, @RequestParam ("couponCode") String couponCode) {
+		memberCouponSend.execute(memNickname, couponCode);
 	}
 }
