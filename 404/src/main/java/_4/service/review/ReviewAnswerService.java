@@ -16,6 +16,5 @@ public class ReviewAnswerService {
 		dto.setReviewNum(reviewNum);
 		dto.setReviewAnswerContents(reviewAnswerContents);
 		reviewMapper.reviewAnswerInsert(dto);
-		System.out.println("아아아아아아ㅏ");
 	}
 }
