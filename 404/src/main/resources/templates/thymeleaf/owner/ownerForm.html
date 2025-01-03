@@ -4,12 +4,35 @@
 <meta charset="UTF-8">
 <title>ownerForm</title>
 <script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script type = "text/javascript">
+$(function(){	
+	// 아이디 중복 검사
+	$("#ownerId").on("change keyup", function(){
+		$.ajax({
+			type : 'post',
+			url : "/login/userIdCheck",
+			data : {"userId" : $("#ownerId").val()},
+			dataType : 'text',
+			success: function(result){
+				$("#idCheck").text(result)
+				if(result.trim() == "사용가능한 아이디입니다.") {
+					$("#idCheck").css("color", "blue");
+				}else{
+					$("#idCheck").css("color", "red");
+				}
+				
+			},
+			error: function(){}
+		})
+	});
+});
+</script>
 </head>
 <body>
 <h1>사장님 회원가입</h1>
 <form action = "ownerForm" method = "post" th:object = "${ownerCommand}">
 <table align="center" border="1">
-	<tr><td>아이디:</td><td><input type = "text" placeholder="아이디" th:field="*{ownerId}"></td></tr>
+	<tr><td>아이디:</td><td><input type = "text" placeholder="아이디" th:field="*{ownerId}" id="ownerId"></td></tr>
 	<tr><td>비밀번호:</td><td><input type = "password" placeholder="비밀번호" th:field="*{ownerPw}"></td></tr>
 	<tr><td>이름:</td><td><input type = "text" placeholder = "이름" th:field="*{ownerName}"></td></tr>
 	<tr><td>생년월일:</td><td><input type = "date" placeholder = "생년월일" name = "ownerBirth"></td></tr>

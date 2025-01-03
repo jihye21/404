@@ -10,8 +10,11 @@ where mem_nickname = #{userNick}
 </select>
 
 <select id="selectIdCheck" parameterType="string" resultType="string">
-select mem_id from member
-where mem_id = #{userId}
+select mem_id from member where mem_id = #{userId}
+union
+select emp_id from employee where emp_id = #{empId}
+union
+select OWNER_ID from owner where OWNER_ID = #{ownerId}
 </select>
 
 <select id="selectFriendReqCheck" parameterType="string" resultType="string">
