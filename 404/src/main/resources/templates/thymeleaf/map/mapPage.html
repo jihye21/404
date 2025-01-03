@@ -15,12 +15,28 @@ function moreCaption(){
 		showMore.css("display", "none");
 	}
 }
-
-function leftImg(){
-	
-}
-function rightImg(){
-	
+$(function(){
+	var mediaId = $(".leftBtn").val();
+	$(".leftBtn").click(function(){
+		mediaId = mediaId + 1;
+	})
+	$().click(function(){
+		mediaId = mediaId -1;
+	})
+	nextImg(mediaId);
+})
+function nextImg(mediaId){
+	$.ajax({
+		type: "POST",
+		url: "/map/nextMedia",
+		data: {"mediaId":mediaId},
+		success: function(result){
+			alert("success");
+		}, 
+		error: function(){
+			alert("error");
+		}
+	});
 }
 </script>
 <style type="text/css">
@@ -69,22 +85,29 @@ width: 404px;
 		</form>
 		<br>
 		<th:block th:each="reel:${reels}">
+		<input type = "hidden" name = "mediaId" th:value = "${reel['mediaId']}">
 			<th:block th:if="${reel['mediaType']!='video'}">
 				<img th:src="${reel['mediaUrl']}" controls style="width: 100%">
-				    <th:block th:if="${#strings.length(reel['caption'])>10}">
+				    <!--th:block th:if="${#strings.length(reel['caption'])>10}">
 				        <p th:text="${#strings.substring(reel['caption'], 0, 10)}" id="captionPreview"></p>
 				        <button onclick="leftImg()" style="float: left;"> &lt; </button>
 				        <button onclick="rightImg()" style="float: right;"> &gt; </button>
-				        <p th:text="${reel['caption']}" style="display:none;" id="fullCaption"></p>
-				    </th:block>
+				        
+				    </th:block-->
+				    <button class="leftBtn" th:value = "${reel['mediaId']}" style="float: left;"> &lt; </button>
+				    <button onclick="rightImg()" style="float: right;"> &gt; </button>
+				    <p th:text="${reel['caption']}"></p>
 		    </th:block>
 		    <th:block th:if="${reel['mediaType']=='video'}">
 			    <video th:src="${reel['mediaUrl']}" controls style="width: 100%"></video>
-				    <th:block th:if="${#strings.length(reel['caption'])>10}">
+				    <!--th:block th:if="${#strings.length(reel['caption'])>10}">
 					    <p th:text="${#strings.substring(reel['caption'], 0, 10)}" id = "captionPreview"></p>
 					    <button onclick="moreCaption()">more</button>
-					    <p th:text="${reel['caption']}" style="display:none;" id = "fullCaption"></p>
-			    	</th:block>
+					    
+			    	</th:block-->
+			    	<button onclick="leftImg()" style="float: left;"> &lt; </button>
+				    <button onclick="rightImg()" style="float: right;"> &gt; </button>
+			    	<p th:text="${reel['caption']}"></p>
 		    </th:block>
 		</th:block>
 	</div>

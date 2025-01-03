@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class InstaReelService {
-	private static final String ACCESS_TOKEN = "EAAPs0aERPXgBO88VXNyny26UEHjK6NvdPyObRLclw9iGigdSZAnV8RWqQ4ag9mk5Satcu1r9Cbeb5n4Dgx6yKorlFCg0g9icHefJ5RZAIhaHSfDfJkOLIgcYs4nP6vZCpeKd2jP2CqiTOAixVXKC4y4hZCgtZBVArFsrUHWLMIIOTxOQIlwTDMjucW7GgkzFiZCRLucvACLIIAQYzdeVpZAg56mZACNZBtJExYEcZAQpYDZCgZDZD";
+	private static final String ACCESS_TOKEN = "EAAPs0aERPXgBO9elym2xq18ijwFnLr9YYe7B8V3lT2FNvfUcCFEx7YcYjZAuuGZCiSyOoIrP0pZBpZA8xunCf8H8FgR76x0Y4Sx8WmPr0N9MD6KSl65yRCZBXtgZA8yPzEtOonsWXCgCNa3bVarp8LyZCR3pUsBFKSltthCCJ8Bjt0chnAKrPAu2bqxgFZA3H1nHDgtSatLEm38dTyuEstEE7c3OeN0ZD";
     private static final String USER_ID = "17841449857311304";
 
     public List<Map<String, String>> execute(String keyword) {
@@ -41,7 +41,43 @@ public class InstaReelService {
         System.out.println("execute: " + result);
         return result;
     }
-
+    
+    //다음 게시물 가져오기
+    public static List<Map<String, String>> nextMedia(String mediaId) throws Exception {
+    	String urlString = String.format(
+    			"https://graph.facebook.com/v21.0/%s/posts?fields=id,message,created_time&access_token=%s"
+    			, mediaId, ACCESS_TOKEN);
+    	//{page-id}/posts?fields=id,message,created_time&access_token={access-token}
+    	
+    	JSONObject response = sendGetRequest(urlString);
+        List<Map<String, String>> result = new ArrayList<>();
+        if (response != null && response.has("data")) {
+            JSONArray posts = response.getJSONArray("data");
+            System.out.println("posts: " + posts);
+            
+            for (int i = 0; i < posts.length(); i++) {
+                JSONObject post = posts.getJSONObject(i);
+                String mediaType = post.getString("media_type");
+                String mediaUrl = post.getString("media_url");
+                String caption = post.optString("caption", "No caption");
+                mediaId = post.getString("id");
+                
+                Map<String, String> postMap = new HashMap<>();
+                postMap.put("mediaId", mediaId);
+                postMap.put("mediaUrl", mediaUrl);
+                postMap.put("caption", caption);
+                postMap.put("mediaType", mediaType);
+                result.add(postMap);
+                
+            }
+            
+        } else {
+            System.out.println("게시물을 가져올 수 없습니다.");
+        }
+        System.out.println("nextMedia: " + result);
+		return result;
+    }
+    
     // 해시태그 ID 가져오기
     private static String getHashtagId(String keyword) throws Exception {
         String urlString = String.format(
@@ -79,8 +115,10 @@ public class InstaReelService {
                 String mediaType = post.getString("media_type");
                 String mediaUrl = post.getString("media_url");
                 String caption = post.optString("caption", "No caption");
+                String mediaId = post.getString("id");
                 
                 Map<String, String> postMap = new HashMap<>();
+                postMap.put("mediaId", mediaId);
                 postMap.put("mediaUrl", mediaUrl);
                 postMap.put("caption", caption);
                 postMap.put("mediaType", mediaType);

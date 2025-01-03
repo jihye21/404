@@ -11,8 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("map")
@@ -71,6 +73,18 @@ public class MapController {
 		
 		return "forward:/map/mapPage";
 	}
-	
+	@PostMapping("nextMedia")
+	public @ResponseBody String nextMedia(@RequestParam ("mediaId") String mediaId) {
+		
+		System.out.println("MapController: " +  mediaId);
+		
+		try {
+			instaReelService.nextMedia(mediaId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
+	}
 	
 }
