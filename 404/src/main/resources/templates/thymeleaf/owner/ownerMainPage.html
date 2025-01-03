@@ -63,26 +63,26 @@ justify-content: center;
 $(function(){
 	menuManage();
 	$("#menuManage").click(function(){
-		//bookReceipt("1");
+		bookReceipt("1");
 		menuManage();
 	});
 	$("#storeInfoManage").click(function(){
-		//bookReceipt("1");
+		bookReceipt("1");
 		storeInfoManage();
 	});
 	$("#bookManage").click(function(){
-		//bookManage();
+		bookManage();
 	});
 	$("#reviewManage").click(function(){
-		//bookReceipt("1");
+		bookReceipt("1");
 		reviewManage();
 	});
 	$("#inquire").click(function(){
-		//bookReceipt("1");
+		bookReceipt("1");
 		inquire();
 	});
 	$("#couponManage").click(function(){
-		//bookReceipt("1");
+		bookReceipt("1");
 		couponManage();
 	});
 
@@ -139,7 +139,7 @@ function bookReceipt(bookNum){
 			$(".right-bar").html(result);
 		},
 		error: function(){
-			alert("오류");
+			//alert("ownerMainPage-bookReceipt() 오류");
 		}
 	});
 }
@@ -153,7 +153,7 @@ function reviewManage(){
 			$(".content").html(result);
 		},
 		error: function(){
-			alert("서버 오류");
+			alert("ownerMainPage-reviewManage() 오류");
 		}
 	})
 }
@@ -188,10 +188,8 @@ function couponManage(){
 </script>
 </head>
 <body>
-
 <div class = "banner">
 	<h1>사장 메인 페이지입니다.</h1>
-	
 </div>
 <div class = "center-bar" style = "background:skyblue;">
  ❤️| 리뷰 | 공유

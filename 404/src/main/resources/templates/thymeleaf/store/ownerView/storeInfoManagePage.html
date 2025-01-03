@@ -11,14 +11,14 @@
 <input type="hidden" name="storeNum" th:value="${dto.storeNum}"/>
 <table align="center" border="1">
 	<tr><th colspan="2">가게 정보 수정</th></tr>
-	<tr><td>가게명:</td><td><input type="text" name="storeName" th:value="${dto.storeName}" readonly="readonly"/></td></tr>
-	<tr><td>가게 분류:</td><td><input type="text" name="storeType" th:value="${dto.storeType}" readonly="readonly"/></td></tr>
-	<tr><td>가게 소개:</td><td><input type="text" name="storeIntroduction" th:value="${dto.storeIntroduction}"/></td></tr>
-	<tr><td>가게 휴무일:</td><td><input type="text" name="storeClosedDate" th:value="${dto.storeClosedDate}"/></td></tr>
-	<tr><td>가게 영업시간:</td><td><input type="text" name="storeOpenTime" th:value="${dto.storeOpenTime}"/></td></tr>
-	<tr><td>가게 주소:</td><td><input type="text" name="storeAddr" th:value="${dto.storeAddr}" readonly="readonly"/></td></tr>
-	<tr><td>가게 상세 주소:</td><td><input type="text" name="storeAddrDetail" th:value="${dto.storeAddrDetail}" readonly="readonly"/></td></tr>
-	<tr><td>가게 프로필 이미지:</td><td><img th:src="|/static/upload/${dto.storeProfileStoreImage}|" width="200" height="200"/>
+	<tr><td>가게명</td><td><input type="text" name="storeName" th:value="${dto.storeName}" readonly="readonly"/></td></tr>
+	<tr><td>가게 분류</td><td><input type="text" name="storeType" th:value="${dto.storeType}" readonly="readonly"/></td></tr>
+	<tr><td>가게 소개</td><td><textarea type="text" name="storeIntroduction" cols="20" rows="10">[[${dto.storeIntroduction}]]</textarea></td></tr>
+	<tr><td>가게 휴무일</td><td><textarea type="text" name="storeClosedDate" cols="20" rows="5">[[${dto.storeClosedDate}]]</textarea></td></tr>
+	<tr><td>가게 영업시간</td><td><textarea type="text" name="storeOpenTime" cols="20" rows="10">[[${dto.storeOpenTime}]]</textarea></td></tr>
+	<tr><td>가게 주소</td><td><input type="text" name="storeAddr" th:value="${dto.storeAddr}" readonly="readonly"/></td></tr>
+	<tr><td>가게 상세 주소</td><td><input type="text" name="storeAddrDetail" th:value="${dto.storeAddrDetail}" readonly="readonly"/></td></tr>
+	<tr><td>가게 프로필 이미지</td><td><img th:src="|/static/upload/${dto.storeProfileStoreImage}|" width="200" height="200"/>
 						<input type="file" name="storeProfileImage" th:value="${dto.storeProfileImage}"/></td></tr>
 	<tr><td>가게 상세 이미지:</td><td><input type="file" name="storeDetailImage" multiple="multiple"/>
 									<input type="file" name="storeDetailImage" multiple="multiple"/>

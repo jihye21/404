@@ -34,11 +34,11 @@ select <include refid="storeApplBaseColumn"/> from store_application where store
 
 <insert id="storeApply" parameterType="storeDTO">
 insert into store 
- (store_num, buss_regist_num, owner_num, store_type, store_introduction, store_closed_date, store_open_time, store_open_date
+ (store_num, store_name, buss_regist_num, owner_num, store_type, store_introduction, store_closed_date, store_open_time, store_open_date
  , store_addr, store_addr_detail, store_crowded, store_profile_image, store_profile_store_image
  , store_detail_image, store_detail_store_image)
  values
- (#{storeNum}, #{bussRegistNum}, #{ownerNum}, #{storeType}, null, null, null, #{storeOpenDate}
+ (#{storeNum}, #{storeName}, #{bussRegistNum}, #{ownerNum}, #{storeType}, null, null, null, #{storeOpenDate}
  , #{storeAddr}, #{storeAddrDetail}, '여유', null, null, null, null)
 </insert>
 

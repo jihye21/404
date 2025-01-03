@@ -5,22 +5,27 @@
 <title>Insert title here</title>
 <script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <script type="text/javascript">
+
+
 function reviewAnswerForm(){
+	$("#reviewFormBtn").css("display","none");
+	$("#reviewBtn").css("display","block");
+	$("#reviewContent").css("display","block");
+	//view_100001
+}
+function reviewAnswer(reviewNum){
+	var reviewAnswerContents = $("#reviewContent").val();
 	$.ajax({
 		type: "post",
 		url: "/review/reviewAnswer",
-		data: {"reviewNum":reviewNum},
-		success: function(){
-			$("#reviewFormBtn").html(item);	
+		data: {"reviewNum":reviewNum, "reviewAnswerContents":reviewAnswerContents},
+		success: function(){	
+			reviewManage();
 		},
 		error: function(){
-			alert("오류ㅈㄴㅇㅈㄷㄱㄹㄷㄱ");
+			alert("reviewManagePage-reviewAnswer() 오류");
 		}
 	})
-	
-}
-function reviewAnswer(reviewNum){
-	
 }
 </script>
 </head>
@@ -33,7 +38,16 @@ function reviewAnswer(reviewNum){
 		테마 내역 <br/>
 		[[${dto.reviewContents}]]
 		<br/>
-		<span id="reviewFormBtn"><button type="button" th:attr="onclick=|reviewAnswerForm()|">답변하기</button></span>
+		<th:block th:if="${dto.reviewAnswerContents == null}">
+			<button type="button" id="reviewFormBtn" th:attr="onclick=|reviewAnswerForm();|" style="display:block;">답변하기</button>
+			<textarea cols='60' rows='5' name='reviewAnswerContents' id="reviewContent" style="display:none;"></textarea><br/>
+			<button type='button' id="reviewBtn" th:attr="onclick=|reviewAnswer('${dto.reviewNum}');|" style="display:none;">저장</button>
+		</th:block>
+		<th:block th:if="${dto.reviewAnswerContents != null}">
+			<textarea rows="5" cols="60" readonly="readonly">
+				[[${dto.reviewAnswerContents}]]
+			</textarea>
+		</th:block>
 	</td></tr>
 </table>
 </body>

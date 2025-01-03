@@ -4,13 +4,17 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="_4.mapper.ReviewMapper">
 <sql id="reviewBaseColumn">
-review_num, book_num, mem_num, store_num, review_contents, review_date, review_answer_contents
+review_num, book_num, mem_num, store_num, review_contents, review_date, review_answer_contents, star_rate
 </sql>
 
 <insert id="reviewInsert" parameterType="reviewDTO">
 insert into review (<include refid="reviewBaseColumn"/>)
- values (#{reviewNum}, #{bookNum}, #{memNum}, #{storeNum}, #{reviewContents}, sysdate, null)
+ values (#{reviewNum}, #{bookNum}, #{memNum}, #{storeNum}, #{reviewContents}, sysdate, null, #{starRate})
 </insert>
+
+<update id="reviewAnswerInsert" parameterType="reviewDTO">
+update review set review_answer_contents = #{reviewAnswerContents} where review_num = #{reviewNum}
+</update>
 
 <select id="reviewSelectOne" parameterType="string" resultType="reviewDTO" >
 select <include refid="reviewBaseColumn"/>
@@ -32,7 +36,7 @@ select <include refid="reviewBaseColumn"/> from review where book_num = #{bookNu
 update review set
 	review_contents = #{reviewContents},
 	review_date = sysdate
-where review_num = #{reviewNum}
+ where review_num = #{reviewNum}
 </update>
 
 <delete id="reviewDelete" parameterType="string">

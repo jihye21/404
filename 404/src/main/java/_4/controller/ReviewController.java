@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,6 +15,7 @@ import _4.domain.BookDTO;
 import _4.domain.ReviewDTO;
 import _4.mapper.BookMapper;
 import _4.mapper.ReviewMapper;
+import _4.service.review.ReviewAnswerService;
 import _4.service.review.ReviewDeleteService;
 import _4.service.review.ReviewDetailService;
 import _4.service.review.ReviewListService;
@@ -32,6 +34,8 @@ public class ReviewController {
 	ReviewDetailService reviewDetailService;
 	@Autowired
 	ReviewDeleteService reviewDeleteService;
+	@Autowired
+	ReviewAnswerService reviewAnswerService;
 	@Autowired
 	BookMapper bookMapper;
 	@Autowired
@@ -93,9 +97,9 @@ public class ReviewController {
 		return "thymeleaf/review/reviewAnswerForm";
 	}
 	
-	@PostMapping("reviewAnswerWrite")
-	public String reviewAnswerWrite(ReviewCommand reviewCommand) {
-		return "redirect:/owner/ownerMainPage";
+	@PostMapping("reviewAnswer")
+	public @ResponseBody void reviewAnswer(@RequestBody @RequestParam("reviewNum") String reviewNum, @RequestParam("reviewAnswerContents") String reviewAnswerContents) {
+		reviewAnswerService.execute(reviewNum, reviewAnswerContents);
 	}
 	
 }
