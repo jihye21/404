@@ -30,5 +30,13 @@ select FRIEND_NICKNAME from friendList
 where FRIEND_NICKNAME = #{friendNickname}
 </select>
 
+<select id="emailCheckSelectOne" parameterType="string" resultType="string">
+select MEM_EMAIL from member where MEM_EMAIL = #{memEmail}
+union
+select EMP_EMAIL from employee where EMP_EMAIL = #{empEmail}
+union
+select OWNER_EMAIL from owner where OWNER_EMAIL = #{ownerEmail}
+</select>
+
 
 </mapper>

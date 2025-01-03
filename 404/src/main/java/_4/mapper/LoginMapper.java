@@ -13,4 +13,6 @@ public interface LoginMapper {
 
 	public String selectFriendReqCheck(String friendNickname);
 
+	public String emailCheckSelectOne(String userEmail);
+
 }

@@ -25,6 +25,26 @@ $(function(){
 			error: function(){}
 		})
 	});
+	// 이메일 중복 체크
+	$("#empEmail").on("change keyup", function(){
+		$.ajax({
+			type : "post",
+			url : "/login/userEmailCheck",
+			dataType : 'text',
+			data : {"userEmail" : $("#empEmail").val()},
+			success:function(result){
+				$("#emailCheck").text(result)
+				if(result.trim() == "사용가능한 이메일입니다.") {
+					$("#emailCheck").css("color", "blue");
+				}else{
+					$("#emailCheck").css("color", "red");
+				}
+			},
+			error : function(){
+				alert("서버 오류");
+			}
+		})
+	});
 });
 </script>
 </head>
@@ -41,7 +61,8 @@ $(function(){
 		
 		<tr>
 			<td>아이디</td>
-			<td><input type="text" name="empId" id="empId"/></td>
+			<td><input type="text" name="empId" id="empId"/>
+				<span id="idCheck"></span></td>
 		</tr>
 		
 		<tr>
@@ -71,7 +92,8 @@ $(function(){
 		
 		<tr>
 			<td>직원 이메일</td>
-			<td><input type="email" name="empEmail" /></td>
+			<td><input type="email" name="empEmail" id="empEmail" />
+				<span id="emailCheck"></span></td>
 		</tr>
 		
 		<tr><td colspan="2" align="center"><input type="submit" value="등록" /></td></tr>

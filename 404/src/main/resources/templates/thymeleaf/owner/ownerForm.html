@@ -25,6 +25,26 @@ $(function(){
 			error: function(){}
 		})
 	});
+	// 이메일 중복 체크
+	$("#ownerEmail").on("change keyup", function(){
+		$.ajax({
+			type : "post",
+			url : "/login/userEmailCheck",
+			dataType : 'text',
+			data : {"userEmail" : $("#ownerEmail").val()},
+			success:function(result){
+				$("#emailCheck").text(result)
+				if(result.trim() == "사용가능한 이메일입니다.") {
+					$("#emailCheck").css("color", "blue");
+				}else{
+					$("#emailCheck").css("color", "red");
+				}
+			},
+			error : function(){
+				alert("서버 오류");
+			}
+		})
+	});
 });
 </script>
 </head>
@@ -32,11 +52,13 @@ $(function(){
 <h1>사장님 회원가입</h1>
 <form action = "ownerForm" method = "post" th:object = "${ownerCommand}">
 <table align="center" border="1">
-	<tr><td>아이디:</td><td><input type = "text" placeholder="아이디" th:field="*{ownerId}" id="ownerId"></td></tr>
+	<tr><td>아이디:</td><td><input type = "text" placeholder="아이디" th:field="*{ownerId}" id="ownerId">
+		<span id="idCheck"></span></td></tr>
 	<tr><td>비밀번호:</td><td><input type = "password" placeholder="비밀번호" th:field="*{ownerPw}"></td></tr>
 	<tr><td>이름:</td><td><input type = "text" placeholder = "이름" th:field="*{ownerName}"></td></tr>
 	<tr><td>생년월일:</td><td><input type = "date" placeholder = "생년월일" name = "ownerBirth"></td></tr>
-	<tr><td>이메일:</td><td><input type= "email" placeholder="이메일" th:field="*{ownerEmail}"></td></tr>
+	<tr><td>이메일:</td><td><input type= "email" placeholder="이메일" th:field="*{ownerEmail}" id="ownerEmail">
+		<span id="emailCheck"></span></td></tr>
 	<tr><td>전화번호:</td><td><input type = "tel" placeholder="전화번호" th:field="*{ownerPhone}"></td></tr>
 	<tr><td colspan="2"><input type = "submit" value = "등록"></td></tr>
 </table>

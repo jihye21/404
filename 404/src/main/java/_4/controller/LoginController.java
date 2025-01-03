@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import _4.mapper.LoginMapper;
+import _4.service.login.EmailCheckService;
 import _4.service.login.FriendCheckService;
 import _4.service.login.IdCheckService;
 import _4.service.login.NickNameCheckService;
@@ -65,5 +66,18 @@ public class LoginController {
 		}else {
 			return "이미 존재하는 친구입니다.";
 		}*/
+	}
+	
+	@Autowired
+	EmailCheckService emailCheckService;
+	@PostMapping("userEmailCheck")
+	public @ResponseBody String emailCheck(
+			@RequestParam (value="userEmail") String userEmail) {
+		String resultEmail = emailCheckService.execute(userEmail);
+		if(resultEmail == null) {
+			return "사용가능한 이메일 입니다.";
+		}else {
+			return "이미 가입된 이메일 입니다.";
+		}
 	}
 }
