@@ -10,7 +10,8 @@ import _4.domain.ReviewDTO;
 public interface ReviewMapper {
 
 	public void reviewInsert(ReviewDTO dto);
-
+	public void reviewAnswerInsert(ReviewDTO dto);
+	
 	public List<ReviewDTO> reviewSelectAll(String reviewNum);
 	public ReviewDTO reviewSelectOne(String reviewNum);
 	public ReviewDTO reviewSelectOneWithBookNum(String bookNum);

@@ -12,6 +12,10 @@ insert into review (<include refid="reviewBaseColumn"/>)
  values (#{reviewNum}, #{bookNum}, #{memNum}, #{storeNum}, #{reviewContents}, sysdate, null)
 </insert>
 
+<update id="reviewAnswerInsert" parameterType="reviewDTO">
+update review set review_answer_contents = #{reviewAnswerContents} where review_num = #{reviewNum}
+</update>
+
 <select id="reviewSelectOne" parameterType="string" resultType="reviewDTO" >
 select <include refid="reviewBaseColumn"/>
  from review
@@ -32,7 +36,7 @@ select <include refid="reviewBaseColumn"/> from review where book_num = #{bookNu
 update review set
 	review_contents = #{reviewContents},
 	review_date = sysdate
-where review_num = #{reviewNum}
+ where review_num = #{reviewNum}
 </update>
 
 <delete id="reviewDelete" parameterType="string">

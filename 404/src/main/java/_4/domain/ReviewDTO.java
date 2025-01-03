@@ -15,5 +15,5 @@ public class ReviewDTO {
 	String memNum;
 	String storeNum;
 	Date reviewDate;
-	String revieAnwserContents;
+	String reviewAnswerContents;
 }
