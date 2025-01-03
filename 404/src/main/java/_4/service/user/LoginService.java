@@ -19,7 +19,6 @@ public class LoginService {
 			if(auth.getUserPw() != userCommand.getUserPw()) {
 				// 로그인 성공
 				session.setAttribute("auth", auth);
-				System.out.println("세션 정보:" + auth);
 			}
 			else {
 				// 비밀번호가 일치하지 않습니다.

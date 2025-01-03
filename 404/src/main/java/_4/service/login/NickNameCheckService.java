@@ -11,9 +11,7 @@ public class NickNameCheckService {
 	LoginMapper loginMapper;
 	
 	public String execute(String memNickname) {
-		System.out.println(memNickname);
 		String resultNick = loginMapper.selectNickCheck(memNickname);
-		System.out.println(resultNick);
 		return resultNick;
 	}
 }

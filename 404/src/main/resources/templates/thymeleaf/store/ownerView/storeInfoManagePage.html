@@ -6,7 +6,6 @@
 </head>
 <body>
 <div align="center">
-가기 정보 수정 페이지입니다.
 <form action="/store/storeInfoModify" method="post" enctype="multipart/form-data">
 <input type="hidden" name="storeNum" th:value="${dto.storeNum}"/>
 <table align="center" border="1">
@@ -24,7 +23,7 @@
 									<input type="file" name="storeDetailImage" multiple="multiple"/>
 									<input type="file" name="storeDetailImage" multiple="multiple"/>
 	</td></tr>
-	<tr><td colspan="2"><input type="submit" value="수정"/></td></tr>
+	<tr><th colspan="2"><input type="submit" value="수정"/></th></tr>
 </table>
 </form>
 </div>

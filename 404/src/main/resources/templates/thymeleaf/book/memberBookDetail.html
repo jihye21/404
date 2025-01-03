@@ -15,23 +15,26 @@ $(function(){
 	if(themeTime == ("종일권")){
 		$("#themeTime").html("<button type='button' th:attr='onclick=|allDayUse);|'>종일권</button>");
 		$("#themeTime").click(function(){
-			allDayUse(bookNum);
+			allDayUse();
 		})
 		
 	}
 	else{
 		$("#themeTime").val("[[${dto.themeTime}]]");
 	}
+	$(".themeTimeBookBtn").css("display","none");
 })
 
 function allDayUse(){
-	$("#content").css("display","block");
-	 $("#content").html(
+	$(".themeTimeBookBtn").css("display","block");
+	$("#themeTime").css("display","none");
+	 /*$("#themeTime").html(
 			 "<button type='button' onclick='timeBook()'>시간 예약</button><br/><button type='button' onclick='directBook()'>바로 예약</button>"
-	 );
+	 );*/
 }
 
 function timeBook(){
+	$(".themeTimeBookBtn").css("display","none");
 	$.ajax({
 		type: "post",
 		url: "/book/timeBook",
@@ -46,6 +49,7 @@ function timeBook(){
 	});
 }
 function directBook(){
+	$(".themeTimeBookBtn").css("display","none");
 	$.ajax({
 		type: "post",
 		url: "/book/directBook",
@@ -106,7 +110,10 @@ function reviewDelete(reviewNum){
 	<tr><th colspan="2">예약 내역</th></tr>
 	<tr><td>예약 번호</td><td>[[${dto.bookNum}]]</td></tr>
 	<tr><td>예약 내용</td><td>[[${dto.themeNum}]]</td></tr>
-	<tr><td>예약 시간</td><td><span id="themeTime" >[[${dto.themeTime}]]</span></td></tr>
+	<tr><td>예약 시간</td><td><span id="themeTime" >[[${dto.themeTime}]]</span>
+							<button class="themeTimeBookBtn" onclick="timeBook()">시간예약</button>
+							<button class="themeTimeBookBtn" onclick="directBook()">바로예약</button>
+							<div id="content"></div></td></tr>
 	<th:block th:if="${dto.bookStatus} != '방문완료' and ${dto.bookStatus} != '예약취소'">
 		<tr><th colspan="2" th:attr="onclick=|bookCancle('${dto.bookNum}')|"><button>예약 취소</button></th></tr>
 	</th:block>
