@@ -15,7 +15,7 @@ public class ReviewListService {
 	ReviewMapper reviewMapper;
 	
 	public void execute(Model model) {
-		List<ReviewDTO> list = reviewMapper.reviewSelectAll();
-		model.addAttribute("list", list);
+		//List<ReviewDTO> list = reviewMapper.reviewSelectAll();
+		//model.addAttribute("list", list);
 	}
 }
