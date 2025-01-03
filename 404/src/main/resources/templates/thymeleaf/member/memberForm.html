@@ -47,11 +47,11 @@ $(function(){
 	// 이메일 중복 체크
 	$("#memEmail").on("change keyup", function(){
 		$.ajax({
-			type : "post",
+			type : 'post',
 			url : "/login/userEmailCheck",
-			dataType : 'text',
 			data : {"userEmail" : $("#memEmail").val()},
-			success:function(result){
+			dataType : 'text',
+			success : function(result){
 				$("#emailCheck").text(result)
 				if(result.trim() == "사용가능한 이메일입니다.") {
 					$("#emailCheck").css("color", "blue");
