@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script type="text/javascript">
+function friendReqOk(friendReqNum){
+	$.ajax({
+		type : 'post',
+		url : "/friends/friendReqOk",
+		data : {'friendReqNum' : friendReqNum},			// data : {key : value}
+		success : function(){
+			window.location.reload();
+		},
+		error : function() {
+			alert("서버 오류");
+		} 
+	});
+	
+	$.ajax({
+		type : 'post',
+		url : "/friends/friendReqNo",
+		data : {'friendReqNum' : friendReqNum},			// data : {key : value}
+		success : function(){
+			window.location.reload();
+		},
+		error : function() {
+			window.location.reload();
+		} 
+	});
+};
+</script>
+</head>
+<body>
+<a href="friendAccList">뒤로 가기</a>
+<table border="1" width="600" align="center">
+	<tr><th colspan="3">친구 요청 상세 페이지</th></tr>
+	<tr th:each="dto:${dto}"><td>닉네임</td><td align="center">[[${dto.memNickname}]]</td>
+						<td align="right"><button type="button" th:attr="onclick=|friendReqOk('${dto.fromNum}')|">승인</button> | 
+						<button type="button" th:attr="onclick=|friendReqNo('${dto.fromNum}')|">거절</button></td></tr>
+					
+	
+</table>
+</body>
+</html>

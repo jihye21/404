@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="_4.mapper.PurchaseMapper">
+	<insert id="paymentInsert" parameterType="paymentDTO">
+		insert into payment(PURCHASE_NUM,CONFIRM_NUMBER,CARD_NUM,TID,TOTAL_PRICE
+		,RESULT_MESSAGE,PAY_METHOD,APPL_DATE,APPL_TIME)
+		values(#{purchaseNum},#{confirmNumber},#{cardNum},#{tid}
+		,#{totalPrice},#{resultMessage}
+		,#{payMethod},#{applDate},#{applTime})
+	</insert>
+	
+	<update id="paymentCheck" parameterType="string">
+	update book set book_status = '결제완료' where book_num = #{bookNum}
+	</update>
+	<!-- 쿠폰 사용 완료 처리 -->
+	<update id="patmentCouponCheck" parameterType="string">
+	update memberCoupon set COUPON_STATUS = '사용완료' 
+	where COUPON_NUM = (select coupon_num from book 
+	where book_num = #{bookNum}) 
+	and MEM_NUM = (select mem_num from book
+	where book_num = #{bookNum})
+	
+	</update>
+</mapper>

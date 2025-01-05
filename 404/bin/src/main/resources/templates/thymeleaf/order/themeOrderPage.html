@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script type="text/javascript">
+var people = $("#people").val();
+people = 1;
+var themePrice = "[[${themeDTO.themePrice}]]";
+var totalPrice = themePrice;
+$(function(){
+	$("#people").text(people);
+	$("#totalPrice").text(themePrice);
+	$("#lastPeople").val(people);
+	$("#lastPrice").val(totalPrice);
+	$(".discountedPrice").text(totalPrice);
+	$("#discountedPrice").val(totalPrice);
+})
+function minusPeople(){
+	if(people <=1 ) return false;
+	people -= 1;
+	$("#people").text(people);	
+	totalPrice = themePrice * people
+	$("#totalPrice").text(totalPrice);
+	$("#lastPeople").val(people);
+	$("#lastPrice").val(totalPrice);
+	$("#discountedPrice").val(totalPrice);
+}
+function plusPeople(){
+	if(people >= "[[${themeDTO.limitPeople}]]"){
+		return false;
+	}
+	people += 1;
+	$("#people").text(people);
+	totalPrice = themePrice * people
+	$("#totalPrice").text(totalPrice);
+	$("#lastPeople").val(people);
+	$("#lastPrice").val(totalPrice);
+	$("#discountedPrice").val(totalPrice);
+}
+
+$(function(){
+	//쿠폰 적용 후 금액 표기
+	$(".useCoupon").click(function(){
+		//모든 .couponNum의 name을 "coupon"으로 초기화
+		$(".couponNum").attr("name", "coupon");
+		//선택된 라디오 버튼의 값
+		var selectedRadio = $("input[type=radio][name=selectCoupon]:checked").val();
+		//선택된 라디오 버튼의 쿠폰 번호
+		var selectedCoupon = $("input[type=radio][name=selectCoupon]:checked").closest("td").find(".couponNum");
+		
+		if(selectedRadio != undefined){
+			var totalPrice = $("#totalPrice").text();
+			//쿠폰 적용 후 금액 (총 금액)
+			var discountedPrice = 0;
+			
+			// n% 할인
+			if(selectedRadio < 99){
+				discountedPrice = totalPrice - totalPrice * (selectedRadio / 100);
+			}
+			// n원 할인
+			else if(selectedRadio >= 100){
+				discountedPrice = totalPrice - selectedRadio;
+			}
+			//<input type = "hidden" name = "coupon"> -> <name = "couponNum"> 변경
+			$(selectedCoupon).attr("name", "couponNum");
+			discountedPrice = Math.ceil(discountedPrice);
+			$(".discountedPrice").text(discountedPrice);
+			$("#discountedPrice").val(discountedPrice);
+		}
+		
+	});
+		
+		
+});
+</script>
+</head>
+<body>
+<form action="/order/payment" method="post">
+	<input type="hidden" name="themeNum" th:value="${themeDTO.themeNum}"/>
+	<input type="hidden" name="themeTime" th:value="${themeTime}"/>
+	<input type="hidden" name="people" id="lastPeople"/>
+	<input type="hidden" name="price" id="lastPrice"/>
+	<input type="hidden" name="discountedPrice" id="discountedPrice" value ="0"/>
+	<div style="width:800px;height:1200px;border:1px solid black;position:absolute;left:550px;" align=center>
+		테마 명 : [[${themeDTO.themeName}]]<br/>
+		시간 : [[${themeTime}]]<br/>
+		인원 : <a href="javascript:minusPeople()">-</a> <span id="people"></span> <a href="javascript:plusPeople()">+</a> <br/>
+		가격 : <span id="totalPrice"></span><br/>
+		<br/>
+		<!-- 쿠폰 적용 하는 부분 -->
+		<table border = "1">
+			<th:block th:each="list:${couponList}">
+				 <!-- <input type = "hidden" name = "couponNum" th:value = "${list.couponNum}"> -->
+				<input type = "hidden" class = "expirationDate" name = "expirationDate" th:value = "${list.expirationDate}">
+				<th:block th:if="${today < list.expirationDate}">
+					<th:block th:if = "${list.couponStatus != '사용완료'}">
+						<a th:href = "|/coupon/couponDetail?couponNum=${list.couponNum}|" style="text-decoration: none; color: black;">
+						<tr>
+							<td rowspan="2"><input type = "radio" name = "selectCoupon" th:value = "${list.discountRate}">
+							<input type = "hidden" name = "coupon" class = "couponNum" th:value = "${list.couponNum}">
+							</td>
+							<!-- ************* -->
+							<th>[[${list.couponName}]]</th><td rowspan="2">[[${list.discountType}]]</td>
+						</tr>
+						<tr>
+							<th><h1>[[${list.discountRate}]]
+							<th:block th:if="${list.discountRate < 100}">%</th:block>
+							<th:block th:if="${list.discountRate >= 100}">₩</th:block>
+							</h1></th>
+						</tr>
+						</a>
+					</th:block>
+				</th:block>
+			</th:block>
+		<tr>
+			<td colspan="3">총 금액: <span class = "discountedPrice"></span>원</td>
+		</tr>
+		<tr>
+			<td colspan="3"><button type = "button" name = "useCoupon" class = "useCoupon">쿠폰 적용</button></td>
+		</tr>
+		</table>
+		<button type="submit">결제하기</button>
+	</div>
+</form>
+</body>
+</html>

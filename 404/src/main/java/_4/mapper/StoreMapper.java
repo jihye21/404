@@ -16,7 +16,7 @@ public interface StoreMapper {
 
 	public List<StoreDTO> wishSelectList(String memberNum);
 	
-	public void storeUpdate(StoreDTO dto);
+	public int storeUpdate(StoreDTO dto);
 	
 	public String storeNumSelect(String ownerNum);
 }

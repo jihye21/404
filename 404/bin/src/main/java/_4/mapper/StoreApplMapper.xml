@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="_4.mapper.StoreApplMapper">
+<sql id="storeApplBaseColumn">
+STORE_APPL_NUM, STORE_NAME, owner_num
+			, STORE_ADDR, STORE_ADDR_DETAIL, STORE_INTRODUCTION
+			, STORE_OPEN_DATE, BUSS_REGIST_IMAGE, BUSS_REGIST_STORE_IMAGE
+			, BUSS_REGIST_NUM
+</sql>
+<insert id="storeApplicationInsert" parameterType="storeApplicationDTO">
+			insert into store_application (STORE_APPL_NUM, STORE_NAME, owner_num
+			, STORE_ADDR, STORE_ADDR_DETAIL, STORE_INTRODUCTION
+			, STORE_OPEN_DATE, BUSS_REGIST_IMAGE, BUSS_REGIST_STORE_IMAGE
+			, BUSS_REGIST_NUM)
+			values (#{storeApplNum}, #{storeName}, #{ownerNum}
+			, #{storeAddr}, #{storeAddrDetail}, #{storeIntroduction}
+			, #{storeOpenDate}, #{bussRegistImage}, #{bussRegistStoreImage}
+			, #{bussRegistNum})
+</insert>
+<select id="checkStoreAppl" parameterType="string">
+			select store_appl_num from store_application where owner_num = #{ownerNum}
+</select>
+
+<select id="storeApplSelectAll" resultType="storeApplicationDTO">
+select <include refid="storeApplBaseColumn"/> from store_application
+</select>
+
+<select id="storeApplSelectOne" parameterType="string" resultType="storeApplicationDTO">
+select <include refid="storeApplBaseColumn"/> from store_application where store_appl_num = #{storeApplNum}
+</select>
+
+<insert id="storeApply" parameterType="storeDTO">
+insert into store 
+ (store_num, store_name, buss_regist_num, owner_num, store_type, store_introduction, store_closed_date, store_open_time, store_open_date
+ , store_addr, store_addr_detail, store_crowded, store_profile_image, store_profile_store_image
+ , store_detail_image, store_detail_store_image)
+ values
+ (#{storeNum}, #{storeName}, #{bussRegistNum}, #{ownerNum}, #{storeType}, null, null, null, #{storeOpenDate}
+ , #{storeAddr}, #{storeAddrDetail}, '여유', null, null, null, null)
+</insert>
+
+<delete id="storeApplDelete" parameterType="string">
+delete from store_application where store_appl_num = #{storeApplNum}
+</delete>
+</mapper>

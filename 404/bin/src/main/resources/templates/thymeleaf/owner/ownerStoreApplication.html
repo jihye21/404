@@ -3,14 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script type="text/javascript" src ="/static/js/daumAddressScript.js"></script>
 </head>
 <body>
 사장님의 가게 신청 페이지입니다.
 <form action="/store/storeApply" method="post" enctype="multipart/form-data">
+<input type="hidden" id="sample4_postcode"/>
 <table border="1" align="center" >
 	<tr><th colspan="2">가게 신청서</th></tr>
 	<tr><td>가게명 : </td><td><input type="text" name="storeName"/></td></tr>
-	<tr><td>가게 주소 : </td><td><input type="text" name="storeAddr"/></td></tr>
+	<tr><td>가게 주소 : </td><td><input type="text" name="storeAddr"  id="sample4_roadAddress" readonly="readonly" onclick="execDaumPostcode();"/></td></tr>
 	<tr><td>가게 상세 주소 : </td><td><input type="text" name="storeAddrDetail"/></td></tr>
 	<tr><td>가게 소개 : </td><td><input type="text" name="storeIntroduction"/></td></tr>
 	<tr><td>개업일 : </td><td><input type="date" name="storeOpenDate"/></td></tr>

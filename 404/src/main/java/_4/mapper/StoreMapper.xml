@@ -27,8 +27,12 @@ where STORE_NUM in (select STORE_NUM from wish where mem_num = #{memberNum})
 
 <update id="storeUpdate" parameterType="storeDTO">
 update store set store_introduction = #{storeIntroduction}, store_closed_date = #{storeClosedDate}, store_open_time = #{storeOpenTime}
+			   <if test="storeProfileImage != null">
 			   , store_profile_image = #{storeProfileImage}, store_profile_store_image = #{storeProfileStoreImage}
+			   </if>
+			   <if test="storeDetailImage != null">
 			   , store_detail_image = #{storeDetailImage}, store_detail_store_image = #{storeDetailStoreImage}
+			   </if>
 			   , store_addr_detail = #{storeAddrDetail}
  where store_num = #{storeNum}
 </update>

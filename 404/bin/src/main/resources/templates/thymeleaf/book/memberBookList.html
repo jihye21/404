@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<table border="1" align="center">
+	<tr><th>예약 내역</th></tr>
+	<tr th:each="dto : ${list}"><td>
+		<a th:href="|/book/memberBookDetail?bookNum=${dto.bookNum}|">[[${dto.storeNum}]], 가게명, 가게 이미지</a>
+	</td></tr>
+</table>
+</body>
+</html>

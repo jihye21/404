@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Real-time Stock Data</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1, h2 {
+      margin: 0;
+    }
+
+    table {
+      width: 80%;
+      margin: 20px auto;
+      border-collapse: collapse;
+      text-align: center;
+    }
+
+    table, th, td {
+      border: 1px solid black;
+    }
+
+    th, td {
+      padding: 10px;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+    
+    canvas {
+	    margin: 0 auto;
+	    width: 70%;
+    }
+  </style>
+</head>
+<body>
+  <h1>Real-time Stock Data</h1>
+  <h2>날짜: <span id="date"></span></h2> <!-- 오늘의 날짜 -->
+  <h2>삼성전자 누적 거래량: <span id="cumulativeVolume">0</span></h2>
+
+<!-- 막대 그래프 -->
+<canvas id="data_chart"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- 표 -->
+  <table class = "data_chart">
+    <thead>
+      <tr>
+        <th>거래시간</th>
+        <th>주식코드</th>
+        <th>거래금액</th>
+        <th>거래량</th>
+      </tr>
+    </thead>
+    <tbody id="stockData">
+      
+    </tbody>
+  </table>
+
+  <script>
+  
+    // 숫자 포맷 함수
+    function formatNumber(number) {
+      return number.toLocaleString();
+    }
+
+    // 시간 포맷 함수
+    function formatTime(time) {
+      const hours = time.slice(0, 2);
+      const minutes = time.slice(2, 4);
+      const seconds = time.slice(4, 6);
+      return `${hours}:${minutes}:${seconds}`;
+    }
+
+    // 날짜 포맷 함수
+    function formatDate() {
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = String(today.getMonth() + 1).padStart(2, '0');
+      const day = String(today.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+
+    // WebSocket 연결
+    const socket = new WebSocket('ws://localhost:8081');
+    let stockData = [];
+    let cumulativeVolume = 0;
+    let chartData = {
+    		lables: [],
+    		datasets: [{
+    			label: '거래 금액',
+    			data: [],
+    			backgroundColor: 'rgba(204, 153, 255, 0.2)',
+    			borderColor: 'rgba(204, 153, 255, 1)',
+    			borderWidth: 1
+    		}]
+    };
+    
+    // 오늘의 날짜 출력
+    document.getElementById('date').textContent = formatDate();
+	
+    const ctx = document.getElementById('data_chart').getContext('2d');
+    const data_chart = new Chart(ctx, {
+        type: 'line',  // 차트
+        data: chartData,
+        options: {
+          scales: {
+            x: {
+              type: 'category',
+              title: {
+                display: true,
+                text: '거래시간'
+              }
+            },
+            y: {
+              beginAtZero: false,
+              title: {
+                display: true,
+                text: '가격'
+              },
+              ticks: {
+                  minTicksLimit: 5
+                }
+            }
+          },
+          animation: {
+        	  duration: 0
+          }
+        }
+      });
+    
+    socket.onopen = () => {
+      console.log('Connected to WebSocket server');
+    };
+
+    socket.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+
+      // 최근 데이터 10개만 유지
+      stockData = [data, ...stockData].slice(0, 10);
+
+      // 누적 거래량 업데이트
+      cumulativeVolume = data.cumulativeVolume;
+      document.getElementById('cumulativeVolume').textContent = formatNumber(cumulativeVolume);
+
+      // 테이블에 실시간 데이터 추가
+      const tbody = document.getElementById('stockData');
+      tbody.innerHTML = ''; // 기존 데이터 지우기
+      
+      stockData.forEach(stock => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${formatTime(stock.timestamp)}</td>
+          <td>${stock.symbol}</td>
+          <td>${formatNumber(stock.price)}</td>
+          <td>${formatNumber(stock.volume)}</td>
+        `;
+        
+        tbody.appendChild(row);
+        
+        if(chartData.labels.length >= 10){
+        	chartData.labels.shift();
+           	chartData.datasets[0].data.shift();
+        }
+        else {
+        	chartData.labels.push(formatTime(stock.timestamp));
+            chartData.datasets[0].data.push(stock.price);
+         	// 차트 갱신
+            data_chart.update();
+        }
+     	
+        
+      });
+    };
+
+    socket.onclose = () => {
+      console.log('Disconnected from WebSocket server');
+    };
+
+    socket.onerror = (error) => {
+      console.error('WebSocket error:', error);
+    };
+  </script>
+  
+</body>
+</html>

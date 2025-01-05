@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h1>나의 문의 수정</h1>
+
+<form action = "inquireModify" method = "POST">
+<table border = 1>
+
+	<tr>
+		<th>제목</th><input type = "hidden" name = "inquireNum" th:value = "${dto.inquireNum}">
+		<td><input type = "text" name = "inquireSubject" th:value = "${dto.inquireSubject}" required="required"></td>
+		<td>
+		<select name = "inquireType">
+		
+		<!-- member -->
+		<th:block th:if="${session.auth.grade == 'member'}">
+		<option th:value="${dto.memberInquireType}">[[${dto.memberInquireType}]]</option>
+		<th:block th:if="${dto.memberInquireType != '환불하기'}">
+		<option value = "환불하기">환불하기</option>
+		</th:block>
+		<th:block th:if="${dto.memberInquireType != '가게신고'}">
+		<option value = "가게신고">가게신고</option>
+		</th:block>
+		</th:block>
+		
+		<!-- owner -->
+		<th:block th:if="${session.auth.grade == 'owner'}">
+		<option th:value="${dto.ownerInquireType}">[[${dto.ownerInquireType}]]</option>
+		<th:block th:if="${dto.ownerInquireType != '환불하기'}">
+		<option value = "환불하기">환불하기</option>
+		</th:block>
+		<th:block th:if="${dto.ownerInquireType != '가게신고'}">
+		<option value = "가게신고">가게신고</option>
+		</th:block>
+		</th:block>
+		
+		<!-- employee -->
+		<th:block th:if = "${session.auth.grade == 'employee'}">
+		<option>[[${dto.ownerInquireType}]][[${dto.memberInquireType}]]</option>
+		</th:block>
+		
+		</select>
+		</td>
+	</tr>
+	<tr>
+		<th>내용</th>
+		<td colspan="2"><textarea rows="10" cols="34" name = "inquireContent" required="required">[[${dto.inquireContent}]]</textarea></td>
+	</tr>
+	
+	<th:block th:if="${session.auth.grade != 'employee'}">
+	<tr>
+		<th colspan="3"><input type = "submit" value = "수정"></th>
+	</tr>
+	</th:block>
+	
+	<th:block th:if="${session.auth.grade == 'employee'}">
+	<tr>
+		<th>답변</th>
+		<td colspan="2"><textarea rows="10" cols="34" name = "inquireAnswer" required="required">[[${dto.inquireAnswer}]]</textarea></td>
+	</tr>
+	<tr>
+		<th colspan="3"><input type = "submit" value = "수정"></th>
+	</tr>
+	</th:block>
+</table>
+</form>
+
+</body>
+</html>

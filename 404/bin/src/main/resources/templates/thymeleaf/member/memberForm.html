@@ -3,6 +3,69 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script type = "text/javascript">
+$(function(){
+	// 닉네임 중복 검사
+	$("#memNickname").on("change keyup", function(){
+		$.ajax({
+			type : 'post',
+			url : "/login/userNickNameCheck",
+			data : {"userNick" : $("#memNickname").val()},
+			dataType : 'text',
+			success : function(result) {
+				$("#nickCheck").text(result)
+				if(result.trim() == "사용가능한 닉네임입니다."){
+					$("#nickCheck").css("color", "blue");
+				}else {
+					$("#nickCheck").css("color", "red");
+				}
+			},
+			error : function(){}
+		});	
+	});
+	
+	// 아이디 중복 검사
+	$("#memId").on("change keyup", function(){
+		$.ajax({
+			type : 'post',
+			url : "/login/userIdCheck",
+			data : {"userId" : $("#memId").val()},
+			dataType : 'text',
+			success: function(result){
+				$("#idCheck").text(result)
+				if(result.trim() == "사용가능한 아이디입니다.") {
+					$("#idCheck").css("color", "blue");
+				}else{
+					$("#idCheck").css("color", "red");
+				}
+				
+			},
+			error: function(){}
+		})
+	});
+	// 이메일 중복 체크
+	$("#memEmail").on("change keyup", function(){
+		$.ajax({
+			type : 'post',
+			url : "/login/userEmailCheck",
+			data : {"userEmail" : $("#memEmail").val()},
+			dataType : 'text',
+			success : function(result){
+				$("#emailCheck").text(result)
+				if(result.trim() == "사용가능한 이메일입니다.") {
+					$("#emailCheck").css("color", "blue");
+				}else{
+					$("#emailCheck").css("color", "red");
+				}
+			},
+			error : function(){
+				alert("서버 오류");
+			}
+		})
+	});
+});
+</script>
 </head>
 <body>
 회원등록 페이지
@@ -19,7 +82,8 @@
 
 <tr>
 	<td>회원 아이디</td>
-	<td><input type="text" name="memId" />
+	<td><input type="text" name="memId" id="memId" />
+		<span id="idCheck"></span>
 		</td>
 </tr>
 
@@ -36,8 +100,15 @@
 <tr>
 
 <tr>
+	<td>회원 닉네임</td>
+	<td><input type="text" name="memNickname" id="memNickname" />
+		<span id="nickCheck"></span>
+		</td>
+</tr>
+
+<tr>
 	<td>회원 생년월일</td>
-	<td><input type="date" name="memBirth" />
+	<td><input type="date" name="memBirthDate" />
 		</td>
 </tr>
 
@@ -55,8 +126,8 @@
 
 <tr>
 	<td>회원 이메일</td>
-	<td><input type="email" name="memEmail" />
-		</td>
+	<td><input type="email" name="memEmail" id="memEmail" />
+		<span id="emailCheck"></span></td>
 </tr>
 
 <tr><td colspan="2" align="center"><input type="submit" value="회원가입" /></td></tr>

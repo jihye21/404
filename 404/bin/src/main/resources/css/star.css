@@ -1,0 +1,38 @@
+@charset "UTF-8";
+.star-rating {
+  display: flex;
+}
+
+.star {
+  appearance: none;
+  padding: 1px;
+}
+
+.star::after {
+  content: '☆';
+  color: hsl(60, 80%, 45%);
+  font-size: 20px;
+}
+
+.star:hover::after {
+  content: '★';
+}
+
+.star:has(~ .star:hover)::after {
+  content: '★';
+}
+
+.star:checked::after,
+.star:has(~ .star:checked)::after {
+  content: '★';
+}
+.star:hover::after,
+.star:has(~ .star:hover)::after,
+.star:checked::after,
+.star:has(~ .star:checked)::after {
+  content: '★';
+}
+
+.star:hover ~ .star::after {
+  content: '☆';
+}

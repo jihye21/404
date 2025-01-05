@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<style type="text/css">
+
+body{
+padding: 0px;
+margin: 0px;
+}
+
+.banner{
+background: red;
+padding: 0px;
+margin: 0px;
+height: 200px;
+}
+
+h1{
+margin: 0px;
+text-align: center;
+}
+
+.left-bar{
+position: fixed;
+top: 200px;
+left: 0px;
+width: 20%;
+height: 500px;
+background: green;
+
+}
+
+.right-bar{
+position: fixed;
+right: 0px;
+top: 200px;
+background: pink;
+width: 20%;
+height: 500px;
+}
+
+.center-bar{
+padding-top: 10px;
+margin: 0 auto;
+background: skyblue;
+width: 20%;
+height: 35px;
+text-align: center;
+}
+
+.content{
+margin: 0 auto;
+background: yellow;
+width: 50%;
+height: 2000px;
+justify-content: center;
+}
+
+</style>
+<script type="text/javascript">
+$(function(){
+	$(".heart").click(function(){
+		wishCheck();
+	});
+});
+function heartChange(){
+	if($(".heart").html() == '❤️'){
+		$(".heart").html('🤍');
+	}
+	else if($(".heart").html() == '🤍'){
+		$(".heart").html('❤️');
+	}
+}
+
+function wishCheck(){
+	$.ajax({
+		type: "POST",
+		url: "/member/wishCheck",
+		data: {"storeNum":"[[${dto.storeNum}]]"},
+		success: function(){
+			heartChange();
+		}, 
+		error: function(){
+			alert("로그인이 필요합니다.");
+			window.location.href = "/user/loginForm";
+		}
+	});
+}
+function themeConfirm(themeNum, themeName){
+	let answer = confirm(themeName + "(으)로 예약하시겠습니까?");
+	if(answer){
+		
+	}
+	else{
+		return false;
+	}
+}
+
+</script>
+</head>
+<body>
+
+<div class = "banner">
+	<h1>가게 메인 페이지입니다.</h1>
+</div>
+<div class = "center-bar" style = "background:skyblue;">
+	<table>
+		<th:block th:if = "${wishCheck != '1'}">
+			<span class = "heart">🤍</span>
+		</th:block>
+		<th:block th:if = "${wishCheck == '1'}">
+			<span class = "heart">❤️</span>
+		</th:block>
+		<span style = "margin: 0px;">| 리뷰 | 공유</span>
+	</table>
+</div>
+<div class = "left-bar">
+	왼쪽 바
+</div>
+
+<div class = "right-bar">
+오른쪽 바
+</div>
+
+<div class = "content">
+<table border="1" align="center" width="800">
+	<tr><th>가게 상세 이미지</th></tr>
+	<tr><td>
+		<div th:each="image, idx :${#strings.arraySplit(dto.storeDetailStoreImage,'[/]')}" style="float:left;padding:10px;" align="center">
+			<img th:src="|/static/upload/${image}|" width="200" height="200"/>
+		</div>
+	</td></tr>
+</table>
+
+<table border="1" width="800" align="center">
+	<tr><th colspan="2">테마 종류</th></tr>
+	<tr th:each="themeDTO : ${themeList}">
+		<td width="200"><img th:src="|/static/upload/${themeDTO.themeStoreImage}|" width="200" height="300"/></td>
+		<td>[[${themeDTO.themeName}]]<br/>
+		<span th:each="themeTimeList : ${themeTimeTotalList}">
+			<span th:each="themeTime : ${themeTimeList}">
+				<th:block th:if="${themeDTO.themeNum} == ${themeTime.themeNum}">
+					<form action="/order/themeOrder" method="post" th:attr="onsubmit=|return confirm('${themeDTO.themeName}을 예약하시겠습니까?')|">
+						<input type="hidden" name="themeNum" th:value="${themeDTO.themeNum}">
+						<input type="hidden" name="themeTime" th:value="${themeTime.themeTime}"/>
+						<button type="submit">[[${themeTime.themeTime}]]</button>
+					</form>
+				</th:block>
+			</span>	
+		</span><br/><Br/></td>
+	</tr>
+</table>
+
+</div>
+</body>
+</html>

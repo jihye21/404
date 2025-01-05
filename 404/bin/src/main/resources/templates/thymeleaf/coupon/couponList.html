@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>couponList</title>
+</head>
+<body>
+<h1> 
+<th:block th:if="${session.auth.grade == 'employee'}">직원 </th:block> 
+<th:block th:if="${session.auth.grade == 'owner'}">사장님 </th:block> 
+쿠폰 목록</h1> 
+<a href = "/coupon/couponForm">쿠폰 발급</a>
+<br><br>
+
+<th:block th:each="list:${list}">
+<a th:href = "|/coupon/couponDetail?couponNum=${list.couponNum}|" style="text-decoration: none; color: black;">
+<table border = "1">
+<tr>
+<th>[[${list.couponName}]]</th><td rowspan="2">[[${list.discountType}]]</td>
+</tr>
+
+<tr>
+<th><h1>[[${list.discountRate}]]
+<th:block th:if="${list.discountRate < 100}">%</th:block>
+<th:block th:if="${list.discountRate >= 100}">₩</th:block>
+</h1></th>
+</tr>
+</table>
+</a>
+</th:block>
+
+</body>
+</html>

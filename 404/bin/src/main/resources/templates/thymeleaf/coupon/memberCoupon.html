@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>memberCoupon</title>
+</head>
+<body>
+<h1><th:block th:text="${session.auth.userName}"></th:block>님의 쿠폰</h1>
+<form action = "memberCouponRegist" method = "POST">
+<input type = "text" name = "couponCode">
+<input type = "submit" value = "등록">
+</form>
+<br>
+<th:block th:each="list:${couponList}">
+<input type = "hidden" class = "expirationDate" name = "expirationDate" th:value = "${list.expirationDate}">
+<th:block th:if="${today < list.expirationDate}">
+<th:block th:if = "${list.couponStatus != '사용완료'}">
+<a th:href = "|/coupon/couponDetail?couponNum=${list.couponNum}|" style="text-decoration: none; color: black;">
+<table border = "1">
+<tr>
+<th>[[${list.couponName}]]</th><td rowspan="2">[[${list.discountType}]]</td>
+</tr>
+<tr>
+<th><h1>[[${list.discountRate}]]
+<th:block th:if="${list.discountRate < 100}">%</th:block>
+<th:block th:if="${list.discountRate >= 100}">₩</th:block>
+</h1></th>
+</tr>
+</table>
+</a>
+</th:block>
+</th:block>
+</th:block>
+
+</body>
+</html>

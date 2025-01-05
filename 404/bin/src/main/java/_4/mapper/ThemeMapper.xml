@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="_4.mapper.ThemeMapper">
+
+<sql id="themeBaseColumn">
+theme_num, theme_name, theme_introduction, theme_image, theme_store_image, theme_price, limit_people, store_num
+</sql>
+
+<insert id="themeInsert" parameterType="themeDTO">
+insert into theme (<include refid="themeBaseColumn"/>) values (#{themeNum}, #{themeName}, #{themeIntroduction}, #{themeImage}, #{themeStoreImage}
+															 , #{themePrice}, #{limitPeople}, #{storeNum})
+</insert>
+<insert id="themeTimeInsert" parameterType="themeDTO">
+insert into theme_time (theme_num, theme_time) values (#{themeNum}, #{themeTime})
+</insert>
+<select id="themeSelectAll" parameterType="string" resultType="themeDTO">
+select <include refid="themeBaseColumn"/> from theme where store_num = #{storeNum}
+</select>
+<select id="themeTimeSelectAll" parameterType="string" resultType="themeTimeDTO">
+select theme_num, theme_time from theme_time where theme_num = #{themeNum} order by theme_time
+</select>
+<select id="themeSelectOne" parameterType="string" resultType="themeDTO">
+select <include refid="themeBaseColumn"/> from theme where theme_num = #{themeNum}
+</select>
+
+<update id="themeUpdate" parameterType="themeDTO">
+update theme set theme_name=#{themeName}, theme_introduction=#{themeIntroduction}, theme_price=#{themePrice}, limit_people=#{limitPeople}
+			   ,  store_num=#{storeNum}
+</update>
+
+<delete id="themeDelete" parameterType="string">
+delete from theme where theme_num = #{themeNum}
+</delete>
+</mapper>

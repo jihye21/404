@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>리뷰 작성하기</title>
+ <style>
+    .star-rating {
+      display: flex;
+    }
+
+    .star {
+      appearance: none;
+      padding: 1px;
+    }
+
+    .star::after {
+      content: '☆';
+      color: hsl(60, 80%, 45%);
+      font-size: 20px;
+    }
+
+    
+    .star:checked::after,
+    .star:has(~ .star:checked)::after {
+      content: '★';
+    }
+
+    .star:hover ~ .star::after {
+      content: '☆';
+    }
+  </style>
+</head>
+<body>
+
+<form action="/review/reviewWrite" method="post" >
+
+	 <input type="hidden" name="bookNum" th:value="${dto.bookNum}"/>
+	 <input type="hidden" name="storeNum" th:value="${dto.storeNum}"/>
+	 
+ 	<table border="1" width="600" align="center">
+ 	<tr>
+ 	<td colspan="2">
+ 	<h1>별점</h1>
+	<div class="star-rating">
+		<input type="radio" class="star" value="1" name="starRate" >
+		<input type="radio" class="star" value="2" name="starRate" >
+		<input type="radio" class="star" value="3" name="starRate" >
+		<input type="radio" class="star" value="4" name="starRate" >
+		<input type="radio" class="star" value="5" name="starRate" >
+	</div>
+	</td></tr>
+	
+	
+	<tr><td colspan="2">리뷰를 작성해 주세요!</td></tr>
+	<tr><td colspan="2"><textarea rows="5" cols="60" name="reviewContents"></textarea></td></tr>
+	<tr><td colspan="2" align="center"><input type="submit" value="작성완료" /></td>
+	</table>
+</form>
+
+</body>
+</html>

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import _4.command.StoreCommand;
+import _4.domain.FileDTO;
 import _4.domain.StoreDTO;
 import _4.mapper.StoreMapper;
 import jakarta.servlet.http.HttpSession;
@@ -49,9 +50,9 @@ public class StoreInfoModifyService {
 		dto.setStoreProfileImage(originalFile);
 		dto.setStoreProfileStoreImage(storeFileName);
 		
+		String originalTotal = "";
+		String storeTotal = "";
 		if(!storeCommand.getStoreDetailImage()[0].getOriginalFilename().isEmpty()) {
-			String originalTotal = "";
-			String storeTotal = "";
 			for(MultipartFile mpf : storeCommand.getStoreDetailImage()) {
 				originalFile = mpf.getOriginalFilename();
 				extension = originalFile.substring(originalFile.lastIndexOf("."));
@@ -74,9 +75,40 @@ public class StoreInfoModifyService {
 			dto.setStoreDetailStoreImage(storeTotal);
 		}
 		
+		List<FileDTO> list = (List<FileDTO>) session.getAttribute("storeList");
+		StoreDTO storeDTO = storeMapper.storeSelectOne(storeCommand.getStoreNum());
+		if(storeDTO.getStoreDetailImage() != null) {
+			List<String> dbOrg = new ArrayList<>(Arrays.asList(storeDTO.getStoreDetailImage().split("[/`]")));
+			List<String> dbStore = new ArrayList<>(Arrays.asList(storeDTO.getStoreDetailStoreImage().split("[/`]")));
+			if (list != null) {
+				for (FileDTO fdto : list) {
+					for (String img : dbOrg) {
+						if (fdto.getOrgFile().equals(img)) {
+							dbOrg.remove(fdto.getOrgFile());
+							dbStore.remove(fdto.getStoreFile());
+							break;
+						}
+					}
+				}
+			}
+			for (String img : dbOrg)
+				originalTotal += img + "/";
+			for (String img : dbStore)
+				storeTotal += img + "/";
+		}
+		dto.setStoreDetailStoreImage(storeTotal);
+		dto.setStoreDetailImage(originalTotal);
 		
-		
-		
-		storeMapper.storeUpdate(dto);
+		int i = storeMapper.storeUpdate(dto);
+		if (i > 0) {
+			if (list != null) {
+				for (FileDTO fd : list) {
+					File file1 = new File(fileDir + "/" + fd.getStoreFile());
+					if(file1.exists())
+						file1.delete();
+				}
+				
+			}
+		}
 	}
 }

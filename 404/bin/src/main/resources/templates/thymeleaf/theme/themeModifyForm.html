@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script type="text/javascript">
+var timeInput = "<input type='text' size='4' name='themeTime'/>";
+var item = timeInput;
+
+function themeTimeAdd(){
+	$("#item").append(timeInput);
+}
+function partType(){
+	var plusBtn = "<input type='button' onclick='themeTimeAdd();' value='+'";
+	$("#timeType").append("<tr><td colspan='2'>" + "<span id='item'></span>" + plusBtn + "</td></tr>");
+}
+function allType(){
+	$("#timeType").append("<tr><td colspan='2'>종일권을 선택하셨습니다.</td></tr>");
+}
+</script>
+</head>
+<body>
+<div align="center">
+<form action="/theme/themeUpdate" method="post">
+<input type="hidden" name="themeNum" th:value="${dto.themeNum}"/>
+<input type="hidden" name="storeNum" th:value="${dto.storeNum}"/>
+<table border="1" width="400"  id="timeType">
+	<tr><th colspan="2">테마 수정</th></tr>
+	<tr><td>테마명</td><td><input type="text" name="themeName" th:value="${dto.themeName}"/></td></tr>
+	<tr><td>테마 설명</td><td><textarea rows="5" cols="10" name="themeIntroduction" >[[${dto.themeIntroduction}]]</textarea></td></tr>
+	<tr><td>테마 이미지</td><td>
+						 [[${dto.themeImage}]]
+					</td></tr>
+	<tr><td>가격</td><td><input type="number" name="themePrice" th:value=${dto.themePrice} /></td></tr>
+	<tr><td>제한 인원</td><td><input type="number" name="limitPeople" th:value=${dto.limitPeople} /></td></tr>
+	<tr><td>타임</td><td><button type="button" onclick="partType();">타임별</button>
+						<button type="button" onclick="allType();">종일권</button></td></tr>
+						<tr><td colspan="2">타임 수정은 나중에</td></tr>
+</table>
+<table border="1" width="400">
+	<tr><td colspan="2"><input type="submit" value="수정" /></td></tr>
+</table>
+</form>
+</div>	
+</body>
+</html>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="_4.mapper.CouponMapper">
+	<insert id="empCouponRegistInsert" parameterType="couponDTO">
+		insert into empCoupon (COUPON_NUM, COUPON_CODE, COUPON_NAME, DISCOUNT_TYPE
+		, EXPIRATION_DATE, DISCOUNT_RATE, COUPON_NOTE, EMP_NUM)
+		values(#{couponNum}, #{couponCode}, #{couponName}, #{discountType}
+		, #{expirationDate}, #{discountRate}, #{couponNote}, #{empNum} )
+	</insert>
+	<insert id="ownerCouponRegistInsert" parameterType="couponDTO">
+		insert into ownerCoupon (COUPON_NUM, COUPON_CODE, COUPON_NAME, DISCOUNT_TYPE
+		, EXPIRATION_DATE, DISCOUNT_RATE, COUPON_NOTE, OWNER_NUM)
+		values(#{couponNum}, #{couponCode}, #{couponName}, #{discountType}
+		, #{expirationDate}, #{discountRate}, #{couponNote}, #{ownerNum} )
+	</insert>
+	<select id="empCouponSelectAll">
+		select * from empCoupon
+		where emp_num = #{userNum}
+	</select>
+	<select id="ownerCouponSelectAll">
+		select * from ownerCoupon
+		where owner_num = #{userNum}
+	</select>
+	<select id="couponSelectOne" parameterType="string" resultType="couponDTO">
+		select * from empcoupon 
+		where coupon_num = #{couponNum}
+		union
+		select * from ownercoupon
+		where coupon_num = #{couponNum}
+	</select>
+	<update id="empCouponUpdate" parameterType="couponDTO">
+		update empcoupon set COUPON_NAME = #{couponName}
+		, DISCOUNT_TYPE = #{discountType}, EXPIRATION_DATE = #{expirationDate}
+		, DISCOUNT_RATE = #{discountRate}, COUPON_NOTE = #{couponNote}
+		, EMP_NUM = #{empNum}
+		where EMP_NUM = #{empNum} and COUPON_NUM = #{couponNum}
+	</update>
+	<update id="ownerCouponUpdate" parameterType="couponDTO">
+		update ownerCoupon set COUPON_NAME = #{couponName}
+		, DISCOUNT_TYPE = #{discountType}, EXPIRATION_DATE = #{expirationDate}
+		, DISCOUNT_RATE = #{discountRate}, COUPON_NOTE = #{couponNote}
+		, OWNER_NUM = #{ownerNum}
+		where OWNER_NUM = #{ownerNum} and COUPON_NUM = #{couponNum}
+	</update> 
+	<delete id="empCouponDelete" parameterType="string">
+		delete from empCoupon 
+		where EMP_NUM = #{userNum} and COUPON_NUM = #{couponNum}
+	</delete>
+	<delete id="ownerCouponDelete" parameterType="string">
+		delete from ownerCoupon 
+		where OWNER_NUM = #{userNum} and COUPON_NUM = #{couponNum}
+	</delete>
+	<select id="couponNumSelect" parameterType="string" resultType="string">
+		select coupon_num from empCoupon
+		where coupon_code = #{couponCode}
+		union 
+		select coupon_num from ownerCoupon
+		where coupon_code = #{couponCode}
+	</select>
+	<insert id="memberCouponInsert">
+		insert into memberCoupon (MEM_NUM, COUPON_NUM, COUPON_REGIST_DATE)
+		values (#{memNum}, #{couponNum}, SYSDATE)
+	</insert>
+	<select id="memberCouponSelectAll" parameterType="string" resultType="couponDTO">
+		select mem_num as memNum, m.coupon_num as couponNum, coupon_regist_date as couponRegistDate, coupon_status as couponStatus, 
+		coupon_code as couponCode, coupon_name as couponName, discount_type as discountType, expiration_date as expirationDate, discount_rate as discountRate
+		, coupon_note as couponNote, emp_num as empNum 
+		from memberCoupon m 
+		join empCoupon e 
+		on e.coupon_Num = m.coupon_Num 
+		where mem_num = #{memNum}
+		union
+		select mem_num as memNum, m.coupon_num as couponNum, coupon_regist_date as couponRegistDate, coupon_status as couponStatus, 
+		coupon_code as couponCode, coupon_name as couponName, discount_type as discountType, expiration_date as expirationDate, discount_rate as discountRate
+		, coupon_note as couponNote, owner_num as ownerNum  from memberCoupon m 
+		join ownerCoupon o  
+		on o.coupon_Num = m.coupon_Num 
+		where mem_num = #{memNum}
+		<!--  select * from ownerCoupon
+		where coupon_num in
+		(select coupon_num from memberCoupon where mem_num = #{memNum})
+		union
+		select * from empCoupon
+		where coupon_num in
+		(select coupon_num from memberCoupon where mem_num = #{memNum})-->
+	</select>
+	<select id="memberCouponRegistCheck" parameterType="string" resultType="string">
+		select '발급된 쿠폰' from memberCoupon 
+		where coupon_num = #{couponNum} and mem_num = #{memNum}
+	</select>
+	<select id="memberSearchSelectAll" parameterType="String" resultType="memberDTO">
+		SELECT mem_nickname
+	    FROM member
+	    WHERE mem_nickname LIKE CONCAT(CONCAT('%', #{memNickName}), '%')
+	</select>
+	<insert id="memberCouponSend" parameterType="String">
+		insert into memberCoupon (mem_num, coupon_num, coupon_regist_date)
+		values (#{memNum}, #{couponNum}, SYSDATE)
+	</insert>
+</mapper>

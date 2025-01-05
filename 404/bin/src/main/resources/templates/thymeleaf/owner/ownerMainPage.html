@@ -3,8 +3,217 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+
+body{
+padding: 0px;
+margin: 0px;
+}
+
+.banner{
+background: red;
+padding: 0px;
+margin: 0px;
+height: 200px;
+}
+
+h1{
+margin: 0px;
+text-align: center;
+}
+
+.left-bar{
+position: fixed;
+top: 200px;
+left: 0px;
+width: 20%;
+height: 500px;
+background: lightgreen;
+
+}
+
+.right-bar{
+position: fixed;
+right: 0px;
+top: 200px;
+background: pink;
+width: 20%;
+height: 500px;
+}
+
+.center-bar{
+margin: 0 auto;
+background: skyblue;
+width: 20%;
+height: 50px;
+text-align: center;
+}
+
+.content{
+margin: 0 auto;
+background: yellow;
+width: 50%;
+height: 2000px;
+justify-content: center;
+}
+
+li{
+padding: 10px;
+}
+</style>
+<script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	menuManage();
+	$("#menuManage").click(function(){
+		bookReceipt("1");
+		menuManage();
+	});
+	$("#storeInfoManage").click(function(){
+		bookReceipt("1");
+		storeInfoManage();
+	});
+	$("#bookManage").click(function(){
+		bookManage();
+	});
+	$("#reviewManage").click(function(){
+		bookReceipt("1");
+		reviewManage();
+	});
+	$("#inquire").click(function(){
+		bookReceipt("1");
+		inquire();
+	});
+	$("#couponManage").click(function(){
+		bookReceipt("1");
+		couponManage();
+	});
+
+});
+function menuManage(){
+	$.ajax({
+		type: "post",
+		url : "/theme/themeManagePage",
+		data: {"ownerNum":"[[${dto.ownerNum}]]"},
+		dataType: "html",
+		success: function(result){
+			$(".content").html(result);
+		},
+		error: function(){
+			alert("서버 오류");
+		}
+	})
+}
+function storeInfoManage(){
+	$.ajax({
+		type: "post",
+		url : "/owner/storeInfoManagePage",
+		data: {"ownerNum":"[[${dto.ownerNum}]]"},
+		dataType: "html",
+		success: function(result){
+			$(".content").html(result);
+		},
+		error: function(){
+			alert("서버 오류");
+		}
+	})
+}
+function bookManage(){
+	$.ajax({
+		type: "post",
+		url : "/owner/bookManagePage",
+		data: {"ownerNum":"[[${dto.ownerNum}]]"},
+		dataType: "html",
+		success: function(result){
+			$(".content").html(result);
+		},
+		error: function(){
+			alert("서버 오류");
+		}
+	})
+}
+function bookReceipt(bookNum){
+	$.ajax({
+		type: "post",
+		url: "/book/bookReceipt",
+		data: {"bookNum":bookNum},
+		dataType: "html",
+		success: function(result){
+			$(".right-bar").html(result);
+		},
+		error: function(){
+			//alert("ownerMainPage-bookReceipt() 오류");
+		}
+	});
+}
+function reviewManage(){
+	$.ajax({
+		type: "post",
+		url : "/owner/reviewManagePage",
+		data: {"storeNum":"[[${dto.storeNum}]]"},
+		dataType: "html",
+		success: function(result){
+			$(".content").html(result);
+		},
+		error: function(){
+			alert("ownerMainPage-reviewManage() 오류");
+		}
+	})
+}
+function inquire(){
+	$.ajax({
+		type: "post",
+		url : "/inquire/inquireList",
+		data: {"ownerNum":"[[${dto.ownerNum}]]"},
+		dataType: "html",
+		success: function(result){
+			$(".content").html(result);
+		},
+		error: function(){
+			alert("서버 오류");
+		}
+	})
+}
+function couponManage(){
+	$.ajax({
+		type: "post",
+		url : "/coupon/couponList",
+		data: {"ownerNum":"[[${dto.ownerNum}]]"},
+		dataType: "html",
+		success: function(result){
+			$(".content").html(result);
+		},
+		error: function(){
+			alert("서버 오류");
+		}
+	})
+}
+</script>
 </head>
 <body>
-사장 메인 페이지입니다.
+<div class = "banner">
+	<h1>사장 메인 페이지입니다.</h1>
+</div>
+<div class = "center-bar" style = "background:skyblue;">
+ ❤️| 리뷰 | 공유
+</div>
+<div class = "left-bar">
+<ul>
+	<li><span id="menuManage">메뉴 수정</span></li>
+	<li><span id="storeInfoManage">가게 정보 수정</span></li>
+	<li><span id="bookManage">예약 관리</span></li>
+	<li><span id="reviewManage">리뷰 관리</span></li>
+	<li><span id="inquire">문의 하기</span></li>
+	<li><span id="couponManage">쿠폰 관리</span></li>
+</ul>
+</div>
+
+<div class = "right-bar">
+오른쪽 바
+</div>
+
+<div class = "content">
+</div>
+
 </body>
 </html>

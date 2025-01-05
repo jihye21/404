@@ -3,18 +3,91 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#frm").submit(function(){
+		if($("input:checkbox[name=empDels]").length < 1) {
+			alert("하나 이상을 선택하세요.");
+			return false;
+		}
+	});
+	
+	// checkBoxs를 선택하면 모두 선택이 가능
+	$("#checkBoxs").click(function(){
+		if($("#checkBoxs").prop("checked")){
+			$("input:checkbox[name=empDels]").prop("checked", true);
+		}else{
+			$("input:checkbox[name=empDels]").prop("checked", false);
+		}
+	});
+	
+	// memDels를 체크를 하나씩 없애면 checkBoxs에 체크가 없어지고 모두 체크를 하면 checkBoxs도 체크
+	$("input:checkbox[name=empDels]").click(function(){
+		// 먼저 체크박스의 개수를 가지고 옴
+		var tot = $("input:checkbox[name=empDels]").length;
+		
+		// 체크된 박스의 개수를 가지고 옴
+		var checked = $("input:checkbox[name=empDels]:checked").length;
+		
+		// 두 개를 비교
+		if(tot == checked){
+			$("#checkBoxs").prop("checked", true);
+		}else{
+			$("#checkBoxs").prop("checked", false);
+		}
+	});
+});
+</script>
 </head>
 <body>
 <li><a href="/">홈으로</a></li>
 <li><a href="employeeRegist">직원 등록</a></li><br/>
-<table border="1" width="500" align="center">
-<tr><td>번호</td><td>이름</td><td>아이디</td><td>등록일</td></tr>
-<tr th:each = "list : ${list}">
-	<td>[[${list.empNum}]]</td>
-	<td><a th:href="|employeeDetail?empNum=${list.empNum}|">[[${list.empName}]]</a></td>
-	<td>[[${list.empId}]]</td>
-	<td>[[${list.empHireDate}]]</td>
-</tr>
+<table border="1" width="700" align="center">
+<!-- 검색 페이지 -->
+<form action="employeeList" method="post">
+	<tr><td colspan="5">검색 :
+		<input type="search" name="searchWord" size="60" th:value="${searchWord}" />
+		<input type="submit" value="검색" />
+	</td></tr>
+</form>
+
+<form action="employeesDelete" method="post" id="frm">
+	<tr><td>번호</td><td>이름</td><td>아이디</td><td>등록일</td>
+		<td><input type="checkbox" id="checkBoxs" />
+			<input type="submit" value="삭제" /></td>
+		</tr>
+	
+	<tr th:each = "list : ${list}">
+		<td>[[${list.empNum}]]</td>
+		<td><a th:href="|employeeDetail?empNum=${list.empNum}|">[[${list.empName}]]</a></td>
+		<td>[[${list.empId}]]</td>
+		<td>[[${list.empHireDate}]]</td>
+		<td><input type="checkbox" name="empDels" th:value="${list.empNum}" /></td>
+	</tr>
+	
+	<tr align="center"><td colspan="5">
+		<th:block th:if="${page <= 1}">
+		[이전]
+		</th:block>
+		
+		<th:block th:if="${page > 1}">
+			<a th:href="@{employeeList(page=${page - 1}, searchWord=${searchWord})}">[이전]</a>
+		</th:block>
+		
+		<th:block th:each= " i : ${#numbers.sequence(startPage, endPage)}">
+			<a th:href="@{employeeList(page=${i}, searchWord=${searchWord})}">[[${i}]]</a>
+		</th:block>
+		
+		<th:block th:if="${page >= maxPage}">
+		[다음]
+		</th:block>
+		
+		<th:block th:if="${page < maxPage}">
+			<a th:href="@{employeeList(page=${page + 1}, searchWord=${searchWord})}">[다음]</a>
+		</th:block>
+	</td></tr>
+</form>
 </table>
 </body>
 </html>
