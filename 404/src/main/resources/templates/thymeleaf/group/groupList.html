@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>그룹</title>
+<script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<style type="text/css">
+.group{
+	display: flex;
+	align-items: flex-start;
+}
+.GroupForm{
+	padding: 20px;
+}
+</style>
+<script type="text/javascript">
+
+function NewGroup(){
+	
+}
+
+$(function(){
+	$(".GroupMemberSearch").keyup(function(event){
+		if(event.key != 8){
+			var memName = $(".GroupMemberSearch").val();
+			
+			$.ajax({
+				type: "POST",
+				url: "/group/GroupMemberSearch",
+				data: {memName: memName},
+				success: function(groupList){
+					$(".NewGroupMember").html(null);
+					groupList.forEach(function(group){
+						const NewMemberRow = `
+							<tr>
+								<td onclick="MemberInsert('${group.memName}');">${group.memName}</td>
+							</tr>`;
+						$(".NewGroupMember").append(NewMemberRow);
+					})
+				},
+				error: function(){
+				}
+			})
+		}
+	})
+})
+
+function MemberInsert(memName){
+	let duplicate = false;
+	
+	$(".GroupMember td").each(function(){
+		if($(this).text() === memName){
+			duplicate = true;
+		}
+	})
+	
+	if(!duplicate){
+		const GroupMember = `
+			<tr>
+				<td>${memName}</td>
+			</tr>
+			`;
+			
+			$(".GroupMember").append(GroupMember);
+	}else {
+		alert("이미 등록되었습니다.");
+	}
+		
+}
+</script>
+</head>
+<body>
+
+<h1>그룹</h1>
+
+<div class = "group">
+	<table style="padding:20px;">
+	   <tr>
+	       <td colspan="2">그룹 만들기</td>
+	       <td><button type="button" onclick="NewGroup();">+</button></td>
+	   </tr>
+	   <tr>
+	       <td>그룹</td>
+	       <td>참여자</td>
+	       <td><button type="button">+</button></td>
+	   </tr>
+	</table>
+	    
+	<div class = "GroupForm">
+	그룹명: <input type = "text" name = "GroupName"><br>
+	
+	<table>
+		<thead>
+			<tr>
+				<td>멤버 추가하기: <input type = "search" class = "GroupMemberSearch"></td>
+			</tr>
+		</thead>
+		<tbody class = "NewGroupMember">
+		</tbody>
+	</table>
+	
+	<table>
+		<thead>
+			<tr>
+				<td>그룹원</td>
+			</tr>
+		</thead>
+		<tbody class = "GroupMember">
+		</tbody>
+	</table>
+	
+	</div>
+</div>
+</body>
+</html>

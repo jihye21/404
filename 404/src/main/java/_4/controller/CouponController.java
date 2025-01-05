@@ -106,7 +106,6 @@ public class CouponController {
 	public @ResponseBody List<MemberDTO> memberSearch(@RequestParam ("memNickname") String memNickname
 			, Model model) {
 		List<MemberDTO> memberSearchList = memberSearchService.execute(memNickname, model);
-		System.out.println(memberSearchList);
 		return memberSearchList;
 	}
 	

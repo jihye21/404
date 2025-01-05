@@ -18,7 +18,6 @@ public class MemberSearchService {
 		MemberDTO memberDTO = new MemberDTO();
 		List<MemberDTO> memberSearchList = new ArrayList<MemberDTO>();
 		
-		System.out.println(memNickname);
 		if(memNickname != null) {
 			memberSearchList = couponMapper.memberSearchSelectAll(memNickname);
 			model.addAttribute("memberSearchList", memberSearchList);

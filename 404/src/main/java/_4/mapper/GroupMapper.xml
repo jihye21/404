@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="_4.mapper.GroupMapper">
+	<select id="groupMemberSearch" parameterType="string" resultType="groupDTO">
+		select mem_name from member m 
+		join friendList f
+		on m.mem_num = f.mem_num
+		where f.mem_num = #{memNum} and mem_Name like concat(concat('%', #{memName}), '%')
+	</select>
+</mapper>
