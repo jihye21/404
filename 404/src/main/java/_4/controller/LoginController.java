@@ -87,7 +87,7 @@ public class LoginController {
 		if(resultEmail == null) {
 			return "사용가능한 이메일입니다.";
 		}else {
-			return "이미 가입된 이메일 입니다.";
+			return "이미 가입된 이메일 입니다."; 
 		}
 	}
 }
