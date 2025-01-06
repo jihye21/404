@@ -57,7 +57,6 @@ public class UserController {
 		else if(auth.getGrade().equals("employee")) return "redirect:/employee/employeeMainPage";
 		else if(auth.getGrade().equals("owner")) {
 			String ownerNum = userNumService.execute(session);
-			System.out.println("ownerNum : " + ownerNum);
 			String link = ownerLoginService.execute(ownerNum);
 			return link;
 		}

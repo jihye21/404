@@ -38,7 +38,6 @@ public class StoreInfoModifyService {
 			String extension = originalFile.substring(originalFile.lastIndexOf("."));
 			String storeName = UUID.randomUUID().toString().replace("-", "");
 			String storeFileName = storeName + extension;	
-			System.out.println("storeFileName : " + storeFileName);
 			File file = new File(fileDir + "/" + storeFileName);
 			try {
 				mf.transferTo(file);

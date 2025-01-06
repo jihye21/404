@@ -72,6 +72,9 @@ function fileChk(){
 	</td></tr>
 	 
 	 <tr><td>혼잡도</td><td><input type="text" name="storeCrowded" th:value="${dto.storeCrowded}"/></td></tr>
+	 <tr><td>예약금 설정</td><td>
+	 						  <span><input type="number" name="min" size="5"/><input type="number" name="max" size="5"/><input type="text" name="rate"/></span><br/>
+	 					  </td></tr>
 	<tr><th colspan="2"><input type="submit" value="수정"/></th></tr>
 </table>
 </form>

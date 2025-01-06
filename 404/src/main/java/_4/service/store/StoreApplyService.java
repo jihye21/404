@@ -43,7 +43,6 @@ public class StoreApplyService {
 		//사업자 등록증 이미지
 		//file 추가
 		URL resource = getClass().getClassLoader().getResource("static/upload");
-		System.out.println("resource : " + resource);
 		String fileDir = resource.getFile();
 		
 		MultipartFile mf = storeApplicationCommand.getBussRegistImage();
