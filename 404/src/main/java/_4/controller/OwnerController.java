@@ -15,6 +15,7 @@ import _4.domain.BookDTO;
 import _4.domain.ReviewDTO;
 import _4.domain.StoreDTO;
 import _4.mapper.BookMapper;
+import _4.mapper.MainMapper;
 import _4.mapper.ReviewMapper;
 import _4.mapper.StoreMapper;
 import _4.mapper.service.UserNumService;
@@ -37,6 +38,8 @@ public class OwnerController {
 	BookMapper bookMapper;
 	@Autowired
 	ReviewMapper reviewMapper;
+	@Autowired
+	MainMapper mainMapper;
 	
 	@GetMapping("ownerForm")
 	public String ownerForm(Model model) {
@@ -56,6 +59,8 @@ public class OwnerController {
 		String ownerNum = userNumService.execute(session);
 		StoreDTO dto = storeMapper.storeSelectOne(ownerNum);
 		model.addAttribute("dto", dto);
+		Integer wishCount = mainMapper.wishCountSelect(dto.getStoreNum());
+		model.addAttribute("wishCount", wishCount);
 		return "thymeleaf/owner/ownerMainPage";
 	}
 	

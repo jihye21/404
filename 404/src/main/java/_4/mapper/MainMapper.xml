@@ -13,4 +13,8 @@ select mem_num as userNum from member where mem_id = #{userId}
  union select emp_num from employee where emp_id = #{userId}
  union select owner_num from owner where owner_id = #{userId}
 </select>
+
+<select id="wishCountSelect" parameterType="string" resultType="integer">
+select count(mem_num) from wish where store_num = #{storeNum}
+</select>
 </mapper>

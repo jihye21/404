@@ -64,6 +64,7 @@ justify-content: center;
 $(function(){
 	$(".heart").click(function(){
 		wishCheck();
+		window.location.reload();
 	});
 });
 function heartChange(){
@@ -114,7 +115,8 @@ function themeConfirm(themeNum, themeName){
 		<th:block th:if = "${wishCheck == '1'}">
 			<span class = "heart">❤️</span>
 		</th:block>
-		<span style = "margin: 0px;">| 리뷰 | 공유</span>
+		<span style = "margin: 0px;">| 리뷰 | 공유</span><br/>
+		<span style="position:relative;left:-45px;">[[${wishCount}]]</span>
 	</table>
 </div>
 <div class = "left-bar">
@@ -124,7 +126,7 @@ function themeConfirm(themeNum, themeName){
 <div class = "right-bar">
 오른쪽 바
 </div>
-
+<br/>
 <div class = "content">
 <table border="1" align="center" width="800">
 	<tr><th>가게 상세 이미지</th></tr>
