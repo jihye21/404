@@ -27,6 +27,34 @@ function reviewAnswer(reviewNum){
 		}
 	})
 }
+
+function reviewAnswerModify(reviewNum){
+	var reviewAnswerContents = $("#reviewAnswerContents").val();
+	$.ajax({
+		type: "post",
+		url: "/review/reviewAnswerModify",
+		data: {"reviewNum":reviewNum, "reviewAnswerContents":reviewAnswerContents},
+		success: function(){
+			reviewManage();
+		},
+		error: function(){
+			alert("서버 오류");
+		}
+	})
+}
+function reviewAnswerDelete(reviewNum){
+	$.ajax({
+		type: "post",
+		url: "/review/reviewAnswerDelete",
+		data: {"reviewNum":reviewNum},
+		success: function(){
+			reviewManage();
+		},
+		error: function(){
+			alert("서버 오류");
+		}
+	})
+}
 </script>
 </head>
 <body>
@@ -44,9 +72,9 @@ function reviewAnswer(reviewNum){
 			<button type='button' id="reviewBtn" th:attr="onclick=|reviewAnswer('${dto.reviewNum}');|" style="display:none;">저장</button>
 		</th:block>
 		<th:block th:if="${dto.reviewAnswerContents != null}">
-			<textarea rows="5" cols="60" readonly="readonly">
-				[[${dto.reviewAnswerContents}]]
-			</textarea>
+			<textarea rows="5" cols="60" name="reviewAnswerContents" id="reviewAnswerContents">[[${dto.reviewAnswerContents}]]</textarea>
+			<button type="button" th:attr="onclick=|reviewAnswerModify('${dto.reviewNum}')|">수정</button>
+			<button type="button" th:attr="onclick=|reviewAnswerDelete('${dto.reviewNum}')|">삭제</button>
 		</th:block>
 	</td></tr>
 </table>

@@ -15,6 +15,8 @@ import _4.domain.BookDTO;
 import _4.domain.ReviewDTO;
 import _4.mapper.BookMapper;
 import _4.mapper.ReviewMapper;
+import _4.service.review.ReviewAnswerDeleteService;
+import _4.service.review.ReviewAnswerModifyService;
 import _4.service.review.ReviewAnswerService;
 import _4.service.review.ReviewDeleteService;
 import _4.service.review.ReviewDetailService;
@@ -36,6 +38,10 @@ public class ReviewController {
 	ReviewDeleteService reviewDeleteService;
 	@Autowired
 	ReviewAnswerService reviewAnswerService;
+	@Autowired
+	ReviewAnswerModifyService reviewAnswerModifyService;
+	@Autowired
+	ReviewAnswerDeleteService reviewAnswerDeleteService;
 	@Autowired
 	BookMapper bookMapper;
 	@Autowired
@@ -100,6 +106,16 @@ public class ReviewController {
 	@PostMapping("reviewAnswer")
 	public @ResponseBody void reviewAnswer(@RequestBody @RequestParam("reviewNum") String reviewNum, @RequestParam("reviewAnswerContents") String reviewAnswerContents) {
 		reviewAnswerService.execute(reviewNum, reviewAnswerContents);
+	}
+	
+	@PostMapping("reviewAnswerModify")
+	public @ResponseBody void reviewAnswerModify(@RequestBody @RequestParam("reviewNum") String reviewNum, @RequestParam("reviewAnswerContents") String reviewAnswerContents) {
+		reviewAnswerModifyService.execute(reviewNum, reviewAnswerContents);
+	}
+	
+	@PostMapping("reviewAnswerDelete")
+	public @ResponseBody void reviewAnswerModify(@RequestBody @RequestParam("reviewNum") String reviewNum) {
+		reviewAnswerDeleteService.execute(reviewNum);
 	}
 	
 }
