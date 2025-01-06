@@ -1,4 +1,4 @@
-package _4.group;
+package _4.service.group;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,24 +14,26 @@ import _4.mapper.service.UserNumService;
 import jakarta.servlet.http.HttpSession;
 
 @Service
-public class GroupMemberSearchService {
+public class GroupListService {
 	@Autowired
 	UserNumService userNumService;
 	@Autowired
 	GroupMapper groupMapper;
-	public List<GroupDTO> execute(String memName, HttpSession session) {
+	public void execute(HttpSession session, Model model) {
 		List<GroupDTO> groupList = new ArrayList<GroupDTO>();
+		List<GroupDTO> groupMemberList = new ArrayList<GroupDTO>();
 		
-		//member인지 확인
 		AuthDTO auth = (AuthDTO) session.getAttribute("auth");
-		if(auth.getGrade().equals("member")){
-			
-			String memNum = userNumService.execute(session);
-			
-			groupList = groupMapper.groupMemberSearch(memName, memNum);
+		String memNum = userNumService.execute(session);
+		groupList = groupMapper.groupSelectAll(memNum);
+		
+		//그룹 번호와 그룹 이름을 가져온다.
+		model.addAttribute("myGroupList", groupList);
+		
+		for( GroupDTO groupNumList : groupList) {
+			groupMemberList = groupMapper.groupMemberSelectAll(groupNumList);
 		}
 		
-		 
-		return groupList;
+		model.addAttribute("groupMemberList", groupMemberList);
 	}
 }

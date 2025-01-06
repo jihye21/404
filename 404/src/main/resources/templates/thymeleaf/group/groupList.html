@@ -10,16 +10,24 @@
 	align-items: flex-start;
 }
 .GroupForm{
-	padding: 20px;
+	margin: 20px;
+}
+.groupAlarm{
+	margin: 20px;
 }
 </style>
 <script type="text/javascript">
 
-function NewGroup(){
-	
-}
-
 $(function(){
+	$.ajax({
+		type: "POST",
+		url: "/group/alarmCount",
+		success: function(alarmCount){
+			$(".alarmCount").val(alarmCount);
+		},
+		error: function(){}
+	})
+	
 	$(".GroupMemberSearch").keyup(function(event){
 		if(event.key != 8){
 			var memName = $(".GroupMemberSearch").val();
@@ -33,7 +41,7 @@ $(function(){
 					groupList.forEach(function(group){
 						const NewMemberRow = `
 							<tr>
-								<td onclick="MemberInsert('${group.memName}');">${group.memName}</td>
+								<td onclick="MemberInsert('${group.memName}', '${group.friendNum}');" data-memNum = "${group.friendNum}">${group.memName}</td>
 							</tr>`;
 						$(".NewGroupMember").append(NewMemberRow);
 					})
@@ -43,13 +51,15 @@ $(function(){
 			})
 		}
 	})
+	
+	
 })
 
-function MemberInsert(memName){
+function MemberInsert(memName, memNum){
 	let duplicate = false;
 	
 	$(".GroupMember td").each(function(){
-		if($(this).text() === memName){
+		if($(this).data("memnum") === memNum){
 			duplicate = true;
 		}
 	})
@@ -57,7 +67,9 @@ function MemberInsert(memName){
 	if(!duplicate){
 		const GroupMember = `
 			<tr>
-				<td>${memName}</td>
+				<td data-memNum = "${memNum}">${memName}
+				<input type = "hidden" name = "memName" value = "${memName}">
+				<input type = "hidden" name = "memNum" value = "${memNum}"></td>
 			</tr>
 			`;
 			
@@ -67,6 +79,33 @@ function MemberInsert(memName){
 	}
 		
 }
+
+function groupYes(groupNum){
+	$.ajax({
+		type: "POST",
+		url: "/group/groupEnter",
+		data: {groupNum:groupNum},
+		success: function(){
+			alert("수락되었습니다.");
+			window.location.reload();
+		},
+		error: function(){}
+	})
+}
+
+function groupNo(groupNum){
+	$.ajax({
+		type: "POST",
+		url: "/group/groupQuit",
+		data: {groupNum:groupNum},
+		success: function(){
+			alert("거절되었습니다.");
+			window.location.reload();
+		},
+		error: function(){}
+	})
+}
+
 </script>
 </head>
 <body>
@@ -74,42 +113,91 @@ function MemberInsert(memName){
 <h1>그룹</h1>
 
 <div class = "group">
-	<table style="padding:20px;">
+	<table style="margin:20px;" border="1">
 	   <tr>
-	       <td colspan="2">그룹 만들기</td>
-	       <td><button type="button" onclick="NewGroup();">+</button></td>
+	       <th colspan="1">내 그룹</th><td>❤️💕🪼</td>
 	   </tr>
+	   <th:block th:each="myGroupList:${myGroupList}">
+	   
 	   <tr>
 	       <td>그룹</td>
-	       <td>참여자</td>
-	       <td><button type="button">+</button></td>
+	       <td>[[${myGroupList.groupName}]]</td>
 	   </tr>
+	   <th:block th:each="groupMemberList:${groupMemberList}">
+	   <tr>
+	   		<td>참여자</td>
+	   		<td>[[${groupMemberList.memName}]]</td>
+	   </tr>
+	   </th:block>
+	   </th:block>
 	</table>
 	    
 	<div class = "GroupForm">
-	그룹명: <input type = "text" name = "GroupName"><br>
+		<form action = "/group/GroupForm" method = "POST">
+		그룹명: <input type = "text" name = "groupName">
+		<br><br>
+		<table >
+			<thead>
+				<tr>
+					<td>멤버 추가하기: <input type = "search" class = "GroupMemberSearch"></td>
+				</tr>
+			</thead>
+			<tbody class = "NewGroupMember">
+			</tbody>
+		</table>
+		<br>
+		<table>
+			<thead>
+				<tr>
+					<th>그룹원</th>
+				</tr>
+			</thead>
+			<tbody class = "GroupMember">
+			</tbody>
+		</table>
+		<input type = "submit" value = "그룹 등록">
+		</form>
+	</div>
 	
-	<table>
-		<thead>
-			<tr>
-				<td>멤버 추가하기: <input type = "search" class = "GroupMemberSearch"></td>
-			</tr>
-		</thead>
-		<tbody class = "NewGroupMember">
-		</tbody>
-	</table>
-	
-	<table>
-		<thead>
-			<tr>
-				<td>그룹원</td>
-			</tr>
-		</thead>
-		<tbody class = "GroupMember">
-		</tbody>
-	</table>
-	
+	<div class = "groupAlarm">
+		<block class = "alarmBox">알림함</block> <input type = "number" class = "alarmCount" value ="" readonly="readonly">
+		<br><br>
+		
+		
+		
+			<th:block th:each="groupAlarmList:${groupAlarmList}">
+			<table border = "1" width = "450px;">
+				<th:block th:if="${groupAlarmList!=null}">
+					<thead>
+						<tr>
+							<td colspan="3">그룹 이름</td>
+						</tr>
+					</thead>
+				
+				</th:block>
+				<tbody>
+					<tr>
+						<td width="300px;">
+							[[${groupAlarmList.groupName}]]에서 초대가 왔습니다.
+						</td>
+					
+						<th>
+							<button type = "button"
+								th:attr="onclick=|groupYes('${groupAlarmList.groupNum}');|">수락
+							</button>
+						</th>
+						<th>
+							<button type = "button"
+								th:attr="onclick=|groupNo('${groupAlarmList.groupNum}');|">거절
+							</button>
+						</th>
+					</tr>
+				</tbody>
+			
+		</table>
+		</th:block>
 	</div>
 </div>
+
 </body>
 </html>

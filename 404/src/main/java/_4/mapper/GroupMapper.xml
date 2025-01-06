@@ -5,9 +5,62 @@
 	
 <mapper namespace="_4.mapper.GroupMapper">
 	<select id="groupMemberSearch" parameterType="string" resultType="groupDTO">
-		select mem_name from member m 
+		select mem_name, f.friend_num from member m 
 		join friendList f
-		on m.mem_num = f.mem_num
+		on m.mem_num = f.friend_num
 		where f.mem_num = #{memNum} and mem_Name like concat(concat('%', #{memName}), '%')
 	</select>
+	<insert id="groupInsert" parameterType="groupDTO">
+		insert into group_list (group_num, group_name, leader_num)
+		values (#{groupNum}, #{groupName}, #{memNum})
+	</insert>
+	<insert id="groupMemberAlarmInsert" parameterType="groupDTO">
+		insert into group_member_alarm (group_num, mem_num)
+		values (#{groupNum}, #{memNum})
+	</insert>
+	<insert id="groupMemberInsert" parameterType="groupDTO">
+		insert into group_member (GROUP_NUM, MEM_NUM)
+		values(#{groupNum}, #{memNum})
+	</insert>
+	<select id="groupSelectAll" parameterType="string" resultType="groupDTO">
+		select l.group_num, group_name from group_list l join 
+		group_member gm
+		on l.group_num = gm.group_num
+        join member m
+        on m.mem_num = gm.mem_num
+		where gm.mem_num = #{memNum}
+		
+        <!--
+        select * from group_list l join 
+		group_member gm
+		on l.group_num = gm.group_num
+        join member m
+        on m.mem_num = gm.mem_num
+		where gm.mem_num = #{memNum}
+		-->
+	</select>
+	<select id="groupMemberSelectAll" parameterType="groupDTO" resultType="groupDTO">
+		select mem_name from member m
+		join group_member gm 
+		on m.mem_num = gm.mem_num
+		where group_num = #{groupNum}
+	</select>
+	<select id="groupAlarmCount" parameterType="string" resultType="Integer">
+		select count(group_num) from group_member_alarm 
+		where mem_num = #{memNum} and group_member_alarm_status is null
+	</select>
+	<select id="groupAlarmSelectAll" parameterType="string" resultType="groupDTO">
+		select gma.group_num, group_name from group_member_alarm gma
+		join group_list gl
+		on gma.group_num = gl.group_num
+		where mem_num = #{memNum} and group_member_alarm_status is null
+	</select>
+	<update id="groupAlarmEnter" parameterType="groupDTO">
+		update group_member_alarm set group_member_alarm_status = 'Y'
+		where group_num = #{groupNum} and mem_num = #{memNum}
+	</update>
+	<delete id="groupAlarmQuit">
+		delete from group_member_alarm 
+		where group_num = #{groupNum} and mem_num = #{memNum}
+	</delete>
 </mapper>
