@@ -33,7 +33,7 @@ public class StoreInfoModifyService {
 		URL resource = getClass().getClassLoader().getResource("static/upload");
 		String fileDir = resource.getFile();
 		MultipartFile mf = storeCommand.getStoreProfileImage();
-		String originalFile = mf.getOriginalFilename();
+		String originalFile = mf.getOriginalFilename();				// 여기 mf가 null이라고 함
 		String extension = originalFile.substring(originalFile.lastIndexOf("."));
 		String storeName = UUID.randomUUID().toString().replace("-", "");
 		String storeFileName = storeName + extension;	
@@ -75,7 +75,7 @@ public class StoreInfoModifyService {
 			dto.setStoreDetailStoreImage(storeTotal);
 		}
 		
-		List<FileDTO> list = (List<FileDTO>) session.getAttribute("storeList");
+		List<FileDTO> list = (List<FileDTO>) session.getAttribute("fileList");
 		StoreDTO storeDTO = storeMapper.storeSelectOne(storeCommand.getStoreNum());
 		if(storeDTO.getStoreDetailImage() != null) {
 			List<String> dbOrg = new ArrayList<>(Arrays.asList(storeDTO.getStoreDetailImage().split("[/`]")));
