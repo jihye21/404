@@ -8,17 +8,20 @@
 STORE_APPL_NUM, STORE_NAME, owner_num
 			, STORE_ADDR, STORE_ADDR_DETAIL, STORE_INTRODUCTION
 			, STORE_OPEN_DATE, BUSS_REGIST_IMAGE, BUSS_REGIST_STORE_IMAGE
-			, BUSS_REGIST_NUM
+			, BUSS_REGIST_NUM, STORE_PROFILE_IMAGE, STORE_PROFILE_STORE_IMAGE
+			, STORE_DETAIL_IMAGE, STORE_DETAIL_STORE_IMAGE
 </sql>
 <insert id="storeApplicationInsert" parameterType="storeApplicationDTO">
 			insert into store_application (STORE_APPL_NUM, STORE_NAME, owner_num
 			, STORE_ADDR, STORE_ADDR_DETAIL, STORE_INTRODUCTION
 			, STORE_OPEN_DATE, BUSS_REGIST_IMAGE, BUSS_REGIST_STORE_IMAGE
-			, BUSS_REGIST_NUM)
+			, BUSS_REGIST_NUM, STORE_PROFILE_IMAGE, STORE_PROFILE_STORE_IMAGE
+			, STORE_DETAIL_IMAGE, STORE_DETAIL_STORE_IMAGE)
 			values (#{storeApplNum}, #{storeName}, #{ownerNum}
 			, #{storeAddr}, #{storeAddrDetail}, #{storeIntroduction}
 			, #{storeOpenDate}, #{bussRegistImage}, #{bussRegistStoreImage}
-			, #{bussRegistNum})
+			, #{bussRegistNum}, #{storeProfileImage}, #{storeProfileStoreImage}
+			, #{storeDetailImage}, #{storeDetailStoreImage})
 </insert>
 <select id="checkStoreAppl" parameterType="string">
 			select store_appl_num from store_application where owner_num = #{ownerNum}
@@ -39,7 +42,8 @@ insert into store
  , store_detail_image, store_detail_store_image)
  values
  (#{storeNum}, #{storeName}, #{bussRegistNum}, #{ownerNum}, #{storeType}, null, null, null, #{storeOpenDate}
- , #{storeAddr}, #{storeAddrDetail}, '여유', null, null, null, null)
+ , #{storeAddr}, #{storeAddrDetail}, '여유', #{storeProfileImage}, #{storeProfileStoreImage}
+ , #{storeDetailImage}, #{storeDetailStoreImage})
 </insert>
 
 <delete id="storeApplDelete" parameterType="string">

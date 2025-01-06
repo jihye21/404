@@ -54,23 +54,23 @@ function fileChk(){
 	<tr><td>가게 영업시간</td><td><textarea type="text" name="storeOpenTime" cols="20" rows="10">[[${dto.storeOpenTime}]]</textarea></td></tr>
 	<tr><td>가게 주소</td><td><input type="text" name="storeAddr" th:value="${dto.storeAddr}" readonly="readonly"/></td></tr>
 	<tr><td>가게 상세 주소</td><td><input type="text" name="storeAddrDetail" th:value="${dto.storeAddrDetail}" /></td></tr>
-	<!-- 오류
+	
 	<tr><td>가게 프로필 이미지</td>
 		<td><span id="mainFile"></span>
 			<span id="main">[[${dto.storeProfileImage}]]</span>
 			<button type="button" th:attr="onclick=|javascript:fileDel(this, '${dto.storeProfileImage}'
 									, '${dto.storeProfileStoreImage}', 'main');|">삭제</button>
 		</td></tr>
+	
 	<tr><td>가게 상세 이미지:</td>
 		<td><div th:each="image, idx : ${#strings.arraySplit(dto.storeDetailImage,'[`/]')}">
 			[[${image}]]<button type="button" th:attr="onclick=|javascript:fileDel(this,'${image}'
 					,'${#strings.arraySplit(dto.storeDetailStoreImage,'[`/]')[idx.index]}');|">삭제</button>
 		</div>
-			<br /><input type="file" name="storeDetailStoreImage" multiple="multiple" />
-			<br /><input type="file" name="storeDetailStoreImage" multiple="multiple" />
-			<br /><input type="file" name="storeDetailStoreImage" multiple="multiple" />
+		
+			<br /><input type="file" name="storeDetailImage" multiple="multiple" />
 	</td></tr>
-	 -->
+	 
 	 <tr><td>혼잡도</td><td><input type="text" name="storeCrowded" th:value="${dto.storeCrowded}"/></td></tr>
 	<tr><th colspan="2"><input type="submit" value="수정"/></th></tr>
 </table>

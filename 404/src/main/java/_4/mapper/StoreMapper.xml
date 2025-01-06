@@ -8,9 +8,12 @@
 STORE_NUM, BUSS_REGIST_NUM, OWNER_NUM, STORE_NAME, STORE_TYPE, STORE_INTRODUCTION, STORE_CLOSED_DATE, STORE_OPEN_TIME, STORE_OPEN_DATE
 , STORE_ADDR, STORE_ADDR_DETAIL, STORE_CROWDED, STORE_PROFILE_IMAGE, STORE_PROFILE_STORE_IMAGE, STORE_DETAIL_IMAGE, STORE_DETAIL_STORE_IMAGE 
 </sql>
+
 <select id="storeSelectOne" parameterType="string" resultType="storeDTO">
-select <include refid="storeBaseColumn"/> from store where owner_num = #{ownerNum}
+	select <include refid="storeBaseColumn"/> from store 
+	where owner_num = #{ownerNum} or store_num = #{storeNum}
 </select>
+
 <select id="storeSelectAll" resultType="storeDTO">
 select <include refid="storeBaseColumn"></include> from store
 </select>

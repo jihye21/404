@@ -3,6 +3,7 @@ package _4.domain;
 import java.util.Date;
 
 import org.apache.ibatis.type.Alias;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;
 
@@ -19,4 +20,8 @@ public class StoreApplicationDTO {
 	String bussRegistImage;
 	String bussRegistStoreImage;
 	String bussRegistNum;
+	String storeProfileImage;
+	String storeProfileStoreImage;
+	String storeDetailImage;
+	String storeDetailStoreImage;
 }

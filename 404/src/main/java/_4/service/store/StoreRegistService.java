@@ -26,6 +26,10 @@ public class StoreRegistService {
 		storeDTO.setOwnerNum(storeApplDTO.getOwnerNum());
 		storeDTO.setStoreOpenDate(storeApplDTO.getStoreOpenDate());
 		storeDTO.setStoreType(category);
+		storeDTO.setStoreProfileImage(storeApplDTO.getStoreProfileImage());
+		storeDTO.setStoreProfileStoreImage(storeApplDTO.getStoreProfileStoreImage());
+		storeDTO.setStoreDetailImage(storeApplDTO.getStoreDetailImage());
+		storeDTO.setStoreDetailStoreImage(storeApplDTO.getStoreDetailStoreImage());
 		storeApplMapper.storeApply(storeDTO);
 	}
 }

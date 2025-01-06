@@ -46,6 +46,7 @@ public class UserController {
 		if(result.hasErrors()) {
 			return "thymeleaf/user/loginForm";
 		}
+		System.out.println("auth.getGrade() : " + auth.getGrade());
 		if(auth.getGrade().equals("member")) {
 			String memberNum = userNumService.execute(session);
 			MemberDTO dto = memberMapper.memberSelectOne(memberNum);
@@ -56,6 +57,7 @@ public class UserController {
 		else if(auth.getGrade().equals("employee")) return "redirect:/employee/employeeMainPage";
 		else if(auth.getGrade().equals("owner")) {
 			String ownerNum = userNumService.execute(session);
+			System.out.println("ownerNum : " + ownerNum);
 			String link = ownerLoginService.execute(ownerNum);
 			return link;
 		}

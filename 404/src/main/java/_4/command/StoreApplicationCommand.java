@@ -22,4 +22,8 @@ public class StoreApplicationCommand {
 	MultipartFile bussRegistImage;
 	MultipartFile bussRegistStoreImage;
 	String bussRegistNum;
+	MultipartFile storeProfileImage;
+	MultipartFile storeProfileStoreImage;
+	MultipartFile storeDetailImage[];
+	MultipartFile storeDetailStoreImage[];
 }

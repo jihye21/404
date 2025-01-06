@@ -20,6 +20,7 @@ import _4.mapper.ReviewMapper;
 import _4.mapper.StoreMapper;
 import _4.mapper.service.UserNumService;
 import _4.service.owner.OwnerRegistService;
+import _4.service.store.StoreInfoService;
 import jakarta.servlet.http.HttpSession;
 
 
@@ -65,11 +66,14 @@ public class OwnerController {
 	}
 	
 	
-	
+	@Autowired
+	StoreInfoService storeInfoService;
 	@PostMapping("storeInfoManagePage")
 	public String storeInfoManage(HttpSession session, Model model) {
 		String ownerNum = userNumService.execute(session);
 		StoreDTO dto = storeMapper.storeSelectOne(ownerNum);
+		session.removeAttribute("fileList");		//
+		storeInfoService.execute(model, ownerNum);	//
 		model.addAttribute("dto", dto);
 		return "thymeleaf/store/ownerView/storeInfoManagePage";
 	}

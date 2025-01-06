@@ -45,6 +45,8 @@ function storeApplNo(storeApplNum){
 	<tr><td>가게 상세 주소</td><td>[[${dto.storeAddrDetail}]]</td></tr>
 	<tr><td>개업일</td><td>[[${#dates.format(dto.storeOpenDate, 'yyyy-MM-dd')}]]</td></tr>
 	<tr><td>사업자 등록증</td><td><img th:src="|/static/upload/${dto.bussRegistStoreImage}|"/></td></tr>
+	<tr><td>가게 프로필 이미지</td><td><img th:src="|/static/upload/${dto.storeProfileStoreImage}|"/></td></tr>
+	<tr><td>가게 상세 이미지</td><td><img th:src="|/static/upload/${dto.storeDetailStoreImage}|"/></td></tr>
 	<tr><td>카테고리</td><td><input type="text" name="category" id="category" required="required"/></td>
 	<tr><td colspan="2"><button type="button" th:attr="onclick=|storeApplOk('${dto.storeApplNum}')|">승인</button>
 						<button type="button" th:attr="onclick=|storeApplNo('${dto.storeApplNum}')|">거절</button>

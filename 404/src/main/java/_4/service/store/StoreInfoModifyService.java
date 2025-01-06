@@ -32,33 +32,37 @@ public class StoreInfoModifyService {
 		
 		URL resource = getClass().getClassLoader().getResource("static/upload");
 		String fileDir = resource.getFile();
-		MultipartFile mf = storeCommand.getStoreProfileImage();
-		String originalFile = mf.getOriginalFilename();				// 여기 mf가 null이라고 함
-		String extension = originalFile.substring(originalFile.lastIndexOf("."));
-		String storeName = UUID.randomUUID().toString().replace("-", "");
-		String storeFileName = storeName + extension;	
-		File file = new File(fileDir + "/" + storeFileName);
-		try {
-			mf.transferTo(file);
-		} catch (IllegalStateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
-		dto.setStoreProfileImage(originalFile);
-		dto.setStoreProfileStoreImage(storeFileName);
+		if(storeCommand.getStoreProfileImage() != null) {
+			MultipartFile mf = storeCommand.getStoreProfileImage();
+			String originalFile = mf.getOriginalFilename();				// 여기 mf가 null이라고 함
+			String extension = originalFile.substring(originalFile.lastIndexOf("."));
+			String storeName = UUID.randomUUID().toString().replace("-", "");
+			String storeFileName = storeName + extension;	
+			System.out.println("storeFileName : " + storeFileName);
+			File file = new File(fileDir + "/" + storeFileName);
+			try {
+				mf.transferTo(file);
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
+			dto.setStoreProfileImage(originalFile);
+			dto.setStoreProfileStoreImage(storeFileName);
+		}
+		
 		
 		String originalTotal = "";
 		String storeTotal = "";
 		if(!storeCommand.getStoreDetailImage()[0].getOriginalFilename().isEmpty()) {
 			for(MultipartFile mpf : storeCommand.getStoreDetailImage()) {
-				originalFile = mpf.getOriginalFilename();
-				extension = originalFile.substring(originalFile.lastIndexOf("."));
-				storeName = UUID.randomUUID().toString().replace("-", "");
-				storeFileName = storeName + extension;
-				file = new File(fileDir + "/" + storeFileName);
+				String originalFile = mpf.getOriginalFilename();
+				String extension = originalFile.substring(originalFile.lastIndexOf("."));
+				String storeName = UUID.randomUUID().toString().replace("-", "");
+				String storeFileName = storeName + extension;
+				File file = new File(fileDir + "/" + storeFileName);
 				try {
 					mpf.transferTo(file);
 				} catch (IllegalStateException e) {
@@ -77,7 +81,7 @@ public class StoreInfoModifyService {
 		
 		List<FileDTO> list = (List<FileDTO>) session.getAttribute("fileList");
 		StoreDTO storeDTO = storeMapper.storeSelectOne(storeCommand.getStoreNum());
-		if(storeDTO.getStoreDetailImage() != null) {
+		if(storeCommand.getStoreDetailImage() != null) {
 			List<String> dbOrg = new ArrayList<>(Arrays.asList(storeDTO.getStoreDetailImage().split("[/`]")));
 			List<String> dbStore = new ArrayList<>(Arrays.asList(storeDTO.getStoreDetailStoreImage().split("[/`]")));
 			if (list != null) {
@@ -98,6 +102,8 @@ public class StoreInfoModifyService {
 		}
 		dto.setStoreDetailStoreImage(storeTotal);
 		dto.setStoreDetailImage(originalTotal);
+		
+		
 		
 		int i = storeMapper.storeUpdate(dto);
 		if (i > 0) {
