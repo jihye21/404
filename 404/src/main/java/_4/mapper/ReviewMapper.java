@@ -17,8 +17,10 @@ public interface ReviewMapper {
 	public ReviewDTO reviewSelectOneWithBookNum(String bookNum);
 
 	public void reviewUpdate(ReviewDTO dto);
+	public void reviewAnswerUpdate(ReviewDTO dto);
 
 	public void reviewDelete(String reviewNum);
+	public void reviewAnswerDelete(String reviewNum);
 	
 	
 

@@ -39,7 +39,21 @@ update review set
  where review_num = #{reviewNum}
 </update>
 
+<update id="reviewAnswerUpdate" parameterType="reviewDTO">
+update review set
+	review_answer_contents = #{reviewAnswerContents},
+	review_answer_date = sysdate
+ where review_num = #{reviewNum}
+</update>
+
 <delete id="reviewDelete" parameterType="string">
 delete from review where review_num = #{reviewNum}
+</delete>
+
+<delete id="reviewAnswerDelete" parameterType="string">
+update review set
+	review_answer_contents = null,
+	review_answer_date = null
+ where review_num = #{reviewNum}
 </delete>
 </mapper>
