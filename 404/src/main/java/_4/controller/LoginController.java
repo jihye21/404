@@ -12,6 +12,7 @@ import _4.service.login.EmailCheckService;
 import _4.service.login.FriendCheckService;
 import _4.service.login.IdCheckService;
 import _4.service.login.NickNameCheckService;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("login")
@@ -45,12 +46,20 @@ public class LoginController {
 	@Autowired
 	FriendCheckService friendCheckService;
 	@Autowired
-	LoginMapper loginMapper;	
+	LoginMapper loginMapper;
+	@Autowired
+	HttpSession session;
 	@PostMapping("friendNickCheck") // 친구 추가 중복 시스템
 	public @ResponseBody String friendNickCheck(
 			@RequestParam (value="userFriend") String friendNickname) {
+		String currentUserNickname = (String) session.getAttribute("nickname");
+		if (friendNickname.equals(currentUserNickname)) {
+	        return "자신에게 친구 추가를 할 수 없습니다."; // 자기 자신을 친구 추가할 수 없다는 메시지 반환
+	    }
 		String resultFriendReq = friendCheckService.execute(friendNickname);
-		if(resultFriendReq != null) return "이미 요청한 상태입니다.";
+		if(resultFriendReq != null) {
+			return "이미 요청한 상태입니다.";
+		}
 		else {
 			String resultFriendList = loginMapper.selectFriendListCheck(friendNickname);
 			if(resultFriendList != null) {
@@ -60,13 +69,14 @@ public class LoginController {
 				return "친구 가능한 닉네임입니다.";
 			}
 		}
-		/*String resultFriend = friendCheckService.execute(friendNickname);
-		if(resultFriend == null) {
-			return "친구 가능한 닉네임입니다.";
-		}else {
-			return "이미 존재하는 친구입니다.";
-		}*/
+		
 	}
+	/*String resultFriend = friendCheckService.execute(friendNickname);
+	if(resultFriend == null) {
+		return "친구 가능한 닉네임입니다.";
+	}else {
+		return "이미 존재하는 친구입니다.";
+	}*/
 	
 	@Autowired
 	EmailCheckService emailCheckService;

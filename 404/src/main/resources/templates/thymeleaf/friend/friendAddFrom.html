@@ -6,32 +6,85 @@
 <script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <script type = "text/javascript">
 $(function(){
-	// 친구 중복 검사
-	$("#friendNickname").on("change keyup", function(){
-		$.ajax({
-			type : 'post',
-			url : "/login/friendNickCheck",
-			data : {"userFriend" : $("#friendNickname").val()},
-			dataType : 'text',
-			success : function(result) {
-				$("#friendCheck").text(result)
-				if(result.trim() == "친구 가능한 닉네임입니다."){
-					$("#friendCheck").css("color", "blue");
-				}else {
-					$("#friendCheck").css("color", "red");
-				}
-			},
-			error : function() {}
-		});
-	});
+    // 현재 사용자 닉네임 (서버에서 이 값을 받아온다고 가정)
+    var currentUserNickname = $("#currentUserNickname").val(); // 이 값은 서버에서 렌더링 시에 전달해야 합니다.
+
+    // 친구 중복 검사
+    $("#friendNickname").on("change keyup", function(){
+        var friendNickname = $("#friendNickname").val();
+        
+        // 자신에게 친구 추가를 시도할 경우 처리
+        if (friendNickname === currentUserNickname) {
+            $("#friendCheck").text("자신에게 친구 추가를 할 수 없습니다.");
+            $("#friendCheck").css("color", "red");
+            return; // 더 이상 AJAX 요청을 하지 않음
+        }
+
+        // AJAX 요청
+        $.ajax({
+            type : 'post',
+            url : "/login/friendNickCheck",
+            data : {"userFriend" : friendNickname},
+            dataType : 'text',
+            success : function(result) {
+                $("#friendCheck").text(result);
+                if(result.trim() == "친구 가능한 닉네임입니다.") {
+                    $("#friendCheck").css("color", "blue");
+                } else {
+                    $("#friendCheck").css("color", "red");
+                }
+            },
+            error : function() {
+                $("#friendCheck").text("오류가 발생했습니다.");
+                $("#friendCheck").css("color", "red");
+            }
+        });
+    });
 });
+
+function FriendCheck() {
+	var currentUserNickname = $("#currentUserNickname").val();
+	var friendNickname = $("#friendNickname").val();
+	
+	 if (friendNickname === currentUserNickname) {
+	        alert("자기 자신을 친구 추가할 수 없습니다.");
+	        return false; 
+	    }
+	 var isFriend = false;
+
+	    $.ajax({
+	        type: 'post',
+	        url: '/login/friendNickCheck',  
+	        data: {"userFriend": friendNickname},
+	        async: false, 
+	        success: function(result) {
+	            if (result.trim() === "이미 존재하는 친구입니다.") {
+	                isFriend = true; 
+	            }
+	        },
+	        error: function() {
+	            alert("오류가 발생했습니다.");
+	        }
+	    });
+
+	    
+	    if (isFriend) {
+	        alert("이미 친구인 사용자입니다.");
+	        return false; 
+	    }
+
+	    
+	    return true;
+	 
+}
 </script>
 </head>
 <body>
 친구 추가 페이지 입니다.<br />
 <a href="주소"></a>
-<form action="friendAddReq" method="post" >
+<form action="friendAddReq" method="post" onsubmit="return FriendCheck()" >
 <table border="1" width="600" align="center">
+<input type="hidden" id="currentUserNickname" value="${user.nickname}">
 <tr><td>닉네임</td><td><input type="text" name="nickName" id="friendNickname" />
 					<span id="friendCheck"></span></td></tr>
 <tr><td colspan="2" align="center"><input type="submit" value="친구추가" /></td></tr>
