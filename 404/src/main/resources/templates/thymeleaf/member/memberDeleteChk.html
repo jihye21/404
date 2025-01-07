@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script type="text/javascript">
+function memberDelete(memNum){
+	$.ajax({
+		type : 'post',
+		url : "/member/memberDelete",
+		data : {'memNum' : memNum},
+		success : function(){
+			return true;
+		}
+	});
+};
+</script>
+</head>
+<body>
+<table border="1" width="600" align="center">
+<tr><td align="center" colspan="2">계정을 삭제하시겠습니까?</td></tr>
+<tr><td align="center">
+	<button type="button" th:attr="onclick=|memberDelete('${dto.memNum}')|">예</button> | 
+	<button type="button" th:href="/memberMainPage">아니오</button>
+</td></tr>
+
+</table>
+</body>
+</html>
