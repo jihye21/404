@@ -10,7 +10,7 @@ import _4.domain.StoreDTO;
 
 @Mapper
 public interface MemberMapper {
-	public void memberRegist(MemberDTO dto);
+	public int memberRegist(MemberDTO dto);
 	public MemberDTO memberSelectOne(String memNum);
 	public int memberUpdate(MemberDTO dto);
 	public void wishCheck(String userNum, String storeNum);

@@ -60,9 +60,9 @@ public class MemberController {
 	}
 	
 	@PostMapping("memberRegist")
-	public String memberRegist(@Validated MemberCommand memberCommand) {
-		memberRegistService.execute(memberCommand);
-		 return "redirect:/";
+	public String memberRegist(@Validated MemberCommand memberCommand, Model model) {
+		memberRegistService.execute(memberCommand, model);
+		 return "thymeleaf/member/welcome";
 	}
 	
 	@GetMapping("memberDetail")

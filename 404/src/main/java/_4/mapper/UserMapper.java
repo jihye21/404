@@ -8,4 +8,5 @@ import _4.domain.AuthDTO;
 public interface UserMapper {
 	public AuthDTO login(String userId);
 	public AuthDTO loginSelectOne(String userId);
+	public int userCheckUpdate(String email);
 }
