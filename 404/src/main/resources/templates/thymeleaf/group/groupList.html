@@ -29,9 +29,10 @@ $(function(){
 	})
 	
 	$(".GroupMemberSearch").keyup(function(event){
-		if(event.key != 8){
-			var memName = $(".GroupMemberSearch").val();
-			
+		
+		var memName = $(".GroupMemberSearch").val();
+		
+		if(memName != ""){
 			$.ajax({
 				type: "POST",
 				url: "/group/GroupMemberSearch",
@@ -50,8 +51,8 @@ $(function(){
 				}
 			})
 		}
+		
 	})
-	
 	
 })
 
