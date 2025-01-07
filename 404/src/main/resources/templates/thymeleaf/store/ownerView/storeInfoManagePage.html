@@ -39,6 +39,10 @@ function fileChk(){
         return false;  // 유효성 검사 실패 시 요청 중단
     }
 }
+function depositOptionPlus(){
+	var item = "<input type='text' name='startPrice' size='5' placeholder='최소값'/><input type='text' name='endPrice' size='5'  placeholder='최대값'/><input type='text' name='depositRate' placeholder='예약금 비율'/><br/>";
+	$("#depositZone").append(item);
+}
 </script>
 </head>
 <body>
@@ -49,9 +53,9 @@ function fileChk(){
 	<tr><th colspan="2">가게 정보 수정</th></tr>
 	<tr><td>가게명</td><td><input type="text" name="storeName" th:value="${dto.storeName}" readonly="readonly"/></td></tr>
 	<tr><td>가게 분류</td><td><input type="text" name="storeType" th:value="${dto.storeType}" readonly="readonly"/></td></tr>
-	<tr><td>가게 소개</td><td><textarea type="text" name="storeIntroduction" cols="20" rows="10">[[${dto.storeIntroduction}]]</textarea></td></tr>
-	<tr><td>가게 휴무일</td><td><textarea type="text" name="storeClosedDate" cols="20" rows="5">[[${dto.storeClosedDate}]]</textarea></td></tr>
-	<tr><td>가게 영업시간</td><td><textarea type="text" name="storeOpenTime" cols="20" rows="10">[[${dto.storeOpenTime}]]</textarea></td></tr>
+	<tr><td>가게 소개</td><td><textarea name="storeIntroduction" cols="20" rows="10">[[${dto.storeIntroduction}]]</textarea></td></tr>
+	<tr><td>가게 휴무일</td><td><textarea name="storeClosedDate" cols="20" rows="5">[[${dto.storeClosedDate}]]</textarea></td></tr>
+	<tr><td>가게 영업시간</td><td><textarea name="storeOpenTime" cols="20" rows="10">[[${dto.storeOpenTime}]]</textarea></td></tr>
 	<tr><td>가게 주소</td><td><input type="text" name="storeAddr" th:value="${dto.storeAddr}" readonly="readonly"/></td></tr>
 	<tr><td>가게 상세 주소</td><td><input type="text" name="storeAddrDetail" th:value="${dto.storeAddrDetail}" /></td></tr>
 	
@@ -73,7 +77,12 @@ function fileChk(){
 	 
 	 <tr><td>혼잡도</td><td><input type="text" name="storeCrowded" th:value="${dto.storeCrowded}"/></td></tr>
 	 <tr><td>예약금 설정</td><td>
-	 						  <span><input type="number" name="min" size="5"/><input type="number" name="max" size="5"/><input type="text" name="rate"/></span><br/>
+	 						  <div id="depositZone">
+	 						  <div id="depositOption" th:each="ddto : ${depositList}">
+	 						  	 <input type="text" name="startPrice" th:value="${ddto.startPrice}"/><input type="text" name="endPrice" th:value="${ddto.endPrice}"/><input type="text" name="depositRate" th:value="${ddto.depositRate}"/>
+	 						  </div>
+	 						  </div>
+	 						  <button type="button" onclick="depositOptionPlus();"> + </button>
 	 					  </td></tr>
 	<tr><th colspan="2"><input type="submit" value="수정"/></th></tr>
 </table>

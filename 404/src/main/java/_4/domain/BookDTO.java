@@ -14,7 +14,7 @@ public class BookDTO {
 	String themeTime;
 	Integer people;
 	Integer price;
-	Integer discountedPrice;
+	Integer depositPrice;
 	String couponNum;
 	String bookStatus;
 }
