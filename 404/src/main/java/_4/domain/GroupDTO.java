@@ -14,6 +14,8 @@ public class GroupDTO {
 	
 	//이름으로 그룹 초대하기
 	String memName;
+	//닉네임도 표기
+	String memNickname;
 	
 	//값 받아올 때 사용
 	String friendNum;

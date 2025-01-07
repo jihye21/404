@@ -5,10 +5,11 @@
 	
 <mapper namespace="_4.mapper.GroupMapper">
 	<select id="groupMemberSearch" parameterType="string" resultType="groupDTO">
-		select mem_name, f.friend_num from member m 
+		select mem_name, m.mem_num, f.friend_num, mem_nickname from member m 
 		join friendList f
 		on m.mem_num = f.friend_num
 		where f.mem_num = #{memNum} and mem_Name like concat(concat('%', #{memName}), '%')
+		or f.mem_num = #{memNum} and mem_nickname like concat(concat('%', #{memName}), '%')
 	</select>
 	<insert id="groupInsert" parameterType="groupDTO">
 		insert into group_list (group_num, group_name, leader_num)
@@ -40,7 +41,7 @@
 		-->
 	</select>
 	<select id="groupMemberSelectAll" parameterType="groupDTO" resultType="groupDTO">
-		select mem_name from member m
+		select mem_name, mem_nickname from member m
 		join group_member gm 
 		on m.mem_num = gm.mem_num
 		where group_num = #{groupNum}
