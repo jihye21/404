@@ -69,8 +69,13 @@ function MemberInsert(memName, memNum, memNickname){
 		const GroupMember = `
 			<tr>
 				<td data-memNum = "${memNum}">${memNickname}(${memName})
-				<input type = "hidden" name = "memName" value = "${memName}">
-				<input type = "hidden" name = "memNum" value = "${memNum}"></td>
+					<input type = "hidden" name = "memName" value = "${memName}">
+					<input type = "hidden" name = "memNum" value = "${memNum}">
+				</td>
+				<td>
+					<div id = "memberExcept" onclick="memberExcept(event);">&nbsp;x&nbsp;
+					</div>
+				</td>
 			</tr>
 			`;
 			
@@ -79,6 +84,11 @@ function MemberInsert(memName, memNum, memNickname){
 		alert("이미 등록되었습니다.");
 	}
 		
+}
+
+function memberExcept(event){
+	var member = event.target.closest('tr');
+	member.remove();
 }
 
 function groupYes(groupNum){
@@ -150,7 +160,7 @@ function groupNo(groupNum){
 		<table>
 			<thead>
 				<tr>
-					<th>그룹원</th>
+					<th colspan="2">그룹원</th>
 				</tr>
 			</thead>
 			<tbody class = "GroupMember">
