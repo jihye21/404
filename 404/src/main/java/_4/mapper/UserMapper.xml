@@ -16,4 +16,11 @@ select mem_id as userId, mem_pw as userPw, mem_name as userName, mem_email as us
  union select emp_id, emp_pw, emp_name, emp_email, 'employee' from employee where emp_id = #{userId}
  union select owner_id, owner_pw, owner_name, owner_email, 'owner' from owner where owner_id = #{userId}
 </select>
+
+<update id="userCheckUpdate" parameterType="string">
+update member
+	set MEM_EMAIL_CONF = 'T'
+	where MEM_EMAIL_CONF is null
+	and mem_email = #{memEmail}
+</update>
 </mapper>
