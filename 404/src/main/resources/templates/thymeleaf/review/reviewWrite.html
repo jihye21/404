@@ -32,7 +32,7 @@
 </head>
 <body>
 
-<form action="/review/reviewWrite" method="post" >
+<form action="/review/reviewWrite" method="post" enctype="multipart/form-data">
 
 	 <input type="hidden" name="bookNum" th:value="${dto.bookNum}"/>
 	 <input type="hidden" name="storeNum" th:value="${dto.storeNum}"/>
@@ -49,7 +49,7 @@
 		<input type="radio" class="star" value="5" name="starRate" >
 	</div>
 	</td></tr>
-	
+	<tr><td>리뷰 이미지</td><td><input type="file" name="reviewImage" multiple="multiple" width="200" /></td></tr>
 	
 	<tr><td colspan="2">리뷰를 작성해 주세요!</td></tr>
 	<tr><td colspan="2"><textarea rows="5" cols="60" name="reviewContents"></textarea></td></tr>
