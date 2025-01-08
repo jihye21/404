@@ -17,6 +17,7 @@ import _4.domain.BookDTO;
 import _4.domain.ReviewDTO;
 import _4.mapper.BookMapper;
 import _4.mapper.ReviewMapper;
+import _4.mapper.StoreMapper;
 import _4.mapper.service.UserNumService;
 import jakarta.servlet.http.HttpSession;
 
@@ -29,6 +30,8 @@ public class BookController {
 	BookMapper bookMapper;
 	@Autowired
 	ReviewMapper reviewMapper;
+	@Autowired
+	StoreMapper storeMapper;
 	
 	@GetMapping("memberBookList")
 	public String memberBookList(HttpSession session, Model model) {
@@ -43,6 +46,7 @@ public class BookController {
 		ReviewDTO reviewDTO = reviewMapper.reviewSelectOneWithBookNum(bookNum);
 		model.addAttribute("dto", dto);
 		model.addAttribute("reviewDTO", reviewDTO);
+		
 		return "thymeleaf/book/memberBookDetail";
 	}
 	
@@ -54,6 +58,9 @@ public class BookController {
 	
 	@PostMapping("directBook")
 	public String directBook(@RequestParam("bookNum") String bookNum, Model model) {
+		BookDTO dto = bookMapper.bookSelectOne(bookNum);
+		String storeCrowded = storeMapper.storeSelectOne(dto.getStoreNum()).getStoreCrowded();
+		model.addAttribute("storeCrowded", storeCrowded);
 		model.addAttribute("bookNum", bookNum);
 		return "thymeleaf/book/directBook";
 	}

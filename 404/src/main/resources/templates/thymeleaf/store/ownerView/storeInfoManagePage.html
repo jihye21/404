@@ -75,7 +75,12 @@ function depositOptionPlus(){
 			<br /><input type="file" name="storeDetailImage" multiple="multiple" />
 	</td></tr>
 	 
-	 <tr><td>혼잡도</td><td><input type="text" name="storeCrowded" th:value="${dto.storeCrowded}"/></td></tr>
+	 <tr><td>혼잡도</td><td>	
+	 				  <select name="storeCrowded" id="storeCrowded" >
+	 				  	  <option value="여유" th:selected="${dto.storeCrowded == '여유'}">여유</option>
+	 				  	  <option value="만석" th:selected="${dto.storeCrowded == '만석'}">만석</option>
+	 				  </select>
+	 			 </td></tr>
 	 <tr><td>예약금 설정</td><td>
 	 						  <div id="depositZone">
 	 						  <div id="depositOption" th:each="ddto : ${depositList}">
