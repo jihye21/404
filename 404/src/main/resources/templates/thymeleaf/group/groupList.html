@@ -141,22 +141,22 @@ function groupRegistCheck(){
 
 <div class = "group">
 
-	<table style="margin:20px;" border="1">
+	<table style="margin:20px; width:300px;" border="1">
 	   <tr>
 	       <th colspan="1">내 그룹</th><td>❤️💕🪼</td>
 	   </tr>
 	   <th:block th:each="myGroupList:${myGroupList}">
 	   
 	   <tr>
-	       <td><a th:href = "|/group/groupDetail?groupNum=${myGroupList.groupNum}|">그룹[[${myGroupList.groupNum}]]</a></td>
-	       <td>[[${myGroupList.groupName}]]</td>
+	       <td><a th:href = "|/group/groupDetail?groupNum=${myGroupList.groupNum}|">그룹</a></td>
+	       <td><a th:href = "|/group/groupDetail?groupNum=${myGroupList.groupNum}|">[[${myGroupList.groupName}]]</a></td>
 	   </tr>
 	   <tr>
-	   		<th colspan="2">참여자</th>
+	   		<th colspan="2"><a th:href = "|/group/groupDetail?groupNum=${myGroupList.groupNum}|">참여자</a></th>
 	   </tr>
 	   <th:block th:each="groupMemberList:${groupMemberList}">
 	   <tr>
-	   	<td colspan="2">[[${groupMemberList.memNickname}]]([[${groupMemberList.memName}]])</td>
+	   	<td colspan="2"><a th:href = "|/group/groupDetail?groupNum=${myGroupList.groupNum}|">[[${groupMemberList.memNickname}]]([[${groupMemberList.memName}]])</a></td>
 	   </tr>
 	   </th:block>
 	   </th:block>

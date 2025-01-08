@@ -13,7 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import _4.command.GroupCommand;
+import _4.domain.BookDTO;
 import _4.domain.GroupDTO;
+import _4.domain.ReviewDTO;
+import _4.mapper.BookMapper;
+import _4.mapper.service.UserNumService;
 import _4.service.group.GroupAlarmCount;
 import _4.service.group.GroupAlarmListService;
 import _4.service.group.GroupDetailService;
@@ -27,6 +31,10 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("group")
 public class GroupController {
+	@Autowired
+	UserNumService userNumService;
+	@Autowired
+	BookMapper bookMapper;
 	@Autowired
 	GroupDetailService groupDetailService;
 	@Autowired
@@ -82,8 +90,15 @@ public class GroupController {
 	}
 	
 	@GetMapping("groupDetail")
-	public String groupDetail(@RequestParam String groupNum, Model model) {
+	public String groupDetail(@RequestParam String groupNum, Model model, HttpSession session) {
+		//그룹 회원 목록 가져오기
 		groupDetailService.execute(groupNum, model);
+		
+		//예약 리스트 가져오기
+		String memberNum = userNumService.execute(session);
+		List<BookDTO> list = bookMapper.bookSelectAllWithMember(memberNum);
+		model.addAttribute("list", list);
+		
 		return "thymeleaf/group/groupDetail";
 	}
 }

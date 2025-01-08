@@ -9,6 +9,7 @@ import lombok.Data;
 public class BookDTO {
 	String bookNum;
 	String memNum;
+	String groupNum;
 	String storeNum;
 	String themeNum;
 	String themeTime;

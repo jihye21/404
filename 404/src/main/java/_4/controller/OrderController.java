@@ -19,6 +19,7 @@ import _4.mapper.service.AutoNumService;
 import _4.mapper.service.UserNumService;
 import _4.service.book.ThemeBookInsertService;
 import _4.service.coupon.memberCouponListService;
+import _4.service.group.GroupListService;
 import _4.service.purchase.IniPayReqService;
 import _4.service.purchase.PriceCalcService;
 import jakarta.servlet.http.HttpSession;
@@ -26,6 +27,8 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("order")
 public class OrderController {
+	@Autowired
+	GroupListService groupListService;
 	@Autowired
 	memberCouponListService memberCouponListService;
 	@Autowired
@@ -51,6 +54,7 @@ public class OrderController {
 		model.addAttribute("themeDTO", themeDTO);
 		model.addAttribute("themeTime", themeTime);
 		memberCouponListService.execute(session, model);
+		groupListService.execute(session, model);
 		return "thymeleaf/order/themeOrderPage";
 	}
 	

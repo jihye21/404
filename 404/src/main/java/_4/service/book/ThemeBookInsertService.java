@@ -36,7 +36,12 @@ public class ThemeBookInsertService {
 		dto.setPeople(bookCommand.getPeople());
 		dto.setPrice(bookCommand.getPrice());
 		
-		
+		String groupNum = bookCommand.getGroupNum();
+
+		if(groupNum != null) {
+			dto.setGroupNum(groupNum);
+		}
+
 		if(bookCommand.getCouponNum() != null) {
 			dto.setCouponNum(bookCommand.getCouponNum());
 		}else {

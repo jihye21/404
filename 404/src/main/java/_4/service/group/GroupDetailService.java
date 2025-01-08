@@ -16,7 +16,7 @@ public class GroupDetailService {
 	public void execute(String groupNum, Model model) {
 		GroupDTO groupDTO = new GroupDTO();
 		groupDTO.setGroupNum(groupNum);
-		System.out.println(groupDTO);
+		
 		List<GroupDTO> groupDetailList = groupMapper.groupMemberSelectAll(groupDTO);
 		
 		System.out.println(groupDetailList);

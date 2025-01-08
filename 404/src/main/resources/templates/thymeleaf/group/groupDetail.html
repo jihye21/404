@@ -8,6 +8,12 @@ body{
 	display: flex;
 	align-items: flex-start;
 }
+.groupDetail{
+	margin: 20px;
+}
+.bookDetail{
+	margin: 20px;
+}
 </style>
 </head>
 <body>
@@ -17,17 +23,23 @@ body{
 		<tr>
 			<th>그룹명</th><td>[[${groupName}]]</td>
 		</tr>
-		
 		<tr>
-			<th:block th:each="groupDetailList:${groupDetailList}">
-			<th rowspan="${#lists.size(groupDetailList)}">그룹원</th>
-			</th:block>
-			<th:block th:each="groupDetailList:${groupDetailList}">
-			<td>[[${groupDetailList.memNickname}]]([[${groupDetailList.memName}]])</td>
-			</th:block>
+			<th colspan="2">그룹원</th>
 		</tr>
-		
-		
+		<th:block th:each="groupDetailList:${groupDetailList}">
+		<tr>
+		<td colspan="2">[[${groupDetailList.memNickname}]]([[${groupDetailList.memName}]])</td>
+		</tr>
+		</th:block>
+	</table>
+</div>
+
+<div class = "bookDetail">
+	<table border="1" align="center" width="500">
+		<tr><th>예약 내역</th></tr>
+		<tr th:each="dto : ${list}"><td>
+			<a th:href="|/book/memberBookDetail?bookNum=${dto.bookNum}|">[[${dto.bookNum}]],[[${dto.storeNum}]], 가게명, 가게 이미지</a>
+		</td></tr>
 	</table>
 </div>
 </body>

@@ -10,7 +10,13 @@ people = 1;
 var themePrice = "[[${themeDTO.themePrice}]]";
 var totalPrice = themePrice;
 var discountedPrice = totalPrice;
+
+
 $(function(){
+	//그룹 리스트 숨기기
+	$(".groupList").hide();
+	$(".payBtn").hide();
+	
 	$("#people").text(people);
 	$("#totalPrice").text(themePrice);
 	$("#lastPeople").val(people);
@@ -29,7 +35,6 @@ $(function(){
 		if(selectedRadio != undefined){
 			var totalPrice = $("#totalPrice").text();
 			//쿠폰 적용 후 금액 (총 금액)
-			
 			
 			// n% 할인
 			if(selectedRadio < 99){
@@ -87,14 +92,26 @@ function plusPeople(){
 	$("#discountedPrice").val(totalPrice);
 }
 function a(){
+	
 	if($("#depositPrice").val() == 0){
 		alert("예약되었습니다.");
 	}
+
+}
+
+function groupCheck(){
+	$(".groupList").show();
+	$(".payBtn").show();
+	$(".groupShowBtn").hide();
+	$(".content").hide();
+	
 }
 </script>
 </head>
 <body>
+
 <form action="/order/payment" method="post" onsubmit="return a();">
+	
 	<input type="hidden" name="themeNum" th:value="${themeDTO.themeNum}"/>
 	<input type="hidden" name="themeTime" th:value="${themeTime}"/>
 	<input type="hidden" name="people" id="lastPeople"/>
@@ -104,6 +121,8 @@ function a(){
 	<div style="width:800px;height:1200px;border:1px solid black;position:absolute;left:550px;" align=center>
 		테마 명 : [[${themeDTO.themeName}]]<br/>
 		시간 : [[${themeTime}]]<br/>
+		
+	<div class="content">
 		인원 : <a href="javascript:minusPeople()">-</a> <span id="people"></span> <a href="javascript:plusPeople()">+</a> <br/>
 		가격 : <span id="totalPrice"></span><br/>
 		<br/>
@@ -134,14 +153,46 @@ function a(){
 		<tr>
 			<th colspan="3"><button type = "button" name = "useCoupon" class = "useCoupon">쿠폰 적용</button></th>
 		</tr>
+	</table>
+	</div>
+	<br>
+	<table border = "1" width="200">
 		<tr>
 			<th colspan="3">할인된 가격: <span class="discountedPrice"></span>원</th>
 		</tr>
 		<tr>
 			<th>예약금: <span id="depositPrice"></span>원</th>
 		</tr>
-		</table>
-		<button type="submit">결제하기</button>
+	</table>
+		
+		<div class = "groupList">
+			<h4>결제 방식을 선택해주세요.</h4>
+			<table style="margin:20px; width:300px;" border="1">
+			   <tr>
+			       <td><input type="radio" name = "groupNum"></td>
+			       <td colspan="2">혼자 결제하기</td>
+			   </tr>
+			   <th:block th:each="myGroupList:${myGroupList}">
+			   
+			   <tr>
+			   	   <td><input type="radio" name = "groupNum" th:value="${myGroupList.groupNum}"></td>
+			       <td><a th:href = "|/group/groupDetail?groupNum=${myGroupList.groupNum}|">그룹</a></td>
+			       <td><a th:href = "|/group/groupDetail?groupNum=${myGroupList.groupNum}|">[[${myGroupList.groupName}]]</a></td>
+			   </tr>
+			   <tr>
+			   		<th colspan="3"><a th:href = "|/group/groupDetail?groupNum=${myGroupList.groupNum}|">참여자</a></th>
+			   </tr>
+			   <th:block th:each="groupMemberList:${groupMemberList}">
+			   <tr>
+			   	<td colspan="3"><a th:href = "|/group/groupDetail?groupNum=${myGroupList.groupNum}|">[[${groupMemberList.memNickname}]]([[${groupMemberList.memName}]])</a></td>
+			   </tr>
+			   </th:block>
+			   </th:block>
+			</table>
+		</div>
+		
+		<button type="button" onclick="groupCheck();" class="groupShowBtn">결제하기</button>
+		<button type="submit" class = "payBtn">결제하기</button>
 	</div>
 </form>
 </body>

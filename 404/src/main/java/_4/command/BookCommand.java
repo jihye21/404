@@ -15,5 +15,7 @@ public class BookCommand {
 	Integer finalPrice;
 	String couponNum;
 	String bookStatus;
+	
+	String groupNum;
 }
 
