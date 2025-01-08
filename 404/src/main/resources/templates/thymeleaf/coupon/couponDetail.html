@@ -8,10 +8,11 @@
 
 $(function(){
 	$(".memNickname").keyup(function(){
-		if(event.keyCode != 8){
-			var memNickname = $(".memNickname").val();
-			var couponCode = $(".couponCode").val();
-			
+		
+		var memNickname = $(".memNickname").val();
+		var couponCode = $(".couponCode").val();
+		
+		if(memNickname != ""){
 			$.ajax({
 				type: "POST",
 				url: "/coupon/memberSearch",

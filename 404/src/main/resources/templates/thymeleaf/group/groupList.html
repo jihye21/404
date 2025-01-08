@@ -29,9 +29,10 @@ $(function(){
 	})
 	
 	$(".GroupMemberSearch").keyup(function(event){
-		if(event.key != 8){
-			var memName = $(".GroupMemberSearch").val();
-			
+		
+		var memName = $(".GroupMemberSearch").val();
+		
+		if(memName != ""){
 			$.ajax({
 				type: "POST",
 				url: "/group/GroupMemberSearch",
@@ -41,7 +42,7 @@ $(function(){
 					groupList.forEach(function(group){
 						const NewMemberRow = `
 							<tr>
-								<td onclick="MemberInsert('${group.memName}', '${group.friendNum}');" data-memNum = "${group.friendNum}">${group.memName}</td>
+								<td onclick="MemberInsert('${group.memName}', '${group.friendNum}', '${group.memNickname}');" data-memNum = "${group.friendNum}">${group.memNickname}(${group.memName})</td>
 							</tr>`;
 						$(".NewGroupMember").append(NewMemberRow);
 					})
@@ -50,12 +51,12 @@ $(function(){
 				}
 			})
 		}
+		
 	})
-	
 	
 })
 
-function MemberInsert(memName, memNum){
+function MemberInsert(memName, memNum, memNickname){
 	let duplicate = false;
 	
 	$(".GroupMember td").each(function(){
@@ -67,9 +68,14 @@ function MemberInsert(memName, memNum){
 	if(!duplicate){
 		const GroupMember = `
 			<tr>
-				<td data-memNum = "${memNum}">${memName}
-				<input type = "hidden" name = "memName" value = "${memName}">
-				<input type = "hidden" name = "memNum" value = "${memNum}"></td>
+				<td data-memNum = "${memNum}">${memNickname}(${memName})
+					<input type = "hidden" name = "memName" value = "${memName}">
+					<input type = "hidden" name = "memNum" value = "${memNum}">
+				</td>
+				<td>
+					<div id = "memberExcept" onclick="memberExcept(event);">&nbsp;x&nbsp;
+					</div>
+				</td>
 			</tr>
 			`;
 			
@@ -78,6 +84,11 @@ function MemberInsert(memName, memNum){
 		alert("이미 등록되었습니다.");
 	}
 		
+}
+
+function memberExcept(event){
+	var member = event.target.closest('tr');
+	member.remove();
 }
 
 function groupYes(groupNum){
@@ -126,7 +137,7 @@ function groupNo(groupNum){
 	   <th:block th:each="groupMemberList:${groupMemberList}">
 	   <tr>
 	   		<td>참여자</td>
-	   		<td>[[${groupMemberList.memName}]]</td>
+	   		<td>[[${groupMemberList.memNickname}]]([[${groupMemberList.memName}]])</td>
 	   </tr>
 	   </th:block>
 	   </th:block>
@@ -149,7 +160,7 @@ function groupNo(groupNum){
 		<table>
 			<thead>
 				<tr>
-					<th>그룹원</th>
+					<th colspan="2">그룹원</th>
 				</tr>
 			</thead>
 			<tbody class = "GroupMember">

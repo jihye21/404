@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import _4.command.DepositCommand;
 import _4.command.StoreApplicationCommand;
 import _4.command.StoreCommand;
 import _4.domain.StoreDTO;
@@ -16,6 +17,7 @@ import _4.mapper.MainMapper;
 import _4.mapper.StoreMapper;
 import _4.mapper.service.UserNumService;
 import _4.service.member.WishCheckService;
+import _4.service.store.DepositSettingService;
 import _4.service.store.StoreApplyService;
 import _4.service.store.StoreInfoModifyService;
 import _4.service.store.StoreInfoService;
@@ -36,6 +38,8 @@ public class StoreController {
 	ThemeListService themelistService;
 	@Autowired
 	StoreInfoModifyService storeInfoModifyService;
+	@Autowired
+	DepositSettingService depositSettingService;
 	@Autowired
 	UserNumService userNumService;
 	@Autowired
@@ -66,8 +70,9 @@ public class StoreController {
 	}
 	
 	@PostMapping("storeInfoModify")
-	public String storeInfoModify(StoreCommand storeCommand, HttpSession session) {
+	public String storeInfoModify(StoreCommand storeCommand, DepositCommand depositCommand, HttpSession session) {
 		storeInfoModifyService.execute(storeCommand, session);
+		if(depositCommand.getStartPrice() != null)	depositSettingService.execute(depositCommand, session);
 		return "redirect:/owner/ownerMainPage";
 	}
 	

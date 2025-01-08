@@ -1,53 +1,92 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Real-time Stock Data</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title></title>
+<script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      text-align: center;
-    }
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    text-align: center;
+  }
 
-    h1, h2 {
-      margin: 0;
-    }
+  h1, h2 {
+    margin: 0;
+  }
 
-    table {
-      width: 80%;
-      margin: 20px auto;
-      border-collapse: collapse;
-      text-align: center;
-    }
+  table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    text-align: center;
+  }
 
-    table, th, td {
-      border: 1px solid black;
-    }
+  table, th, td {
+    border: 1px solid black;
+  }
 
-    th, td {
-      padding: 10px;
-    }
+  th, td {
+    padding: 10px;
+  }
 
-    th {
-      background-color: #f2f2f2;
-    }
-    
-    canvas {
-	    margin: 0 auto;
-	    width: 70%;
-    }
-  </style>
+  th {
+    background-color: #f2f2f2;
+  }
+  
+  canvas {
+   margin: 0 auto;
+   width: 70%;
+  }
+</style>
+
+<script type="text/javascript">
+/* kafka 값 받지 못할 때 사용할 코드
+$(function(){
+	$(".clickPoint").click(function(){
+    	
+       $(".empPoint").val(35000);
+       
+       pointRegist();
+    	
+    })
+})
+*/
+function pointRegist(){
+
+	const empPoint = $(".empPoint").val();
+	
+	$.ajax({
+	  	type: "POST",
+	  	url: "/kafka/pointRegist",
+	  	data: {empPoint:empPoint},
+	  	success: function(point){
+	  		if(point == true){
+	  			alert("포인트가 지급되었습니다.");
+	  		}else{
+	  			alert("포인트 지급이 불가능한 상태입니다. \n 관리자에게 문의하세요.");
+	  		}
+	  	},
+	  	error: function(){
+	  		window.location.href = "/user/loginForm";
+	  	}
+	})
+
+}
+
+</script>
 </head>
 <body>
-  <h1>Real-time Stock Data</h1>
+  <h1 class = "clickPoint">포인트 받기</h1>
+  <input type = "hidden" class = "empPoint" value="null">
+  <span id = "point"></span>
   <h2>날짜: <span id="date"></span></h2> <!-- 오늘의 날짜 -->
   <h2>삼성전자 누적 거래량: <span id="cumulativeVolume">0</span></h2>
 
-<!-- 막대 그래프 -->
+<!-- 그래프 -->
 <canvas id="data_chart"></canvas>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -109,6 +148,24 @@
     document.getElementById('date').textContent = formatDate();
 	
     const ctx = document.getElementById('data_chart').getContext('2d');
+    
+    const customPlugin = {
+    	    id: 'customPlugin',
+    	    beforeUpdate(chart) {
+    	        const yScale = chart.scales['y'];
+    	        const data = chart.data.datasets[0].data;
+    	        const min = Math.min(...data);
+    	        const max = Math.max(...data);
+
+    	        if (min === max) {
+    	            yScale.options.min = min - 200; 
+    	            yScale.options.max = max + 200; 
+    	        }
+    	    }
+    	};
+
+    Chart.register(customPlugin);
+
     const data_chart = new Chart(ctx, {
         type: 'line',  // 차트
         data: chartData,
@@ -128,7 +185,7 @@
                 text: '가격'
               },
               ticks: {
-                  minTicksLimit: 5
+                  stepSize: 10 // Y축의 간격
                 }
             }
           },
@@ -167,7 +224,20 @@
         
         tbody.appendChild(row);
         
-        if(chartData.labels.length >= 10){
+        //point
+        const point = document.getElementById('point');
+        $(".clickPoint").click(function(){
+        	if($(".empPoint").val() == "null"){
+        		point.innerHTML = '';
+                point.appendChild(row);
+                $(".empPoint").val(stock.price);
+                
+                pointRegist();
+        	}
+        })
+        
+        //chart
+        if(chartData.labels.length >= 20){
         	chartData.labels.shift();
            	chartData.datasets[0].data.shift();
         }
@@ -180,6 +250,7 @@
      	
         
       });
+      
     };
 
     socket.onclose = () => {
