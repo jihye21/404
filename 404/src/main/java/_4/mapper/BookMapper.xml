@@ -39,4 +39,8 @@ update book set final_price = #{finalPrice} where book_num = #{bookNum}
 <delete id="waitedBookDelete" parameterType="string">
 delete from book where mem_num = #{memberNum} and book_status = '결제대기중'
 </delete>
+
+<select id="bookGroupSelectAllWithMember" parameterType="string" resultType="bookDTO">
+	select <include refid="bookBaseColumn"/> from book where mem_num = #{memberNum} and group_num = #{groupNum}
+</select>
 </mapper>

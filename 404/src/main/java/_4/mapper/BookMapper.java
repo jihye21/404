@@ -17,4 +17,5 @@ public interface BookMapper {
 	public void waitedBookDelete(String memberNum);
 	public void themeTimeUpdate(@Param("bookNum") String bookNum, @Param("themeTime") String themeTime);
 	public void bookStatusUpdate(@Param("bookNum") String bookNum, @Param("bookStatus") String bookStatus);
+	public List<BookDTO> bookGroupSelectAllWithMember(String memberNum, String groupNum);
 }
