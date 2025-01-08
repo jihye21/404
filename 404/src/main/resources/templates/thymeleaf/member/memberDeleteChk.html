@@ -11,7 +11,7 @@ function memberDelete(memNum){
 		url : "/member/memberDelete",
 		data : {'memNum' : memNum},
 		success : function(){
-			return true;
+			
 		}
 	});
 };
@@ -19,10 +19,12 @@ function memberDelete(memNum){
 </head>
 <body>
 <table border="1" width="600" align="center">
+<input type="hidden" name="memNum" />
 <tr><td align="center" colspan="2">계정을 삭제하시겠습니까?</td></tr>
 <tr><td align="center">
-	<button type="button" th:attr="onclick=|memberDelete('${dto.memNum}')|">예</button> | 
-	<button type="button" th:href="/memberMainPage">아니오</button>
+
+	<button type="button" th:attr="onclick=|memberDelete('${memberCommand.memNum}')|">예</button> | 
+	<button type="button" onclick="location.href='memberMainPage'">아니오</button>
 </td></tr>
 
 </table>

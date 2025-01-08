@@ -1,5 +1,7 @@
 package _4.domain;
 
+import java.time.LocalDateTime;
+
 import org.apache.ibatis.type.Alias;
 
 import lombok.Data;
@@ -12,4 +14,5 @@ public class AuthDTO {
 	String grade;
 	String userEmail;
 	String userName;
+	LocalDateTime lastLoginTime;
 }

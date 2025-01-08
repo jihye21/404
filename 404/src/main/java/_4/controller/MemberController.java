@@ -1,5 +1,8 @@
 package _4.controller;
 
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import _4.command.MemberCommand;
+import _4.command.UserCommand;
+import _4.domain.AuthDTO;
+import _4.mapper.MemberMapper;
 import _4.mapper.service.UserNumService;
+import _4.service.member.MemberDeleteService;
 import _4.service.member.MemberDetailService;
 import _4.service.member.MemberPwUpdateService;
 import _4.service.member.MemberRegistService;
@@ -21,6 +28,7 @@ import _4.service.member.MemberUpdateService;
 import _4.service.member.MyPassConfirmService;
 import _4.service.member.WishListService;
 import _4.service.member.WishService;
+import _4.service.user.DormancyInsertService;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -115,11 +123,20 @@ public class MemberController {
 	}
 	
 	@GetMapping("memberDelete")
-	public String memberDelete(@PathVariable(value = "memNum") String memNum) {
+	public String memberDelete(MemberCommand memberCommand, Model model) {
 		return "thymeleaf/member/memberDeleteChk";
 	}
 	
-	@PostMapping("memberDelete")
 	
+	
+	@Autowired
+	MemberMapper memberMapper;
+	@Autowired
+	DormancyInsertService dormancyInsertService;
+	@PostMapping("memberDelete")
+	public @ResponseBody String memberDelete(@RequestParam("memNum") String memNum, HttpSession session, UserCommand userCommand) {
+		dormancyInsertService.execute(memNum,session, userCommand);		
+		return "redirect:/";
+	}
 	
 }

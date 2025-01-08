@@ -5,7 +5,7 @@
 	
 <mapper namespace="_4.mapper.MemberMapper">
 <sql id="memberBaseColumns">
-MEM_NUM, MEM_ID, MEM_PW, MEM_NAME, MEM_BIRTH_DATE, MEM_EMAIL, MEM_PHONE, MEM_EMAIL_CONF, MEM_POINT, MEM_NICKNAME
+MEM_NUM, MEM_ID, MEM_PW, MEM_NAME, MEM_BIRTH_DATE, MEM_EMAIL, MEM_PHONE, MEM_EMAIL_CONF, MEM_POINT, MEM_NICKNAME, last_login_time, status
 </sql>
 
 <insert id="memberRegist" parameterType="memberDTO">
@@ -53,4 +53,18 @@ update member set
 <select id="memberNumSelect" parameterType="string" resultType="string">
 	select mem_num from member where mem_id = #{memId}
 </select>
+
+<delete id="memberDelete">
+delete from member where mem_id = #{userId}
+</delete>
+
+<select id="lastLoginGetDate" parameterType="authDTO" resultType="java.util.Date">
+select last_login_time from member where mem_id = #{userId}
+</select>
+
+<update id="memberStatusUpadate" parameterType="string">
+update member set status = null 
+	where mem_num = #{memNum}
+</update>
+
 </mapper>

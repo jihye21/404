@@ -1,5 +1,6 @@
 package _4.domain;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import org.apache.ibatis.type.Alias;
@@ -20,4 +21,6 @@ public class MemberDTO {
 	String gender;
 	String memPhone;
 	String memEmail;
+	String status;
+	
 }
