@@ -5,11 +5,9 @@
 <title>메뉴 등록</title>
 <script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <script type="text/javascript">
-var timeInput = "<input type='text' size='4' name='themeTime'/><button type='button'>X</button>";
-var item = timeInput;
-$(function(){
 
-})
+var timeInput = "<input type='text' size='4' name='themeTime' class='themeTime'/><button type='button'>X</buttons>";
+var item = timeInput;
 
 function themeTimeAdd(){
 	$("#item").append(timeInput);
@@ -34,10 +32,15 @@ function allType(){
 		$("#timeType").append("<tr id='tr'><td colspan='2'>종일권을 선택하셨습니다.<input type='hidden' name='themeTime' value='종일권'/></td></tr>");
 	}
 }
+function themeTimeNullCheck(){
+	// 테마 시간 중 null값이 있는지 확인
+	
+	// null값이 있을 경우 경고창을 띄우며 return false
+}
 </script>
 </head>
 <body>
-<form action="/theme/themeAdd" method="post" enctype="multipart/form-data">
+<form action="/theme/themeAdd" method="post" enctype="multipart/form-data" onsubmit="return themeTimeNullCheck();">
 <table border="1" width="400"  id="timeType">
 	<tr><th colspan="2">테마 등록</th></tr>
 	<tr><td>테마명</td><td><input type="text" name="themeName" /></td></tr>

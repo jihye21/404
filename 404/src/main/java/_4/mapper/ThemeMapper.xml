@@ -33,4 +33,12 @@ update theme set theme_name=#{themeName}, theme_introduction=#{themeIntroduction
 <delete id="themeDelete" parameterType="string">
 delete from theme where theme_num = #{themeNum}
 </delete>
+
+<delete id="themeTimeDeleteAll" parameterType="string">
+delete from theme_time where theme_num = #{themeNum}
+</delete>
+
+<delete id="themeTimeDelete">
+delete from theme_time where theme_num = #{themeNum} and theme_time = #{themeTime} 
+</delete>
 </mapper>

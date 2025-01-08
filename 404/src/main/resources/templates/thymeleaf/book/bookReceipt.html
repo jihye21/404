@@ -5,6 +5,7 @@
 <title>Insert title here</title>
 <script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <script type="text/javascript">
+var finalPrice = "[[${dto.finalPrice}]]";
 function bookOk(bookNum){
 	$.ajax({
 		type: "post",
@@ -32,11 +33,13 @@ function bookNo(bookNum){
 	});
 }
 function bookFinished(bookNum){
+	finalPrice = $("input[name=finalPrice]").val();
 	$.ajax({
 		type: "post",
 		url: "/book/bookFinished",
-		data: {"bookNum":bookNum},
+		data: {"bookNum":bookNum, "finalPrice":finalPrice},
 		success: function(){
+			$("#finalPrice").text(finalPrice);
 			bookReceipt(bookNum);
 		},
 		error: function(){
@@ -62,9 +65,11 @@ function bookFinished(bookNum){
 							<button type="button" th:attr="onclick=|bookNo('${dto.bookNum}')|">거절</button></th></tr>
 	</th:block>
 	<th:block th:if="${dto.bookStatus == '예약완료'}">
+		<tr><td>최종 결제 금액 : </td><td><input type="text" name="finalPrice" id="finalPriceInput"/></td></tr>
 		<tr><th colspan="2"><button type="button" th:attr="onclick=|bookFinished('${dto.bookNum}')|">방문 완료</button></th></tr>
 	</th:block>
 	<th:block th:if="${dto.bookStatus == '방문완료'}">
+		<tr><td>최종 결제 금액 : </td><td><input type="text" name="finalPrice" th:value="${dto.finalPrice} + 원" readonly="readonly"/></td></tr>
 		<tr><th colspan="2">방문이 완료된 예약 내역입니다.</th></tr>
 	</th:block>
 </table>

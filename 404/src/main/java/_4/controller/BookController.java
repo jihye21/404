@@ -101,8 +101,9 @@ public class BookController {
 	}
 	
 	@PostMapping("bookFinished")
-	public @ResponseBody void bookFinished(@RequestParam("bookNum") String bookNum) {
+	public @ResponseBody void bookFinished(@RequestParam("bookNum") String bookNum, @RequestParam("finalPrice") String finalPrice) {
 		String bookStatus = "방문완료";
 		bookMapper.bookStatusUpdate(bookNum, bookStatus);
+		bookMapper.bookFinalPriceUpdate(bookNum, finalPrice);
 	}
 }

@@ -17,4 +17,6 @@ public interface ThemeMapper {
 	public ThemeDTO themeSelectOne(String themeNum);
 	public void themeUpdate(ThemeDTO dto);
 	public void themeDelete(String themeNum);
+	public void themeTimeDeleteAll(String themeNum);
+	public void themeTimeDelete(@Param("themeNum") String themeNum, @Param("themeTime") String themeTime);
 }

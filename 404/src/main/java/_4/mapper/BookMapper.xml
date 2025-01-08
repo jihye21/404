@@ -5,11 +5,11 @@
 	
 <mapper namespace="_4.mapper.BookMapper">
 <sql id="bookBaseColumn">
-book_num, mem_num, store_num, theme_num, theme_time, people, price, deposit_price, coupon_num, book_status
+book_num, mem_num, store_num, theme_num, theme_time, people, price, deposit_price, final_price, coupon_num, book_status
 </sql>
 <insert id="bookInsert" parameterType="bookDTO">
 insert into book (<include refid="bookBaseColumn"/>) values (#{bookNum}, #{memNum}, #{storeNum}, #{themeNum}, #{themeTime}
-													  , #{people}, #{price}, #{depositPrice}, #{couponNum}, '결제대기중')
+													  , #{people}, #{price}, #{depositPrice}, null, #{couponNum}, '결제대기중')
 </insert>
 
 <select id="bookSelectOne" parameterType="string" resultType="bookDTO">
@@ -30,6 +30,10 @@ update book set theme_time = #{themeTime} where book_num = #{bookNum}
 
 <update id="bookStatusUpdate">
 update book set book_status = #{bookStatus} where book_num = #{bookNum}
+</update>
+
+<update id="bookFinalPriceUpdate">
+update book set final_price = #{finalPrice} where book_num = #{bookNum}
 </update>
 
 <delete id="waitedBookDelete" parameterType="string">

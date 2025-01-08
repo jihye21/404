@@ -10,6 +10,7 @@ import _4.domain.BookDTO;
 @Mapper
 public interface BookMapper {
 	public void bookInsert(BookDTO dto);
+	public void bookFinalPriceUpdate(@Param("bookNum") String bookNum, @Param("finalPrice") String finalPrice);
 	public BookDTO bookSelectOne(String bookNum);
 	public List<BookDTO> bookSelectAllWithMember(String memberNum);
 	public List<BookDTO> bookSelectAllWithStore(String storeNum);

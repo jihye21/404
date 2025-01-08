@@ -15,6 +15,7 @@ public class BookDTO {
 	Integer people;
 	Integer price;
 	Integer depositPrice;
+	Integer finalPrice;
 	String couponNum;
 	String bookStatus;
 }

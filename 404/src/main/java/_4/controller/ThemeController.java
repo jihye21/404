@@ -86,6 +86,11 @@ public class ThemeController {
 	@PostMapping("themeDelete") // 테마 삭제
 	public @ResponseBody void themeDelete(@RequestBody @RequestParam("themeNum") String themeNum) {
 		themeMapper.themeDelete(themeNum);
+		themeMapper.themeTimeDeleteAll(themeNum);
 	}
-
+	@PostMapping("themeTimeDelete")
+	public @ResponseBody void themeTimeDelete(@RequestParam("themeNum") String themeNum, @RequestParam("themeTime") String themeTime) {
+		
+		themeMapper.themeTimeDelete(themeNum, themeTime);
+	}
 }
