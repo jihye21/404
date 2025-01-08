@@ -8,6 +8,7 @@
 $(function(){
     // 현재 사용자 닉네임 (서버에서 이 값을 받아온다고 가정)
     var currentUserNickname = $("#currentUserNickname").val(); // 이 값은 서버에서 렌더링 시에 전달해야 합니다.
+    alert(currentUserNickname);
 
     // 친구 중복 검사
     $("#friendNickname").on("change keyup", function(){
@@ -76,7 +77,7 @@ function FriendCheck() {
 
 	    
 	    return true;
-	 
+	
 }
 </script>
 </head>
@@ -85,7 +86,7 @@ function FriendCheck() {
 <a href="주소"></a>
 <form action="friendAddReq" method="post" onsubmit="return FriendCheck()" >
 <table border="1" width="600" align="center">
-<input type="hidden" id="currentUserNickname" value="${user.nickname}">
+<input type="hidden" id="currentUserNickname" th:value="${nickname}"></tr>
 <tr><td>닉네임</td><td><input type="text" name="nickName" id="friendNickname" />
 					<span id="friendCheck"></span></td></tr>
 <tr><td colspan="2" align="center"><input type="submit" value="친구추가"/></td></tr>
