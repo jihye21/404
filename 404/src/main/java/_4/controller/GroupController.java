@@ -16,6 +16,7 @@ import _4.command.GroupCommand;
 import _4.domain.GroupDTO;
 import _4.service.group.GroupAlarmCount;
 import _4.service.group.GroupAlarmListService;
+import _4.service.group.GroupDetailService;
 import _4.service.group.GroupEnterService;
 import _4.service.group.GroupListService;
 import _4.service.group.GroupMemberSearchService;
@@ -26,6 +27,8 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("group")
 public class GroupController {
+	@Autowired
+	GroupDetailService groupDetailService;
 	@Autowired
 	GroupQuitService groupQuitService;
 	@Autowired
@@ -76,5 +79,11 @@ public class GroupController {
 	@PostMapping("groupQuit")
 	public @ResponseBody void groupQuit(@RequestParam ("groupNum") String groupNum, HttpSession session) {
 		groupQuitService.execute(groupNum, session);
+	}
+	
+	@GetMapping("groupDetail")
+	public String groupDetail(@RequestParam String groupNum, Model model) {
+		groupDetailService.execute(groupNum, model);
+		return "thymeleaf/group/groupDetail";
 	}
 }

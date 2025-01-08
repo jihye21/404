@@ -51,7 +51,9 @@ public class ThemeRegistService {
 		dto.setStoreNum(storeNum);
 		themeMapper.themeInsert(dto);
 		for(String themeTime : themeCommand.getThemeTime()) {
-			themeMapper.themeTimeInsert(themeNum, themeTime);
+			if(!themeTime.equals("")) {
+				themeMapper.themeTimeInsert(themeNum, themeTime);
+			}
 		}	
 	}
 }

@@ -15,10 +15,16 @@
 .groupAlarm{
 	margin: 20px;
 }
+a {
+	text-decoration: none;
+	color: inherit;
+}
 </style>
 <script type="text/javascript">
 
 $(function(){
+	
+	//알림 수
 	$.ajax({
 		type: "POST",
 		url: "/group/alarmCount",
@@ -28,6 +34,7 @@ $(function(){
 		error: function(){}
 	})
 	
+	//초대할 그룹원 검색
 	$(".GroupMemberSearch").keyup(function(event){
 		
 		var memName = $(".GroupMemberSearch").val();
@@ -117,6 +124,15 @@ function groupNo(groupNum){
 	})
 }
 
+function groupRegistCheck(){
+	if($(".GroupMember td").length > 0){
+		return true;
+	}else{
+		alert("그룹원을 한 명 이상 추가해주세요.");
+		return false;
+	}
+}
+
 </script>
 </head>
 <body>
@@ -124,6 +140,7 @@ function groupNo(groupNum){
 <h1>그룹</h1>
 
 <div class = "group">
+
 	<table style="margin:20px;" border="1">
 	   <tr>
 	       <th colspan="1">내 그룹</th><td>❤️💕🪼</td>
@@ -131,21 +148,23 @@ function groupNo(groupNum){
 	   <th:block th:each="myGroupList:${myGroupList}">
 	   
 	   <tr>
-	       <td>그룹</td>
+	       <td><a th:href = "|/group/groupDetail?groupNum=${myGroupList.groupNum}|">그룹[[${myGroupList.groupNum}]]</a></td>
 	       <td>[[${myGroupList.groupName}]]</td>
+	   </tr>
+	   <tr>
+	   		<th colspan="2">참여자</th>
 	   </tr>
 	   <th:block th:each="groupMemberList:${groupMemberList}">
 	   <tr>
-	   		<td>참여자</td>
-	   		<td>[[${groupMemberList.memNickname}]]([[${groupMemberList.memName}]])</td>
+	   	<td colspan="2">[[${groupMemberList.memNickname}]]([[${groupMemberList.memName}]])</td>
 	   </tr>
 	   </th:block>
 	   </th:block>
 	</table>
 	    
 	<div class = "GroupForm">
-		<form action = "/group/GroupForm" method = "POST">
-		그룹명: <input type = "text" name = "groupName">
+		<form action = "/group/GroupForm" method = "POST" onsubmit="return groupRegistCheck();">
+		그룹명: <input type = "text" name = "groupName" required="required">
 		<br><br>
 		<table >
 			<thead>
@@ -166,7 +185,7 @@ function groupNo(groupNum){
 			<tbody class = "GroupMember">
 			</tbody>
 		</table>
-		<input type = "submit" value = "그룹 등록">
+		<input type = "submit" value = "그룹 등록" class = "groupRegistBtn">
 		</form>
 	</div>
 	

@@ -12,6 +12,7 @@ public class BookCommand {
 	Integer people;
 	Integer price;
 	Integer depositPrice;
+	Integer finalPrice;
 	String couponNum;
 	String bookStatus;
 }

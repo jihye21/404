@@ -30,15 +30,6 @@
         join member m
         on m.mem_num = gm.mem_num
 		where gm.mem_num = #{memNum}
-		
-        <!--
-        select * from group_list l join 
-		group_member gm
-		on l.group_num = gm.group_num
-        join member m
-        on m.mem_num = gm.mem_num
-		where gm.mem_num = #{memNum}
-		-->
 	</select>
 	<select id="groupMemberSelectAll" parameterType="groupDTO" resultType="groupDTO">
 		select mem_name, mem_nickname from member m
@@ -64,4 +55,8 @@
 		delete from group_member_alarm 
 		where group_num = #{groupNum} and mem_num = #{memNum}
 	</delete>
+	<select id="groupNameSelect" parameterType="groupDTO" resultType="string">
+		select group_name from group_list
+		where group_num = #{groupNum}
+	</select>
 </mapper>

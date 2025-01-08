@@ -90,6 +90,41 @@ function themeDelete(themeNum){
 		}
 	});
 }
+function themeTimeDelete(themeNum, themeTime){
+	var con = confirm("해당 시간대를 삭제하시겠습니까?");
+	if(con){
+		if(themeTime == null){
+			$.ajax({
+				type: "post",
+				url: "/theme/themeTimeDelete",
+				data: {"themeNum":themeNum, "themeTime":"null"},
+				success: function(){
+					window.location.reload();
+				},
+				error: function(){
+					alert("themeTimeDelete() 오류");
+				}
+			});
+		}
+		else{
+			$.ajax({
+				type: "post",
+				url: "/theme/themeTimeDelete",
+				data: {"themeNum":themeNum, "themeTime":themeTime},
+				success: function(){
+					window.location.reload();
+				},
+				error: function(){
+					alert("themeTimeDelete() 오류");
+				}
+			});
+		}
+	}
+	else{
+		return false;
+	}
+	
+}
 </script>
 </head>
 <body>
@@ -106,7 +141,7 @@ function themeDelete(themeNum){
 		<span th:each="themeTimeList : ${themeTimeTotalList}">
 			<span th:each="themeTime : ${themeTimeList}">
 				<th:block th:if="${themeDTO.themeNum} == ${themeTime.themeNum}">
-					<button type="button">[[${themeTime.themeTime}]]</button>
+					<button type="button" th:attr="onclick=|themeTimeDelete('${themeTime.themeNum}','${themeTime.themeTime}');|">[[${themeTime.themeTime}]]</button>
 				</th:block>
 			</span>
 		</span><br/><Br/>

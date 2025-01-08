@@ -29,5 +29,7 @@ public interface GroupMapper {
 	public void groupAlarmQuit(GroupDTO groupDTO);
 
 	public List<GroupDTO> groupMemberSelectAll(GroupDTO groupNumList);
+
+	public String groupNameSelect(GroupDTO groupDTO);
 	
 }
