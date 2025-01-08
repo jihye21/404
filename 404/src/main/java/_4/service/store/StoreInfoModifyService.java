@@ -29,6 +29,7 @@ public class StoreInfoModifyService {
 		dto.setStoreClosedDate(storeCommand.getStoreClosedDate());
 		dto.setStoreOpenTime(storeCommand.getStoreOpenTime());
 		dto.setStoreAddrDetail(storeCommand.getStoreAddrDetail());
+		dto.setStoreCrowded(storeCommand.getStoreCrowded());
 		
 		URL resource = getClass().getClassLoader().getResource("static/upload");
 		String fileDir = resource.getFile();

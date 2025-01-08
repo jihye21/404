@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+<style type="text/css">
+body{
+	display: flex;
+	align-items: flex-start;
+}
+</style>
+</head>
+<body>
+
+<div class = "groupDetail">
+	<table border ="1">
+		<tr>
+			<th>그룹명</th><td>[[${groupName}]]</td>
+		</tr>
+		
+		<tr>
+			<th:block th:each="groupDetailList:${groupDetailList}">
+			<th rowspan="${#lists.size(groupDetailList)}">그룹원</th>
+			</th:block>
+			<th:block th:each="groupDetailList:${groupDetailList}">
+			<td>[[${groupDetailList.memNickname}]]([[${groupDetailList.memName}]])</td>
+			</th:block>
+		</tr>
+		
+		
+	</table>
+</div>
+</body>
+</html>
