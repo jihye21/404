@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import _4.command.FriendAddRequestCommand;
+import _4.command.FriendCommand;
 import _4.domain.FriendAddRequestDTO;
 import _4.domain.FriendDTO;
 import _4.mapper.FriendMapper;
@@ -46,7 +47,9 @@ public class FriendsController {
 	}
 	
 	@GetMapping("friendAdd")	// 친구 추가 요청(get)
-	public String friendAdd() {
+	public String friendAdd(FriendCommand friendCommand, Model model, HttpSession session) {
+		String nickname = userNumService.execute(session);
+		model.addAttribute("nickname", nickname);
 		return "thymeleaf/friend/friendAddFrom";
 	}
 	
