@@ -17,6 +17,7 @@ import _4.domain.BookDTO;
 import _4.domain.GroupDTO;
 import _4.domain.ReviewDTO;
 import _4.mapper.BookMapper;
+import _4.mapper.ReviewMapper;
 import _4.mapper.service.UserNumService;
 import _4.service.group.GroupAlarmCount;
 import _4.service.group.GroupAlarmListService;
@@ -31,6 +32,8 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("group")
 public class GroupController {
+	@Autowired
+	ReviewMapper reviewMapper;
 	@Autowired
 	UserNumService userNumService;
 	@Autowired
@@ -100,5 +103,15 @@ public class GroupController {
 		model.addAttribute("list", list);
 		
 		return "thymeleaf/group/groupDetail";
+	}
+	
+	@GetMapping("groupBookDetail")
+	public String groupBookDetail(String bookNum, Model model) {
+		BookDTO dto = bookMapper.bookSelectOne(bookNum);
+		ReviewDTO reviewDTO = reviewMapper.reviewSelectOneWithBookNum(bookNum);
+		model.addAttribute("dto", dto);
+		model.addAttribute("reviewDTO", reviewDTO);
+		
+		return "thymeleaf/group/groupBookDetail";
 	}
 }

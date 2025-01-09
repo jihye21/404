@@ -9,7 +9,7 @@ book_num, mem_num, store_num, theme_num, theme_time, people, price, deposit_pric
 </sql>
 <insert id="bookInsert" parameterType="bookDTO">
 insert into book (<include refid="bookBaseColumn"/>) values (#{bookNum}, #{memNum}, #{storeNum}, #{themeNum}, #{themeTime}
-													  , #{people}, #{price}, #{depositPrice}, null, #{couponNum}, '결제대기중', #{groupNum})
+													  , #{people}, #{price}, #{depositPrice}, null, #{couponNum}, #{bookStatus}', #{groupNum})
 </insert>
 
 <select id="bookSelectOne" parameterType="string" resultType="bookDTO">
@@ -41,9 +41,14 @@ delete from book where mem_num = #{memberNum} and book_status = '결제대기중
 </delete>
 
 <select id="bookGroupSelectAllWithMember" parameterType="string" resultType="bookDTO">
-	select <include refid="bookBaseColumn"/> from book 
-	book b join group_member gm 
+	select b.book_num, gm.mem_num, store_num
+	, theme_num, theme_time, people, price
+	, deposit_price, final_price, coupon_num
+	, book_status, b.group_num
+	from book b 
+	join group_member gm 
+	on b.group_num = gm.group_num 
 	where b.group_num = #{groupNum}
-	and gm.mem_num = #{memNum}
+	and gm.mem_num = #{memberNum}
 </select>
 </mapper>
