@@ -67,14 +67,12 @@ public class OrderController {
 	@PostMapping("payment")
 	public String payment(BookCommand bookCommand, Model model, HttpSession session) {
 		if(bookCommand.getDepositPrice() == 0) {
+			bookCommand.setBookStatus("결제완료");
 			themeBookInsertService.execute(bookCommand, session);
-			
-			String bookNum = themeBookInsertService.execute(bookCommand, session);
-			String bookStatus = "결제완료";
-			bookMapper.bookStatusUpdate(bookNum, bookStatus);
 			return "redirect:/book/memberBookList"; 
 		}
 		else {
+			bookCommand.setBookStatus("결제대기중");
 			String bookNum = themeBookInsertService.execute(bookCommand, session);
 			BookDTO dto = bookMapper.bookSelectOne(bookNum);
 			iniPayReqService.execute(dto, model);

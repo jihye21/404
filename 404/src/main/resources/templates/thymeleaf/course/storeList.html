@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<!-- 검색해서 가게 리스트를 다시 출력하는 기능 -->
+검색 : <input type="text" name="storeSearch"/><br/><br/>
+<th:block th:each="dto : ${list}">
+	[[${dto.storeName}]]<br/>
+</th:block>
+</body>
+</html>

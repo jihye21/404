@@ -3,19 +3,49 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+body{
+	display:flex;
+	align-items:flex-start;
+}
+</style>
 <script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <script type="text/javascript">
-
+function addCourse(){
+	item = "<img width='80' height='80' src='/static/upload/heart.png'/><br/>";
+	$("#course").append(item);
+}
+function storeList(){
+	// 가게 리스트 뿌리기
+	$.ajax({
+		type: "post",
+		url: "/course/storeList",
+		dataType: "html",
+		success: function(result){
+			$("#storeList").html(result);
+		},
+		error: function(){
+			alert("storeList() 오류")
+		}
+	});
+	
+	// 클릭하면 해당 span에다 값 넣어주기
+}
 </script>
 </head>
 <body>
-<form action="/map/searchRoute" method="post">
-출발 지점: <input type="text" name="start" th:value="${mapCommand.start}"/><br/>
-도착 지점: <input type="text" name="end" th:value="${mapCommand.end}"/>
-<input type="submit" value="길찾기"/>
-</form>
-<div style="position:absolute;left:600px;">
-<iframe src="https://map.naver.com/p/directions" width="450" height="900"></iframe>
+<!-- 좌측 바 -->
+<div style="border:1px solid black; position:relative; left:20px; width:450px; height:800px;" align="center">
+	<div id="storeList"></div>
+</div>
+<!-- 중앙 바 -->
+<div style="border:1px solid black; width:450px; height:800px; position:absolute;left:500px;"align="center">
+	<span id="course1"><img width="80" height="80" src="/static/upload/heart.png" onclick="storeList();"/><br/></span>
+	<button type="button" onclick="addCourse();"> + </button>
+</div>
+<!-- 우측 바 -->
+<div style="position:relative; right:-520px; width:550px; height:800px;">
+<iframe src="https://map.naver.com/p/directions" width="900" height="900"></iframe>
 </div>
 </body>
 </html>

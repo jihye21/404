@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+<style>
+	
+    .star-rating {
+      display: flex;
+    }
+
+    .star {
+      appearance: none;
+      padding: 1px;
+    }
+
+    .star::after {
+      content: '☆';
+      color: hsl(60, 80%, 45%);
+      font-size: 20px;
+    }
+
+    
+    .star:checked::after,
+    .star:has(~ .star:checked)::after {
+      content: '★';
+    }
+
+    /*.star:hover ~ .star::after {
+      content: '☆';
+    }*/
+
+</style>
+<script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script type="text/javascript">
+var themeTime = "[[${dto.themeTime}]]";
+var bookNum = "[[${dto.bookNum}]]";
+var bookStatus = "[[${dto.bookStatus}]]";
+$(function(){
+
+	if(themeTime == ("종일권")){
+		$("#themeTime").html("<button type='button' th:attr='onclick=|allDayUse();|'>종일권</button>");
+		$("#themeTime").click(function(){
+			allDayUse();
+		})
+	}
+	else{
+		$("#themeTime").val("[[${dto.themeTime}]]");
+	}
+	
+	$(".themeTimeBookBtn").css("display","none");
+
+	switch(starRate){
+	case "1" : $("#star1").prop("checked",true);break;
+	case "2" : $("#star2").prop("checked",true);break;
+	case "3" : $("#star3").prop("checked",true);break;
+	case "4" : $("#star4").prop("checked",true);break;
+	case "5" : $("#star5").prop("checked",true);break;
+	default: break;
+	}
+})
+
+function allDayUse(){
+	if(bookStatus == '결제완료'){
+		$(".themeTimeBookBtn").css("display","block");
+		$("#themeTime").css("display","none");
+	}
+	else return false;
+}
+
+function timeBook(){
+	$(".themeTimeBookBtn").css("display","none");
+	$.ajax({
+		type: "post",
+		url: "/book/timeBook",
+		data: {"bookNum" : bookNum},
+		dataType: "html",
+		success: function(result){
+			$("#content").html(result);
+		},
+		error: function(){
+			alert("오류");
+		}
+	});
+}
+function directBook(){
+	$(".themeTimeBookBtn").css("display","none");
+	$.ajax({
+		type: "post",
+		url: "/book/directBook",
+		data: {"bookNum" : bookNum},
+		dataType: "html",
+		success: function(result){
+			$("#content").html(result);
+		},
+		error: function(){
+			alert("오류");
+		}
+	});
+}
+function bookCancle(){
+	$.ajax({
+		type: "post",
+		url: "/book/bookNo",
+		data: {"bookNum" : bookNum},
+		success: function(){
+			window.location.reload();
+		},
+		error: function(){
+			alert("오류");
+		}
+	});
+}
+function reviewForm(bookNum){
+	var starRate = $("#starRate").val();
+	$.ajax({
+		type: "post",
+		url: "/review/reviewForm",
+		data: {"bookNum" : bookNum},
+		dataType: "html",
+		success: function(result){
+			$("#reviewContent").html(result);
+		},
+		error: function(){
+			alert("오류");
+		}
+	});
+}
+function reviewDelete(reviewNum){
+	$.ajax({
+		type: "post",
+		url: "/review/reviewDelete",
+		data: {"reviewNum" : reviewNum},
+		success: function(){
+			window.location.reload();
+		},
+		error: function(){
+			alert("오류");
+		}
+	});
+}
+</script>
+</head>
+<body>
+<table border="1" align="center" width="600">
+	<tr><th colspan="2">예약 내역</th></tr>
+	<tr><td>예약 번호</td><td>[[${dto.bookNum}]]</td></tr>
+	<tr><td>예약 내용</td><td>[[${dto.themeNum}]]</td></tr>
+	<tr><td>예약 시간</td><td><span id="themeTime" >[[${dto.themeTime}]]</span>
+							<button class="themeTimeBookBtn" onclick="timeBook()">시간예약</button>
+							<button class="themeTimeBookBtn" onclick="directBook()">바로예약</button>
+							<div id="content"></div></td></tr>
+					
+	<th:block th:if="${dto.bookStatus} != '방문완료' and ${dto.bookStatus} != '예약취소'">
+		<tr><th colspan="2" th:attr="onclick=|bookCancle('${dto.bookNum}')|"><button>예약 취소</button></th></tr>
+	</th:block>
+	<th:block th:if="${dto.bookStatus} == '예약취소'">
+		<tr><th colspan="2">예약이 취소되었습니다.</th></tr>
+	</th:block>
+	<th:block th:if="${dto.bookStatus} == '방문완료'">
+		<th:block th:if="${reviewDTO == null} and ${dto.bookStatus} == '방문완료'">
+			<tr><th colspan="2"><span id="reviewContent"><button th:attr="onclick=|reviewForm('${dto.bookNum}');|">리뷰 작성</button></span></th></tr>
+		</th:block>
+		<th:block th:if="${reviewDTO != null}">
+			<tr><td colspan="2">
+				<div class="star-rating">
+					<input type="hidden" id="starRate" th:value="${reviewDTO.starRate}"/>
+					<input type="radio" class="star" id="star1" value="1" name="starRate" onclick="return(false);">
+					<input type="radio" class="star" id="star2" value="2" name="starRate" onclick="return(false);">
+					<input type="radio" class="star" id="star3" value="3" name="starRate" onclick="return(false);">
+					<input type="radio" class="star" id="star4" value="4" name="starRate" onclick="return(false);">
+					<input type="radio" class="star" id="star5" value="5" name="starRate" onclick="return(false);">
+				</div>
+				<textarea cols="60" rows="5" readonly="readonly">[[${reviewDTO.reviewContents}]]</textarea>
+			</td></tr>
+			<tr><th colspan="2"><button type="button" th:attr="onclick=|reviewDelete('${reviewDTO.reviewNum}')|">삭제</button></th></tr>
+		</th:block>
+	</th:block>
+</table>
+
+
+</body>
+</html>
