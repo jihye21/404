@@ -8,14 +8,13 @@
 $(function(){
     // 현재 사용자 닉네임 (서버에서 이 값을 받아온다고 가정)
     var currentUserNickname = $("#currentUserNickname").val(); // 이 값은 서버에서 렌더링 시에 전달해야 합니다.
-    alert(currentUserNickname);
 
     // 친구 중복 검사
     $("#friendNickname").on("change keyup", function(){
         var friendNickname = $("#friendNickname").val();
         
         // 자신에게 친구 추가를 시도할 경우 처리
-        if (friendNickname === currentUserNickname) {
+        if (friendNickname == currentUserNickname) {
             $("#friendCheck").text("자신에게 친구 추가를 할 수 없습니다.");
             $("#friendCheck").css("color", "red");
             return; // 더 이상 AJAX 요청을 하지 않음
@@ -47,8 +46,8 @@ function FriendCheck() {
 	var currentUserNickname = $("#currentUserNickname").val();
 	var friendNickname = $("#friendNickname").val();
 	
-	 if (friendNickname === currentUserNickname) {
-	        alert("자기 자신을 친구 추가할 수 없습니다.");
+	 if (result.trim() == "자신에게 친구 추가를 할 수 없습니다.") {
+	        alert("자신에게 친구 추가를 할 수 없습니다.");
 	        return false; 
 	    }
 	 
@@ -60,8 +59,11 @@ function FriendCheck() {
 	        data: {"userFriend": friendNickname},
 	        async: false, 
 	        success: function(result) {
-	            if (result.trim() === "이미 존재하는 친구입니다.") {
-	                isFriend = true; 
+	            if (result.trim() == "이미 존재하는 친구입니다.") {
+	                isFriend = true;
+	            }else if(result.trim() == "존재하지 않는 유저입니다."){
+					alert("존재하지 않는 유저입니다.");
+					isFriend = true;
 	            }
 	        },
 	        error: function() {
@@ -69,13 +71,11 @@ function FriendCheck() {
 	        }
 	    });
 
-	    
 	    if (isFriend) {
 	        alert("이미 친구인 사용자입니다.");
 	        return false; 
 	    }
 
-	    
 	    return true;
 	
 }
@@ -86,7 +86,7 @@ function FriendCheck() {
 <a href="주소"></a>
 <form action="friendAddReq" method="post" onsubmit="return FriendCheck()" >
 <table border="1" width="600" align="center">
-<input type="hidden" id="currentUserNickname" th:value="${nickname}"></tr>
+<input type="hidden" id="currentUserNickname" th:value="${nickname}">
 <tr><td>닉네임</td><td><input type="text" name="nickName" id="friendNickname" />
 					<span id="friendCheck"></span></td></tr>
 <tr><td colspan="2" align="center"><input type="submit" value="친구추가"/></td></tr>

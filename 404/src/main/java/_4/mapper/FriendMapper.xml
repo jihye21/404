@@ -18,11 +18,11 @@ select friend_req_num, fr.from_num, to_num, friend_request_date, mem_nickname
  where to_num = #{toNum}
 </select>
 
-<select id="changeNick" parameterType="string" resultType="string">		<!-- 수신인의 번호를 닉네임으로 변경 -->
+<select id="changeNick" parameterType="string" resultType="string">		<!-- 수신인의 닉네임을 번호로 변경 -->
 select mem_num from member where mem_nickname = #{memNickname}
 </select>
 
-<select id="changeNum" parameterType="string" resultType="string">		<!-- 수신인의 닉네임을 번호로 변경 -->
+<select id="changeNum" parameterType="string" resultType="string">		<!-- 수신인의 번호를 닉네임으로 변경 -->
 select mem_nickname from member where mem_num = #{memNum}
 </select>
 
@@ -44,11 +44,12 @@ values( #{memNum}, #{friendNum}, sysdate, #{friendNickname})
 delete from friendReqRes where friend_req_num = #{friendReqNum}
 </delete>
 
-<select id="friendsSelectAll" parameterType="String" resultType="friendDTO">
+<select id="friendsSelectAll" parameterType="string" resultType="friendDTO">
 select friend_nickname, friend_regist_date
 from friendList
 where mem_num = #{memNum}
-
 </select>
+
+
 
 </mapper>
