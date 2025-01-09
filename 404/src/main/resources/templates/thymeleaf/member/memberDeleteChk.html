@@ -11,7 +11,7 @@ function memberDelete(memNum){
 		url : "/member/memberDelete",
 		data : {'memNum' : memNum},
 		success : function(){
-			
+			window.location.href = "/";
 		}
 	});
 };

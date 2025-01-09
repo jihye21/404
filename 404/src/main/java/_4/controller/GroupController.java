@@ -96,7 +96,7 @@ public class GroupController {
 		
 		//예약 리스트 가져오기
 		String memberNum = userNumService.execute(session);
-		List<BookDTO> list = bookMapper.bookSelectAllWithMember(memberNum);
+		List<BookDTO> list = bookMapper.bookGroupSelectAllWithMember(memberNum, groupNum);
 		model.addAttribute("list", list);
 		
 		return "thymeleaf/group/groupDetail";

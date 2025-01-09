@@ -46,7 +46,6 @@ public class UserController {
 		if(result.hasErrors()) {
 			return "thymeleaf/user/loginForm";
 		}
-		System.out.println("auth.getGrade() : " + auth.getGrade());
 		if(auth.getGrade().equals("member")) {
 			String memberNum = userNumService.execute(session);
 			MemberDTO dto = memberMapper.memberSelectOne(memberNum);
