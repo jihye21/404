@@ -68,6 +68,10 @@ public class OrderController {
 	public String payment(BookCommand bookCommand, Model model, HttpSession session) {
 		if(bookCommand.getDepositPrice() == 0) {
 			themeBookInsertService.execute(bookCommand, session);
+			
+			String bookNum = themeBookInsertService.execute(bookCommand, session);
+			String bookStatus = "결제완료";
+			bookMapper.bookStatusUpdate(bookNum, bookStatus);
 			return "redirect:/book/memberBookList"; 
 		}
 		else {

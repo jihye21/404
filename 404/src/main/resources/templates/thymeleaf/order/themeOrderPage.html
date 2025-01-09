@@ -3,6 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+.couponShowBtn{
+background: none;
+border: none; 
+outline:none;
+font-size: 20px;
+}
+
+</style>
 <script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <script type="text/javascript">
 var people = $("#people").val();
@@ -15,7 +24,10 @@ var discountedPrice = totalPrice;
 $(function(){
 	//그룹 리스트 숨기기
 	$(".groupList").hide();
+	//이니시스 결제 버튼 숨기기
 	$(".payBtn").hide();
+	//뒤로 가기 버튼 숨기기
+	$(".couponShowBtn").hide();
 	
 	$("#people").text(people);
 	$("#totalPrice").text(themePrice);
@@ -100,12 +112,22 @@ function a(){
 }
 
 function groupCheck(){
+	$(".couponShowBtn").show();
 	$(".groupList").show();
 	$(".payBtn").show();
 	$(".groupShowBtn").hide();
 	$(".content").hide();
-	
 }
+
+function back(){
+	$(".couponShowBtn").hide();
+	$(".groupList").hide();
+	$(".payBtn").hide();
+	$(".content").show();
+	$(".groupShowBtn").show();
+}
+
+
 </script>
 </head>
 <body>
@@ -166,7 +188,7 @@ function groupCheck(){
 	</table>
 		
 		<div class = "groupList">
-			<h4>결제 방식을 선택해주세요.</h4>
+			<h4>결제 방식을 선택해주세요.<button type="button" onclick="back();" class="couponShowBtn">↩️</button></h4>
 			<table style="margin:20px; width:300px;" border="1">
 			   <tr>
 			       <td><input type="radio" name = "groupNum"></td>
