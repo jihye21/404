@@ -11,15 +11,15 @@ body{
 </style>
 <script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <script type="text/javascript">
-function addCourse(){
-	item = "<img width='80' height='80' src='/static/upload/heart.png'/><br/>";
-	$("#course").append(item);
-}
-function storeList(){
-	// 가게 리스트 뿌리기
+var count = 1;
+var maxOrder = "";
+$(function(){
+})
+function storeList(count){
 	$.ajax({
 		type: "post",
 		url: "/course/storeList",
+		data: {"courseCount":count},
 		dataType: "html",
 		success: function(result){
 			$("#storeList").html(result);
@@ -28,8 +28,30 @@ function storeList(){
 			alert("storeList() 오류")
 		}
 	});
-	
-	// 클릭하면 해당 span에다 값 넣어주기
+}
+function addCourse(){
+	item = "<span>";
+	item += "	<img width='80' height='80' src='/static/upload/heart.png' onclick='storeList(" + count + ");'/><br/>";
+	item += "	<input type='hidden' id='cousrse" + count + "'/>";
+	item += "</span>";
+	count = count + 1;
+	$("#course").append(item);
+}
+function insertCourse(){
+	alert("insertCourse 함수 실행");
+	maxOrder = count;
+	// course 및 courseDetail을 완전히 저장하는 함수
+	$.ajax({
+		type: "post",
+		url: "/course/courseInsert",
+		data: {"maxOrder" : maxOrder},
+		success: function(){
+			alert("저장되었습니다.");
+		},
+		error: function(){
+			alert("insertCourse() 함수 오류ㅋㅋㅋㅋ");
+		}
+	});
 }
 </script>
 </head>
@@ -40,8 +62,12 @@ function storeList(){
 </div>
 <!-- 중앙 바 -->
 <div style="border:1px solid black; width:450px; height:800px; position:absolute;left:500px;"align="center">
-	<span id="course1"><img width="80" height="80" src="/static/upload/heart.png" onclick="storeList();"/><br/></span>
-	<button type="button" onclick="addCourse();"> + </button>
+	<span id="course">
+		<img width="80" height="80" src="/static/upload/heart.png" onclick="storeList(0);"/><br/>
+		<input type="hidden" id="course0"/>
+	</span>
+	<button type="button" onclick="addCourse();"> + </button> 
+	<button type="button" onclick="insertCourse();">저장하기</button>
 </div>
 <!-- 우측 바 -->
 <div style="position:relative; right:-520px; width:550px; height:800px;">
