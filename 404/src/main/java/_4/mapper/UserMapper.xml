@@ -27,7 +27,7 @@ update member
 <update id="save" parameterType="authDTO">
 update member set last_login_time = sysdate,
 	status = 'T'
-	where mem_id = #{userId} and status is null
+	where mem_id = #{userId}
 </update>
 
 
