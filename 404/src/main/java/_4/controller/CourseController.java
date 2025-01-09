@@ -7,15 +7,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import _4.domain.CourseDTO;
 import _4.domain.StoreDTO;
+import _4.mapper.CourseMapper;
 import _4.mapper.StoreMapper;
 import _4.mapper.service.UserNumService;
 import _4.service.course.CourseInsertService;
+import _4.service.course.CourseListService;
 import _4.service.course.CourseSessionService;
 import jakarta.servlet.http.HttpSession;
 
@@ -25,11 +27,15 @@ public class CourseController {
 	@Autowired
 	CourseInsertService courseInsertService;
 	@Autowired
+	CourseListService courseListService;
+	@Autowired
 	UserNumService userNumService;
 	@Autowired
 	CourseSessionService courseSessionService;
 	@Autowired
 	StoreMapper storeMapper;
+	@Autowired
+	CourseMapper courseMapper;
 	
 	@GetMapping("coursePage")
 	public String coursePage(HttpSession session) {
@@ -56,7 +62,13 @@ public class CourseController {
 	}
 	
 	@PostMapping("courseInsert")
-	public @ResponseBody void courseInsert(HttpSession session, @RequestParam("maxOrder") String maxOrder) {
-		courseInsertService.execute(session, maxOrder);
+	public @ResponseBody void courseInsert(HttpSession session, @RequestParam("maxOrder") String maxOrder, @RequestParam("courseName") String courseName) {
+		courseInsertService.execute(session, maxOrder, courseName);
+	}
+	
+	@GetMapping("courseList")
+	public String courseList(HttpSession session, Model model) {
+		courseListService.execute(session, model);
+		return "thymeleaf/course/courseList";
 	}
 }

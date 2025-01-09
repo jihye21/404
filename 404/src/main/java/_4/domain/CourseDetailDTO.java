@@ -11,4 +11,5 @@ public class CourseDetailDTO {
 	Integer courseOrder;
 	String storeNum;
 	String memberNum;
+	String storeName;
 }

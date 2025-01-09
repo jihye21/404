@@ -8,5 +8,6 @@ import lombok.Data;
 @Alias("courseDTO")
 public class CourseDTO {
 	String courseNum;
+	String courseName;
 	String memNum;
 }

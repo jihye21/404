@@ -5,9 +5,18 @@
 	
 <mapper namespace="_4.mapper.CourseMapper">
 <insert id="courseInsert" parameterType="courseDTO">
-insert into course (course_num, mem_num) values (#{courseNum}, #{memNum})
+insert into course (course_num, course_name, mem_num) values (#{courseNum}, #{courseName}, #{memNum})
 </insert>
 <insert id="courseDetailInsert" parameterType="courseDetailDTO">
 insert into course_detail (course_num, course_order, store_num) values (#{courseNum}, #{courseOrder}, #{storeNum})
 </insert>
+
+<select id="courseSelectAll" parameterType="string" resultType="courseDTO">
+select course_num, course_name from course where mem_num = #{memberNum}
+</select>
+<select id="courseDetailSelectAll" parameterType="string" resultType="courseDetailDTO">
+select course_num, course_order, cd.store_num, store_name from course_detail cd
+ join store s on cd.store_num = s.store_num
+ where course_num = #{courseNum}
+</select>
 </mapper>

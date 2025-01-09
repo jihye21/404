@@ -38,18 +38,18 @@ function addCourse(){
 	$("#course").append(item);
 }
 function insertCourse(){
-	alert("insertCourse 함수 실행");
 	maxOrder = count;
 	// course 및 courseDetail을 완전히 저장하는 함수
+	var courseName = $("input[name='courseName']").val();
 	$.ajax({
 		type: "post",
 		url: "/course/courseInsert",
-		data: {"maxOrder" : maxOrder},
+		data: {"maxOrder" : maxOrder, "courseName" : courseName},
 		success: function(){
 			alert("저장되었습니다.");
 		},
 		error: function(){
-			alert("insertCourse() 함수 오류ㅋㅋㅋㅋ");
+			alert("insertCourse()");
 		}
 	});
 }
@@ -62,6 +62,7 @@ function insertCourse(){
 </div>
 <!-- 중앙 바 -->
 <div style="border:1px solid black; width:450px; height:800px; position:absolute;left:500px;"align="center">
+	<br/>코스명 : <input type="text" name="courseName" /><br/>
 	<span id="course">
 		<img width="80" height="80" src="/static/upload/heart.png" onclick="storeList(0);"/><br/>
 		<input type="hidden" id="course0"/>

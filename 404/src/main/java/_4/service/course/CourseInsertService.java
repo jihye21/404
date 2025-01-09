@@ -18,13 +18,14 @@ public class CourseInsertService {
 	UserNumService userNumService;
 	@Autowired
 	CourseMapper courseMapper;
-	public void execute(HttpSession session, String maxOrder) {
+	public void execute(HttpSession session, String maxOrder, String courseName) {
 		// course에 넣기
 		String memberNum = userNumService.execute(session);
 		String courseNum = autoNumService.execute("course", "course_num", "course_");
 		CourseDTO courseDTO = new CourseDTO();
 		courseDTO.setCourseNum(courseNum);
 		courseDTO.setMemNum(memberNum);
+		courseDTO.setCourseName(courseName);
 		if((CourseDetailDTO)session.getAttribute(memberNum + "/" + 0) != null){
 			courseMapper.courseInsert(courseDTO);
 		}

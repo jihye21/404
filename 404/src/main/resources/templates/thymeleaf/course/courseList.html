@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<table align="center" border="1" width="600">
+	<tr><th>코스 목록</th></tr>
+	<tr th:each="courseDTO : ${courseList}"><td>
+		[[${courseDTO.courseNum}]]
+		[[${courseDTO.courseName}]]<br/>
+		<span th:each="courseDetailList : ${courseDetailTotalList}">
+			<span th:each="courseDetailDTO : ${courseDetailList}">
+				<th:block th:if="${courseDetailDTO.courseNum} == ${courseDTO.courseNum}">
+					[[${courseDetailDTO.storeName}]] -
+				</th:block>
+			</span>
+		</span>
+	</td></tr>
+</table>
+</body>
+</html>
