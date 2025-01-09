@@ -35,5 +35,7 @@ public class GroupListService {
 		}
 		
 		model.addAttribute("groupMemberList", groupMemberList);
+
+		model.addAttribute("memNum", memNum);
 	}
 }

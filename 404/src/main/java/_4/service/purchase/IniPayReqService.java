@@ -9,8 +9,8 @@ import _4.domain.BookDTO;
 public class IniPayReqService {
 	
 	public void execute(BookDTO dto, Model model) {	
-		//할인된 금액으로 변경
 		Integer purchasePrice = dto.getDepositPrice();
+		
 		String deliveryName = dto.getMemNum();
 		String purchaseName = dto.getStoreNum();
 		Integer deliveryPhone = 1234;

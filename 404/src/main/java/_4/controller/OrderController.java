@@ -19,6 +19,8 @@ import _4.mapper.service.AutoNumService;
 import _4.mapper.service.UserNumService;
 import _4.service.book.ThemeBookInsertService;
 import _4.service.coupon.memberCouponListService;
+import _4.service.group.GroupDutchAlarmService;
+import _4.service.group.GroupDutchService;
 import _4.service.group.GroupListService;
 import _4.service.purchase.IniPayReqService;
 import _4.service.purchase.PriceCalcService;
@@ -27,6 +29,10 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("order")
 public class OrderController {
+	@Autowired
+	GroupDutchAlarmService groupDutchAlarmService;
+	@Autowired 
+	GroupDutchService groupDutchService;
 	@Autowired
 	GroupListService groupListService;
 	@Autowired
@@ -66,6 +72,7 @@ public class OrderController {
 	
 	@PostMapping("payment")
 	public String payment(BookCommand bookCommand, Model model, HttpSession session) {
+		System.out.println(bookCommand);
 		if(bookCommand.getDepositPrice() == 0) {
 			bookCommand.setBookStatus("결제완료");
 			themeBookInsertService.execute(bookCommand, session);
@@ -75,6 +82,15 @@ public class OrderController {
 			bookCommand.setBookStatus("결제대기중");
 			String bookNum = themeBookInsertService.execute(bookCommand, session);
 			BookDTO dto = bookMapper.bookSelectOne(bookNum);
+			
+			//그룹 결제이면 그룹 더치 금액을 결제하도록 함.
+			boolean isGroup = groupDutchService.execute(bookNum, session);
+			if(isGroup) {
+				dto.setDepositPrice(dto.getDutchPrice());
+				
+				groupDutchAlarmService.execute(bookNum, bookCommand, session);
+			}
+			
 			iniPayReqService.execute(dto, model);
 			return "thymeleaf/purchase/payment";
 		}

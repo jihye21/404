@@ -18,10 +18,12 @@ import _4.domain.GroupDTO;
 import _4.domain.ReviewDTO;
 import _4.mapper.BookMapper;
 import _4.mapper.ReviewMapper;
+import _4.mapper.service.AutoNumService;
 import _4.mapper.service.UserNumService;
 import _4.service.group.GroupAlarmCount;
 import _4.service.group.GroupAlarmListService;
 import _4.service.group.GroupDetailService;
+import _4.service.group.GroupDutchAlarmService;
 import _4.service.group.GroupEnterService;
 import _4.service.group.GroupListService;
 import _4.service.group.GroupMemberSearchService;
@@ -114,4 +116,13 @@ public class GroupController {
 		
 		return "thymeleaf/group/groupBookDetail";
 	}
+	
+	/*
+	@PostMapping("groupDutchAlarm")
+	public @ResponseBody void groupDutchAlarm(@RequestParam ("dutchMember")String dutchMember
+			, @RequestParam ("groupNum") String groupNum
+			, @RequestParam ("dutchPrice") String dutchPrice) {
+		groupDutchAlarmService.execute(dutchMember, groupNum, dutchPrice);
+	}
+	*/
 }

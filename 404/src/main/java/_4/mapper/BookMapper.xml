@@ -5,11 +5,11 @@
 	
 <mapper namespace="_4.mapper.BookMapper">
 <sql id="bookBaseColumn">
-book_num, mem_num, store_num, theme_num, theme_time, people, price, deposit_price, final_price, coupon_num, book_status, group_num
+book_num, mem_num, store_num, theme_num, theme_time, people, price, deposit_price, final_price, dutch_price, coupon_num, book_status, group_num
 </sql>
 <insert id="bookInsert" parameterType="bookDTO">
 insert into book (<include refid="bookBaseColumn"/>) values (#{bookNum}, #{memNum}, #{storeNum}, #{themeNum}, #{themeTime}
-													  , #{people}, #{price}, #{depositPrice}, null, #{couponNum}, #{bookStatus}', #{groupNum})
+													  , #{people}, #{price}, #{depositPrice}, null, #{dutchPrice}, #{couponNum}, #{bookStatus}, #{groupNum})
 </insert>
 
 <select id="bookSelectOne" parameterType="string" resultType="bookDTO">
@@ -51,4 +51,6 @@ delete from book where mem_num = #{memberNum} and book_status = '결제대기중
 	where b.group_num = #{groupNum}
 	and gm.mem_num = #{memberNum}
 </select>
+
+
 </mapper>

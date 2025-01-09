@@ -31,5 +31,7 @@ public interface GroupMapper {
 	public List<GroupDTO> groupMemberSelectAll(GroupDTO groupNumList);
 
 	public String groupNameSelect(GroupDTO groupDTO);
+
+	public void groupDutchAlarmInsert(String groupNum, Integer dutchPrice, String memNum, String bookNum);
 	
 }

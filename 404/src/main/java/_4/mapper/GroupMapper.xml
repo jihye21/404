@@ -32,7 +32,7 @@
 		where gm.mem_num = #{memNum}
 	</select>
 	<select id="groupMemberSelectAll" parameterType="groupDTO" resultType="groupDTO">
-		select mem_name, mem_nickname from member m
+		select mem_name, mem_nickname, gm.mem_num, group_num from member m
 		join group_member gm 
 		on m.mem_num = gm.mem_num
 		where group_num = #{groupNum}
@@ -59,4 +59,8 @@
 		select group_name from group_list
 		where group_num = #{groupNum}
 	</select>
+	<insert id="groupDutchAlarmInsert">
+		insert into groupDutchAlarm (group_num, book_num, mem_num, dutch_price)
+		values (#{groupNum}, #{bookNum}, #{memNum}, ${dutchPrice})
+	</insert>
 </mapper>

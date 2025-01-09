@@ -22,6 +22,8 @@ var discountedPrice = totalPrice;
 
 
 $(function(){
+	//그룹의 멤버 체크박스 숨기기
+	$(".memberCheckList").hide();
 	//그룹 리스트 숨기기
 	$(".groupList").hide();
 	//이니시스 결제 버튼 숨기기
@@ -125,13 +127,94 @@ function back(){
 	$(".groupShowBtn").show();
 }
 
+function groupChoose(){
+	$(".groupList").hide();
+	$(".memberCheckList").show();
+}
+function groupBack(){
+	$(".singleCheck").prop('checked', true);
+	$(".groupList").show();
+	$(".memberCheckList").hide();
+}
+function memberCheck(){
+	/*
+	var groupNum = $(".payGroupNum").val();
+	var dutchPrice = $("#dutchPrice").val();
+	
+	$(".checkBox:checked").each(function(){
+		var dutchMember = $(this).val();
+		
+		$.ajax({
+			type: "POST",
+			url: "/group/groupDutchAlarm",
+			data: {dutchMember:dutchMember,
+				groupNum:groupNum,
+				dutchPrice:dutchPrice},
+			succes: function(){
+				
+			},
+			error: function(){}
+		})
+	})
+	*/
+	
+}
 
+function dutchPrice(){
+	var dutchPrice = $(".depositPrice").val();
+	var memberCount = $(".checkBox:checked").length;
+	var memNum = $(".memNum").val();
+	var withMem = false;
+
+	$(".checkBox:checked").each(function(){
+		if($(this).val() == memNum){
+			withMem = true;
+		}
+	})
+	
+	if(withMem){
+		dutchPrice = dutchPrice/memberCount;
+	}else{
+		dutchPrice = 0;
+	}
+	
+	if(memberCount == 0){
+		dutchPrice = 0;
+	}
+	
+	//html에 보이는 값
+	$(".dutchPrice").text(dutchPrice);
+	//hidden 값
+	$("#dutchPrice").val(dutchPrice);
+}
+
+function checkAll(){
+	
+	if($(".allCheckBox").prop('checked')){
+		$(".checkBox").prop('checked', true);
+	}else {
+		$(".checkBox").prop('checked', false);
+	}
+	dutchPrice();
+}
+
+function checkBox(){
+	
+	if($(".checkBox").not(':checked').length > 0){
+		$(".allCheckBox").prop('checked', false);
+	}else{
+		$(".allCheckBox").prop('checked', true);
+	}
+	dutchPrice();
+}
 </script>
 </head>
 <body>
 
 <form action="/order/payment" method="post" onsubmit="return a();">
-	
+
+	<input type = "hidden" name = "dutchPrice" id = "dutchPrice" value = "0">
+	<input type = "hidden" name="memNum" th:value="${memNum}" class ="memNum">
 	<input type="hidden" name="themeNum" th:value="${themeDTO.themeNum}"/>
 	<input type="hidden" name="themeTime" th:value="${themeTime}"/>
 	<input type="hidden" name="people" id="lastPeople"/>
@@ -189,13 +272,13 @@ function back(){
 			<h4>결제 방식을 선택해주세요.<button type="button" onclick="back();" class="couponShowBtn">↩️</button></h4>
 			<table style="margin:20px; width:300px;" border="1">
 			   <tr>
-			       <td><input type="radio" name = "groupNum"></td>
+			       <td><input type="radio" name = "groupNum" checked="checked" class = "singleCheck"></td>
 			       <td colspan="2">혼자 결제하기</td>
 			   </tr>
 			   <th:block th:each="myGroupList:${myGroupList}">
 			   
 			   <tr>
-			   	   <td><input type="radio" name = "groupNum" th:value="${myGroupList.groupNum}"></td>
+			   	   <td><input type="radio" name = "groupNum" th:value="${myGroupList.groupNum}" onclick="groupChoose();"></td>
 			       <td><a th:href = "|/group/groupDetail?groupNum=${myGroupList.groupNum}|">그룹</a></td>
 			       <td><a th:href = "|/group/groupDetail?groupNum=${myGroupList.groupNum}|">[[${myGroupList.groupName}]]</a></td>
 			   </tr>
@@ -211,8 +294,36 @@ function back(){
 			</table>
 		</div>
 		
+		<div class = "memberCheckList">
+			<h4>결제 방식을 선택해주세요.<button type="button" onclick="groupBack();" class="couponShowBtn">↩️</button></h4>
+			<table style="margin:20px; width:300px;" border="1">
+			   
+			   <th:block th:each="myGroupList:${myGroupList}">
+			   <input type = "hidden" class = "payGroupNum" th:value = "${myGroupList.groupNum}">
+			   <tr>
+			       <td><a th:href = "|/group/groupDetail?groupNum=${myGroupList.groupNum}|">그룹</a></td>
+			       <td><a th:href = "|/group/groupDetail?groupNum=${myGroupList.groupNum}|">[[${myGroupList.groupName}]]</a></td>
+			   </tr>
+			   <tr>
+			   		<td><input type = "checkbox" onclick="checkAll();" class="allCheckBox"></td>
+			   		<th colspan="2"><a th:href = "|/group/groupDetail?groupNum=${myGroupList.groupNum}|">참여자</a></th>
+			   </tr>
+			   <th:block th:each="groupMemberList:${groupMemberList}">
+			   <tr>
+			   		<td><input type = "checkbox" name = "dutchMember" class = "checkBox" onclick="checkBox();" th:value="${groupMemberList.memNum}"></td>
+			   		<td colspan="2"><a th:href = "|/group/groupDetail?groupNum=${myGroupList.groupNum}|">[[${groupMemberList.memNickname}]]([[${groupMemberList.memName}]])</a></td>
+			   </tr>
+			   </th:block>
+			   </th:block>
+			</table>
+			
+			<b>내가 결제할 금액</b><br>
+			<span class = "dutchPrice">0</span>
+			<br><br>
+		</div>
+		
 		<button type="button" onclick="groupCheck();" class="groupShowBtn">결제하기</button>
-		<button type="submit" class = "payBtn">결제하기</button>
+		<button type="submit" class = "payBtn" onclick="memberCheck();">결제하기</button>
 	</div>
 </form>
 </body>

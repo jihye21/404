@@ -36,12 +36,8 @@ public class ThemeBookInsertService {
 		dto.setPeople(bookCommand.getPeople());
 		dto.setPrice(bookCommand.getPrice());
 		dto.setBookStatus(bookCommand.getBookStatus());
-		String groupNum = bookCommand.getGroupNum();
-
-		if(groupNum != null) {
-			dto.setGroupNum(groupNum);
-		}
-
+		dto.setGroupNum(bookCommand.getGroupNum());
+		
 		if(bookCommand.getCouponNum() != null) {
 			dto.setCouponNum(bookCommand.getCouponNum());
 		}else {
@@ -49,8 +45,11 @@ public class ThemeBookInsertService {
 		}
 		
 		dto.setDepositPrice(bookCommand.getDepositPrice());
+		dto.setDutchPrice(bookCommand.getDutchPrice());
+		
 		//dto.setBookStatus("결제대기중");
 		bookMapper.bookInsert(dto);
+		
 		return bookNum;
 	}
 }
