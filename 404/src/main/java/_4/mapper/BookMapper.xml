@@ -41,6 +41,9 @@ delete from book where mem_num = #{memberNum} and book_status = '결제대기중
 </delete>
 
 <select id="bookGroupSelectAllWithMember" parameterType="string" resultType="bookDTO">
-	select <include refid="bookBaseColumn"/> from book where mem_num = #{memberNum} and group_num = #{groupNum}
+	select <include refid="bookBaseColumn"/> from book 
+	book b join group_member gm 
+	where b.group_num = #{groupNum}
+	and gm.mem_num = #{memNum}
 </select>
 </mapper>

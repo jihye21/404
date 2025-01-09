@@ -43,7 +43,6 @@ public class MemberDeleteCheckService {
 		} else {
 			// 30일 미만일 경우
 			session.setAttribute("auth", auth);
-			auth.setLastLoginTime(LocalDateTime.now());
 			userMapper.save(auth);
 		}
 	}
