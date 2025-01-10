@@ -13,11 +13,23 @@ insert into book (<include refid="bookBaseColumn"/>) values (#{bookNum}, #{memNu
 </insert>
 
 <select id="bookSelectOne" parameterType="string" resultType="bookDTO">
-select <include refid="bookBaseColumn"/> from book where book_num = #{bookNum}
+select mem_nickname
+ , book_num, b.theme_num, theme_time, b.mem_num, people, price, coupon_num, book_status
+ , theme_name
+ from member m join book b 
+ on m.mem_num = b.mem_num
+ join theme t
+ on b.theme_num = t.theme_num
+ where book_num = #{bookNum}
 </select>
 
-<select id="bookSelectAllWithMember" parameterType="string" resultType="bookDTO">
-select <include refid="bookBaseColumn"/> from book where mem_num = #{memberNum}
+<select id="bookSelectAllWithMember" parameterType="string" resultType="bookDTO">		<!-- 멤버 예약 내역 리스트 -->
+select b.book_num, b.theme_num, b.theme_time, b.book_status, b.store_num
+ , store_name, STORE_PROFILE_STORE_IMAGE
+ from book b join store s
+ on b.store_num = s.store_num
+ 
+ where mem_num = #{memberNum}
 </select>
 
 <select id="bookSelectAllWithStore" parameterType="string" resultType="bookDTO">

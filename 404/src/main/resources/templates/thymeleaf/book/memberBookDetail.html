@@ -144,7 +144,8 @@ function reviewDelete(reviewNum){
 <table border="1" align="center" width="600">
 	<tr><th colspan="2">예약 내역</th></tr>
 	<tr><td>예약 번호</td><td>[[${dto.bookNum}]]</td></tr>
-	<tr><td>예약 내용</td><td>[[${dto.themeNum}]]</td></tr>
+	<tr><td>예약 내용</td><td>[[${dto.themeName}]]</td></tr>
+	<tr><td>예약 상태</td><td>[[${dto.bookStatus}]]</td></tr>
 	<tr><td>예약 시간</td><td><span id="themeTime" >[[${dto.themeTime}]]</span>
 							<button class="themeTimeBookBtn" onclick="timeBook()">시간예약</button>
 							<button class="themeTimeBookBtn" onclick="directBook()">바로예약</button>

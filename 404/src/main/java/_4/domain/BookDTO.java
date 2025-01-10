@@ -20,4 +20,8 @@ public class BookDTO {
 	Integer dutchPrice;
 	String couponNum;
 	String bookStatus;
+	String storeName;
+	String storeProfileStoreImage;
+	String themeName;
+	String memNickname;
 }

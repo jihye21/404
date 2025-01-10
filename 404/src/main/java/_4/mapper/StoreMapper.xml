@@ -8,6 +8,7 @@
 STORE_NUM, BUSS_REGIST_NUM, OWNER_NUM, STORE_NAME, STORE_TYPE, STORE_INTRODUCTION, STORE_CLOSED_DATE, STORE_OPEN_TIME, STORE_OPEN_DATE
 , STORE_ADDR, STORE_ADDR_DETAIL, STORE_CROWDED, STORE_PROFILE_IMAGE, STORE_PROFILE_STORE_IMAGE, STORE_DETAIL_IMAGE, STORE_DETAIL_STORE_IMAGE 
 </sql>
+
 <sql id="depositBaseColumn">
 deposit_num, store_num, start_price, end_price, deposit_rate
 </sql>
@@ -20,12 +21,15 @@ deposit_num, store_num, start_price, end_price, deposit_rate
 <select id="storeSelectAll" resultType="storeDTO">
 select <include refid="storeBaseColumn"></include> from store
 </select>
+
 <select id="storeNumSelect" parameterType="string" resultType="string">
 select store_num from store where owner_num = #{ownerNum}
 </select>
+
 <select id="WishCheck" parameterType="string">
 select 1 from wish where mem_num = #{memNum} and store_num = #{storeNum}
 </select>
+
 <select id="wishSelectList" parameterType="string" resultType="storeDTO">
 select <include refid="storeBaseColumn"></include> from store 
 where STORE_NUM in (select STORE_NUM from wish where mem_num = #{memberNum})
@@ -54,6 +58,7 @@ merge into deposit d
 		insert (deposit_num, store_num, start_price, end_price, deposit_rate) values 
  		((select nvl(max(deposit_num),0)+1 from deposit where store_num = #{storeNum}), #{storeNum}, #{startPrice}, #{endPrice}, #{depositRate})
 </update>
+
 <select id="depositSettingSelect" parameterType="string" resultType="depositDTO">
 select <include refid="depositBaseColumn"/> from deposit where store_num = #{storeNum} order by deposit_num
 </select>

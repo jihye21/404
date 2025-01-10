@@ -23,8 +23,10 @@ select <include refid="reviewBaseColumn"/>
 </select>
 
 <select id="reviewSelectAll" parameterType="string" resultType="reviewDTO">
-select <include refid="reviewBaseColumn"/>
- from review
+select review_num, book_num, r.mem_num, store_num, review_contents, review_date, review_answer_contents, star_rate, review_image, review_store_image
+ , mem_nickname
+ from review r join member m
+ on r.mem_num = m.mem_num
  where store_num = #{storeNum}
 </select>
 

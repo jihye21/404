@@ -19,4 +19,5 @@ public class ReviewDTO {
 	String starRate;
 	String reviewImage;
 	String reviewStoreImage;
+	String memNickname;
 }

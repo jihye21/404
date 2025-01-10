@@ -61,7 +61,7 @@ function reviewAnswerDelete(reviewNum){
 <table border="1" align="center" width="800">
 	<tr><th>리뷰 목록</th></tr>
 	<tr th:each="dto : ${list}"><td>
-		[[${dto.memNum}]]<br/>
+		[[${dto.memNickname}]]<br/>
 		[[${#dates.format(dto.reviewDate, 'yyyy-MM-dd')}]]<br/>
 		테마 내역 <br/>
 		<img th:src="|/static/upload/${dto.reviewStoreImage}|" width="300" height="300"/><br />
