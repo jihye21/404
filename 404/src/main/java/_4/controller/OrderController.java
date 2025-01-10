@@ -72,7 +72,7 @@ public class OrderController {
 	
 	@PostMapping("payment")
 	public String payment(BookCommand bookCommand, Model model, HttpSession session) {
-		System.out.println(bookCommand);
+
 		if(bookCommand.getDepositPrice() == 0) {
 			bookCommand.setBookStatus("결제완료");
 			themeBookInsertService.execute(bookCommand, session);

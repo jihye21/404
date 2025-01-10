@@ -127,37 +127,23 @@ function back(){
 	$(".groupShowBtn").show();
 }
 
-function groupChoose(){
+function groupChoose(groupNum){
 	$(".groupList").hide();
+
 	$(".memberCheckList").show();
+	$(".groupRow").hide();
+
+	$(".groupRow").each(function(){
+		if($(this).data("group-num") === groupNum){
+			$(this).show();
+		}
+	})
+	
 }
 function groupBack(){
 	$(".singleCheck").prop('checked', true);
 	$(".groupList").show();
 	$(".memberCheckList").hide();
-}
-function memberCheck(){
-	/*
-	var groupNum = $(".payGroupNum").val();
-	var dutchPrice = $("#dutchPrice").val();
-	
-	$(".checkBox:checked").each(function(){
-		var dutchMember = $(this).val();
-		
-		$.ajax({
-			type: "POST",
-			url: "/group/groupDutchAlarm",
-			data: {dutchMember:dutchMember,
-				groupNum:groupNum,
-				dutchPrice:dutchPrice},
-			succes: function(){
-				
-			},
-			error: function(){}
-		})
-	})
-	*/
-	
 }
 
 function dutchPrice(){
@@ -173,7 +159,7 @@ function dutchPrice(){
 	})
 	
 	if(withMem){
-		dutchPrice = dutchPrice/memberCount;
+		dutchPrice = Math.round(dutchPrice/memberCount);
 	}else{
 		dutchPrice = 0;
 	}
@@ -278,7 +264,8 @@ function checkBox(){
 			   <th:block th:each="myGroupList:${myGroupList}">
 			   
 			   <tr>
-			   	   <td><input type="radio" name = "groupNum" th:value="${myGroupList.groupNum}" onclick="groupChoose();"></td>
+			   	   <td><input type="radio" name = "groupNum" th:value="${myGroupList.groupNum}" 
+			   	   th:attr="onclick=|groupChoose('${myGroupList.groupNum}');|"></td>
 			       <td><a th:href = "|/group/groupDetail?groupNum=${myGroupList.groupNum}|">그룹</a></td>
 			       <td><a th:href = "|/group/groupDetail?groupNum=${myGroupList.groupNum}|">[[${myGroupList.groupName}]]</a></td>
 			   </tr>
@@ -300,16 +287,16 @@ function checkBox(){
 			   
 			   <th:block th:each="myGroupList:${myGroupList}">
 			   <input type = "hidden" class = "payGroupNum" th:value = "${myGroupList.groupNum}">
-			   <tr>
+			   <tr class = "groupRow" th:data-group-num ="${myGroupList.groupNum}">
 			       <td><a th:href = "|/group/groupDetail?groupNum=${myGroupList.groupNum}|">그룹</a></td>
 			       <td><a th:href = "|/group/groupDetail?groupNum=${myGroupList.groupNum}|">[[${myGroupList.groupName}]]</a></td>
 			   </tr>
-			   <tr>
+			   <tr class = "groupRow" th:data-group-num ="${myGroupList.groupNum}">
 			   		<td><input type = "checkbox" onclick="checkAll();" class="allCheckBox"></td>
 			   		<th colspan="2"><a th:href = "|/group/groupDetail?groupNum=${myGroupList.groupNum}|">참여자</a></th>
 			   </tr>
 			   <th:block th:each="groupMemberList:${groupMemberList}">
-			   <tr>
+			   <tr class = "groupRow" th:data-group-num ="${myGroupList.groupNum}">
 			   		<td><input type = "checkbox" name = "dutchMember" class = "checkBox" onclick="checkBox();" th:value="${groupMemberList.memNum}"></td>
 			   		<td colspan="2"><a th:href = "|/group/groupDetail?groupNum=${myGroupList.groupNum}|">[[${groupMemberList.memNickname}]]([[${groupMemberList.memName}]])</a></td>
 			   </tr>

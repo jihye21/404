@@ -22,6 +22,7 @@ public class GroupDutchService {
 		
 		//그룹 결제인지 확인하기
 		BookDTO bookDTO =  bookMapper.bookSelectOne(bookNum);
+
 		if(bookDTO.getGroupNum().contains("group")) {
 			return true;
 		}
