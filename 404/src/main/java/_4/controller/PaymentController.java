@@ -5,12 +5,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import _4.mapper.PurchaseMapper;
+import _4.service.group.GroupDutchService;
 import _4.service.payment.INIstdpayPcReturn;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("payment")
 public class PaymentController {
+	@Autowired
+	GroupDutchService groupDutchService;
 	@Autowired
 	INIstdpayPcReturn iniPayReturnService;
 	@Autowired
@@ -18,8 +22,8 @@ public class PaymentController {
 	
 	
 	@RequestMapping("INIstdpay_pc_return")
-	public String payReturn (HttpServletRequest request) {
-		iniPayReturnService.execute(request);
+	public String payReturn (HttpServletRequest request, HttpSession session) {
+		iniPayReturnService.execute(request, session);
 		return "redirect:/";
 	}
 	

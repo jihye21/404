@@ -155,9 +155,11 @@ function groupRegistCheck(){
 	   		<th colspan="2"><a th:href = "|/group/groupDetail?groupNum=${myGroupList.groupNum}|">참여자</a></th>
 	   </tr>
 	   <th:block th:each="groupMemberList:${groupMemberList}">
-	   <tr>
-	   	<td colspan="2"><a th:href = "|/group/groupDetail?groupNum=${myGroupList.groupNum}|">[[${groupMemberList.memNickname}]]([[${groupMemberList.memName}]])</a></td>
-	   </tr>
+		   <th:block th:if="${myGroupList.groupNum}==${groupMemberList.groupNum}">
+			   <tr>
+			   	<td colspan="2"><a th:href = "|/group/groupDetail?groupNum=${myGroupList.groupNum}|">[[${groupMemberList.memNickname}]]([[${groupMemberList.memName}]])</a></td>
+			   </tr>
+		   </th:block>
 	   </th:block>
 	   </th:block>
 	</table>
@@ -192,11 +194,9 @@ function groupRegistCheck(){
 	<div class = "groupAlarm">
 		<block class = "alarmBox">알림함</block> <input type = "number" class = "alarmCount" value ="" readonly="readonly">
 		<br><br>
-		
-		
-		
-			<th:block th:each="groupAlarmList:${groupAlarmList}">
+			
 			<table border = "1" width = "450px;">
+			<th:block th:each="groupAlarmList:${groupAlarmList}">
 				<th:block th:if="${groupAlarmList!=null}">
 					<thead>
 						<tr>
@@ -223,9 +223,34 @@ function groupRegistCheck(){
 						</th>
 					</tr>
 				</tbody>
+			</th:block>
+				<th:block th:each="groupDutchAlarmList:${groupDutchAlarmList}">
+					<th:block th:if="${groupDutchAlarmList!=null}">
+						<thead>
+							<tr>
+								<td colspan="3">그룹 이름</td>
+							</tr>
+						</thead>
+					
+					</th:block>
+					<tbody>
+						<tr>
+							<td width="300px;">
+								[[${groupDutchAlarmList.groupName}]]에서 결제 요청이 왔습니다.
+							</td>
+						
+							<th colspan="2">
+								<form action = "/group/groupDutchPay" method = "POST">
+									<input type = "hidden" name = "groupNum" th:value="${groupDutchAlarmList.groupNum}">
+									<input type = "hidden" name = "bookNum" th:value="${groupDutchAlarmList.bookNum}">
+									<input type = "submit" value="결제하기">
+								</form>
+							</th>
+						</tr>
+					</tbody>
+				</th:block>
+			</table>
 			
-		</table>
-		</th:block>
 	</div>
 </div>
 

@@ -14,13 +14,23 @@ import com.inicis.std.util.SignatureUtil;
 
 import _4.domain.PaymentDTO;
 import _4.mapper.PurchaseMapper;
+import _4.mapper.service.UserNumService;
+import _4.service.group.GroupDutchAlarmService;
+import _4.service.group.GroupDutchService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @Service
 public class INIstdpayPcReturn {
 	@Autowired
+	UserNumService userNumService;
+	@Autowired
+	GroupDutchAlarmService groupDutchAlarmService;
+	@Autowired 
+	GroupDutchService groupDutchService;
+	@Autowired
 	PurchaseMapper purchaseMapper;
-	public void execute(HttpServletRequest request) {
+	public void execute(HttpServletRequest request, HttpSession session) {
 		Map<String, String> resultMap = new HashMap<String, String>();
 		try{
 			//#############################
@@ -122,8 +132,26 @@ public class INIstdpayPcReturn {
 					dto.setTotalPrice(resultMap.get("TotPrice"));
 					System.out.println("주문번호 : " + dto.getPurchaseNum());
 					purchaseMapper.paymentInsert(dto);
-					purchaseMapper.paymentCheck(dto.getPurchaseNum());
-					purchaseMapper.patmentCouponCheck(dto.getPurchaseNum());
+					
+					String bookNum = dto.getPurchaseNum();
+					//그룹 결제이면 그룹 더치 금액을 결제하도록 함.
+					boolean isGroup = groupDutchService.execute(bookNum, session);
+					if(isGroup) {
+						String memNum = userNumService.execute(session);
+						purchaseMapper.groupPaymentCheck(bookNum, memNum);
+						purchaseMapper.patmentCouponCheck(dto.getPurchaseNum());
+						
+						String groupPaySuccess = purchaseMapper.groupPaySuccess(bookNum);
+						//모든 그룹원이 결제가 되었는지 확인하기
+						if(!"미결제".equals(groupPaySuccess)) {
+							System.out.println("그룹 결제 상태: " + groupPaySuccess);
+							purchaseMapper.paymentCheck(dto.getPurchaseNum());
+						}
+					}else {
+						purchaseMapper.paymentCheck(dto.getPurchaseNum());
+						purchaseMapper.patmentCouponCheck(dto.getPurchaseNum());
+					}
+					
 				} catch (Exception ex) {
 					//####################################
 					// 실패시 처리(***가맹점 개발수정***)

@@ -22,6 +22,7 @@ public class GroupListService {
 	public void execute(HttpSession session, Model model) {
 		List<GroupDTO> groupList = new ArrayList<GroupDTO>();
 		List<GroupDTO> groupMemberList = new ArrayList<GroupDTO>();
+		List<GroupDTO> allGroupMemberList = new ArrayList<GroupDTO>();
 		
 		AuthDTO auth = (AuthDTO) session.getAttribute("auth");
 		String memNum = userNumService.execute(session);
@@ -32,10 +33,11 @@ public class GroupListService {
 		
 		for( GroupDTO groupNumList : groupList) {
 			groupMemberList = groupMapper.groupMemberSelectAll(groupNumList);
+			allGroupMemberList.addAll(groupMemberList);
 		}
+		groupMemberList = allGroupMemberList;
 		
 		model.addAttribute("groupMemberList", groupMemberList);
-
 		model.addAttribute("memNum", memNum);
 	}
 }

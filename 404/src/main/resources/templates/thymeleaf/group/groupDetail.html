@@ -35,12 +35,44 @@ body{
 </div>
 
 <div class = "bookDetail">
-	<table border="1" align="center" width="500">
-		<tr><th>예약 내역</th></tr>
-		<tr th:each="dto : ${list}"><td>
-			<a th:href="|/group/groupBookDetail?bookNum=${dto.bookNum}|">[[${dto.bookNum}]],[[${dto.storeNum}]], 가게명, 가게 이미지</a>
-		</td></tr>
+	<th:block th:each="dto : ${list}">
+		<table border="1" align="center" width="500">
+			<tr><th>예약 내역</th></tr>
+			<tr><td>
+				<a th:href="|/group/groupBookDetail?bookNum=${dto.bookNum}|">[[${dto.bookNum}]],[[${dto.storeNum}]], 가게명, 가게 이미지</a>
+			</td></tr>
+		<br>
+	<th:block th:each="groupPaymentHistoryList:${groupPaymentHistoryList}">
+	<th:block th:if="${dto.bookNum} == ${groupPaymentHistoryList.bookNum}">
+		<tr>
+			<th>결제한 그룹원</th>
+		</tr>
+		<tr>
+			<td style = "text-align:center;">[[${groupPaymentHistoryList.memNickname}]]([[${groupPaymentHistoryList.memName}]])</td>
+		</tr>
+		<tr>
+			<th>더치페이 금액</th>
+		</tr>
+		<tr>
+			<td style="text-align:center;">[[${groupPaymentHistoryList.dutchPrice}]]원</td>
+		</tr>
+	<th:block th:each="memberPay:${memberPay}">
+	<th:block th:if="${dto.bookNum} == ${memberPay.bookNum}">
+		<tr>
+			<th>
+				<form action = "/group/groupDutchPay" method = "POST">
+					<input type = "hidden" name = "groupNum" th:value="${groupPaymentHistoryList.groupNum}">
+					<input type = "hidden" name = "bookNum" th:value="${groupPaymentHistoryList.bookNum}">
+					<input type = "submit" value="결제하기">
+				</form>
+			</th>
+		</tr>
+	</th:block>
+	</th:block>	
+	</th:block>
+	</th:block>
 	</table>
+	</th:block>
 </div>
 </body>
 </html>

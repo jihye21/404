@@ -11,10 +11,20 @@
 		,#{totalPrice},#{resultMessage}
 		,#{payMethod},#{applDate},#{applTime})
 	</insert>
-	
+	<!-- 1인 결제인 경우 -->
 	<update id="paymentCheck" parameterType="string">
 	update book set book_status = '결제완료' where book_num = #{bookNum}
 	</update>
+	<!-- 그룹 결제인 경우 -->
+	<update id = "groupPaymentCheck" parameterType="String">
+	update groupdutchalarm set dutch_status = '결제완료'
+	where book_num = #{bookNum} and mem_num = #{memNum}
+	</update>
+	<!-- 모든 그룹원의 결제가 완료되었는지 확인하기 -->
+	<select id="groupPaySuccess" parameterType="string" resultType="string">
+	select '미결제' from groupdutchalarm
+	where book_num = #{bookNum} and dutch_status is null
+	</select>
 	<!-- 쿠폰 사용 완료 처리 -->
 	<update id="patmentCouponCheck" parameterType="string">
 	update memberCoupon set COUPON_STATUS = '사용완료' 
@@ -22,6 +32,5 @@
 	where book_num = #{bookNum}) 
 	and MEM_NUM = (select mem_num from book
 	where book_num = #{bookNum})
-	
 	</update>
 </mapper>

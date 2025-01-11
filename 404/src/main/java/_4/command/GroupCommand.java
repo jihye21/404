@@ -7,4 +7,7 @@ public class GroupCommand {
 	String groupName;
 	String memNum;
 	String memName;
+	
+	String groupNum;
+	String bookNum;
 }

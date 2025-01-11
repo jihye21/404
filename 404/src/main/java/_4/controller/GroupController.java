@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import _4.command.GroupCommand;
 import _4.domain.BookDTO;
 import _4.domain.GroupDTO;
+import _4.domain.PaymentDTO;
 import _4.domain.ReviewDTO;
 import _4.mapper.BookMapper;
 import _4.mapper.ReviewMapper;
@@ -23,17 +24,32 @@ import _4.mapper.service.UserNumService;
 import _4.service.group.GroupAlarmCount;
 import _4.service.group.GroupAlarmListService;
 import _4.service.group.GroupDetailService;
+import _4.service.group.GroupDutchAlarmCount;
+import _4.service.group.GroupDutchAlarmListService;
 import _4.service.group.GroupDutchAlarmService;
 import _4.service.group.GroupEnterService;
 import _4.service.group.GroupListService;
 import _4.service.group.GroupMemberSearchService;
+import _4.service.group.GroupPaymentHistoryListService;
 import _4.service.group.GroupQuitService;
 import _4.service.group.GroupRegistService;
+import _4.service.group.MemberDutchPaymentCheckService;
+import _4.service.purchase.IniPayReqService;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("group")
 public class GroupController {
+	@Autowired
+	MemberDutchPaymentCheckService memberDutchPaymentCheckService;
+	@Autowired
+	GroupPaymentHistoryListService groupPaymentHistoryListService;
+	@Autowired
+	IniPayReqService iniPayReqService;
+	@Autowired
+	GroupDutchAlarmListService groupDutchAlarmListService;
+	@Autowired
+	GroupDutchAlarmCount groupDutchAlarmCount;
 	@Autowired
 	ReviewMapper reviewMapper;
 	@Autowired
@@ -60,6 +76,7 @@ public class GroupController {
 	public String groupList(HttpSession session, Model model) {
 		groupListService.execute(session, model);
 		groupAlarmListService.execute(session, model);
+		groupDutchAlarmListService.execute(session, model);
 		return "thymeleaf/group/groupList";
 	}
 	
@@ -80,7 +97,8 @@ public class GroupController {
 	@PostMapping("alarmCount")
 	public @ResponseBody Integer alarmCount(HttpSession session) {
 		Integer alarmCount = groupAlarmCount.execute(session);
-		
+		Integer payAlarmCount = groupDutchAlarmCount.execute(session);
+		alarmCount += payAlarmCount;
 		return alarmCount;
 	}
 	
@@ -104,6 +122,9 @@ public class GroupController {
 		List<BookDTO> list = bookMapper.bookGroupSelectAllWithMember(memberNum, groupNum);
 		model.addAttribute("list", list);
 		
+		groupPaymentHistoryListService.execute(groupNum, model);
+		memberDutchPaymentCheckService.execute(groupNum, session, model);
+		
 		return "thymeleaf/group/groupDetail";
 	}
 	
@@ -117,12 +138,15 @@ public class GroupController {
 		return "thymeleaf/group/groupBookDetail";
 	}
 	
-	/*
-	@PostMapping("groupDutchAlarm")
-	public @ResponseBody void groupDutchAlarm(@RequestParam ("dutchMember")String dutchMember
-			, @RequestParam ("groupNum") String groupNum
-			, @RequestParam ("dutchPrice") String dutchPrice) {
-		groupDutchAlarmService.execute(dutchMember, groupNum, dutchPrice);
+	@PostMapping("groupDutchPay")
+	public String groupDutchPayEnter(GroupCommand groupCommand, Model model, HttpSession session) {
+		BookDTO dto = new BookDTO();
+		
+		String bookNum = groupCommand.getBookNum();
+		dto = bookMapper.bookSelectOne(bookNum);
+		dto.setDepositPrice(dto.getDutchPrice());
+		iniPayReqService.execute(dto, model);
+		return "thymeleaf/purchase/payment";
 	}
-	*/
+	
 }

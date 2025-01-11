@@ -19,4 +19,7 @@ public class GroupDTO {
 	
 	//값 받아올 때 사용
 	String friendNum;
+	
+	String bookNum;
+	Integer dutchPrice;
 }

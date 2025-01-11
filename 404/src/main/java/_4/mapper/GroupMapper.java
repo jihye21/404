@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import _4.domain.BookDTO;
 import _4.domain.GroupDTO;
 import jakarta.servlet.http.HttpSession;
 
@@ -33,5 +34,15 @@ public interface GroupMapper {
 	public String groupNameSelect(GroupDTO groupDTO);
 
 	public void groupDutchAlarmInsert(String groupNum, Integer dutchPrice, String memNum, String bookNum);
+
+	public Integer groupDutchAlarmCount(String memNum);
+
+	public List<GroupDTO> groupDutchAlarmSelectAll(String memNum);
+
+	public void groupDutchFail(List<BookDTO> bookDTO);
+
+	public List<GroupDTO> groupPaymentHistorySelectAll(String groupNum);
+
+	public List<GroupDTO> memberDutchPaymentCheckSelectOne(String memNum, String groupNum);
 	
 }
