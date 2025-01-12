@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -16,9 +18,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import _4.domain.AuthDTO;
+import _4.domain.GroupShareDTO;
+import _4.service.group.GroupChattingInfoService;
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("map")
 public class MapController {
+	@Autowired
+	GroupChattingInfoService groupChattingInfoService;
 	
 	@Autowired
 	InstaReelService instaReelService;
@@ -30,10 +39,62 @@ public class MapController {
 	LocationConvertService locationConvertService;
 	
 	@GetMapping("mapPage")
-	public String mapPage() {
+	public String mapPage(@RequestParam String groupNum, HttpSession session, Model model) {
+		GroupShareDTO groupShareDTO =  groupChattingInfoService.execte(groupNum, session);
+		
+		if(groupShareDTO == null) {
+			return "redirect:/user/loginForm";
+		}
+		
+		model.addAttribute("groupNum", groupNum);
+		model.addAttribute("groupShareDTO", groupShareDTO);
 		return "thymeleaf/map/mapPage";
 	}
 	
+	@PostMapping("mapPage")
+	public String mapPage1() {
+		return "thymeleaf/map/mapPage";
+	}
+	
+	@PostMapping("keywordSearch")
+	public String keywordSearch(@RequestParam String keyword, Model model) {
+		List<Map<String, String >> reels = new ArrayList<>();
+		
+		keyword = keyword.replaceAll("\\s+", "");
+		reels = instaReelService.execute(keyword);
+		
+		model.addAttribute("reels", reels);
+		model.addAttribute("keyword", keyword);
+		
+		return "forward:/map/mapPage";
+	}
+	
+	@PostMapping("nextPost")
+	public String nextPost(MapCommand mapCommand, Model model) {
+		List<Map<String, String >> reels = new ArrayList<>();
+		String nextUrl = mapCommand.getNextUrl();
+		try {
+			reels = instaReelService.nextgMedia(nextUrl);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String keyword = mapCommand.getKeyword();
+		model.addAttribute("reels", reels);
+		model.addAttribute("keyword", keyword);
+		return "forward:/map/mapPage";
+	}
+	
+	@RequestMapping("naverMap")
+	public String naverMap(MapCommand mapCommand, Model model) {
+		model.addAttribute("mapCommand", mapCommand);
+		return "thymeleaf/naverMap";
+	}
+	@PostMapping("searchRoute")
+	public String searchRoute(MapCommand mapCommand, Model model) {
+		model.addAttribute("mapCommand", mapCommand);
+		return "thymeleaf/naverMap";
+	}
 	@PostMapping("location")
 	public String firstLocation(MapCommand mapCommand, Model model) {
 		mapCommand.setFirstLocation(mapCommand.getLocation());
@@ -59,42 +120,5 @@ public class MapController {
 		
 		return "redirect:mapPage";  
 	}
-	@PostMapping("mapPage")
-	public String mapPage1() {
-		return "thymeleaf/map/mapPage";
-	}
-	@PostMapping("keywordSearch")
-	public String keywordSearch(@RequestParam String keyword, Model model) {
-		List<Map<String, String >> reels = new ArrayList<>();
-		
-		reels = instaReelService.execute(keyword);
-		
-		model.addAttribute("reels", reels);
-		
-		return "forward:/map/mapPage";
-	}
-	@PostMapping("nextMedia")
-	public @ResponseBody String nextMedia(@RequestParam ("mediaId") String mediaId) {
-		
-		System.out.println("MapController: " +  mediaId);
-		
-		try {
-			instaReelService.nextMedia(mediaId);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return "";
-	}
 	
-	@RequestMapping("naverMap")
-	public String naverMap(MapCommand mapCommand, Model model) {
-		model.addAttribute("mapCommand", mapCommand);
-		return "thymeleaf/naverMap";
-	}
-	@PostMapping("searchRoute")
-	public String searchRoute(MapCommand mapCommand, Model model) {
-		model.addAttribute("mapCommand", mapCommand);
-		return "thymeleaf/naverMap";
-	}
 }

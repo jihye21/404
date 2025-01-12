@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import _4.domain.BookDTO;
 import _4.domain.GroupDTO;
+import _4.domain.GroupShareDTO;
 import jakarta.servlet.http.HttpSession;
 
 @Mapper
@@ -44,5 +45,8 @@ public interface GroupMapper {
 	public List<GroupDTO> groupPaymentHistorySelectAll(String groupNum);
 
 	public List<GroupDTO> memberDutchPaymentCheckSelectOne(String memNum, String groupNum);
+
+	public GroupShareDTO groupMemberSelectOne(GroupShareDTO groupShareDTO);
+
 	
 }

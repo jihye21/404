@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import _4.command.DepositCommand;
 import _4.command.StoreApplicationCommand;
 import _4.command.StoreCommand;
+import _4.domain.AuthDTO;
 import _4.domain.StoreDTO;
 import _4.mapper.BookMapper;
 import _4.mapper.MainMapper;
@@ -59,11 +60,16 @@ public class StoreController {
 	@GetMapping("storeMainPage")
 	public String storeMainPage(Model model, @RequestParam String ownerNum, HttpSession session) {
 		StoreDTO storeDTO = storeInfoService.execute(model, ownerNum);
-		String memberNum = userNumService.execute(session);
+		
+		AuthDTO auth = (AuthDTO) session.getAttribute("auth");
+		if(auth != null) {
+			String memberNum = userNumService.execute(session);
+			bookMapper.waitedBookDelete(memberNum);
+		}
+		
 		String storeNum = storeDTO.getStoreNum();
 		wishCheckService.execute(storeDTO, session, model);
 		themelistService.execute(storeDTO.getStoreNum(), model);
-		bookMapper.waitedBookDelete(memberNum);
 		Integer wishCount = mainMapper.wishCountSelect(storeNum);
 		model.addAttribute("wishCount", wishCount);
 		return "thymeleaf/store/storeMainPage";

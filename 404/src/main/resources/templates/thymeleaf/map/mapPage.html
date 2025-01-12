@@ -4,50 +4,22 @@
 <meta charset="UTF-8">
 <title>코스 시스템</title>
 <script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
-<script type="text/javascript">
-function moreCaption(){
-	var preview = $(".captionPreview");
-	var showMore = $(".fullCaption");
-	
-	if(preview.css("display")==="none"){
-		showMore.css("display", "block");
-	}else {
-		showMore.css("display", "none");
-	}
-}
-$(function(){
-	var mediaId = $(".leftBtn").val();
-	$(".leftBtn").click(function(){
-		mediaId = mediaId + 1;
-	})
-	$().click(function(){
-		mediaId = mediaId -1;
-	})
-	nextImg(mediaId);
-})
-function nextImg(mediaId){
-	$.ajax({
-		type: "POST",
-		url: "/map/nextMedia",
-		data: {"mediaId":mediaId},
-		success: function(result){
-			alert("success");
-		}, 
-		error: function(){
-			alert("error");
-		}
-	});
-}
-</script>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.1/dist/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
+
+
+
 <style type="text/css">
 
-.location {
+.innerBox {
 padding:20px;
-border-color: black; 
+/*border-color: black; 
 border-width: 2px; 
-border-style: solid;
+border-style: solid;*/
 height: 804px;
 width: 404px;
+text-align:center;
 }
 .container {
   display: flex;
@@ -55,67 +27,149 @@ width: 404px;
   width: 404 * 3px; /*하나의 location box 너비 * 수량*/
 }
 </style>
+
 </head>
 <body>
 
 <h1>코스</h1>
 
 <div class = "container">
-	
-	<div class="location">
-		
-		<form action="location" method = "post">
-			출발지: <input type = "text" name = "location">
-			<input type = "submit" value = "지정">
-		</form>
-		<br>
-			<ul>
-				<li>1번 장소</li>
-				<li style="list-style-type:none;">| 이동 시간 3분</li>
-				<li>2번 장소</li>
-			</ul>
+	<div class = "innerBox">
+		<div id = "eventList">
+			
+		</div>
+		<div id="messageList"></div>
+		<input type="text" id="messageInput" placeholder="내용을 입력해주세요.">
+        <button id="sendButton">전송</button>
 	</div>
-	
-
-	<div class = "location">
+	<div class = "innerBox">
 		<!-- 키워드 검색 페이지 연동하기 -->
 		<form action = "keywordSearch" method = "post">
-			키워드: <input type = "text" name = "keyword">
+			키워드: <input type = "text" name = "keyword" th:value="${keyword}">
 			<input type = "submit" value = "검색">
 		</form>
 		<br>
+		<!-- 게시물 임베드하기 -->
+		<form action = "/map/nextPost" method = "POST">
 		<th:block th:each="reel:${reels}">
-		<input type = "hidden" name = "mediaId" th:value = "${reel['mediaId']}">
-			<th:block th:if="${reel['mediaType']!='video'}">
-				<img th:src="${reel['mediaUrl']}" controls style="width: 100%">
-				    <!--th:block th:if="${#strings.length(reel['caption'])>10}">
-				        <p th:text="${#strings.substring(reel['caption'], 0, 10)}" id="captionPreview"></p>
-				        <button onclick="leftImg()" style="float: left;"> &lt; </button>
-				        <button onclick="rightImg()" style="float: right;"> &gt; </button>
-				        
-				    </th:block-->
-				    <button class="leftBtn" th:value = "${reel['mediaId']}" style="float: left;"> &lt; </button>
-				    <button onclick="rightImg()" style="float: right;"> &gt; </button>
-				    <p th:text="${reel['caption']}"></p>
-		    </th:block>
-		    <th:block th:if="${reel['mediaType']=='video'}">
-			    <video th:src="${reel['mediaUrl']}" controls style="width: 100%"></video>
-				    <!--th:block th:if="${#strings.length(reel['caption'])>10}">
-					    <p th:text="${#strings.substring(reel['caption'], 0, 10)}" id = "captionPreview"></p>
-					    <button onclick="moreCaption()">more</button>
-					    
-			    	</th:block-->
-			    	<button onclick="leftImg()" style="float: left;"> &lt; </button>
-				    <button onclick="rightImg()" style="float: right;"> &gt; </button>
-			    	<p th:text="${reel['caption']}"></p>
-		    </th:block>
+			<input type = "hidden" name = "keyword" th:value="${keyword}">
+			<input type = "hidden" name = "nextUrl" th:value="${reel['nextPageUrl']}">
+			<iframe th:src="${reel['permalink']}+'embed'" frameborder="0" allowtransparency="true" allow="encrypted-media" style="border:none; width:100%; height:500px;"></iframe>
+			<p th:text="${reel['caption']}"></p>
+			<input type ="submit" value="more">
 		</th:block>
+		</form>
 	</div>
 	
-	<div class = "location">
-		
+	<div class = "innerBox">
+	
+	<!-- 좌측 바 -->
+	<div style="border:1px solid black; height:800px;">
+		<div id="storeList"></div>
 	</div>
-
+	
+	</div>
+	
+	<div class = "innerBox">
+	<!-- 중앙 바 -->
+	<div style="border:1px solid black; height:800px;">
+		<br/>코스명 : <input type="text" name="courseName" /><br/>
+		<span id="course">
+			<img width="80" height="80" src="/static/upload/heart.png" onclick="storeList(0);"/><br/>
+			<input type="hidden" id="course0"/>
+		</span>
+		<!-- <button type="button" id="clickButton" onclick="addCourse();"> + </button> 
+		<button type="button" id="clickButton" onclick="insertCourse();">저장하기</button> -->
+		<button type="button" id="clickButton">버튼</button>
+	</div>
+	</div>
+	<div class = "innerBox">
+	<!-- 우측 바 -->
+	<div>
+	<iframe src="https://map.naver.com/p/directions" frameborder="0" width="900" height="800"></iframe>
+	</div>
+	</div>
 </div>
+
+<input type = "hidden" id = "groupNum" name = "groupNum" th:value="${groupNum}">
+<input type = "hidden" id = "memNickname" name = "memNickname" th:value="${groupShareDTO.memNickname}">
+<input type = "hidden" id = "memName" name = "memName" th:value="${groupShareDTO.memName}">
 </body>
+<script>
+    var socket = new SockJS('/ws'); 
+    var stompClient = Stomp.over(socket);
+	
+    var groupNum = document.getElementById('groupNum').value;
+    stompClient.connect({}, function(frame) {
+        console.log('Connected: ' + frame);
+
+        stompClient.subscribe('/topic/event/' + groupNum, function(message) {
+            console.log("Received message: " + message.body);
+            displayEvent(message.body);
+        });
+    });
+
+    // 서버로 메시지 보내기
+    function sendMessage(message) {
+    	var memNickname = document.getElementById('memName').value;
+    	var memName = document.getElementById('memName').value;
+    	
+    	var groupShareDTO = {
+    			memNickname: memNickname,
+                memName: memName, // 예시로 userId를 설정
+                message: message
+            };
+    	
+        stompClient.send("/app/shareEvent/"+ groupNum, {}, JSON.stringify(groupShareDTO));
+    }
+    
+    //버튼 클릭
+    window.onload = function() {
+    document.getElementById('clickButton').addEventListener('click', function() {
+        var event = 'Button Clicked';
+        sendMessage(event);
+    });
+    };
+    
+ 	// 메시지 전송 버튼
+    document.getElementById('sendButton').addEventListener('click', function() {
+        var message = document.getElementById('messageInput').value;
+        if (message) {
+            sendMessage(message);
+            document.getElementById('messageInput').value = '';
+        }
+    });
+ 	
+ 	// 화면에 표시
+    function displayEvent(displayEvent) {
+        var eventList = document.getElementById('eventList');
+        var messageObj = JSON.parse(displayEvent);
+        var listItem = document.createElement('div');
+        listItem.textContent = `${messageObj.memNickname}(${messageObj.memName}) ${messageObj.message}`;
+
+        messageList.appendChild(listItem);
+    }
+ 	/*
+ 	
+ 	var eventList = document.getElementById('eventList');
+        var messageObj = JSON.parse(displayEvent);
+        var listItem = document.createElement('div');
+        listItem.appendChild(document.createTextNode(displayEvent));
+        eventList.appendChild(listItem);
+ 	// 메시지 표시
+ 	
+    function displayMessage(message) {
+    	console.log("nn: " + message);
+    	 // 메시지를 JSON 객체로 변환
+        var messageObj = JSON.parse(message);
+
+        // memNickname과 message 필드를 조합하여 표시
+        var listItem = document.createElement('li');
+        listItem.textContent = `${messageObj.memNickname}: ${messageObj.message}`;
+
+        messageList.appendChild(listItem);
+        //listItem.appendChild(document.createTextNode(message));
+    }
+ 	*/
+</script>
 </html>

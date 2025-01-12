@@ -37,6 +37,12 @@
 		on m.mem_num = gm.mem_num
 		where group_num = #{groupNum}
 	</select>
+	<select id="groupMemberSelectOne" parameterType="groupShareDTO" resultType="groupShareDTO">
+		select mem_name, mem_nickname, gm.mem_num, group_num from member m
+		join group_member gm 
+		on m.mem_num = gm.mem_num
+		where group_num = #{groupNum} and gm.mem_num = #{memNum}
+	</select>
 	<select id="groupAlarmCount" parameterType="string" resultType="Integer">
 		select count(group_num) from group_member_alarm 
 		where mem_num = #{memNum} and group_member_alarm_status is null

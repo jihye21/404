@@ -15,4 +15,6 @@ public class MapCommand {
 	String start;
 	String end;
 	
+	String nextUrl;
+	String keyword;
 }
