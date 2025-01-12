@@ -23,7 +23,8 @@ public class LoginService {
 		AuthDTO auth = userMapper.login(userCommand.getUserId());
 		if(auth != null) {
 			if(auth.getUserPw() != userCommand.getUserPw()) {
-				memberDeleteCheckService.execute(userCommand, session);
+				if(auth.getGrade().equals("member")) memberDeleteCheckService.execute(userCommand, session);
+				else session.setAttribute("auth", auth);
 			}
 			else {
 				// 비밀번호가 일치하지 않습니다.

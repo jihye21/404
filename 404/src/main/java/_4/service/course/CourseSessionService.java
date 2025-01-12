@@ -10,12 +10,13 @@ import jakarta.servlet.http.HttpSession;
 public class CourseSessionService {
 	@Autowired
 	HttpSession session;
-	public void execute(String storeNum, String courseOrder, String memberNum) {
+	public void execute(String storeNum, String storeName, String courseOrder, String memberNum) {
 		// 코스 세션에 임시 저장 (courseNum을 제외하고 먼저 저장)
 		CourseDetailDTO temp = new CourseDetailDTO();
 		temp.setCourseOrder(Integer.parseInt(courseOrder));
 		temp.setStoreNum(storeNum);
 		temp.setMemberNum(memberNum);
+		temp.setStoreName(storeName);
 		session.setAttribute(memberNum + "/" + courseOrder, temp);
 	}
 }

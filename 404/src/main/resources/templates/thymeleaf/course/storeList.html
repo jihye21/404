@@ -6,45 +6,50 @@
 <script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <script type="text/javascript">
 var courseOrder = "[[${storeCount}]]";
-$(function(){
-	$("#store").click(function(){
-		var selectedStore = $("input[name=storeNum]").val();
-		var selectedStoreName = $("#store").text();
-		var storeCheck = confirm(selectedStoreName + "(으)로 선택하시겠습니까?");
-		if(storeCheck){
-			// 세션에 courseDetail을 임시 저장하는 함수
-			$.ajax({
-				type: "post",
-				url: "/course/courseAdd",
-				data: {"storeNum" : selectedStore, "courseOrder" : courseOrder},
-				success: function(){
-					alert(selectedStoreName + "이 저장되었습니다.");
-				},
-				error: function(){
-					alert("selectedStore 전송 실패");
-				}
-			});
-		}
-		else{
-			return false;
-		}
-	})
-})
+function storeAdd(storeNum, storeName){
+	var storeCheck = confirm(storeName + "(으)로 선택하시겠습니까?");
+	if(storeCheck){
+		// 세션에 courseDetail을 임시 저장하는 함수
+		$.ajax({
+			type: "post",
+			url: "/course/courseAdd",
+			data: {"storeNum" : storeNum, "courseOrder" : courseOrder, "storeName" : storeName},
+			success: function(){
+				alert(storeName + "이 저장되었습니다.");
+				storeList('1', courseOrder);
+				fillHeart(courseOrder);
+			},
+			error: function(){
+				alert("selectedStore() 오류");
+			}
+		});
+	}
+	else{
+		return false;
+	}
+}
 </script>
 </head>
+
 <body>
-<!-- 검색해서 가게 리스트를 다시 출력하는 기능 -->
 [[${storeCount}]]<br/>
+<br/><br/>
+<th:block th:if="${storedStoreDTO != null}">
+	<table border="1" width="400">
+		<tr><td>이미지</td><td>[[${storedStoreDTO.storeName}]]</td></tr>
+	</table>
+</th:block>
+<!-- 검색해서 가게 리스트를 다시 출력하는 기능 -->
 검색 : <input type="text" name="storeSearch"/><br/><br/>
 <table border="1" width="400">
 	<tr><th colspan="2">가게 리스트</th></tr>
-	<tr th:each="dto : ${list}">
+	<tr th:each="dto, idx : ${list}">
 		<td width="100" height="100">
 			<img th:src="|/static/upload/${dto.storeProfileStoreImage}|" width="100" height="100"/>
 		</td>
 		<td>
 			<input type="hidden" name = "storeNum" th:value="${dto.storeNum}"/>
-			<span id="store">[[${dto.storeName}]]</span>
+			<span class="store" th:attr="onclick=|storeAdd('${dto.storeNum}', '${dto.storeName}');|">[[${dto.storeName}]]</span>
 		</td>
 	</tr>
 </table>

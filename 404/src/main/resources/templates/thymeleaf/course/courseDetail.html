@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+body{
+	display:flex;
+	align-items:flex-start;
+}
+</style>
+<script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script type="text/javascript">
+var originalMaxOrder = Number("[[${#numbers.formatInteger(maxOrder,1)}]]");
+var order = originalMaxOrder + 1; 
+
+function storeList(courseNum, count){
+	$.ajax({
+		type: "post",
+		url: "/course/storeList",
+		data: {"courseNum":courseNum, "courseCount":count},
+		dataType: "html",
+		success: function(result){
+			$("#storeList").html(result);
+		},
+		error: function(){
+			alert("storeList() 오류");
+		}
+	});
+}
+
+function fillHeart(idx){
+	$("#image"+idx).attr("src","/static/upload/heart_filled.png");
+	$("#image"+idx).attr("width","60");
+	$("#image"+idx).attr("height","50");
+}
+
+function addCourse(){
+	item = "<span>";
+	item += "	<img width='80' height='80' src='/static/upload/heart.png' id='image" + order + "' onclick='storeList(&#39;a&#39;, " + order + ");'/><br/>";
+	item += "	<input type='hidden' id='course" + order + "' value='" + order + "'/>";
+	item += "</span>";
+	order = order + 1;
+	$("#course").append(item);
+}
+
+function updateCourse(){
+	var courseName = $("input[name='courseName']").val();
+	if(courseName == ""){
+		alert(" 코스명을 입력해 주세요.");
+		return false;
+	}
+	// course 및 courseDetail을 완전히 저장하는 함수
+	var maxOrder = order;
+	$.ajax({
+		type: "post",
+		url: "/course/courseUpdate",
+		data: {"maxOrder" : maxOrder, "courseName" : courseName, courseNum : "[[${cDTO.courseNum}]]", "originalMaxOrder" : originalMaxOrder},
+		success: function(){
+			alert("저장되었습니다.");
+			window.location.href="/course/courseList";
+		},
+		error: function(){
+			alert("courseDetail의 updateCourse() 오류");
+		}
+	});
+}
+
+function deleteCourse(courseNum){
+	var result = confirm("정말 삭제하시겠습니까?");
+	if(result){
+		$.ajax({
+			type: "post",
+			url: "/course/courseDelete",
+			data: {"courseNum":courseNum},
+			success: function(){
+				window.location.href="/course/courseList";
+			},
+			error: function(){
+				alert("courseDetail의 deleteCourse()오류");
+			}
+		});
+	}
+	else{
+		return false;
+	}
+}
+</script>
+</head>
+<body>
+<!-- 좌측 바 -->
+<div style="border:1px solid black; position:relative; left:20px; width:450px; height:800px;" align="center">
+	<div id="storeList"></div>
+</div>
+
+<!-- 중앙 바 -->
+<div style="border:1px solid black; width:450px; height:800px; position:absolute;left:500px;"align="center"><br/>
+	코스명 : <input type="text" name="courseName" th:value="${cDTO.courseName}"/><br/>
+	<span id="course">
+		<div th:each="dto : ${cdList}">
+			<img width="60" height="50" src="/static/upload/heart_filled.png" th:attr="onclick=|storeList('${dto.courseNum}','${dto.courseOrder}');|"/><br/>
+		</div>
+	</span>
+	<button type="button" onclick="addCourse();"> + </button><br/>
+	<button type="button" onclick="updateCourse();">수정하기</button>
+	<button type="button" th:attr="onclick=|deleteCourse('${cDTO.courseNum}');|">삭제하기</button>
+	
+</div>
+
+<!-- 우측 바 -->
+<div style="position:relative; right:-520px; width:550px; height:800px;">
+<iframe src="https://map.naver.com/p/directions" width="900" height="900"></iframe>
+</div>
+</body>
+</html>

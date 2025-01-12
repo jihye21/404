@@ -18,5 +18,36 @@ select course_num, course_name from course where mem_num = #{memberNum}
 select course_num, course_order, cd.store_num, store_name from course_detail cd
  join store s on cd.store_num = s.store_num
  where course_num = #{courseNum}
+ order by course_order
 </select>
+
+<select id="courseSelectOne" parameterType="string" resultType="courseDTO">
+select course_num, course_name, mem_num from course where course_num = #{courseNum}
+</select>
+<select id="courseDetailSelectOne" parameterType="courseDetailDTO" resultType="courseDetailDTO">
+select course_num, course_order, cd.store_num, store_name from course_detail cd
+ join store s on cd.store_num = s.store_num
+ where course_num = #{courseNum} and course_order = #{courseOrder}
+</select>
+
+<update id="courseNameUpdate" parameterType="courseDTO">
+update course set course_name = #{courseName} where course_num = #{courseNum}
+</update>
+<update id="courseDetailMerge" parameterType="courseDetailDTO">
+merge into course_detail cd
+ using dual
+ on (cd.course_num = #{courseNum})
+ when matched then
+ 	update set store_num = #{storeNum}
+ when not matched then
+ 	insert (course_num, course_order, store_num) values 
+ 	((select concat('course_', nvl(max(substr(course_num, length('course_')+1)), 100000)+1) from course_detail), ${courseOrder}, #{storeNum})
+</update>
+
+<delete id="courseDelete" parameterType="string">
+delete from course where course_num = #{courseNum}
+</delete>
+<delete id="courseDetailDelete" parameterType="string">
+delete from course_detail where course_num = #{courseNum}
+</delete>
 </mapper>

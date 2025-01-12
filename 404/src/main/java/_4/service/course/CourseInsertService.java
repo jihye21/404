@@ -18,7 +18,7 @@ public class CourseInsertService {
 	UserNumService userNumService;
 	@Autowired
 	CourseMapper courseMapper;
-	public void execute(HttpSession session, String maxOrder, String courseName) {
+	public String execute(HttpSession session, String maxOrder, String courseName) {
 		// course에 넣기
 		String memberNum = userNumService.execute(session);
 		String courseNum = autoNumService.execute("course", "course_num", "course_");
@@ -26,19 +26,26 @@ public class CourseInsertService {
 		courseDTO.setCourseNum(courseNum);
 		courseDTO.setMemNum(memberNum);
 		courseDTO.setCourseName(courseName);
-		if((CourseDetailDTO)session.getAttribute(memberNum + "/" + 0) != null){
+		// 모든 값을 안넣었을 경우
+		// 값이 하나라도 들어갔다면
+		//if()
+		// 세션 첫 번째의 값이 null값이라면 근데 0은 안넣고 1을 넣는다면?
+		if((CourseDetailDTO)session.getAttribute(memberNum + "/" + 1) != null){
 			courseMapper.courseInsert(courseDTO);
-		}
-		// courseDetail에 넣기
-		for(int i = 0; i < Integer.parseInt(maxOrder); i++) {
-			// maxOrder에 닿기 전에 dto가 부족하다면
-			if((CourseDetailDTO)session.getAttribute(memberNum + "/" + i) == null){
-				break;
+			// courseDetail에 넣기
+			for(int i = 1; i <= Integer.parseInt(maxOrder); i++) {
+				// maxOrder에 닿기 전에 dto가 부족하다면
+				if((CourseDetailDTO)session.getAttribute(memberNum + "/" + i) == null){
+					break;
+				}
+				CourseDetailDTO courseDetailDTO = (CourseDetailDTO)session.getAttribute(memberNum + "/" + i);
+				courseDetailDTO.setCourseNum(courseNum);
+				courseMapper.courseDetailInsert(courseDetailDTO);
 			}
-			CourseDetailDTO courseDetailDTO = (CourseDetailDTO)session.getAttribute(memberNum + "/" + i);
-			courseDetailDTO.setCourseNum(courseNum);
-			courseMapper.courseDetailInsert(courseDetailDTO);
+			return "Y";
 		}
-		
+		else {
+			return "N";
+		}
 	}
 }

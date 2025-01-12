@@ -8,8 +8,8 @@
 <table align="center" border="1" width="600">
 	<tr><th>코스 목록</th></tr>
 	<tr th:each="courseDTO : ${courseList}"><td>
-		[[${courseDTO.courseNum}]]
-		[[${courseDTO.courseName}]]<br/>
+		<a th:href="|/course/courseDetail?courseNum=${courseDTO.courseNum}|">
+		코스명 : [[${courseDTO.courseName}]]<br/><br/>
 		<span th:each="courseDetailList : ${courseDetailTotalList}">
 			<span th:each="courseDetailDTO : ${courseDetailList}">
 				<th:block th:if="${courseDetailDTO.courseNum} == ${courseDTO.courseNum}">
@@ -17,6 +17,7 @@
 				</th:block>
 			</span>
 		</span>
+		</a>
 	</td></tr>
 </table>
 </body>
