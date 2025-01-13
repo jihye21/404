@@ -17,7 +17,6 @@ public class FriendRegistService {		// 친구 요청을 등록
 	
 	public void execute(String friendReqNum) {
 		FriendAddRequestDTO friendAddRequestDTO = friendMapper.friendReqSelectOne(friendReqNum); //  친구 요청서에서 값을 받아옴
-		System.out.println(friendAddRequestDTO);
 		FriendDTO friendDTO = new FriendDTO();
 		friendDTO.setMemNum(friendAddRequestDTO.getToNum());
 		friendDTO.setFriendNum(friendAddRequestDTO.getFromNum());
