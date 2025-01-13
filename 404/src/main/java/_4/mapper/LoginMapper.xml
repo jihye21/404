@@ -17,18 +17,9 @@ union
 select OWNER_ID from owner where OWNER_ID = #{ownerId}
 </select>
 
-<select id="selectFriendReqCheck" parameterType="string" resultType="string">
-select to_num, mem_nickname
-from friendReqRes fr
-join member m
-on fr.to_num = m.mem_num
-where mem_nickname = #{memNickname}
-</select>
 
-<select id="selectFriendListCheck" parameterType="string" resultType="string">
-select FRIEND_NICKNAME from friendList
-where FRIEND_NICKNAME = #{friendNickname}
-</select>
+
+
 
 <select id="emailCheckSelectOne" parameterType="string" resultType="string">
 select MEM_EMAIL from member where MEM_EMAIL = #{memEmail}

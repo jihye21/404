@@ -3,16 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script type="text/javascript">
+function friendDelete(){
+	var friend = $("friend").text();
+	var result = confirm("정말로 " + friend + "님을 삭제하시겠습니까?");
+	if(result) return true;
+	else return false;
+}
+</script>
 </head>
 <body>
 친구 목록<br />
 <ul>
-	<li><a href="friendAdd">친구 추가</a></li>
-	<li><a href="friendAccList">친구 요청 목록([[${friendAddCount}]])</a></li>
+	<li><a href="/friends/friendAdd">친구 추가</a></li>
+	<li><a href="/friends/friendAccList">친구 요청 목록([[${friendAddCount}]])</a></li>
 </ul>
 <table border="1" width="600" align="center">
 <tr><th>친구 이름</th></tr>
-<tr th:each="dto : ${list}"><td><a th:href="|friendDetail?friendNum=${dto.friendNum}|">[[${dto.friendNickname}]]</a></td></tr>
+<tr th:each="dto : ${list}"><td><a th:href="|/friends/friendDetail?friendNum=${dto.friendNum}|"><span id="friend">[[${dto.friendNickname}]]</span></a>
+<a th:href="|/friends/friendDelete?friendNum=${dto.friendNum}|" style="float:right" onclick="return friendDelete();">삭제</a></td></tr>
 </table>
 </body>
 </html>

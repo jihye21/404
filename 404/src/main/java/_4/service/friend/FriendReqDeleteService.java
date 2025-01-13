@@ -6,12 +6,11 @@ import org.springframework.stereotype.Service;
 import _4.mapper.FriendMapper;
 
 @Service
-public class MemberCheckService {
+public class FriendReqDeleteService {
 	@Autowired
 	FriendMapper friendMapper;
 	
-	public String execute(String friendNickname) {
-		String friendNum = friendMapper.changeNum(friendNickname);
-		return friendNum;
+	public void execute(String friendReqNum) {
+		friendMapper.friendReqDelete(friendReqNum);
 	}
 }

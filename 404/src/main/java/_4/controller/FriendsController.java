@@ -14,13 +14,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import _4.command.FriendAddRequestCommand;
 import _4.command.FriendCommand;
 import _4.domain.FriendAddRequestDTO;
-import _4.domain.FriendDTO;
 import _4.mapper.FriendMapper;
+import _4.mapper.LoginMapper;
 import _4.mapper.service.UserNumService;
 import _4.service.friend.FriendAddReqService;
 import _4.service.friend.FriendDeleteService;
 import _4.service.friend.FriendListService;
 import _4.service.friend.FriendRegistService;
+import _4.service.friend.FriendReqDeleteService;
+import _4.service.friend.MemberCheckService;
+import _4.service.login.FriendCheckService;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -31,11 +34,58 @@ public class FriendsController {
 	@Autowired
 	FriendAddReqService friendAddReqService;
 	@Autowired
-	FriendMapper friendMapper;
-	
-	
+	FriendReqDeleteService friendReqDeleteService;
+	@Autowired
+	FriendRegistService friendRegistService;
+	@Autowired
+	FriendDeleteService friendDeleteService;
 	@Autowired
 	FriendListService friendListService;
+	@Autowired
+	FriendCheckService friendCheckService;
+	@Autowired
+	MemberCheckService memberCheckService;
+	
+	@Autowired
+	FriendMapper friendMapper;
+	@Autowired
+	LoginMapper loginMapper;
+
+	@Autowired
+	HttpSession session;
+	
+	@PostMapping("friendNickCheck") // 친구 추가 중복 시스템
+	public @ResponseBody String friendNickCheck(
+			@RequestParam (value="userFriend") String friendNickname, HttpSession session) {
+		String memberNum = userNumService.execute(session);
+		String memberNick = friendMapper.changeNick(memberNum);
+
+		if (friendNickname.equals(memberNick)) {
+	        return "자신에게 친구 추가를 할 수 없습니다."; // 자기 자신을 친구 추가할 수 없다는 메시지 반환
+	    }
+		
+		String friendNum = memberCheckService.execute(friendNickname);
+		if(friendNum != null) {
+			String resultFriendReq = friendCheckService.execute(friendNickname);
+			if(resultFriendReq != null) {
+				return "이미 요청한 상태입니다.";
+			}
+			else {
+				String resultFriendList = friendMapper.selectFriendListCheck(friendNickname);
+				if(resultFriendList != null) {
+					return "이미 존재하는 친구입니다.";
+				}
+				else {
+					return "친구 가능한 닉네임입니다.";
+				}
+			}
+		}
+		else {
+			return "존재하지 않는 유저입니다.";
+		}
+		
+	}
+	
 	@RequestMapping("friendsList")
 	public String friendsList(Model model, HttpSession session) {
 		friendListService.execute(model, session);
@@ -48,7 +98,8 @@ public class FriendsController {
 	
 	@GetMapping("friendAdd")	// 친구 추가 요청(get)
 	public String friendAdd(FriendCommand friendCommand, Model model, HttpSession session) {
-		String nickname = userNumService.execute(session);
+		String memberNum = userNumService.execute(session);
+		String nickname = friendMapper.changeNick(memberNum);
 		model.addAttribute("nickname", nickname);
 		return "thymeleaf/friend/friendAddFrom";
 	}
@@ -75,23 +126,26 @@ public class FriendsController {
 		return "thymeleaf/friend/friendReqDetail";
 	}
 	
-	@Autowired
-	FriendRegistService friendRegistService;
-	@Autowired
-	FriendDeleteService friendDeleteService;
+	
 	@PostMapping("friendReqOk")
 	public @ResponseBody void friendReqOk(@RequestParam("friendReqNum") String friendReqNum) {
 		friendRegistService.execute(friendReqNum);
-		friendDeleteService.execute(friendReqNum);
+		friendReqDeleteService.execute(friendReqNum);
 	}
 	
 	@PostMapping("friendReqNo")
 	public void friendReqNo(@RequestParam("friendReqNum") String friendReqNum) {
-		friendDeleteService.execute(friendReqNum);
+		friendReqDeleteService.execute(friendReqNum);
 	}
 	
 	@GetMapping("friendDetail")
 	public String friendDetail() {
 		return "thymeleaf/friend/friendDetail";
+	}
+	
+	@GetMapping("friendDelete")
+	public String friendDelete(String friendNum, HttpSession session) {
+		friendDeleteService.execute(session, friendNum);
+		return "redirect:/friends/friendsList";
 	}
 }

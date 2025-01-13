@@ -46,4 +46,6 @@ select OWNER_EMAIL userEmail, 'owner' grade
 from owner
 where OWNER_NAME = #{_userName} and OWNER_PHONE = #{_userPhone}
 </select>
+
+
 </mapper>

@@ -19,8 +19,8 @@ public class FriendListService {
 	FriendMapper friendMapper;
 	
 	public void execute(Model model, HttpSession session) {
-		String memNick = userNumService.execute(session);
-		List<FriendDTO> list = friendMapper.friendsSelectAll(memNick);
+		String memberNum = userNumService.execute(session);
+		List<FriendDTO> list = friendMapper.friendsSelectAll(memberNum);
 		model.addAttribute("list", list);
 	}
 }

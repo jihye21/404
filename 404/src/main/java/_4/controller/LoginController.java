@@ -44,49 +44,7 @@ public class LoginController {
 			return "이미 존재하는 아이디입니다.";
 		}
 	}
-	@Autowired
-	FriendCheckService friendCheckService;
-	@Autowired
-	LoginMapper loginMapper;
-	@Autowired
-	HttpSession session;
-	@Autowired
-	MemberCheckService memberCheckService;
-	@PostMapping("friendNickCheck") // 친구 추가 중복 시스템
-	public @ResponseBody String friendNickCheck(
-			@RequestParam (value="userFriend") String friendNickname) {
-		String currentUserNickname = (String) session.getAttribute("nickname");
-		if (friendNickname.equals(currentUserNickname)) {
-	        return "자신에게 친구 추가를 할 수 없습니다."; // 자기 자신을 친구 추가할 수 없다는 메시지 반환
-	    }
-		
-		String resultMemberChk = memberCheckService.execute(friendNickname);
-		if(resultMemberChk != null) {
-			String resultFriendReq = friendCheckService.execute(friendNickname);
-			if(resultFriendReq != null) {
-				return "이미 요청한 상태입니다.";
-			}
-			else {
-				String resultFriendList = loginMapper.selectFriendListCheck(friendNickname);
-				if(resultFriendList != null) {
-					return "이미 존재하는 친구입니다.";
-				}
-				else {
-					return "친구 가능한 닉네임입니다.";
-				}
-			}
-		}
-		else {
-			return "존재하지 않는 유저입니다.";
-		}
-		
-	}
-	/*String resultFriend = friendCheckService.execute(friendNickname);
-	if(resultFriend == null) {
-		return "친구 가능한 닉네임입니다.";
-	}else {
-		return "이미 존재하는 친구입니다.";
-	}*/
+	
 	
 	@Autowired
 	EmailCheckService emailCheckService;

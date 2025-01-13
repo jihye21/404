@@ -18,11 +18,24 @@ select friend_req_num, fr.from_num, to_num, friend_request_date, mem_nickname
  where to_num = #{toNum}
 </select>
 
-<select id="changeNick" parameterType="string" resultType="string">		<!-- 수신인의 닉네임을 번호로 변경 -->
+<select id="selectFriendReqCheck" parameterType="string" resultType="string">
+select to_num
+ from friendReqRes fr
+ join member m
+ on fr.to_num = m.mem_num
+ where mem_nickname = #{friendNickname}
+</select>
+
+<select id="selectFriendListCheck" parameterType="string" resultType="string">
+select FRIEND_NICKNAME from friendList
+where FRIEND_NICKNAME = #{friendNickname}
+</select>
+
+<select id="changeNum" parameterType="string" resultType="string">		<!-- 수신인의 닉네임을 번호로 변경 -->
 select mem_num from member where mem_nickname = #{memNickname}
 </select>
 
-<select id="changeNum" parameterType="string" resultType="string">		<!-- 수신인의 번호를 닉네임으로 변경 -->
+<select id="changeNick" parameterType="string" resultType="string">		<!-- 수신인의 번호를 닉네임으로 변경 -->
 select mem_nickname from member where mem_num = #{memNum}
 </select>
 
@@ -45,11 +58,13 @@ delete from friendReqRes where friend_req_num = #{friendReqNum}
 </delete>
 
 <select id="friendsSelectAll" parameterType="string" resultType="friendDTO">
-select friend_nickname, friend_regist_date
+select friend_num, friend_nickname, friend_regist_date
 from friendList
-where mem_num = #{memNum}
+where mem_num = #{memberNum}
 </select>
 
-
+<delete id="friendDelete">
+delete from friendList where (mem_num = #{memberNum} and friend_num = #{friendNum}) or (mem_num = #{friendNum} and friend_num = #{memberNum})
+</delete>
 
 </mapper>
