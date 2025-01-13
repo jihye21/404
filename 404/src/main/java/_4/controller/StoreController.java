@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import _4.command.DepositCommand;
 import _4.command.StoreApplicationCommand;
@@ -15,6 +16,7 @@ import _4.domain.AuthDTO;
 import _4.domain.StoreDTO;
 import _4.mapper.BookMapper;
 import _4.mapper.MainMapper;
+import _4.mapper.StoreApplMapper;
 import _4.mapper.StoreMapper;
 import _4.mapper.service.UserNumService;
 import _4.service.member.WishCheckService;
@@ -46,16 +48,28 @@ public class StoreController {
 	@Autowired
 	StoreMapper storeMapper;
 	@Autowired
+	StoreApplMapper storeApplMapper;
+	@Autowired
 	BookMapper bookMapper;
 	@Autowired
 	MainMapper mainMapper;
-		
+	
+	@PostMapping("bussRegNumCheck")
+	public @ResponseBody String bussRegNumCheck(String bussRegNum) {
+		System.out.println();
+		String result = storeApplMapper.bussRegNumCheck(bussRegNum);
+		System.out.println(result);
+		return result;
+	}
+	
+	
 	@PostMapping("storeApply")
 	public String storeForm(StoreApplicationCommand storeApplicationCommand,  HttpSession session) {
 		String ownerNum = userNumService.execute(session);
 		storeApplyService.execute(storeApplicationCommand, session, ownerNum);
 		return "thymeleaf/owner/storeApplyFinished";
 	}
+	
 	
 	@GetMapping("storeMainPage")
 	public String storeMainPage(Model model, @RequestParam String ownerNum, HttpSession session) {

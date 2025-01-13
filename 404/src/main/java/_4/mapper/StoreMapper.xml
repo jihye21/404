@@ -17,23 +17,23 @@ deposit_num, store_num, start_price, end_price, deposit_rate
 	select <include refid="storeBaseColumn"/> from store 
 	where owner_num = #{ownerNum} or store_num = #{storeNum}
 </select>
-
 <select id="storeSelectAll" resultType="storeDTO">
 select <include refid="storeBaseColumn"></include> from store
 </select>
-
 <select id="storeNumSelect" parameterType="string" resultType="string">
 select store_num from store where owner_num = #{ownerNum}
 </select>
-
 <select id="WishCheck" parameterType="string">
 select 1 from wish where mem_num = #{memNum} and store_num = #{storeNum}
 </select>
-
 <select id="wishSelectList" parameterType="string" resultType="storeDTO">
 select <include refid="storeBaseColumn"></include> from store 
 where STORE_NUM in (select STORE_NUM from wish where mem_num = #{memberNum})
 </select>
+<select id="depositSettingSelect" parameterType="string" resultType="depositDTO">
+select <include refid="depositBaseColumn"/> from deposit where store_num = #{storeNum} order by deposit_num
+</select>
+
 
 <update id="storeUpdate" parameterType="storeDTO">
 update store set store_introduction = #{storeIntroduction}, store_closed_date = #{storeClosedDate}
@@ -47,7 +47,6 @@ update store set store_introduction = #{storeIntroduction}, store_closed_date = 
 			   , store_addr_detail = #{storeAddrDetail}
  where store_num = #{storeNum}
 </update>
-
 <update id="depositSettingUpdate" parameterType="depositDTO">
 merge into deposit d
  using (select store_num from store where store_num = #{storeNum}) s
@@ -58,8 +57,4 @@ merge into deposit d
 		insert (deposit_num, store_num, start_price, end_price, deposit_rate) values 
  		((select nvl(max(deposit_num),0)+1 from deposit where store_num = #{storeNum}), #{storeNum}, #{startPrice}, #{endPrice}, #{depositRate})
 </update>
-
-<select id="depositSettingSelect" parameterType="string" resultType="depositDTO">
-select <include refid="depositBaseColumn"/> from deposit where store_num = #{storeNum} order by deposit_num
-</select>
 </mapper>

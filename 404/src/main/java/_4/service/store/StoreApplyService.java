@@ -70,7 +70,6 @@ public class StoreApplyService {
 		
 		//
 		resource = getClass().getClassLoader().getResource("static/upload");
-		System.out.println("resource : " + resource);
 		fileDir = resource.getFile();
 		
 		mf = storeApplicationCommand.getStoreProfileImage();

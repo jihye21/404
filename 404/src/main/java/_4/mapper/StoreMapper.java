@@ -10,17 +10,20 @@ import _4.domain.StoreDTO;
 @Mapper
 public interface StoreMapper {
 	public StoreDTO storeSelectOne(String ownerNum);
-
+	public String storeNumSelect(String ownerNum);
+	public List<DepositDTO> depositSettingSelect(String storeNum);
+	
 	public List<StoreDTO> storeSelectAll();
 
 	public String WishCheck(String memNum, String storeNum);
-
 	public List<StoreDTO> wishSelectList(String memberNum);
 	
 	public int storeUpdate(StoreDTO dto);
-	
-	public String storeNumSelect(String ownerNum);
-	
 	public void depositSettingUpdate(DepositDTO dto);
-	public List<DepositDTO> depositSettingSelect(String storeNum);
+	
+	
+	
+	
+	
+	
 }

@@ -15,4 +15,6 @@ public interface StoreApplMapper {
 	public StoreApplicationDTO storeApplSelectOne(String storeApplNum);
 	public void storeApply(StoreDTO dto);
 	public void storeApplDelete(String storeApplNum);
+	
+	public String bussRegNumCheck(String bussRegNum);
 }

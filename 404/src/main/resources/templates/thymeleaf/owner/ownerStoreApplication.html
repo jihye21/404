@@ -5,20 +5,62 @@
 <title>Insert title here</title>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript" src ="/static/js/daumAddressScript.js"></script>
+<script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script type="text/javascript">
+var check = 0;
+$(function(){
+	$("input[name=bussRegistNum]").on("change keyup",function(){
+		var bussRegNum = $("input[name=bussRegistNum]").val();
+		$.ajax({
+			type: "post",
+			url: "/store/bussRegNumCheck",
+			data: {"bussRegNum" : bussRegNum},
+			dataType: "text",
+			success: function(result){
+				if(result == bussRegNum){
+					check = 0;
+				}
+				else{
+					check = 1;
+				}
+			},
+			error: function(){
+				alert("ownerStoreApplication.html의 bussRegNumCheck() 함수 오류");
+			},
+		});
+	});
+});
+function bussRegNumCheck(){ // 사업자 등록증 중복 체크 함수
+	if(check == 0){
+		alert("중복된 사업자등록번호입니다.");
+		return false;
+	}
+	else return true;
+}
+</script>
 </head>
 <body>
 사장님의 가게 신청 페이지입니다.
-<form action="/store/storeApply" method="post" enctype="multipart/form-data">
+<form action="/store/storeApply" method="post" enctype="multipart/form-data" onsubmit="return bussRegNumCheck();">
 <input type="hidden" id="sample4_postcode"/>
 <table border="1" align="center" >
 	<tr><th colspan="2">가게 신청서</th></tr>
-	<tr><td>가게명 : </td><td><input type="text" name="storeName"/></td></tr>
+	<tr>
+		<td>가게명 : </td>
+		<td><input type="text" name="storeName"/></td>
+	</tr>
 	<tr><td>가게 주소 : </td><td><input type="text" name="storeAddr"  id="sample4_roadAddress" readonly="readonly" onclick="execDaumPostcode();"/></td></tr>
 	<tr><td>가게 상세 주소 : </td><td><input type="text" name="storeAddrDetail"/></td></tr>
-	<tr><td>가게 소개 : </td><td><input type="text" name="storeIntroduction"/></td></tr>
+	<tr>
+		<td>가게 소개 : </td>
+		<td><textarea rows="5" cols="30" name="storeIntroduction"></textarea></td>
+	</tr>
 	<tr><td>개업일 : </td><td><input type="date" name="storeOpenDate"/></td></tr>
 	<tr><td>사업자 등록증 : </td><td><input type="file" name="bussRegistImage"/></td></tr>
-	<tr><td>사업자 등록 번호 : </td><td><input type="text" name="bussRegistNum"/></td></tr>
+	<tr>
+		<td>사업자 등록 번호 : </td>
+		<td><input type="text" name="bussRegistNum"/></td>
+	</tr>
 	<tr><td>가게 프로필 이미지 : </td><td><input type="file" name="storeProfileImage" /></td></tr>
 	<tr><td>가게 상세 이미지 : </td><td><input type="file" name="storeDetailImage" multiple="multiple" /></td></tr>
 	<tr><td colspan="2"><input type="submit"/></td></tr>

@@ -35,6 +35,11 @@ select <include refid="storeApplBaseColumn"/> from store_application
 select <include refid="storeApplBaseColumn"/> from store_application where store_appl_num = #{storeApplNum}
 </select>
 
+<select id="bussRegNumCheck" parameterType="string" resultType="string">
+select buss_regist_num as bussRegistNum from store where buss_regist_num = #{bussRegistNum}
+ union select buss_regist_num from store_application where buss_regist_num = #{bussRegistNum}
+</select>
+
 <insert id="storeApply" parameterType="storeDTO">
 insert into store 
  (store_num, store_name, buss_regist_num, owner_num, store_type, store_introduction, store_closed_date, store_open_time, store_open_date
