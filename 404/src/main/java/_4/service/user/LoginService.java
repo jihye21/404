@@ -23,6 +23,7 @@ public class LoginService {
 		AuthDTO auth = userMapper.login(userCommand.getUserId());
 		if(auth != null) {
 			if(auth.getUserPw() != userCommand.getUserPw()) {
+				
 				if(auth.getGrade().equals("member")) memberDeleteCheckService.execute(userCommand, session);
 				else session.setAttribute("auth", auth);
 			}

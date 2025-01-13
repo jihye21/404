@@ -62,7 +62,7 @@ $(function(){
 		<td>[[${list.empNum}]]</td>
 		<td><a th:href="|employeeDetail?empNum=${list.empNum}|">[[${list.empName}]]</a></td>
 		<td>[[${list.empId}]]</td>
-		<td>[[${list.empHireDate}]]</td>
+		<td>[[${#dates.format(list.empHireDate, 'yyyy-MM-dd')}]]</td>
 		<td><input type="checkbox" name="empDels" th:value="${list.empNum}" /></td>
 	</tr>
 	

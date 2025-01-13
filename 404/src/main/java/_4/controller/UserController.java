@@ -42,7 +42,7 @@ public class UserController {
 	
 	@PostMapping("login")
 	public String login(@Validated UserCommand userCommand, BindingResult result, HttpSession session, Model model) {
-		AuthDTO auth = loginService.execute(userCommand, result, session);
+		AuthDTO auth = loginService.execute(userCommand, result, session); 
 		if(result.hasErrors()) {
 			return "thymeleaf/user/loginForm";
 		}
