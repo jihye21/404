@@ -24,4 +24,5 @@ public interface FriendMapper {
 	
 	public void friendReqDelete(String friendReqNum);
 	public void friendDelete(@Param("memberNum") String memberNum, @Param("friendNum") String friendNum);
+	public FriendDTO friendSelectOne(String friendNum);
 }

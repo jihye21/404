@@ -67,4 +67,9 @@ where mem_num = #{memberNum}
 delete from friendList where (mem_num = #{memberNum} and friend_num = #{friendNum}) or (mem_num = #{friendNum} and friend_num = #{memberNum})
 </delete>
 
+<select id="friendSelectOne" parameterType="string" resultType="friendDTO">
+select friend_num, friend_nickname, friend_regist_date
+from friendList
+where friend_num = #{friendNum}
+</select>
 </mapper>

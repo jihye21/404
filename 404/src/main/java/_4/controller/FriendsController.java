@@ -14,11 +14,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import _4.command.FriendAddRequestCommand;
 import _4.command.FriendCommand;
 import _4.domain.FriendAddRequestDTO;
+import _4.domain.FriendDTO;
 import _4.mapper.FriendMapper;
 import _4.mapper.LoginMapper;
 import _4.mapper.service.UserNumService;
 import _4.service.friend.FriendAddReqService;
 import _4.service.friend.FriendDeleteService;
+import _4.service.friend.FriendDetailService;
 import _4.service.friend.FriendListService;
 import _4.service.friend.FriendRegistService;
 import _4.service.friend.FriendReqDeleteService;
@@ -45,6 +47,8 @@ public class FriendsController {
 	FriendCheckService friendCheckService;
 	@Autowired
 	MemberCheckService memberCheckService;
+	@Autowired
+	FriendDetailService friendDetailService;
 	
 	@Autowired
 	FriendMapper friendMapper;
@@ -129,7 +133,6 @@ public class FriendsController {
 	
 	@PostMapping("friendReqOk")
 	public @ResponseBody void friendReqOk(@RequestParam("friendReqNum") String friendReqNum) {
-		System.out.println(friendReqNum);
 		friendRegistService.execute(friendReqNum);
 		friendReqDeleteService.execute(friendReqNum);
 	}
@@ -140,7 +143,8 @@ public class FriendsController {
 	}
 	
 	@GetMapping("friendDetail")
-	public String friendDetail() {
+	public String friendDetail(@RequestParam("friendNum") String friendNum, Model model) {
+		friendDetailService.execute(friendNum, model);
 		return "thymeleaf/friend/friendDetail";
 	}
 	
