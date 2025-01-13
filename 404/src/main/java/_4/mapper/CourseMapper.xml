@@ -36,12 +36,12 @@ update course set course_name = #{courseName} where course_num = #{courseNum}
 <update id="courseDetailMerge" parameterType="courseDetailDTO">
 merge into course_detail cd
  using dual
- on (cd.course_num = #{courseNum})
+ on (cd.course_num = #{courseNum} and cd.course_order = ${courseOrder})
  when matched then
  	update set store_num = #{storeNum}
  when not matched then
- 	insert (course_num, course_order, store_num) values 
- 	((select concat('course_', nvl(max(substr(course_num, length('course_')+1)), 100000)+1) from course_detail), ${courseOrder}, #{storeNum})
+ 	insert (course_num, course_order, store_num) 
+ 	values (#{courseNum}, ${courseOrder}, #{storeNum})
 </update>
 
 <delete id="courseDelete" parameterType="string">

@@ -27,6 +27,7 @@ public class CourseUpdateService {
 		for(int i = 1; i < Integer.parseInt(maxOrder); i++) {
 			// maxOrder에 닿기 전에 dto가 부족하다면
 			if((CourseDetailDTO)session.getAttribute(memberNum + "/" + i) == null){
+				System.out.println("if문");
 				continue;
 			}
 			System.out.println((CourseDetailDTO)session.getAttribute(memberNum + "/" + i));
