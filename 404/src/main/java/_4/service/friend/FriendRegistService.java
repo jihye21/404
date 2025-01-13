@@ -20,7 +20,7 @@ public class FriendRegistService {		// 친구 요청을 등록
 		FriendDTO friendDTO = new FriendDTO();
 		friendDTO.setMemNum(friendAddRequestDTO.getToNum());
 		friendDTO.setFriendNum(friendAddRequestDTO.getFromNum());
-		String fromNick = friendMapper.changeNum(friendAddRequestDTO.getFromNum());						// 상대 친구리스트의 나의 정보를 번호에서 닉네임으로 치환
+		String fromNick = friendMapper.changeNick(friendAddRequestDTO.getFromNum());						// 상대 친구리스트의 나의 정보를 번호에서 닉네임으로 치환
 		friendDTO.setFriendNickname(fromNick);
 		friendMapper.friendAddInsert(friendDTO);
 		

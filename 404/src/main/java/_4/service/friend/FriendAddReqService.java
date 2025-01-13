@@ -20,7 +20,7 @@ public class FriendAddReqService {		// 친구 추가 요청 서비스
 		String friendReqNum = autoNumService.execute("friendreqres", "friend_req_num", "friend_req_");
 		friendAddRequestDTO.setFriendReqNum(friendReqNum);
 		friendAddRequestDTO.setFromNum(fromNum);
-		String toNum = friendMapper.changeNick(friendAddRequestCommand.getNickName());
+		String toNum = friendMapper.changeNum(friendAddRequestCommand.getNickName());
 		friendAddRequestDTO.setToNum(toNum);
 		
 		friendMapper.friendAddRequestInsert(friendAddRequestDTO);

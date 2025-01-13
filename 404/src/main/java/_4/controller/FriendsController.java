@@ -129,6 +129,7 @@ public class FriendsController {
 	
 	@PostMapping("friendReqOk")
 	public @ResponseBody void friendReqOk(@RequestParam("friendReqNum") String friendReqNum) {
+		System.out.println(friendReqNum);
 		friendRegistService.execute(friendReqNum);
 		friendReqDeleteService.execute(friendReqNum);
 	}
