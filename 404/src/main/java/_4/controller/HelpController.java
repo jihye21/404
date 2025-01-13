@@ -38,8 +38,8 @@ public class HelpController {
 	
 	@PostMapping("findPw")
 	public String findPw(
-			@RequestParam("userId") String userId,
-			@RequestParam("userPhone") String userPhone,
+			@RequestParam(value = "userId") String userId,
+			@RequestParam(value = "userPhone") String userPhone,
 			Model model) {
 		findPwService.execute(userId, userPhone, model);
 		return "thymeleaf/help/findPwOk";

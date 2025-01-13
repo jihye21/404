@@ -7,12 +7,19 @@
 <select id="findId" parameterType="string" resultType="string">
 select mem_id
 from member
-where mem_name = #{_userName}
-and mem_phone = #{_userPhone}
+where mem_name = #{_userName} and mem_phone = #{_userPhone}
+
 union
+
 select emp_id
 from employee
-where emp_name = #{_userPhone} and emp_phone = #{_userPhone}
+where emp_name = #{_userName} and emp_phone = #{_userPhone}
+
+union
+
+select OWNER_ID
+from owner
+where OWNER_NAME = #{_userName} and OWNER_PHONE = #{_userPhone}
 </select>
 
 <update id="pwUpdate" parameterType="userChangePassword">
@@ -21,4 +28,22 @@ set ${pwColumName}  = #{userPw}
 where ${userIdColumName}  = #{userId} 
 and ${phoneColumn} = #{userPhone}
 </update>
+
+<select id="userEmail" resultType="authDTO">
+select mem_email userEmail, 'member' grade
+from member
+where mem_id = #{_userId} and MEM_PHONE = #{_userPhone}
+
+union
+
+select emp_email userEmail, 'employee' grade
+from employee
+where emp_id = #{_userId} and EMP_PHONE = #{_userPhone}
+
+union
+
+select OWNER_EMAIL userEmail, 'owner' grade
+from owner
+where OWNER_NAME = #{_userName} and OWNER_PHONE = #{_userPhone}
+</select>
 </mapper>

@@ -8,8 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import _4.domain.AuthDTO;
-import _4.domain.UserChangePasswodDTO;
+import _4.domain.UserChangePasswordDTO;
 import _4.mapper.FindMapper;
+import _4.mapper.LoginMapper;
 import _4.mapper.UserMapper;
 import _4.mapper.service.EmailSendService;
 
@@ -20,18 +21,18 @@ public class FindPwService {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 	@Autowired
-	UserMapper userMapper;
-	@Autowired
 	EmailSendService emailSendService;
+	@Autowired
+	LoginMapper loginMapper;
 	
 	public void execute(String userId, String userPhone, Model model) {
 		String newPw = UUID.randomUUID().toString().substring(0, 8);
-		UserChangePasswodDTO dto = new UserChangePasswodDTO();
+		UserChangePasswordDTO dto = new UserChangePasswordDTO();
 		dto.setUserId(userId);
 		dto.setUserPhone(userPhone);
 		dto.setUserPw(passwordEncoder.encode(newPw));
 		
-		AuthDTO auth = userMapper.loginSelectOne(userId);
+		AuthDTO auth = loginMapper.loginSelectOne(userId);
 		
 		if(auth.getGrade().equals("member")) {
 			dto.setTableName("member");
@@ -43,22 +44,28 @@ public class FindPwService {
 			dto.setPwColumName("emp_pw");
 			dto.setUserIdColumName("emp_id");
 			dto.setPhoneColumn("emp_phone");
+		}else {
+			dto.setTableName("owner");
+			dto.setPwColumName("owner_pw");
+			dto.setUserIdColumName("owner_id");
+			dto.setPhoneColumn("owner_phone");
 		}
 		
 		int i = findMapper.pwUpdate(dto);
 		model.addAttribute("auth", auth);
-		model.addAttribute("newPw", auth);
+		model.addAttribute("newPw", newPw);
 		
 		if(i > 0) {
 			String html = "<html><body>";
-					html += auth.getUserName() + "님의 임시 비밀번호는 " + newPw + "입니다.";
-					html += "</body></html>";
-			String subject = auth.getUserName() + "님의 임시 비밀번호입니다.";
-			String fromEmail = "soongmoostudent@gmail.com";
-			String toEmail = auth.getUserEmail();
-			emailSendService.mailSend(fromEmail, toEmail, subject, newPw);
-			
+			   html+= auth.getUserName()+"님의 임시 비밀번호는 "+ newPw +"입니다.";
+			   html+=  "</body></html>";
+		String subject = auth.getUserName() + "님의 임시비밀번호입니다."; 
+		String fromEmail = "soongmoostudent@gmail.com";
+		String toEmail = auth.getUserEmail();
+		emailSendService.mailSend(fromEmail, toEmail, subject, newPw);
 		}
+		
+		
 		
 	}
 }

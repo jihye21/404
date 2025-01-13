@@ -6,6 +6,9 @@
 <script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <script type = "text/javascript">
 $(function(){
+	let idAvailable = false;  // 아이디 중복 여부
+    let emailAvailable = false;  // 이메일 중복 여부
+	
 	// 아이디 중복 검사
 	$("#empId").on("change keyup", function(){
 		$.ajax({
@@ -17,14 +20,19 @@ $(function(){
 				$("#idCheck").text(result)
 				if(result.trim() == "사용가능한 아이디입니다.") {
 					$("#idCheck").css("color", "blue");
+					 idAvailable = true;  
 				}else{
 					$("#idCheck").css("color", "red");
+					idAvailable = false;  
 				}
 				
 			},
-			error: function(){}
+			error: function(){
+				 alert("서버 오류");
+			}
 		})
 	});
+    
 	// 이메일 중복 체크
 	$("#empEmail").on("change keyup", function(){
 		$.ajax({
@@ -36,8 +44,10 @@ $(function(){
 				$("#emailCheck").text(result)
 				if(result.trim() == "사용가능한 이메일입니다.") {
 					$("#emailCheck").css("color", "blue");
+					 emailAvailable = true;  
 				}else{
 					$("#emailCheck").css("color", "red");
+					emailAvailable = false;  
 				}
 			},
 			error : function(){
@@ -45,13 +55,26 @@ $(function(){
 			}
 		})
 	});
+	// 폼 제출 시 아이디와 이메일 중복 검사
+    $("form").on("submit", function() {
+        if (!idAvailable) {
+            alert("아이디가 중복되었습니다. 다른 아이디를 사용해주세요.");
+            return false;  
+        }
+        if (!emailAvailable) {
+            alert("이메일이 중복되었습니다. 다른 이메일을 사용해주세요.");
+            return false;  
+        }
+        return true;  
+    });
+	
 });
 </script>
 </head>
 <body>
 <a href="employeeList">직원 목록 페이지</a>
 직원 등록페이지 입니다.
-<form action="employeeRegist" method="post" >
+<form action="employeeRegist" method="post" onsubmit="return FormCheck" >
 	<table border="1" width="500" align="center">
 		
 		<tr>

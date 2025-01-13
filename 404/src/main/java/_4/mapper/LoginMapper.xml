@@ -38,5 +38,10 @@ union
 select OWNER_EMAIL from owner where OWNER_EMAIL = #{ownerEmail}
 </select>
 
+<select id="loginSelectOne" parameterType="string" resultType="authDTO">
+select mem_id as userId, mem_pw as userPw, mem_name as userName, mem_email as userEmail, 'member' as grade from member where mem_id = #{userId}
+ union select emp_id, emp_pw, emp_name, emp_email, 'employee' from employee where emp_id = #{userId}
+ union select owner_id, owner_pw, owner_name, owner_email, 'owner' from owner where owner_id = #{userId} 
+</select>
 
 </mapper>

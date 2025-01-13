@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @Alias("userChangePassword")
-public class UserChangePasswodDTO {
+public class UserChangePasswordDTO {
 	String userId;
 	String userPhone;
 	String userPw;

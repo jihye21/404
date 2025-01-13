@@ -52,7 +52,7 @@ public class MemberRegistService {
 				String toEmail = dto.getMemEmail();
 				
 				
-				emailSendService.mailSend(html, subject, fromEmail, toEmail);
+				emailSendService.mailSend(fromEmail, toEmail, subject, html);
 		}
 		
 	}
