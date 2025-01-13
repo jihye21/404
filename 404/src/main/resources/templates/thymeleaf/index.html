@@ -28,11 +28,10 @@
 </th:block>
 <br/>
 </body>
-
+<!-- header -->
 <div id="category">
 카테고리
 </div>
-왜이래ㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐ
 <div style="border:1px solid black;width:800px;height:700px;position:absolute;left:550px;top:450px">
 <table border="1" width="800">
 <tr th:each = "dto : ${list}">
@@ -41,7 +40,6 @@
 		<a th:href = "|/store/storeMainPage?ownerNum=${dto.ownerNum}|">[[${dto.storeName}]]</a><br/>
 		[[${dto.storeIntroduction}]]<br/>
 		[[${dto.storeAddr}]]<br/>
-		머지
 	</td>
 </tr>
 </table>

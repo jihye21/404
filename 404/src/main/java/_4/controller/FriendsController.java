@@ -81,7 +81,6 @@ public class FriendsController {
 	FriendDeleteService friendDeleteService;
 	@PostMapping("friendReqOk")
 	public @ResponseBody void friendReqOk(@RequestParam("friendReqNum") String friendReqNum) {
-		System.out.println(friendReqNum);
 		friendRegistService.execute(friendReqNum);
 		friendDeleteService.execute(friendReqNum);
 	}
