@@ -3,6 +3,70 @@
 <head>
 <meta charset="UTF-8">
 <title>ownerModify</title>
+<script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script type = "text/javascript">
+$(function(){	
+	let idAvailable = false;  // 아이디 중복 여부
+    let emailAvailable = false;  // 이메일 중복 여부
+	
+	// 아이디 중복 검사
+	$("#ownerId").on("change keyup", function(){
+		$.ajax({
+			type : 'post',
+			url : "/login/userIdCheck",
+			data : {"userId" : $("#ownerId").val()},
+			dataType : 'text',
+			success: function(result){
+				$("#idCheck").text(result)
+				if(result.trim() == "사용가능한 아이디입니다.") {
+					$("#idCheck").css("color", "blue");
+					idAvailable = true;  
+				}else{
+					$("#idCheck").css("color", "red");
+					idAvailable = false;  
+				}
+				
+			},
+			error: function(){}
+		})
+	});
+	// 이메일 중복 체크
+	$("#ownerEmail").on("change keyup", function(){
+		$.ajax({
+			type : "post",
+			url : "/login/userEmailCheck",
+			dataType : 'text',
+			data : {"userEmail" : $("#ownerEmail").val()},
+			success:function(result){
+				$("#emailCheck").text(result)
+				if(result.trim() == "사용가능한 이메일입니다.") {
+					$("#emailCheck").css("color", "blue");
+					emailAvailable = true;
+				}else{
+					$("#emailCheck").css("color", "red");
+					emailAvailable = false;
+				}
+			},
+			error : function(){
+				alert("서버 오류");
+			}
+		})
+	});
+	
+	// 폼 제출 시 아이디와 이메일 중복 검사
+    $("form").on("submit", function() {
+        if (!idAvailable) {
+            alert("아이디가 중복되었습니다. 다른 아이디를 사용해주세요.");
+            return false;  
+        }
+        if (!emailAvailable) {
+            alert("이메일이 중복되었습니다. 다른 이메일을 사용해주세요.");
+            return false;  
+        }
+        return true;  
+    });
+});
+</script>
 </head>
 <body>
 
@@ -10,8 +74,9 @@
 
 <form action = "ownerForm" method = "post" th:object = "${ownerCommand}">
 
-아이디: <input type = "text" placeholder="아이디" th:field="*{ownerId}"> 
+아이디: <input type = "text" placeholder="아이디" th:field="*{ownerId}" id="ownerId"> 
 <span style = "color:red" th:if="${#fields.hasErrors('ownerId')}" th:errors = "*{ownerId}"></span>
+<span id="idCheck"></span>
 <br>
 비밀번호: <input type = "password" placeholder="비밀번호" th:field="*{ownerPw}">
 
@@ -23,8 +88,9 @@
 생년월일: <input type = "date" placeholder = "생년월일" name = "ownerBirth">
 
 <br>
-이메일: <input type= "email" placeholder="이메일" th:field="*{ownerEmail}">
-<span style = "color:red" th:if="${#fields.hasErrors('ownerEmail')}" th:errors = "*{ownerEmail}"></span>
+이메일: <input type= "email" placeholder="이메일" th:field="*{ownerEmail}" id="ownerEmail"> 
+<span style = "color:red" th:if="${#fields.hasErrors('ownerEmail')}" th:errors = "*{ownerEmail}" ></span>
+<span id="emailCheck"></span>
 <br>
 전화번호: <input type = "tel" placeholder="전화번호" th:field="*{ownerPhone}">
 <span style = "color:red" th:if="${#fields.hasErrors('ownerPhone')}" th:errors = "*{ownerPhone}"></span>

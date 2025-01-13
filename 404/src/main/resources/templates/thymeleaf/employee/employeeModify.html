@@ -3,6 +3,45 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script type = "text/javascript">
+$(function(){
+    let emailAvailable = false;  // 이메일 중복 여부
+	
+	// 이메일 중복 체크
+	$("#empEmail").on("change keyup", function(){
+		$.ajax({
+			type : "post",
+			url : "/login/userEmailCheck",
+			dataType : 'text',
+			data : {"userEmail" : $("#empEmail").val()},
+			success:function(result){
+				$("#emailCheck").text(result)
+				if(result.trim() == "사용가능한 이메일입니다.") {
+					$("#emailCheck").css("color", "blue");
+					 emailAvailable = true;  
+				}else{
+					$("#emailCheck").css("color", "red");
+					emailAvailable = false;  
+				}
+			},
+			error : function(){
+				alert("서버 오류");
+			}
+		})
+	});
+	// 폼 제출 시 아이디와 이메일 중복 검사
+    $("form").on("submit", function() {
+       
+        if (!emailAvailable) {
+            alert("이메일이 중복되었습니다. 다른 이메일을 사용해주세요.");
+            return false;  
+        }
+        return true;  
+    });
+	
+});
+</script>
 </head>
 <body>
 직원 정보 수정페이지.<br />
@@ -11,7 +50,8 @@
 <table border="1" width="600" align="center">
 	<tr><td colspan="2">연락처 정보</td></tr>
 	<input type="hidden" name="empNum" th:value="${employeeCommand.empNum}">
-	<tr><td>변경할 이메일</td><td><input type="email" name="empEmail" th:value="${employeeCommand.empEmail}" /></td></tr>
+	<tr><td>변경할 이메일</td><td><input type="email" name="empEmail" th:value="${employeeCommand.empEmail}" id="empEmail"/>
+		<span id="emailCheck"></span></td></tr>
 	<tr><td>변경할 휴대전화 번호</td><td><input type="tel" name="empPhone" th:value="${employeeCommand.empPhone}"/></td></tr>
 	
 	<tr><td colspan="2" align="center"><input type="submit" value="수정 완료" /></td></tr>

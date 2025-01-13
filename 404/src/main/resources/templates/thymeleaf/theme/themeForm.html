@@ -46,8 +46,8 @@ function themeTimeNullCheck(){
 	<tr><td>테마명</td><td><input type="text" name="themeName" /></td></tr>
 	<tr><td>테마 설명</td><td><textarea rows="5" cols="20" name="themeIntroduction"></textarea></td></tr>
 	<tr><td>테마 이미지</td><td><input type="file" name="themeImage" /></td></tr>
-	<tr><td>가격</td><td><input type="number" name="themePrice" /></td></tr>
-	<tr><td>제한 인원</td><td><input type="number" name="limitPeople" /></td></tr>
+	<tr><td>가격</td><td><input type="number" name="themePrice" min="0" />(원)</td></tr>
+	<tr><td>제한 인원</td><td><input type="number" name="limitPeople" min="0" />(명)</td></tr> 
 	<tr><td>타임</td><td><button type="button" onclick="partType();">타임별</button>
 						<button type="button" onclick="allType();">종일권</button></td></tr>
 </table>

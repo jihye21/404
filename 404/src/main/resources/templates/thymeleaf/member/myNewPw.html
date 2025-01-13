@@ -10,7 +10,7 @@ $(function(){
 	$("#frm").submit(function(){
 		$(this).ajaxSubmit({
 			type : 'post',
-			url : "memberPwUpdate",
+			url : "/member/memberPwUpdate",
 			dataType : 'text',
 			beforeSubmit : passwordChecked,
 			success : resultOk,
@@ -28,7 +28,7 @@ $(function(){
 function resultOk(result, status, xhr, $form){
 	if(status == 'success'){
 		if(result == "true"){
-			location.href="memberList";
+			location.href="memberMainPage";
 		}else{
 			$("#oldPw").val("");
 			$("#pwErr").text("비밀번호가 틀렸습니다");
@@ -62,12 +62,18 @@ function passwordChecked(){
 		$("#newPwErr").css("color", "red");
 		return false;
 	}
+	
+	if($("#oldPw").val() == $("#newPwCon").val()){
+		$("#pwNewErr").text("현재 비밀번호랑 다르게 입력해주세요.");
+		$("#pwNewErr").css("color", "red");
+		return false;
+	}
 }
 </script>
 </head>
 <body>
 <form action="memberPwUpdate" method="post" name="from" id="frm">
-<table border="1" width="600" align="center">
+<table border=1 width=400 align="center">
 <tr>
 	<td>현재 비밀번호</td><td><input type="password" name="oldPw" id="oldPw"  required="required" />
 					<span id="pwErr"></span></td></tr>
@@ -81,7 +87,8 @@ function passwordChecked(){
 					<span id="pwConErr"></span></td></tr>
 
 <tr>
-	<td colspan="2" align="center"><input type="submit" value="비밀번호 변경" /></td></tr>
+	<td colspan="2" align="center"><input type="submit" value="비밀번호 변경" />
+		<span id="pwNewErr"></span></td></tr>
 	
 </table>
 </form>
