@@ -11,16 +11,27 @@
 	position:absolute;
 	left:550px;
 }
+
+#header{
+	border:1px solid black;
+	height: 100px;
+	margin: -6px;
+}
 </style>
 </head>
 <body>
-<th:block th:if="${session.auth != null}">
-	안녕하세요 님<br/>
-</th:block>
-<th:block th:if="${session.auth == null}">
-	<a href="/user/loginForm">로그인</a><br/>	
-	<a href="/owner/ownerForm">사장 회원가입</a>
-</th:block>
+<!-- Header -->
+<div id="header" align="right">
+	<th:block th:if="${session.auth == null}">
+		<h1 style="margin:10px"><a href="/user/loginForm">Login</a></h1><br/>	
+		<!-- a href="/owner/ownerForm">사장 회원가입</a-->
+	</th:block>
+	<th:block th:if="${session.auth != null}">
+		안녕하세요 님<br/>
+	</th:block>
+</div>
+
+
 <th:block th:if="${session.auth != null}">
 	<a href="/member/memberMainPage">내 정보 보기</a><br/>
 	<a href="/course/coursePage">코스</a><br/>
