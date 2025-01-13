@@ -76,9 +76,7 @@ body{
 </div>
 
 <div>
-<th:block th:each="groupPaymentHistoryList:${groupPaymentHistoryList}">
-	<a th:href = "|/map/mapPage?groupNum=${groupPaymentHistoryList.groupNum}|" style ="text-decoration:none; color:black;">코스 만들러 가기</a>
-</th:block>
+	<a th:href = "|/map/mapPage?groupNum=${groupNum}|" style ="text-decoration:none; color:black;">코스 만들러 가기</a>
 </div>
 </body>
 </html>

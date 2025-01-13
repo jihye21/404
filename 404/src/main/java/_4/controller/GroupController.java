@@ -124,6 +124,7 @@ public class GroupController {
 		
 		groupPaymentHistoryListService.execute(groupNum, model);
 		memberDutchPaymentCheckService.execute(groupNum, session, model);
+		model.addAttribute("groupNum", groupNum);
 		
 		return "thymeleaf/group/groupDetail";
 	}

@@ -22,7 +22,6 @@ public class GroupChattingInfoService {
 		groupShareDTO.setGroupNum(groupNum);
 		
 		groupShareDTO = groupMapper.groupMemberSelectOne(groupShareDTO);
-		
 		return groupShareDTO;
 	}
 }

@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class InstaReelService {
-	private static final String ACCESS_TOKEN = "EAAPs0aERPXgBO0xkOp0AZCgfiL3Dh9baTHV3OFpJ2PJXKdf3XZC7cPeUFrh2eAHzADgiaNujvOgLmh6sjacoQNX0Two4O0GMvzi0EA2axaRICAhBoEXnGHLCgKsVnwvI29QopulrR1wPgObFG3XukJcgkTw0ntE2SKIrKmPSPGHA6xaHo4vH6M6ISLn0IwOUiq5b7hKFjFGkTZAfDVqNSRfEZCX0e3y2oC8EhXYny0cZD";
+	private static final String ACCESS_TOKEN = "EAAPs0aERPXgBOZB0Hd2d5wS05Oj4Ub40MbBO7YbRvcVtUOWRCEfBbveaZCrXwwODg1aNkXPOFVzlbZB4JCO7nLl2ysfJ2TtOH6TL77ywxeYcgwxVAInqwed6LufvEzU6VuguajL77mM3dU5C3hW2NZCPBOZBaYcWjkUV6kO6GPaASWb6jLKrca7hatcBFUnErFhmRijxdUUWcwBBclklcMWZAQZAeoZD";
     private static final String USER_ID = "17841449857311304";
     private static String nextPageUrl = "";
     
@@ -65,7 +65,7 @@ public class InstaReelService {
     // 해시태그로 게시물 검색
     static List<Map<String, String>> fetchHashtagMedia(String hashtagId) throws Exception {
         String urlString = String.format(
-            "https://graph.facebook.com/v21.0/%s/top_media?user_id=%s&fields=id,media_type,media_url,caption,permalink&limit=1&access_token=%s",
+            "https://graph.facebook.com/v21.0/%s/top_media?user_id=%s&fields=id,media_type,media_url,caption,permalink&limit=20&access_token=%s",
             hashtagId, USER_ID, ACCESS_TOKEN
         );
         

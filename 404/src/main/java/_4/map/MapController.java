@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import _4.command.GroupCommand;
 import _4.domain.AuthDTO;
 import _4.domain.GroupShareDTO;
 import _4.service.group.GroupChattingInfoService;
@@ -57,7 +58,12 @@ public class MapController {
 	}
 	
 	@PostMapping("keywordSearch")
-	public String keywordSearch(@RequestParam String keyword, Model model) {
+	public String keywordSearch(@RequestParam String keyword, Model model, HttpSession session
+			, GroupCommand groupCommand) {
+		String groupNum = groupCommand.getGroupNum();
+		GroupShareDTO groupShareDTO =  groupChattingInfoService.execte(groupNum, session);
+		model.addAttribute("groupShareDTO", groupShareDTO);
+		
 		List<Map<String, String >> reels = new ArrayList<>();
 		
 		keyword = keyword.replaceAll("\\s+", "");
@@ -70,7 +76,12 @@ public class MapController {
 	}
 	
 	@PostMapping("nextPost")
-	public String nextPost(MapCommand mapCommand, Model model) {
+	public String nextPost(MapCommand mapCommand, Model model, HttpSession session
+			, GroupCommand groupCommand) {
+		String groupNum = groupCommand.getGroupNum();
+		GroupShareDTO groupShareDTO =  groupChattingInfoService.execte(groupNum, session);
+		model.addAttribute("groupShareDTO", groupShareDTO);
+		
 		List<Map<String, String >> reels = new ArrayList<>();
 		String nextUrl = mapCommand.getNextUrl();
 		try {

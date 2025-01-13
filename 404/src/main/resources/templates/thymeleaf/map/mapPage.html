@@ -45,12 +45,15 @@ text-align:center;
 	<div class = "innerBox">
 		<!-- 키워드 검색 페이지 연동하기 -->
 		<form action = "keywordSearch" method = "post">
+		<input type = "hidden" id = "groupNum" name = "groupNum" th:value="${groupNum}">
 			키워드: <input type = "text" name = "keyword" th:value="${keyword}">
 			<input type = "submit" value = "검색">
 		</form>
 		<br>
 		<!-- 게시물 임베드하기 -->
 		<form action = "/map/nextPost" method = "POST">
+		<input type = "hidden" id = "groupNum" name = "groupNum" th:value="${groupShareDTO.groupNum}">
+		<input type = "hidden" id = "memName" name = "memName" th:value="${groupShareDTO.memName}">
 		<th:block th:each="reel:${reels}">
 			<input type = "hidden" name = "keyword" th:value="${keyword}">
 			<input type = "hidden" name = "nextUrl" th:value="${reel['nextPageUrl']}">
@@ -111,7 +114,7 @@ text-align:center;
 
     // 서버로 메시지 보내기
     function sendMessage(message) {
-    	var memNickname = document.getElementById('memName').value;
+    	var memNickname = document.getElementById('memNickname').value;
     	var memName = document.getElementById('memName').value;
     	
     	var groupShareDTO = {
