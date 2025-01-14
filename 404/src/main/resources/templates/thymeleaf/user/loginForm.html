@@ -492,7 +492,46 @@ h1 {
     left: -20px;
   }
 }
+
+/*회원 & 사장 tab*/
+.memberLoginPage{
+	padding: 0 20px 5px 20px;
+	margin: 0  70px 0px 0px;
+}
+.memberLoginPage.active{
+	padding: 0 20px 5px 20px;
+	margin: 0  70px 0px 0px;
+	border-bottom: 2px solid #D8A7FF;
+}
+.ownerLoginPage{
+	padding: 0 20px 5px 20px;
+	margin: 0  0px 0px 70px;
+}
+.ownerLoginPage.active{
+	padding: 0 20px 5px 20px;
+	margin: 0  0px 0px 70px;
+	border-bottom: 2px solid #D8A7FF;
+}
 </style>
+<script type="text/javascript">
+$(function(){
+	$(".memberRegist").show();
+	$(".ownerRegist").hide();
+	
+	$(".memberLoginPage").click(function(){
+		$(".ownerLoginPage").removeClass('active');
+		$(".memberLoginPage").addClass('active');
+		$(".memberRegist").show();
+		$(".ownerRegist").hide();
+	})
+	$(".ownerLoginPage").click(function(){
+		$(".memberLoginPage").removeClass('active');
+		$(".ownerLoginPage").addClass('active');
+		$(".memberRegist").hide();
+		$(".ownerRegist").show();
+	})
+})
+</script>
 </head>
 <body>
 
@@ -519,6 +558,9 @@ h1 {
   </div>
 </div>
 <form action="/user/login" method="post" >
+	<div>
+		<span class="memberLoginPage active">회원</span><span class="ownerLoginPage">사장님</span>
+	</div>
   <div class="hand"></div>
   <div class="hand rgt"></div>
   <h1>404 Login</h1>
@@ -534,7 +576,9 @@ h1 {
     <p class="alert">Invalid Credentials..!!</p>
     <!--  input type="submit" value="로그인"/>-->
     <br><br>
-    <a href="/findId">아이디 찾기</a> | <a href="/findPw">비밀번호 찾기</a> | <a href="/member/memberRegist">회원가입</a>
+    <a href="/findId">아이디 찾기</a> | <a href="/findPw">비밀번호 찾기</a> 
+    | <a class="memberRegist" href="/member/memberRegist">회원가입</a> 
+    <a class="ownerRegist" href="/owner/ownerForm">사장님가입</a>
     <button class="btn" type="submit">Login </button>
   </div>
 </form>
