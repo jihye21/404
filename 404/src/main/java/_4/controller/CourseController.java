@@ -64,6 +64,12 @@ public class CourseController {
 		courseSessionService.execute(storeNum, storeName, courseOrder, memberNum);
 	}
 	
+	@PostMapping("storedStoreDelete")
+	public @ResponseBody void storedStoreDelete(String storeNum, String order, HttpSession session) {
+		String memberNum = userNumService.execute(session);
+		session.removeAttribute(memberNum + "/" + order);
+	}
+	
 	@PostMapping("courseInsert")
 	public @ResponseBody String courseInsert(HttpSession session, @RequestParam("maxOrder") String maxOrder, @RequestParam("courseName") String courseName) {
 		String answer = courseInsertService.execute(session, maxOrder, courseName);

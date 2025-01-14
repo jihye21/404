@@ -35,9 +35,14 @@ function fillHeart(idx){
 	$("#image"+idx).attr("height","50");
 }
 
+function storedStoreName(idx, storeName){
+	$("#storedStoreName_"+idx).text(storeName);
+}
+
 function addCourse(){
 	item = "<span>";
-	item += "	<img width='80' height='80' src='/static/upload/heart.png' id='image" + order + "' onclick='storeList(&#39;a&#39;, " + order + ");'/><br/>";
+	item += "	<img width='80' height='80' src='/static/upload/heart.png' id='image" + order + "' onclick='storeList(&#39;a&#39;, " + order + ");'/>";
+	item += "	<span id='storedStoreName_" + order + "' style='position:fixed'></span><br/>";
 	item += "	<input type='hidden' id='course" + order + "' value='" + order + "'/>";
 	item += "</span>";
 	order = order + 1;
@@ -97,14 +102,14 @@ function deleteCourse(courseNum){
 <div style="border:1px solid black; width:450px; height:800px; position:absolute;left:500px;"align="center"><br/>
 	코스명 : <input type="text" name="courseName" th:value="${cDTO.courseName}"/><br/>
 	<span id="course">
-		<div th:each="dto : ${cdList}">
-			<img width="60" height="50" src="/static/upload/heart_filled.png" th:attr="onclick=|storeList('${dto.courseNum}','${dto.courseOrder}');|"/><br/>
+		<div th:each="dto, idx : ${cdList}">
+			<img width="60" height="50" src="/static/upload/heart_filled.png" th:attr="onclick=|storeList('${dto.courseNum}','${dto.courseOrder}');|"/>
+			<span th:id="'storedStoreName_'+${idx.count}" style="position:fixed;">[[${dto.storeName}]]</span><br/>
 		</div>
 	</span>
 	<button type="button" onclick="addCourse();"> + </button><br/>
 	<button type="button" onclick="updateCourse();">수정하기</button>
 	<button type="button" th:attr="onclick=|deleteCourse('${cDTO.courseNum}');|">삭제하기</button>
-	
 </div>
 
 <!-- 우측 바 -->

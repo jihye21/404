@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<table border="1" width="400">
+	<tr><th colspan="2">가게 리스트</th></tr>
+	<tr th:each="dto, idx : ${list}">
+		<td width="100" height="100">
+			<img th:src="|/static/upload/${dto.storeProfileStoreImage}|" width="100" height="100"/>
+		</td>
+		<td>
+			<input type="hidden" name = "storeNum" th:value="${dto.storeNum}"/>
+			<span class="store" th:attr="onclick=|storeAdd('${dto.storeNum}', '${dto.storeName}');|">[[${dto.storeName}]]</span>
+		</td>
+	</tr>
+</table>
+</body>
+</html>

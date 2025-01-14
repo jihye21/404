@@ -21,6 +21,7 @@ function storeList(courseNum, order){
 		dataType: "html",
 		success: function(result){
 			$("#storeList").html(result);
+			$("#order").text(order);
 		},
 		error: function(){
 			alert("cousreForm의 storeList() 오류");
@@ -32,9 +33,13 @@ function fillHeart(idx){
 	$("#image"+idx).attr("width","60");
 	$("#image"+idx).attr("height","50");
 }
+function storedStoreName(idx, storeName){
+	$("#storedStoreName_"+idx).text(storeName);
+}
 function addCourse(){
 	item = "<span>";
-	item += "	<img width='80' height='80' src='/static/upload/heart.png' id='image" + count + "' onclick='storeList(&#39;a&#39;, " + count + ");'/><br/>";
+	item += "	<img width='80' height='80' src='/static/upload/heart.png' id='image" + count + "' onclick='storeList(&#39;a&#39;, " + count + ");'/>";
+	item += "	<span id='storedStoreName_" + count + "' style='position:fixed'></span><br/>";
 	item += "	<input type='hidden' id='cousrse" + count + "' value='" + count + "'/>";
 	item += "</span>";
 	count = count + 1;
@@ -68,6 +73,29 @@ function insertCourse(){
 		}
 	});
 }
+
+// 부분 삭제
+function deleteStore(order){
+	var newOrder = 0;
+	$("#image" + order).remove();
+	$("#storedStoreName_" + order).remove();
+	for(var i = 1; i <= count - 1; i++){
+		alert(i + "번째 반복문");
+		if(i > order){
+			//-- order;
+			alert("삭제할 번호 : " + order);
+			alert("삭제할 번호의 다음 코스의 번호 : " + i)
+			alert("i - 1의 값은 :" + i - 1);
+			item = "<img width='80' height='180' src='/static/upload/heart.png' id='image" + (i - 1) + "' onclick='storeList(&#39;a&#39;, " + (i - 1) + ");'/>";
+			$("#image" + i).html(item);
+			//$("#image" + i).attr("id","image"+ (i - 1));
+			$("#storedStoreName_" + i).attr("id", "storedStoreName_" + (i - 1));
+			newOrder = i - 1
+			alert("다음 코스의 새 번호 : " + newOrder);
+		}
+	}
+	storeList("1", newOrder);
+}
 </script>
 </head>
 <body>
@@ -79,7 +107,8 @@ function insertCourse(){
 <div style="border:1px solid black; width:450px; height:800px; position:absolute;left:500px;"align="center"><br/>
 	코스명 : <input type="text" name="courseName"/><br/>
 	<span id="course">
-		<img width="80" height="80" src="/static/upload/heart.png" id="image1" onclick="storeList('a', 1);"/><br/>
+		<img width="80" height="80" src="/static/upload/heart.png" id="image1" onclick="storeList('a', 1);"/>
+		<span id="storedStoreName_1" style="position:fixed"></span><br/>
 	</span>
 	<button type="button" onclick="addCourse();"> + </button><br/>
 	<button type="button" onclick="insertCourse();">저장하기</button>

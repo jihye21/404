@@ -1,5 +1,7 @@
 package _4.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -56,12 +58,23 @@ public class StoreController {
 	
 	@PostMapping("bussRegNumCheck")
 	public @ResponseBody String bussRegNumCheck(String bussRegNum) {
-		System.out.println();
 		String result = storeApplMapper.bussRegNumCheck(bussRegNum);
-		System.out.println(result);
 		return result;
 	}
 	
+	@PostMapping("storeList")
+	public String storeList(Model model) {
+		List<StoreDTO> list = storeMapper.storeSelectAll();
+		model.addAttribute("list", list);
+		return "thymeleaf/course/storeTable";
+	}
+	
+	@PostMapping("storeSearch")
+	public String storeSearch(String storeName, Model model) {
+		List<StoreDTO> list = storeMapper.storeSearch(storeName);
+		model.addAttribute("list", list);
+		return "thymeleaf/course/storeTable";
+	}
 	
 	@PostMapping("storeApply")
 	public String storeForm(StoreApplicationCommand storeApplicationCommand,  HttpSession session) {
