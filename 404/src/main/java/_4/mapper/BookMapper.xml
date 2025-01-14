@@ -64,5 +64,13 @@ delete from book where mem_num = #{memberNum} and book_status = '결제대기중
 	and gm.mem_num = #{memberNum}
 </select>
 
+<select id="bookGroupCheckSelectOne" parameterType="string" resultType="string">
+	select 'group' from book 
+	where book_num = #{bookNum} and group_num like 'group%'
+</select>
 
+<select id="memberBookCheck" parameterType="string" resultType="bookDTO">
+	select * from book where book_num = #{bookNum} 
+	and mem_num = #{memNum}
+</select>
 </mapper>

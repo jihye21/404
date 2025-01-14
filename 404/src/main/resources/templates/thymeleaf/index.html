@@ -18,6 +18,7 @@ footer #rnwFtr{
 }
 
 #header{
+	position: fixed;
 	border:1px solid black;
 	height: 100px;
 	margin: -6px;
@@ -44,6 +45,7 @@ img:hover {
 	color: black;
 }
 .gnb-nav.open {
+	width: 200px;
     left: 0;
     background-color: #E6E6FA;
 }
@@ -54,8 +56,11 @@ img:hover {
     width: 30%;
     height: 100%;
     text-align: left;
-    z-index: 1;
+    z-index: 2;
     transition: all .6s ease-in-out
+}
+.portfolio-menu li {
+	padding: 10px;
 }
 /*header*/
 .loginBtn{
@@ -413,8 +418,11 @@ $(function(){
 				isUnLocked();
 				$(".header-wrap .h-logo").removeClass("wh");
 			}
-		
 	});
+	
+	$(".menu-login").click(function(){
+		window.location.href= "/user/loginForm";
+	})
 })
 
 
@@ -425,7 +433,12 @@ $(function(){
 <!-- Header -->
 <div id = "header">
 	<div class = "logo-container">
+	<th:block th:if="${session.auth != null}">
 	<button class="gnb-menu left-menu"><span class="blind"><img src = "/static/upload/img/ico32_menu.svg"></span></button>
+	</th:block>
+	<th:block th:if="${session.auth == null}">
+		<button class="menu-login left-menu"><span class="blind"><img src = "/static/upload/img/ico32_menu.svg"></span></button>
+	</th:block>
 	<img class = "logo" src = "/static/upload/img/logo_0218.jpg">
 		<th:block th:if="${session.auth == null}">
 			<b style="margin-top:50px;margin-right:10px;" class ="loginBtn"><a href="/user/loginForm" style="text-decoration:none;color:black;">Login</a></b><br/>	
@@ -442,7 +455,7 @@ $(function(){
     <div class="nav-inner">
         <div class="portfolio-menu">
             <th:block th:if="${session.auth != null}">
-            <ul style="list-style:none;">
+            <ul style="list-style:none;padding:20px;">
             	<th:block th:if="${session.auth.grade == 'member'}">
                 <li><a href="/member/memberMainPage">내 정보 보기</a></li>
                 <li><a href="/member/memberModify">회원 정보 수정</a></li>

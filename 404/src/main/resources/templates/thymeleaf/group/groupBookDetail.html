@@ -119,10 +119,19 @@ function reviewForm(bookNum){
 		data: {"bookNum" : bookNum},
 		dataType: "html",
 		success: function(result){
-			$("#reviewContent").html(result);
+			
+			if(result != "403"){
+				$("#reviewContent").html(result);
+			}else{
+				alert("잘못된 접근입니다.");
+				window.location.href="/user/loginForm";
+			}
+			
+			
 		},
 		error: function(){
-			alert("오류");
+			alert("잘못된 접근입니다.");
+			window.location.href="/user/loginForm";
 		}
 	});
 }

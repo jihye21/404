@@ -12,9 +12,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import _4.command.ReviewCommand;
 import _4.domain.BookDTO;
+import _4.domain.GroupDTO;
 import _4.domain.ReviewDTO;
 import _4.mapper.BookMapper;
 import _4.mapper.ReviewMapper;
+import _4.mapper.service.UserNumService;
+import _4.service.group.GroupCheckService;
+import _4.service.group.GroupMemberReviewCheckService;
 import _4.service.review.ReviewAnswerDeleteService;
 import _4.service.review.ReviewAnswerModifyService;
 import _4.service.review.ReviewAnswerService;
@@ -28,6 +32,12 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("review")
 public class ReviewController {
+	@Autowired
+	UserNumService userNumService;
+	@Autowired
+	GroupMemberReviewCheckService groupMemberReviewCheckService;
+	@Autowired
+	GroupCheckService groupCheckService;
 	@Autowired
 	ReviewWriteService reviewWriteService;
 	@Autowired
@@ -55,10 +65,35 @@ public class ReviewController {
 	}
 	
 	@PostMapping("reviewForm")
-	public String reviewWrite(@RequestParam("bookNum") String bookNum, Model model) {
-		BookDTO dto = bookMapper.bookSelectOne(bookNum);
-		model.addAttribute("dto", dto);
-		return "thymeleaf/review/reviewWrite";
+	public String reviewWrite(@RequestParam("bookNum") String bookNum, Model model
+			, HttpSession session) {
+		String memNum = userNumService.execute(session);
+		
+		//그룹 결제인지 확인하기
+		String groupCheck = groupCheckService.execute(bookNum);
+		if(groupCheck != null) {
+			BookDTO bookDTO = groupMemberReviewCheckService.execute(bookNum, session);
+			if(bookDTO != null) {
+				BookDTO dto = bookMapper.bookSelectOne(bookNum);
+				model.addAttribute("dto", dto);
+				return "thymeleaf/review/reviewWrite";
+			}else {
+				return "403";
+			}
+		}else {
+			BookDTO bookDTO = bookMapper.memberBookCheck(bookNum, memNum);
+			
+			if(bookDTO != null) {
+				//1인 결제인 경우
+				BookDTO dto = bookMapper.bookSelectOne(bookNum);
+				model.addAttribute("dto", dto);
+				return "thymeleaf/review/reviewWrite";
+			}else {
+				return "403";
+			}
+			
+		}
+		
 	}
 	
 	
