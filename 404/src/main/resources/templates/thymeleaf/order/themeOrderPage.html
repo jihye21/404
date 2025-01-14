@@ -260,7 +260,7 @@ function checkBox(){
 			       <td colspan="2">혼자 결제하기</td>
 			   </tr>
 			   <th:block th:each="myGroupList:${myGroupList}">
-			   
+			    
 			   <tr>
 			   	   <td><input type="radio" name = "groupNum" th:value="${myGroupList.groupNum}" 
 			   	   th:attr="onclick=|groupChoose('${myGroupList.groupNum}');|"></td>
