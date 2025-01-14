@@ -93,4 +93,9 @@
 		where group_num = #{groupNum}
 		and dutch_status is null and mem_num = #{memNum}
 	</select>
+	<select id="groupMemberReview" parameterType="string" resultType="bookDTO">
+		select * from book b join group_member gm
+		on b.group_num = gm.group_num
+		where book_num = #{bookNum} and gm.mem_num = #{memNum}
+	</select>
 </mapper>

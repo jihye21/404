@@ -48,5 +48,7 @@ public interface GroupMapper {
 
 	public GroupShareDTO groupMemberSelectOne(GroupShareDTO groupShareDTO);
 
+	public BookDTO groupMemberReview(String memNum, String bookNum);
+
 	
 }
