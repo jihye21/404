@@ -14,6 +14,7 @@ public interface StoreMapper {
 	public List<DepositDTO> depositSettingSelect(String storeNum);
 	
 	public List<StoreDTO> storeSelectAll();
+	public List<StoreDTO> storeSearch(String storeName);
 
 	public String WishCheck(String memNum, String storeNum);
 	public List<StoreDTO> wishSelectList(String memberNum);

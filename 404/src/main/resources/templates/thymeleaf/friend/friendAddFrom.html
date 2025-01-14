@@ -29,17 +29,14 @@ $(function(){
                     check = 0;
                 }
                 else if(result.trim() == "자신에게 친구 추가를 할 수 없습니다."){
-                	alert("닉네임을 확인해 주세요.");
                 	$("#friendCheck").css("color", "red");
                 	check = 1;
                 }
                 else if(result.trim() == "이미 존재하는 친구입니다."){
-                	alert("닉네임을 확인해 주세요.");
                 	$("#friendCheck").css("color", "red");
                 	check = 1;
                 }
-                else if(result.trin() == "이미 요청한 상태입니다."){
-                	alert("닉네임을 확인해 주세요.");
+                else if(result.trim() == "이미 요청한 상태입니다."){
                 	$("#friendCheck").css("color", "red");
                 	check = 1;
                 }
@@ -55,7 +52,10 @@ $(function(){
     });
 });
 function FriendCheck() {
-	if(check == 1) return false;
+	if(check == 1) {
+		alert("닉네임을 확인해 주세요.");
+		return false;
+	}
 	else return true;
 }
 </script>

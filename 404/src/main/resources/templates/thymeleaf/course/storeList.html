@@ -6,6 +6,43 @@
 <script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <script type="text/javascript">
 var courseOrder = "[[${storeCount}]]";
+	
+$(function(){
+	var storeName = $("input[name=storeSearch]").val();
+	// 처음 화면이 생성될 때는 모든 storeList 뿌리기
+	allStoreList();
+	// 검색할 시 검색된 가게 리스트 뿌리기
+	$("input[name=storeSearch]").on("change keyup", function(){
+		var storeName = $("input[name=storeSearch]").val();
+		$.ajax({
+			type: "post",
+			url: "/store/storeSearch",
+			data: {"storeName" : storeName},
+			dataType: "html",
+			success: function(result){
+				$("#storeTable").html(result);
+			},
+			error: function(){
+				//alert("storeList.html의 searchStore() 오류");
+			}
+		});
+	});
+})
+
+function allStoreList(){
+	$.ajax({
+		type: "post",
+		url: "/store/storeList",
+		dataType: "html",
+		success: function(result){
+			$("#storeTable").html(result);
+		},
+		error: function(){
+			alert("storeList.html의 allStoreList() 오류");
+		}
+	});
+};
+
 function storeAdd(storeNum, storeName){
 	var storeCheck = confirm(storeName + "(으)로 선택하시겠습니까?");
 	if(storeCheck){
@@ -18,6 +55,7 @@ function storeAdd(storeNum, storeName){
 				alert(storeName + "이 저장되었습니다.");
 				storeList('1', courseOrder);
 				fillHeart(courseOrder);
+				storedStoreName(courseOrder, storeName);
 			},
 			error: function(){
 				alert("selectedStore() 오류");
@@ -28,11 +66,25 @@ function storeAdd(storeNum, storeName){
 		return false;
 	}
 }
+
+function storedStoreDelete(storeNum, order){
+	$.ajax({
+		type: "post",
+		url: "/course/storedStoreDelete",
+		data: {"storeNum" : storeNum, "order" : order},
+		success: function(){
+			deleteStore(order);
+		},
+		error: function(){
+			alert("storeList.html의 storedStoreDelete() 오류");
+		}
+	});
+};
 </script>
 </head>
 
 <body>
-[[${storeCount}]]<br/>
+<span id="order"></span><br/>
 <br/><br/>
 <th:block th:if="${storedStoreDTO != null}">
 	<table border="1" width="400">
@@ -41,17 +93,9 @@ function storeAdd(storeNum, storeName){
 </th:block>
 <!-- 검색해서 가게 리스트를 다시 출력하는 기능 -->
 검색 : <input type="text" name="storeSearch"/><br/><br/>
-<table border="1" width="400">
-	<tr><th colspan="2">가게 리스트</th></tr>
-	<tr th:each="dto, idx : ${list}">
-		<td width="100" height="100">
-			<img th:src="|/static/upload/${dto.storeProfileStoreImage}|" width="100" height="100"/>
-		</td>
-		<td>
-			<input type="hidden" name = "storeNum" th:value="${dto.storeNum}"/>
-			<span class="store" th:attr="onclick=|storeAdd('${dto.storeNum}', '${dto.storeName}');|">[[${dto.storeName}]]</span>
-		</td>
-	</tr>
-</table>
+<div id="storeTable"></div>
+<th:block th:if="${storedStoreDTO} != null">
+	<button type="button" th:attr="onclick=|storedStoreDelete('${storedStoreDTO.storeNum}', '${storeCount}');|">삭제하기</button>
+</th:block>
 </body>
 </html>

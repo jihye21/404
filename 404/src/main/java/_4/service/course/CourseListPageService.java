@@ -32,22 +32,14 @@ public class CourseListPageService {
 
 		if(sessionStoredDTO != null) { // 세션에 임시 저장된 코스의 가게에 대한 정보 가져오기
 			model.addAttribute("storedStoreDTO", sessionStoredDTO);// storeNum, memberNum, storeName
-			List<StoreDTO> list = storeMapper.storeSelectAll();
-			model.addAttribute("list", list);
-			model.addAttribute("storeCount", courseOrder);
 		}
 		else {
 			if(dbStoredDTO != null) { // courseDetail에서 DB에 저장된 코스의 가게 정보 가져오기
 				model.addAttribute("storedStoreDTO", dbStoredDTO);// storeNum, memberNum, storeName
-				List<StoreDTO> list = storeMapper.storeSelectAll();
-				model.addAttribute("list", list);
-				model.addAttribute("storeCount", courseOrder);
 			}
 			else { // 세션에도 DB에도 없는 코스는 가게 리스트만 뿌리기
-				List<StoreDTO> list = storeMapper.storeSelectAll();
-				model.addAttribute("list", list);
-				model.addAttribute("storeCount", courseOrder);
 			}
-		}		
+		}	
+		model.addAttribute("storeCount", courseOrder);
 	}
 }

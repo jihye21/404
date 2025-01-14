@@ -33,6 +33,9 @@ where STORE_NUM in (select STORE_NUM from wish where mem_num = #{memberNum})
 <select id="depositSettingSelect" parameterType="string" resultType="depositDTO">
 select <include refid="depositBaseColumn"/> from deposit where store_num = #{storeNum} order by deposit_num
 </select>
+<select id="storeSearch" parameterType="string" resultType="storeDTO">
+select <include refid="storeBaseColumn"/> from store where store_name like '%' || #{storeName} || '%'
+</select>
 
 
 <update id="storeUpdate" parameterType="storeDTO">
