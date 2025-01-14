@@ -21,4 +21,6 @@ public class EmployeeCommand {
 	Date empHireDate;
 	String empJumin;
 	Integer empPoint;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	Date pointGetDate;
 }

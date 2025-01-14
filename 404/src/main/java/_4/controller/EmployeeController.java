@@ -13,16 +13,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import _4.command.EmployeeCommand;
 import _4.domain.StoreApplicationDTO;
 import _4.mapper.StoreApplMapper;
+import _4.mapper.service.UserNumService;
 import _4.service.employee.EmployeeDetailService;
 import _4.service.employee.EmployeeListService;
 import _4.service.employee.EmployeeRegistService;
 import _4.service.employee.EmployeeUpdateService;
 import _4.service.store.StoreApplDeleteService;
 import _4.service.store.StoreRegistService;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("employee")
 public class EmployeeController {
+	@Autowired
+	UserNumService userNumService;
 	@Autowired
 	EmployeeRegistService employeeRegistService;
 	@Autowired
@@ -77,8 +81,10 @@ public class EmployeeController {
 	}
 	
 	@GetMapping("employeeMainPage")
-	public String employeeMainPage() {
-		return "thymeleaf/employee/employeeMainPage";
+	public String employeeMainPage(HttpSession session) {
+		String empNum = userNumService.execute(session);
+		return "redirect:/employee/employeeDetail?empNum="
+				+ empNum;
 	}
 	
 	@GetMapping("storeApplList")

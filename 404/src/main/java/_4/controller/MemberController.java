@@ -52,10 +52,10 @@ public class MemberController {
 	MyPassConfirmService myPassConfirmService;
 	
 	@GetMapping("memberMainPage")
-	public String memberMainPage(HttpSession session, Model model) {
+	public String memberMainPage(HttpSession session) {
 		String memNum = userNumService.execute(session);
-		model.addAttribute("memNum", memNum);
-        return "thymeleaf/member/memberMainPage";
+        return "redirect:/member/memberDetail?memNum="
+        		+ memNum;
 	}
 	
 	@RequestMapping("memberList")

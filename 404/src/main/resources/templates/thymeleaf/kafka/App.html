@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cute+Font&family=Gowun+Dodum&family=Orbit&family=Poor+Story&display=swap" rel="stylesheet">
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title></title>
@@ -9,13 +13,15 @@
 
 <style>
   body {
-    font-family: Arial, sans-serif;
+    font-family: "Gowun Dodum", serif;
+	  font-weight: 400;
+	  font-style: normal;
     padding: 20px;
     text-align: center;
   }
 
   h1, h2 {
-    margin: 0;
+    margin: 0 auto;
   }
 
   table {
@@ -41,6 +47,28 @@
    margin: 0 auto;
    width: 70%;
   }
+  
+  .btn-primary{
+	width: 200px;
+	background-color: #E6E6FA;
+	}
+	.btn-jelly:hover {
+	  animation: jelly 0.5s;
+	}
+
+@keyframes jelly {
+  25% {
+    transform: scale(0.9, 1.1);
+  }
+
+  50% {
+    transform: scale(1.1, 0.9);
+  }
+
+  75% {
+    transform: scale(0.95, 1.05);
+  }
+}
 </style>
 
 <script type="text/javascript">
@@ -80,8 +108,10 @@ function pointRegist(){
 </script>
 </head>
 <body>
-  <h1 class = "clickPoint">포인트 받기</h1>
+
+  <span class = "clickPoint btn btn-primary btn-jelly" style="position:fixed; right: 10px;">포인트 받기</span>
   <input type = "hidden" class = "empPoint" value="null">
+  <a class = "btn btn-primary btn-jelly" th:href="|/employee/employeeDetail?empNum=${empNum}|" style="text-decoration:none; color:black; right: 10px; top:70px; position:fixed">회원정보</a>
   <span id = "point"></span>
   <h2>날짜: <span id="date"></span></h2> <!-- 오늘의 날짜 -->
   <h2>삼성전자 누적 거래량: <span id="cumulativeVolume">0</span></h2>

@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class InstaReelService {
-	private static final String ACCESS_TOKEN = "EAAPs0aERPXgBOZB0Hd2d5wS05Oj4Ub40MbBO7YbRvcVtUOWRCEfBbveaZCrXwwODg1aNkXPOFVzlbZB4JCO7nLl2ysfJ2TtOH6TL77ywxeYcgwxVAInqwed6LufvEzU6VuguajL77mM3dU5C3hW2NZCPBOZBaYcWjkUV6kO6GPaASWb6jLKrca7hatcBFUnErFhmRijxdUUWcwBBclklcMWZAQZAeoZD";
+	private static final String ACCESS_TOKEN = "EAAPs0aERPXgBO0tdxF5UomCICQ8c6Q8iGs7feCLxLmERx4CjZCBZCNmxn8NeqdgUWpnkh9sHLeIau6nRzJAc8i8AXnGvOgpbgWqn3suWnM0bgazVZCAV1bsUzIcf0PXXRkeYBaznbqc4wZBGZBMx1oXWQYaS7WZBl1D2qlnBIGeewMC1clDoxYZBOmukgM61Y5XLxpvWyetg8DSztRmM7WiKVATrNcZD";
     private static final String USER_ID = "17841449857311304";
     private static String nextPageUrl = "";
     
@@ -60,7 +60,6 @@ public class InstaReelService {
         }
         return null;
     }
-    
     
     // 해시태그로 게시물 검색
     static List<Map<String, String>> fetchHashtagMedia(String hashtagId) throws Exception {

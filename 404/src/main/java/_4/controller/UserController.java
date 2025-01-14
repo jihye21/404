@@ -47,14 +47,17 @@ public class UserController {
 			return "thymeleaf/user/loginForm";
 		}
 		if(auth.getGrade().equals("member")) {
-			System.out.println("로그인 성공");
 			String memberNum = userNumService.execute(session);
 			MemberDTO dto = memberMapper.memberSelectOne(memberNum);
 			model.addAttribute("dto", dto);
 			storeListService.execute(model);//storeList
 			return "redirect:/";
 		}
-		else if(auth.getGrade().equals("employee")) return "redirect:/employee/employeeMainPage";
+		else if(auth.getGrade().equals("employee")) {
+			String empNum = userNumService.execute(session);
+			model.addAttribute("empNum", empNum);
+			return "redirect:/";
+		}
 		else if(auth.getGrade().equals("owner")) {
 			String ownerNum = userNumService.execute(session);
 			String link = ownerLoginService.execute(ownerNum);

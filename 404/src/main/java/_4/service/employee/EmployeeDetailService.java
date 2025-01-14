@@ -20,6 +20,8 @@ public class EmployeeDetailService {
 		employeeCommand.setEmpHireDate(dto.getEmpHireDate());
 		employeeCommand.setEmpEmail(dto.getEmpEmail());
 		employeeCommand.setEmpPhone(dto.getEmpPhone());
+		employeeCommand.setEmpPoint(dto.getEmpPoint());
+		employeeCommand.setPointGetDate(dto.getPointGetDate());
 		model.addAttribute("employeeCommand", employeeCommand);
 	}
 }

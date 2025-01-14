@@ -26,11 +26,10 @@
 <select id="employeeOneSelect" parameterType="string" resultType="empDTO">
 	select EMP_NUM, EMP_ID, EMP_PW, EMP_NAME
 		, EMP_BIRTH_DATE, EMP_EMAIL, EMP_PHONE, EMP_HIRE_DATE
-		, EMP_JUMIN, EMP_POINT
+		, EMP_JUMIN, EMP_POINT, POINT_GET_DATE
 	from employee
-	<where>
+	where
 		EMP_NUM = #{empNum}
-	</where>
 </select>
 
 <update id="employeeUpdate" parameterType="empDTO">

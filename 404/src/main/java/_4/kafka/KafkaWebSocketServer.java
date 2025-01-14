@@ -36,7 +36,7 @@ private Set<WebSocket> connections = ConcurrentHashMap.newKeySet();
     }
     @Override
     public void onMessage(WebSocket conn, String message) {
-        System.out.println("Received message from WebSocket client: " + message);
+        //System.out.println("Received message from WebSocket client: " + message);
         // 여기에 WebSocket 클라이언트로부터 받은 메시지를 처리하는 로직을 추가할 수 있습니다.
     }
     @Override
@@ -76,8 +76,8 @@ private Set<WebSocket> connections = ConcurrentHashMap.newKeySet();
                     ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
                     
                     for (ConsumerRecord<String, String> record : records) {
-                        System.out.printf("Received message: key = %s, value = %s, topic = %s, partition = %d, offset = %d\n",
-                                record.key(), record.value(), record.topic(), record.partition(), record.offset());
+                       // System.out.printf("Received message: key = %s, value = %s, topic = %s, partition = %d, offset = %d\n",
+                        //        record.key(), record.value(), record.topic(), record.partition(), record.offset());
                         // Kafka 메시지를 WebSocket 클라이언트들에게 브로드캐스트
                         // 거래시간 / 종목코드 / 체결가격 / 거래량 / 누적 거래량
                         // 데이터 파싱
@@ -106,12 +106,12 @@ private Set<WebSocket> connections = ConcurrentHashMap.newKeySet();
                                         stockData.put("cumulativeVolume", Long.parseLong(value));
                                         break;
                                     default:
-                                        System.out.println("Unknown key: " + key);
+                                        //System.out.println("Unknown key: " + key);
                                 }
                             }
                            
                         }
-                        System.out.println("stockData = " + stockData.toString());
+                    //    System.out.println("stockData = " + stockData.toString());
                         // Kafka 메시지를 WebSocket 클라이언트들에게 브로드캐스트
                         broadcastMessage(stockData.toString());
                     }

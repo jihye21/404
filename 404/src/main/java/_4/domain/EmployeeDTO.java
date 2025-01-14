@@ -23,4 +23,6 @@ public class EmployeeDTO {
 	Date empHireDate;
 	String empJumin;
 	Integer empPoint;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	Date PointGetDate;
 }

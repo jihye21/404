@@ -20,7 +20,14 @@
 	<td>아이디</td>
 	<td>[[${employeeCommand.empId}]]</td>
 </tr>
-
+<tr>
+	<td>복지 포인트</td>
+	<td>[[${employeeCommand.empPoint}]]</td>
+</tr>
+<tr>
+	<td>마지막 포인트 지급일</td>
+	<td>[[${#dates.format(employeeCommand.pointGetDate, 'yyyy-MM-dd')}]]</td>
+</tr>
 <tr>
 	<td>등록일</td>
 	<td>[[${#dates.format(employeeCommand.empHireDate, 'yyyy-MM-dd')}]]</td>

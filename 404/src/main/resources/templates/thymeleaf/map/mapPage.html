@@ -42,7 +42,7 @@ text-align:center;
 		<input type="text" id="messageInput" placeholder="내용을 입력해주세요.">
         <button id="sendButton">전송</button>
 	</div>
-	<div class = "innerBox">
+	<div class = "innerBox" style="overflow:scroll;">
 		<!-- 키워드 검색 페이지 연동하기 -->
 		<form action = "keywordSearch" method = "post">
 		<input type = "hidden" id = "groupNum" name = "groupNum" th:value="${groupNum}">
@@ -149,7 +149,7 @@ text-align:center;
         var messageObj = JSON.parse(displayEvent);
         var listItem = document.createElement('div');
         listItem.textContent = `${messageObj.memNickname}(${messageObj.memName}) ${messageObj.message}`;
-
+        alert("모드들 주목!");
         messageList.appendChild(listItem);
     }
  	/*

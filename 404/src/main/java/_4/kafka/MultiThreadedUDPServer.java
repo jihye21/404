@@ -65,10 +65,10 @@ public class MultiThreadedUDPServer {
         }
         @Override
         public void messageReceived(IoSession session, Object message) throws Exception {
-        	System.out.println("Received message in session: " + session.getId());  // 세션 ID 확인
+     //   	System.out.println("Received message in session: " + session.getId());  // 세션 ID 확인
             if (message instanceof IoBuffer) {
                 IoBuffer buffer = (IoBuffer) message;
-                System.out.println("Received message with size: " + buffer.remaining());  // 데이터 크기 확인
+      //          System.out.println("Received message with size: " + buffer.remaining());  // 데이터 크기 확인
                 
                 threadPool.execute(new ClientHandler(session, buffer,producer));
             }
@@ -98,16 +98,16 @@ public class MultiThreadedUDPServer {
                 }
                 byte[] data = new byte[buffer.remaining()]; // 남은 데이터 크기만큼 배열 생성
                 buffer.get(data); // 버퍼 내용을 배열에 복사
-                System.out.println("Buffer contents: " + new String(data, Charset.forName("UTF-8"))); // UTF-8로 변환하여 출력
+           //     System.out.println("Buffer contents: " + new String(data, Charset.forName("UTF-8"))); // UTF-8로 변환하여 출력
                 // 받은 메세지를 스레드가 코드별로 분류해서 처리
                 StockA3 transaction = stockA3.parseTransaction(buffer);
-                System.out.println("transaction: " + transaction);
+         //       System.out.println("transaction: " + transaction);
                 // 여기서부터는 transaction 객체를 이용하여 원하는 작업 수행
                 String logMessage = "[" + threadCnt +"]" +  " T_id = " + threadId + ":" + "거래시간 = " + transaction.get거래시간() + ":" + "종목코드 = " + transaction.get종목코드() + ":" +
                             "거래종류 = " + transaction.get거래종류() + ":" +
                             "체결가격 = " + transaction.get체결가격() + ":" +
                             "거래량 = " + transaction.get거래량() + ":" + "누적거래량 = " + transaction.get누적거래량();
-                System.out.println(logMessage);
+       //         System.out.println(logMessage);
                 producer.send(new ProducerRecord<>("stock", Long.toString(threadId), logMessage));  // Kafka에 메시지 보내기
                 // DB에  insert하기
             } catch (Exception e) {

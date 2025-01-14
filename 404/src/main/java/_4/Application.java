@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import _4.domain.AuthDTO;
 import _4.domain.MemberDTO;
 import _4.mapper.MemberMapper;
 import _4.mapper.service.UserNumService;

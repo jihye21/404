@@ -50,8 +50,8 @@ img:hover {
 .gnb-nav {
     position: fixed;
     top: 94px;
-    left: 100%;
-    width: 100%;
+    left: -500px;
+    width: 30%;
     height: 100%;
     text-align: left;
     z-index: 1;
@@ -65,7 +65,7 @@ img:hover {
 	z-index: 2;
 }
 .logo-container{
-	overflow: hidden;
+	/*overflow: hidden;*/
  	position: relative;
  	height: 100px;
 }
@@ -402,17 +402,18 @@ $(function(){
 
 	}
 	$(".gnb-menu").on("click", function() {
-		$(this).toggleClass("open");
-		if ($(this).hasClass("open")) {
-			$(".header").addClass("active");
-			$(".gnb-nav").addClass("open");
-			isLocked();
-		} else {
-			$(".header").removeClass("active");
-			$(".gnb-nav").removeClass("open");
-			isUnLocked();
-			$(".header-wrap .h-logo").removeClass("wh");
-		}
+			$(this).toggleClass("open");
+			if ($(this).hasClass("open")) {
+				$(".header").addClass("active");
+				$(".gnb-nav").addClass("open");
+				isLocked();
+			} else {
+				$(".header").removeClass("active");
+				$(".gnb-nav").removeClass("open");
+				isUnLocked();
+				$(".header-wrap .h-logo").removeClass("wh");
+			}
+		
 	});
 })
 
@@ -431,71 +432,52 @@ $(function(){
 			<!-- a href="/owner/ownerForm">사장 회원가입</a-->
 		</th:block>
 		<th:block th:if="${session.auth != null}">
-			안녕하세요 님<br/>
+			<b class ="loginBtn" style="margin-top:70px;margin-right:10px;font-size:20px;">[[${session.auth.userName}]]님</b><br/>
 		</th:block>
 	</div>
 </div>
-<th:block th:if="${session.auth != null}">
-	<a href="/member/memberMainPage">내 정보 보기</a><br/>
-	<a href="/course/coursePage">코스</a><br/>
-	<a href="/user/logout">로그아웃</a>
-</th:block>
 <br/>
 
 <nav class="gnb-nav open">
     <div class="nav-inner">
         <div class="portfolio-menu">
-            <div class="title-text">wylie do Anything</div>
+            <th:block th:if="${session.auth != null}">
             <ul style="list-style:none;">
+            	<th:block th:if="${session.auth.grade == 'member'}">
+                <li><a href="/member/memberMainPage">내 정보 보기</a></li>
+                <li><a href="/member/memberModify">회원 정보 수정</a></li>
+                <li><a href="/member/wishList">찜 목록</a></li>
+                <li><a href="/friends/friendsList">친구 목록</a></li>
+                <li><a href="/group/groupList">그룹 목록</a></li>
+                <li><a href="/book/memberBookList">예약 내역</a></li>
+                <li><a href="/course/courseList">코스 목록</a></li>
+                <li><a href="/coupon/memberCoupon">쿠폰함</a></li>
+                <li><a href="/inquire/inquireList">나의 문의</a></li>
                 <li>
-                    <a href="/portfolio?cat=102002">Platform</a>
+                    <a href="/course/coursePage">코스</a>
                 </li>
+                </th:block>
+                
+                <th:block th:if="${session.auth.grade == 'employee'}">
+                <li><a href="/employee/employeeMainPage">직원 상세 페이지</a></li>
+                <li><a href="/employee/storeApplList">사장 신청서 목록</a></li>
+                <li><a href="/coupon/couponList">쿠폰 목록</a></li>
+                <li><a href="/inquire/inquireList">문의 목록</a></li>
+                <li><a href="/kafka/app">직원 복지 포인트</a></li>
+                </th:block>
                 <li>
-                    <a href="/portfolio?cat=102003">Marketing</a>
-                </li>
-                <li>
-                    <a href="/portfolio?cat=102004">Service</a>
-                </li>
-                <li>
-                    <a href="/portfolio?cat=102001">CX</a>
+                    <a href="/user/logout">로그아웃</a>
                 </li>
             </ul>
-        </div>
-        <div class="right-inner">
-            <div class="page-menu">
-                <div class="title-text">wylie’s Story</div>
-                <ul style="list-style:none;">
-                    <li><a href="/company">Company</a></li>
-                    <li><a href="/people">People</a></li>
-                    <li class="page-wylie-times badge-new"><a href="/wylieTimes?cat=104000"><span class="blind">wylie times</span></a></li>
-                </ul>
-                <div class="address-wrap">
-                    <dl>
-                        <dt class="des-text">Project Request</dt>
-                        <dd class="email"><a href="mailto:wylie@wylie.co.kr">wylie@wylie.co.kr</a></dd>
-                    </dl>
-                    <dl>
-                        <dt class="des-text">Address</dt>
-                        <dd class="address-text">(06099) 서울특별시 강남구 학동로 336 메이트리빌딩</dd>
-                    </dl>
-                </div>
-            </div>
-            <div class="quick-menu">
-                <a href="/contact" class="button-btn-14 button-request">프로젝트 문의</a>
-                <div class="sns-button-wrap">
-                    <a href="https://www.instagram.com/wylie__official" target="_blank" class="icon-instagram"><span class="blind">인스타그램</span></a>
-                    <a href="https://www.facebook.com/digitalwylie" target="_blank" class="icon-fb"><span class="blind">페이스북</span></a>
-                    <a href="https://www.youtube.com/@wylie_official" target="_blank" class="icon-youtube"><span class="blind">유튜브</span></a>
-                    <a href="https://blog.naver.com/digital_wylie" target="_blank" class="icon-blog"><span class="blind">블로그</span></a>
-                </div>
-            </div>
-        </div>
-</div>
+            </th:block>
+        </div>     
+	</div>
 </nav>
 
 <!-- header -->
 <div id="category">
 카테고리
+
 </div>
 
 
