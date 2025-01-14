@@ -24,4 +24,5 @@ public class BookDTO {
 	String storeProfileStoreImage;
 	String themeName;
 	String memNickname;
+	Integer memPoint;
 }

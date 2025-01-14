@@ -19,11 +19,14 @@ import _4.mapper.BookMapper;
 import _4.mapper.ReviewMapper;
 import _4.mapper.StoreMapper;
 import _4.mapper.service.UserNumService;
+import _4.service.member.MemberSavePointService;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("book")
 public class BookController {
+	@Autowired
+	MemberSavePointService memberSavePointService;
 	@Autowired
 	UserNumService userNumService;
 	@Autowired
@@ -108,9 +111,11 @@ public class BookController {
 	}
 	
 	@PostMapping("bookFinished")
-	public @ResponseBody void bookFinished(@RequestParam("bookNum") String bookNum, @RequestParam("finalPrice") String finalPrice) {
+	public @ResponseBody void bookFinished(@RequestParam("bookNum") String bookNum, @RequestParam("finalPrice") String finalPrice
+			, HttpSession session) {
 		String bookStatus = "방문완료";
 		bookMapper.bookStatusUpdate(bookNum, bookStatus);
 		bookMapper.bookFinalPriceUpdate(bookNum, finalPrice);
+		memberSavePointService.execute(bookNum, finalPrice, session);
 	}
 }

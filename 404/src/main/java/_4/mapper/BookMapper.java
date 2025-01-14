@@ -20,4 +20,6 @@ public interface BookMapper {
 	public List<BookDTO> bookGroupSelectAllWithMember(String memberNum, String groupNum);
 	public String bookGroupCheckSelectOne(String bookNum);
 	public BookDTO memberBookCheck(String bookNum, String memNum);
+	public String bookMemberCheck(String bookNum, String memNum);
+	public void bookMemberPointUpdate(BookDTO bookDTO);
 }
