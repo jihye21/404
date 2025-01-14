@@ -5,24 +5,33 @@
 <title>Insert title here</title>
 <script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <script type="text/javascript">
-function fileDel(btn,orgFile, storeFile, kind){
+var kind = $("")
+function fileDel(btn,orgFile, storeFile, kind, index){
 	$.ajax({
 		type:'post',
 		url:'/file/fileDel',
 		data:{"orgFile": orgFile , "storeFile" : storeFile},
 		dataType:'text',
-		success:function(result){
-			if(result =="1"){
+		success:function(result){			
+			if(result == "1"){
 				$(btn).text("삭제취소");
-				if(kind=='main'){
+				if(kind == 'main'){
 					$("#main").css("display","none");
 					$("#mainFile").html("<input type='file' name='storeProfileImage' />");
+				}
+				else{ 
+					$("#detail_" + index).css("display","none");
+					$("#detailFile_" + index).html("<input type='file' name='storeDetailImage' multiple='multiple'/>");
 				}
 			}else{
 				$(btn).text("삭제");
 				if(kind=='main'){
 					$("#main").css("display","");
 					$("#mainFile").html("");
+				}
+				else{
+					$("#detail_" + index).css("display","");
+					$("#detailFile_" + index).html("");
 				}
 			}
 		},
@@ -47,7 +56,7 @@ function depositOptionPlus(){
 </head>
 <body>
 <div align="center">
-<form action="/store/storeInfoModify" method="post" enctype="multipart/form-data">
+<form action="/store/storeInfoModify" method="post" enctype="multipart/form-data" onsubmit="return fileChk();">
 <input type="hidden" name="storeNum" th:value="${dto.storeNum}"/>
 <table align="center" border="1">
 	<tr><th colspan="2">가게 정보 수정</th></tr>
@@ -63,16 +72,16 @@ function depositOptionPlus(){
 		<td><span id="mainFile"></span>
 			<span id="main">[[${dto.storeProfileImage}]]</span>
 			<button type="button" th:attr="onclick=|javascript:fileDel(this, '${dto.storeProfileImage}'
-									, '${dto.storeProfileStoreImage}', 'main');|">삭제</button>
+									, '${dto.storeProfileStoreImage}', 'main', '1');|">삭제</button>
 		</td></tr>
 	
 	<tr><td>가게 상세 이미지:</td>
-		<td><div th:each="image, idx : ${#strings.arraySplit(dto.storeDetailImage,'[`/]')}">
-			[[${image}]]<button type="button" th:attr="onclick=|javascript:fileDel(this,'${image}'
-					,'${#strings.arraySplit(dto.storeDetailStoreImage,'[`/]')[idx.index]}');|">삭제</button>
-		</div>
-		
-			<br /><input type="file" name="storeDetailImage" multiple="multiple" />
+		<td>
+			<div th:each="image, idx : ${#strings.arraySplit(dto.storeDetailImage,'[`/]')}">
+			<span th:id="'detailFile_' + ${idx.index}"></span>
+			<span th:id="'detail_' + ${idx.index}">[[${image}]]</span><button type="button" th:attr="onclick=|javascript:fileDel(this,'${image}'
+					,'${#strings.arraySplit(dto.storeDetailStoreImage,'[`/]')[idx.index]}', 'detail', '${idx.index}');|">삭제</button>
+		</div><br/>
 	</td></tr>
 	 
 	 <tr><td>혼잡도</td><td>	

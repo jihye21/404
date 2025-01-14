@@ -83,7 +83,6 @@ public class StoreController {
 		return "thymeleaf/owner/storeApplyFinished";
 	}
 	
-	
 	@GetMapping("storeMainPage")
 	public String storeMainPage(Model model, @RequestParam String ownerNum, HttpSession session) {
 		StoreDTO storeDTO = storeInfoService.execute(model, ownerNum);
