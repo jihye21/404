@@ -75,16 +75,12 @@ delete from book where mem_num = #{memberNum} and book_status = '결제대기중
 </select>
 
 <update id="bookMemberPointUpdate" parameterType="bookDTO">
-	update member mem_point = #{memPoint} where 
-	mem_num = #{memNum}
+	update member set mem_point = nvl(mem_point, 0) + #{memPoint} 
+	where mem_num = #{memNum}
 </update>
 
 <select id="bookMemberCheck" parameterType="string" resultType="string">
 	select 'yes' from book 
 	where mem_num = #{memNum}
 </select>
-
-<update id="groupMemberPointUpdate" parameterType="bookDTO">
-	
-</update>
 </mapper>

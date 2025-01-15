@@ -19,6 +19,8 @@ import _4.mapper.ReviewMapper;
 import _4.mapper.service.UserNumService;
 import _4.service.group.GroupCheckService;
 import _4.service.group.GroupMemberReviewCheckService;
+import _4.service.member.MemberReviewSavePointService;
+import _4.service.member.MemberSavePointService;
 import _4.service.review.ReviewAnswerDeleteService;
 import _4.service.review.ReviewAnswerModifyService;
 import _4.service.review.ReviewAnswerService;
@@ -32,6 +34,10 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("review")
 public class ReviewController {
+	@Autowired
+	MemberReviewSavePointService memberReviewSavePointService;
+	@Autowired
+	MemberSavePointService memberSavePointService;
 	@Autowired
 	UserNumService userNumService;
 	@Autowired
@@ -81,10 +87,9 @@ public class ReviewController {
 				return "403";
 			}
 		}else {
+			//1인 결제인지 확인
 			BookDTO bookDTO = bookMapper.memberBookCheck(bookNum, memNum);
-			
 			if(bookDTO != null) {
-				//1인 결제인 경우
 				BookDTO dto = bookMapper.bookSelectOne(bookNum);
 				model.addAttribute("dto", dto);
 				return "thymeleaf/review/reviewWrite";
@@ -100,6 +105,7 @@ public class ReviewController {
 	@PostMapping("reviewWrite")
 	public String reviewWrite(ReviewCommand reviewCommand, HttpSession session) {
 		reviewWriteService.execute(reviewCommand, session);
+		memberReviewSavePointService.execute(session);
 		return "redirect:/book/memberBookDetail?bookNum=" + reviewCommand.getBookNum();
 	}
 	
