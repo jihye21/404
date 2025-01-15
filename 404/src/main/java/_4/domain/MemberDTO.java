@@ -22,5 +22,5 @@ public class MemberDTO {
 	String memPhone;
 	String memEmail;
 	String status;
-	
+	Integer memPoint;
 }

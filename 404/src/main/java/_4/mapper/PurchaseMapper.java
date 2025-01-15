@@ -12,4 +12,5 @@ public interface PurchaseMapper {
 	public void patmentCouponCheck(String bookNum);
 	public void groupPaymentCheck(String bookNum, String memNum);
 	public String groupPaySuccess(String bookNum);
+	public void themeTimeBookStatusUpdate(String purchaseNum);
 }

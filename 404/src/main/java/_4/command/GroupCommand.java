@@ -10,4 +10,6 @@ public class GroupCommand {
 	
 	String groupNum;
 	String bookNum;
+	
+	Integer myDutchPrice;
 }

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+.couponShowBtn{
+background: none;
+border: none; 
+outline:none;
+font-size: 20px;
+}
+
+</style>
+<script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script type="text/javascript">
+
+var totalPrice = $("#dutchPrice").val();
+var discountedPrice = totalPrice;
+
+$(function(){
+	$(".discountedPrice").text(totalPrice);
+	$("#discountedPrice").val(totalPrice);
+	
+	//쿠폰 적용 후 금액 표기
+	$(".useCoupon").click(function(){
+		couponDiscount();
+	});
+	
+	$(".noCoupon").click(function(){
+		$("input[name='selectCoupon']").prop('checked', false);
+		//1인 결제
+		if($("input[type='checkbox']:visible").length == 0){
+			pointCount();
+		}else{
+			//그룹 결제
+			dutchPrice();
+			pointCount();
+		}
+		
+	});
+	
+});
+
+function pointCount(){
+	var totalPrice = $("#dutchPrice").val();
+	//1인 결제
+	if($("input[type='checkbox']:visible").length == 0){
+		var revertCoupon = totalPrice - parseInt($(".usePoint").text());
+		$(".discountedPrice").text(revertCoupon.toString());
+		$(".myDutchPrice").val(revertCoupon);
+	}else{
+		var myDutchPrice = parseInt($("#myDutchPrice").val());
+		
+		if(myDutchPrice > 0){
+			myDuthcPrice = myDutchPrice - parseInt($(".usePoint").text());
+			
+			$("#myDutchPrice").val(myDuthcPrice);
+			$(".myDutchPrice").text(myDuthcPrice.toString());
+		}
+	}
+};
+function couponDiscount(){
+	//모든 .couponNum의 name을 "coupon"으로 초기화
+	$(".couponNum").attr("name", "coupon");
+	//선택된 라디오 버튼의 값
+	var selectedRadio = $("input[type=radio][name=selectCoupon]:checked").val();
+	//선택된 라디오 버튼의 쿠폰 번호
+	var selectedCoupon = $("input[type=radio][name=selectCoupon]:checked").closest("td").find(".couponNum");
+	
+	if(selectedRadio != undefined){
+		var totalPrice = $(".discountedPrice").text();
+		var dutchPrice = $("#myDutchPrice").val();
+		var myDutchPrice = $("#myDutchPrice").val();
+		
+		$(".discountedPrice").text(totalPrice);
+		$("#discountedPrice").val(totalPrice);
+		if(myDutchPrice > 0){
+			totalPrice = dutchPrice;
+			//쿠폰 적용 후 금액 (총 금액)
+			
+			// n% 할인
+			if(selectedRadio < 99){
+				discountedPrice = totalPrice - totalPrice * (selectedRadio / 100);
+			}
+			// n원 할인
+			else if(selectedRadio >= 100){
+				discountedPrice = totalPrice - selectedRadio;
+			}
+			//<input type = "hidden" name = "coupon"> -> <name = "couponNum"> 변경
+			$(selectedCoupon).attr("name", "couponNum");
+			discountedPrice = Math.ceil(discountedPrice);
+			
+			//더치 페이 했을 경우 .dutchPrice의 text 값 변경하기
+			$(".myDutchPrice").text(discountedPrice);
+			$("#myDutchPrice").val(discountedPrice);
+			
+		}
+		else{
+			if($("input[type='checkbox']:visible").length == 0){
+				//쿠폰 적용 후 금액 (총 금액)
+				
+				// n% 할인
+				if(selectedRadio < 99){
+					discountedPrice = totalPrice - totalPrice * (selectedRadio / 100);
+				}
+				// n원 할인
+				else if(selectedRadio >= 100){
+					discountedPrice = totalPrice - selectedRadio;
+				}
+				//<input type = "hidden" name = "coupon"> -> <name = "couponNum"> 변경
+				$(selectedCoupon).attr("name", "couponNum");
+				discountedPrice = Math.ceil(discountedPrice);
+				$(".discountedPrice").text(discountedPrice);
+				$("#discountedPrice").val(discountedPrice);
+			}else{
+				$("input[name='selectCoupon']").prop('checked', false);
+			}
+			
+		}
+		
+	}
+}
+
+function pointDiscount(memPoint){
+	var usePoint = parseInt( $(".usePoint").text(), 10);
+	var totalPrice = parseInt($(".discountedPrice").text());
+	var dutchPrice = $("#myDutchPrice").val();
+	
+	//1인 결제
+	if($("input[type='checkbox']:visible").length == 0){
+		if(usePoint < memPoint && totalPrice > 0){
+			usePoint = usePoint + 100;
+			
+			$(".usePoint").text(usePoint);
+			
+			//1인 결제
+			totalPrice = totalPrice - 100;
+			$(".discountedPrice").text(totalPrice.toString());
+			$(".myDutchPrice").val(totalPrice);
+		}
+	}else{
+		//그룹 결제
+		if(dutchPrice > 0){
+			if(usePoint < memPoint){
+				usePoint = usePoint + 100;
+				
+				$(".usePoint").text(usePoint);
+				
+				totalPrice = dutchPrice - 100;
+				
+				$(".myDutchPrice").text(totalPrice.toString());
+				$("#myDutchPrice").val(totalPrice);
+			}
+		}
+		
+	}
+	
+}
+
+function pointRevert(memPoint){
+	var usePoint = parseInt( $(".usePoint").text(), 10);
+	var depositPrice = $("#dutchPrice").val();
+	var totalPrice = parseInt($(".discountedPrice").text());
+	var dutchPrice = $("#myDutchPrice").val();
+	
+	//1인 결제
+	if($("input[type='checkbox']:visible").length == 0){
+		if(usePoint > 0 && depositPrice >= 100 + totalPrice){
+			usePoint = usePoint - 100;
+			
+			$(".usePoint").text(usePoint);
+			
+			//1인 결제
+			totalPrice = totalPrice + 100;
+			$(".discountedPrice").text(totalPrice.toString());
+			$(".myDutchPrice").val(totalPrice);
+		}
+	}else{
+		var myDutchPrice = $(".myDutchPrice").text();
+		//그룹 결제
+		if(usePoint > 0 && myDutchPrice >= 100 + dutchPrice){
+			usePoint = usePoint - 100;
+			
+			$(".usePoint").text(usePoint);
+			
+			//1인 결제
+			totalPrice = parseInt(dutchPrice) + 100;
+			
+			$(".myDutchPrice").text(totalPrice.toString());
+			$("#myDutchPrice").val(totalPrice);
+		}
+		
+	}
+	
+}
+
+</script>
+</head>
+<body>
+
+<form action="/group/groupDutchPay" method="post">
+	<input type ="hidden" name = "bookNum" th:value="${bookDTO.bookNum}">
+	<input type = "hidden" name="memNum" th:value="${memNum}" class ="memNum">
+	<input type="hidden" name="themeNum" th:value="${bookDTO.themeNum}"/>
+	<input type="hidden" name="themeTime" th:value="${bookDTO.themeTime}"/>
+	<input type="hidden" name ="dutchPrice" id="dutchPrice" th:value="${bookDTO.dutchPrice}">
+	<div style="width:800px;height:1200px;border:1px solid black;position:absolute;left:550px;" align=center>
+		테마 명 : [[${bookDTO.themeName}]]<br/>
+		시간 : [[${bookDTO.themeTime}]]<br/>
+		<br>
+		<div class="pointContent">
+			<table border="1" style="width:200px;">
+				<tr>
+					<th>포인트 : [[${memPoint}]]</th>
+				</tr>
+				<tr>
+					<th>
+					<button type ="button" th:attr="onclick=|pointRevert('${memPoint}');|"> - </button>
+					사용 포인트: <span class="usePoint">0</span>
+					<button type ="button" th:attr="onclick=|pointDiscount('${memPoint}');|"> + </button></th>
+				</tr>
+			</table>
+		</div>
+	<div class="content">
+		<div class="people">
+		가격 : <span id="totalPrice"></span><br/>
+		<br/>
+		</div>
+		<!-- 쿠폰 적용 하는 부분 -->
+		<div class="couponContent">
+		<table border = "1" width="200">
+			<th:block th:each="list:${couponList}">
+				 <!-- <input type = "hidden" name = "couponNum" th:value = "${list.couponNum}"> -->
+				<input type = "hidden" class = "expirationDate" name = "expirationDate" th:value = "${list.expirationDate}">
+				<th:block th:if="${today < list.expirationDate}">
+					<th:block th:if = "${list.couponStatus != '사용완료'}">
+						<a th:href = "|/coupon/couponDetail?couponNum=${list.couponNum}|" style="text-decoration: none; color: black;">
+						<tr>
+							<th rowspan="2"><input type = "radio" name = "selectCoupon" th:value = "${list.discountRate}">
+							<input type = "hidden" name = "coupon" class = "couponNum" th:value = "${list.couponNum}">
+							</th>
+							<th>[[${list.couponName}]]</th><td rowspan="2">[[${list.discountType}]]</td>
+						</tr>
+						<tr>
+							<th><h1>[[${list.discountRate}]]
+							<th:block th:if="${list.discountRate < 100}">%</th:block>
+							<th:block th:if="${list.discountRate >= 100}">₩</th:block>
+							</h1></th>
+						</tr>
+						</a>
+					</th:block>
+				</th:block>
+			</th:block>
+		<tr>
+			<th colspan="3">
+			<button type = "button" name = "useCoupon" class = "useCoupon">쿠폰 적용</button>
+			<button type = "button" name = "noCoupon" class = "noCoupon">쿠폰 취소</button>
+			</th>
+		</tr>
+	</table>
+	</div>
+	</div>
+	<br>
+	<br>
+	<table border = "1" width="200">
+		<tr>
+			<th>더치페이 금액: <span>[[${bookDTO.dutchPrice}]]</span>원</th>
+		</tr>
+	</table>
+	<table border = "1" width="200">
+		<tr>
+			<th colspan="3">결제 금액: <span class="discountedPrice">[[${bookDTO.dutchPrice}]]</span>원</th>
+		</tr>
+	</table>
+	<br>
+	<input type ="hidden" name ="myDutchPrice" class ="myDutchPrice" th:value="${bookDTO.dutchPrice}">
+		<button type="submit" class = "payBtn">결제하기</button>
+	</div>
+</form>
+</body>
+</html>

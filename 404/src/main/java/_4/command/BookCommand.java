@@ -21,6 +21,7 @@ public class BookCommand {
 	String bookStatus;
 	
 	List<String> dutchMember;
+	Integer myDutchPrice;
 	
 }
 

@@ -21,8 +21,10 @@ import _4.mapper.BookMapper;
 import _4.mapper.ReviewMapper;
 import _4.mapper.service.AutoNumService;
 import _4.mapper.service.UserNumService;
+import _4.service.coupon.memberCouponListService;
 import _4.service.group.GroupAlarmCount;
 import _4.service.group.GroupAlarmListService;
+import _4.service.group.GroupBookInfoService;
 import _4.service.group.GroupDetailService;
 import _4.service.group.GroupDutchAlarmCount;
 import _4.service.group.GroupDutchAlarmListService;
@@ -34,12 +36,19 @@ import _4.service.group.GroupPaymentHistoryListService;
 import _4.service.group.GroupQuitService;
 import _4.service.group.GroupRegistService;
 import _4.service.group.MemberDutchPaymentCheckService;
+import _4.service.member.MemberPointService;
 import _4.service.purchase.IniPayReqService;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("group")
 public class GroupController {
+	@Autowired
+	GroupBookInfoService groupBookInfoService;
+	@Autowired
+	MemberPointService memberPointService;
+	@Autowired
+	memberCouponListService memberCouponListService;
 	@Autowired
 	MemberDutchPaymentCheckService memberDutchPaymentCheckService;
 	@Autowired
@@ -145,9 +154,18 @@ public class GroupController {
 		
 		String bookNum = groupCommand.getBookNum();
 		dto = bookMapper.bookSelectOne(bookNum);
-		dto.setDepositPrice(dto.getDutchPrice());
+		dto.setDepositPrice(groupCommand.getMyDutchPrice());
 		iniPayReqService.execute(dto, model);
 		return "thymeleaf/purchase/payment";
+	}
+	
+	@PostMapping("groupMemberPayment")
+	public String groupMemberPayment(Model model, HttpSession session
+			, GroupCommand groupCommand) {
+		groupBookInfoService.execute(groupCommand, model, session);
+		memberCouponListService.execute(session, model);
+		memberPointService.execute(session, model);
+		return "thymeleaf/group/groupMemberPayment";
 	}
 	
 }

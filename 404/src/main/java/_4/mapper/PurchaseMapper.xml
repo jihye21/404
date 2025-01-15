@@ -33,4 +33,8 @@
 	and MEM_NUM = (select mem_num from book
 	where book_num = #{bookNum})
 	</update>
+	<update id="themeTimeBookStatusUpdate">
+	update book set book_status = '예약완료' 
+	where book_num = #{bookNum} and theme_time not like '종일권'
+	</update>
 </mapper>

@@ -11,6 +11,7 @@
 <input type = "submit" value = "등록">
 </form>
 <br>
+
 <th:block th:each="list:${couponList}">
 <input type = "hidden" class = "expirationDate" name = "expirationDate" th:value = "${list.expirationDate}">
 <th:block th:if="${today < list.expirationDate}">

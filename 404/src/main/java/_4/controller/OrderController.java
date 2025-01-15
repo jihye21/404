@@ -13,6 +13,7 @@ import _4.command.BookCommand;
 import _4.domain.BookDTO;
 import _4.domain.ThemeDTO;
 import _4.mapper.BookMapper;
+import _4.mapper.PurchaseMapper;
 import _4.mapper.StoreMapper;
 import _4.mapper.ThemeMapper;
 import _4.mapper.service.AutoNumService;
@@ -22,6 +23,7 @@ import _4.service.coupon.memberCouponListService;
 import _4.service.group.GroupDutchAlarmService;
 import _4.service.group.GroupDutchService;
 import _4.service.group.GroupListService;
+import _4.service.member.MemberPointService;
 import _4.service.purchase.IniPayReqService;
 import _4.service.purchase.PriceCalcService;
 import jakarta.servlet.http.HttpSession;
@@ -29,6 +31,8 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("order")
 public class OrderController {
+	@Autowired
+	MemberPointService memberPointService;
 	@Autowired
 	GroupDutchAlarmService groupDutchAlarmService;
 	@Autowired 
@@ -48,6 +52,8 @@ public class OrderController {
 	@Autowired
 	PriceCalcService priceCalcService;
 	@Autowired
+	PurchaseMapper purchaseMapper;
+	@Autowired
 	ThemeMapper themeMapper;
 	@Autowired
 	BookMapper bookMapper;
@@ -61,13 +67,14 @@ public class OrderController {
 		model.addAttribute("themeTime", themeTime);
 		memberCouponListService.execute(session, model);
 		groupListService.execute(session, model);
+		memberPointService.execute(session, model);
 		return "thymeleaf/order/themeOrderPage";
 	}
 	
 	@PostMapping("depositPrice")
 	public @ResponseBody Integer depositPrice(@RequestParam("discountedPrice") String discountedPrice, @RequestParam("storeNum") String storeNum, Model model) {
 		Integer depositPrice = priceCalcService.execute(discountedPrice, storeNum, model);
-		System.out.println("음");
+		
 		return depositPrice;
 	}
 	
@@ -91,8 +98,16 @@ public class OrderController {
 				
 				groupDutchAlarmService.execute(bookNum, bookCommand, session);
 			}
+			//리더의 결제 금액이 0원이면
+			if(bookCommand.getMyDutchPrice() == 0) {
+				String memNum = userNumService.execute(session);
+				//결제 완료 상태로 변경
+				purchaseMapper.groupPaymentCheck(bookNum, memNum);
+			}else {
+				dto.setDepositPrice(bookCommand.getMyDutchPrice());
+				iniPayReqService.execute(dto, model);
+			}
 			
-			iniPayReqService.execute(dto, model);
 			return "thymeleaf/purchase/payment";
 		}
 	}

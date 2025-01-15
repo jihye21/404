@@ -144,12 +144,18 @@ public class INIstdpayPcReturn {
 						String groupPaySuccess = purchaseMapper.groupPaySuccess(bookNum);
 						//모든 그룹원이 결제가 되었는지 확인하기
 						if(!"미결제".equals(groupPaySuccess)) {
-							System.out.println("그룹 결제 상태: " + groupPaySuccess);
 							purchaseMapper.paymentCheck(dto.getPurchaseNum());
+							
+							//theme_time != '종일권'이면 시간제 테마 예약 완료로 update 
+							purchaseMapper.themeTimeBookStatusUpdate(dto.getPurchaseNum());
 						}
 					}else {
+						//1인 결제인 경우
 						purchaseMapper.paymentCheck(dto.getPurchaseNum());
 						purchaseMapper.patmentCouponCheck(dto.getPurchaseNum());
+						
+						//theme_time != '종일권'이면 시간제 테마 예약 완료로 update 
+						purchaseMapper.themeTimeBookStatusUpdate(dto.getPurchaseNum());
 					}
 					
 				} catch (Exception ex) {
