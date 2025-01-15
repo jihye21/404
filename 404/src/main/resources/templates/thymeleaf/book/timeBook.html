@@ -23,18 +23,9 @@ function timeCheck(){
 	}
 
 }
-
-
-/*function timeCheck(booll){
-	var start = new Date().getTime();
-	alert(start);
-	// 선택된 예약 시간이 현재 시간보다 2시간 뒤라면
-	if(false) return true;
-	else{
-		alert("2시간 이후 시간부터 예약이 가능합니다.");
-		return false;
-	}
-}*/
+function back(){
+	window.location.reload();
+}
 </script>
 </head>
 <body>
@@ -45,6 +36,6 @@ function timeCheck(){
 	<input type="submit" value="예약하기"/>
 </form>
 
-<button>뒤로가기</button>
+<button type="button" onclick="back();">뒤로가기</button>
 </body>
 </html>

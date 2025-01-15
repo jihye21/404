@@ -93,7 +93,7 @@ function directBook(){
 			$("#content").html(result);
 		},
 		error: function(){
-			alert("오류");
+			alert("memberBookDetail.html의 directBook()오류");
 		}
 	});
 }
@@ -146,10 +146,28 @@ function reviewDelete(reviewNum){
 	<tr><td>예약 번호</td><td>[[${dto.bookNum}]]</td></tr>
 	<tr><td>예약 내용</td><td>[[${dto.themeName}]]</td></tr>
 	<tr><td>예약 상태</td><td>[[${dto.bookStatus}]]</td></tr>
-	<tr><td>예약 시간</td><td><span id="themeTime" >[[${dto.themeTime}]]</span>
-							<button class="themeTimeBookBtn" onclick="timeBook()">시간예약</button>
-							<button class="themeTimeBookBtn" onclick="directBook()">바로예약</button>
-							<div id="content"></div></td></tr>
+	<tr><td>예약 시간</td>
+		<td>
+		<!-- 시간제일 경우 -->
+		<th:block th:if="${dto.themeTime} != '종일권'">
+			<span id="themeTime" >[[${dto.themeTime}]]</span>
+		</th:block>
+		<th:block th:if="${dto.themeTime} == '종일권'">
+			<th:block th:if="${dto.bookStatus} == '결제완료'">
+				<span id="themeTime" >[[${dto.themeTime}]]</span>
+				<button class="themeTimeBookBtn" onclick="timeBook()">시간예약</button>
+				<button class="themeTimeBookBtn" onclick="directBook()">바로예약</button>
+			</th:block>
+			<th:block th:if="${dto.bookStatus} != '결제완료'">
+				<th:block th:if="${dto.bookStatus} == '예약취소'">
+					예약이 취소되었습니다.
+				</th:block>
+				<!-- 결제대기중 --><!-- 예약완료 --><!-- 방문완료 -->
+			</th:block>
+		</th:block>
+		<div id="content"></div>
+		</td>
+	</tr>
 					
 	<th:block th:if="${dto.bookStatus} != '방문완료' and ${dto.bookStatus} != '예약취소'">
 		<tr><th colspan="2" th:attr="onclick=|bookCancle('${dto.bookNum}')|"><button>예약 취소</button></th></tr>
@@ -161,6 +179,7 @@ function reviewDelete(reviewNum){
 		<th:block th:if="${reviewDTO == null} and ${dto.bookStatus} == '방문완료'">
 			<tr><th colspan="2"><span id="reviewContent"><button th:attr="onclick=|reviewForm('${dto.bookNum}');|">리뷰 작성</button></span></th></tr>
 		</th:block>
+		
 		<th:block th:if="${reviewDTO != null}">
 			<tr><td colspan="2">
 				<div class="star-rating">

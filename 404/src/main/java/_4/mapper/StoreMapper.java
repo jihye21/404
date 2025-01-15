@@ -9,6 +9,8 @@ import _4.domain.StoreDTO;
 
 @Mapper
 public interface StoreMapper {
+	public Integer waitNumCheck(String storeNum);
+	
 	public StoreDTO storeSelectOne(String ownerNum);
 	public String storeNumSelect(String ownerNum);
 	public List<DepositDTO> depositSettingSelect(String storeNum);

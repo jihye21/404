@@ -15,7 +15,7 @@ deposit_num, store_num, start_price, end_price, deposit_rate
 
 <select id="storeSelectOne" parameterType="string" resultType="storeDTO">
 	select <include refid="storeBaseColumn"/> from store 
-	where owner_num = #{ownerNum} or store_num = #{storeNum}
+	where owner_num = #{ownerNum} or store_num = #{ownerNum}
 </select>
 <select id="storeSelectAll" resultType="storeDTO">
 select <include refid="storeBaseColumn"></include> from store
@@ -37,6 +37,9 @@ select <include refid="depositBaseColumn"/> from deposit where store_num = #{sto
 select <include refid="storeBaseColumn"/> from store where store_name like '%' || #{storeName} || '%'
 </select>
 
+<select id="waitNumCheck" parameterType="string" resultType="integer">
+select max(wait_num) from waiting_number where store_num = #{storeNum}
+</select>
 
 <update id="storeUpdate" parameterType="storeDTO">
 update store set store_introduction = #{storeIntroduction}, store_closed_date = #{storeClosedDate}

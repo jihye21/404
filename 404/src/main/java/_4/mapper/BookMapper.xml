@@ -14,13 +14,14 @@ insert into book (<include refid="bookBaseColumn"/>) values (#{bookNum}, #{memNu
 
 <select id="bookSelectOne" parameterType="string" resultType="bookDTO">
 select mem_nickname
- , book_num, b.theme_num, theme_time, b.mem_num, people, price, coupon_num, book_status
+ , book_num, b.theme_num, theme_time, b.mem_num, people, price, coupon_num, book_status, b.store_num
  , theme_name, group_num, dutch_price
  from member m join book b 
  on m.mem_num = b.mem_num
  join theme t
  on b.theme_num = t.theme_num
  where book_num = #{bookNum}
+ 
 </select>
 
 <select id="bookSelectAllWithMember" parameterType="string" resultType="bookDTO">		<!-- 멤버 예약 내역 리스트 -->
