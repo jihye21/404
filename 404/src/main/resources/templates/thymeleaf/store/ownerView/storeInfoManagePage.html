@@ -58,7 +58,7 @@ function depositOptionPlus(){
 <div align="center">
 <form action="/store/storeInfoModify" method="post" enctype="multipart/form-data" onsubmit="return fileChk();">
 <input type="hidden" name="storeNum" th:value="${dto.storeNum}"/>
-<table align="center" border="1">
+<table align="center" border="1" width="800">
 	<tr><th colspan="2">가게 정보 수정</th></tr>
 	<tr><td>가게명</td><td><input type="text" name="storeName" th:value="${dto.storeName}" readonly="readonly"/></td></tr>
 	<tr><td>가게 분류</td><td><input type="text" name="storeType" th:value="${dto.storeType}" readonly="readonly"/></td></tr>
