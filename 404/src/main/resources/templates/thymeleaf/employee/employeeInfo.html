@@ -5,31 +5,20 @@
 <title>Insert title here</title>
 </head>
 <body>
-내 정보 페이지 - 직원.ver
-<li><a href="/">홈으로</a></li>
-<li><a href="employeeList">직원 목록 페이지</a></li>
-<li><a th:href="|employeeModify?empNum=${employeeCommand.empNum}|">직원 정보 수정</a></li>
+
 
 <table border="1" width="500" align="center">
+<tr><th colspan="2">내 정보 보기</th></tr>
 <tr>
-	<td>이름</td>
+	<td width="160">이름</td>
 	<td>[[${employeeCommand.empName}]]</td>
 </tr>
-
 <tr>
 	<td>아이디</td>
 	<td>[[${employeeCommand.empId}]]</td>
 </tr>
 <tr>
-	<td>복지 포인트</td>
-	<td>[[${employeeCommand.empPoint}]]</td>
-</tr>
-<tr>
-	<td>마지막 포인트 지급일</td>
-	<td>[[${#dates.format(employeeCommand.pointGetDate, 'yyyy-MM-dd')}]]</td>
-</tr>
-<tr>
-	<td>등록일</td>
+	<td>입사일</td>
 	<td>[[${#dates.format(employeeCommand.empHireDate, 'yyyy-MM-dd')}]]</td>
 </tr>
 
@@ -42,6 +31,15 @@
 	<td>휴대전화</td>
 	<td>[[${employeeCommand.empPhone}]]</td>
 </tr>
+<tr>
+	<td>복지 포인트</td>
+	<td>[[${employeeCommand.empPoint}]]</td>
+</tr>
+<tr>
+	<td>마지막 포인트 지급일</td>
+	<td>[[${#dates.format(employeeCommand.pointGetDate, 'yyyy-MM-dd')}]]</td>
+</tr>
+<tr><th colspan="2"><a th:href="|employeeModify?empNum=${employeeCommand.empNum}|">직원 정보 수정</a> | <a href="/">홈으로</a></th></tr>
 </table>
 </body>
 </html>

@@ -67,6 +67,7 @@ public class OrderController {
 	@PostMapping("depositPrice")
 	public @ResponseBody Integer depositPrice(@RequestParam("discountedPrice") String discountedPrice, @RequestParam("storeNum") String storeNum, Model model) {
 		Integer depositPrice = priceCalcService.execute(discountedPrice, storeNum, model);
+		System.out.println("음");
 		return depositPrice;
 	}
 	
