@@ -108,6 +108,7 @@ public class OrderController {
 					iniPayReqService.execute(dto, model);
 				}
 			}
+			
 			dto.setDepositPrice(bookCommand.getDepositPrice());
 			iniPayReqService.execute(dto, model);
 			

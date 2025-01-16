@@ -72,8 +72,9 @@
 </style>
 
 <script type="text/javascript">
-/* kafka 값 받지 못할 때 사용할 코드
+
 $(function(){
+	/* kafka 값 받지 못할 때 사용할 코드
 	$(".clickPoint").click(function(){
     	
        $(".empPoint").val(35000);
@@ -81,8 +82,9 @@ $(function(){
        pointRegist();
     	
     })
+	*/
 })
-*/
+
 function pointRegist(){
 
 	const empPoint = $(".empPoint").val();
@@ -115,11 +117,12 @@ function pointRegist(){
   <span id = "point"></span>
   <h2>날짜: <span id="date"></span></h2> <!-- 오늘의 날짜 -->
   <h2>삼성전자 누적 거래량: <span id="cumulativeVolume">0</span></h2>
-
 <!-- 그래프 -->
 <canvas id="data_chart"></canvas>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+<h4>종가: <span id = "stockClosingPrice">[[${stockClosingPrice}]]</span></h4>
+<h4>등락률: <span id = "fluctuationRate"></span></h4>
 <!-- 표 -->
   <table class = "data_chart">
     <thead>
@@ -253,6 +256,15 @@ function pointRegist(){
         `;
         
         tbody.appendChild(row);
+       	
+        //종가
+        var stockClosingPrice = parseInt(($("#stockClosingPrice").text()).replace(/,/g, ""));
+        var fluctuationRate = $("#fluctuationRate").text();
+        
+        //등락률 구하기
+        fluctuationRate = (((54600 - stockClosingPrice) / stockClosingPrice) * 100).toFixed(2);
+        
+        $("#fluctuationRate").text(fluctuationRate.toString());
         
         //point
         const point = document.getElementById('point');

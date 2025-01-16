@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import _4.kafka.WebCrawlingService;
 import _4.mapper.EmployeeMapper;
 import _4.mapper.service.AutoNumService;
 import _4.mapper.service.UserNumService;
@@ -19,6 +20,8 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("kafka")
 public class KafkaController {
 	@Autowired
+	WebCrawlingService webCrawlingService;
+	@Autowired
 	UserNumService userNumService;
 	@Autowired
 	EmployeeMapper employeeMapper;
@@ -28,7 +31,8 @@ public class KafkaController {
 	public String app(HttpSession session, Model model) {
 		String empNum = userNumService.execute(session);
 		model.addAttribute("empNum", empNum);
-		
+		String stockClosingPrice = webCrawlingService.execute();
+		model.addAttribute("stockClosingPrice", stockClosingPrice);
 		return "thymeleaf/kafka/App";
 	}
 	

@@ -22,6 +22,7 @@ public class BookCommand {
 	
 	List<String> dutchMember;
 	Integer myDutchPrice;
+	Integer memPoint;
 	
 }
 
