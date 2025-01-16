@@ -97,16 +97,19 @@ public class OrderController {
 				dto.setDepositPrice(dto.getDutchPrice());
 				
 				groupDutchAlarmService.execute(bookNum, bookCommand, session);
+				
+				//리더의 결제 금액이 0원이면
+				if(bookCommand.getMyDutchPrice() == 0) {
+					String memNum = userNumService.execute(session);
+					//결제 완료 상태로 변경
+					purchaseMapper.groupPaymentCheck(bookNum, memNum);
+				}else {
+					dto.setDepositPrice(bookCommand.getMyDutchPrice());
+					iniPayReqService.execute(dto, model);
+				}
 			}
-			//리더의 결제 금액이 0원이면
-			if(bookCommand.getMyDutchPrice() == 0) {
-				String memNum = userNumService.execute(session);
-				//결제 완료 상태로 변경
-				purchaseMapper.groupPaymentCheck(bookNum, memNum);
-			}else {
-				dto.setDepositPrice(bookCommand.getMyDutchPrice());
-				iniPayReqService.execute(dto, model);
-			}
+			dto.setDepositPrice(bookCommand.getDepositPrice());
+			iniPayReqService.execute(dto, model);
 			
 			return "thymeleaf/purchase/payment";
 		}
