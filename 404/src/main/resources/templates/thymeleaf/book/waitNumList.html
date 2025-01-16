@@ -5,6 +5,12 @@
 <title>Insert title here</title>
 <script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <script type="text/javascript">
+var check = 0;
+var calledBookNum = "[[${calledBookNum}]]";
+$(function(){
+	$("#content2_"+calledBookNum).css("display","block");
+	$("#content1_"+calledBookNum).css("display","none");	
+})
 function callWaitNum(bookNum){
 	$.ajax({
 		type: "post",
@@ -12,6 +18,7 @@ function callWaitNum(bookNum){
 		data: {"bookNum":bookNum},
 		success: function(){
 			alert("호출되었습니다.");
+			check == 1;
 			$("#content2_"+bookNum).css("display","block");
 			$("#content1_"+bookNum).css("display","none");	
 		},
@@ -35,8 +42,18 @@ function waitNumDelete(bookNum){
 	});
 }
 function waitNumPass(bookNum){
-	$("#content2_"+bookNum).css("display","none");
-	$("#content1_"+bookNum).css("display","block");	
+	waitNumList();
+	$.ajax({
+		type: "post",
+		url: "/wait/waitNumPass",
+		data: {"bookNum":bookNum},
+		success: function(){
+			waitNumList();
+		},
+		error: function(){
+			alert("waitNumList.html의 waitNumPass() 오류");
+		}
+	});
 }
 </script>
 </head>
@@ -47,11 +64,11 @@ function waitNumPass(bookNum){
 	<tr th:each="dto, idx : ${list}">
 		<td>[[${dto.waitNum}]]</td>
 		<td>
-			<span th:id="'content1_' + ${dto.bookNum}">
+			<span th:id="'content1_' + ${dto.bookNum}" class="content1">
 				[[${dto.bookNum}]]<br/>
 				<button type="button" th:attr="onclick=|callWaitNum('${dto.bookNum}');|" >호출</button>
 			</span>
-			<span th:id="'content2_' + ${dto.bookNum}" style="display:none">
+			<span th:id="'content2_' + ${dto.bookNum}" style="display:none" class="content2">
 				호출중...<br/>
 				<button type='button' th:attr="onclick=|waitNumDelete('${dto.bookNum}');|">호출완료</button><button th:attr="onclick=|waitNumPass('${dto.bookNum}');|">넘어가기</button>
 			</span>

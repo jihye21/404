@@ -15,12 +15,21 @@ deposit_num, store_num, start_price, end_price, deposit_rate
 <insert id="waitNumInsert" parameterType="waitNumDTO">
 insert into waiting_number (store_num, book_num, wait_num) values (#{storeNum}, #{bookNum}, #{waitNum})
 </insert>
+<insert id="calledWaitNumInsert" parameterType="string">
+insert into called_wait_num (book_num, store_num) values (#{bookNum}, #{storeNum})
+</insert>
 <select id="waitNumSelectOne" parameterType="string" resultType="waitNumDTO">
 select store_num, book_num, wait_num from waiting_number where book_num = #{bookNum}
 </select>
 <select id="waitNumSelectAll" parameterType="string" resultType="waitNumDTO">
 select store_num, book_num, wait_num from waiting_number where store_num = #{storeNum} order by wait_num
 </select>
+<select id="calledWaitNumSelect" parameterType="string" resultType="string">
+select book_num from called_wait_num where store_num = #{storeNum}
+</select>
+<delete id="calledWaitNumDelete" parameterType="string">
+delete from called_wait_num where book_num = #{bookNum}
+</delete>
 
 <select id="storeSelectOne" parameterType="string" resultType="storeDTO">
 	select <include refid="storeBaseColumn"/> from store 

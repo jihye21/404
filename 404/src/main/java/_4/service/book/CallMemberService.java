@@ -25,7 +25,7 @@ public class CallMemberService {
 	
 	final DefaultMessageService messageService;
 	public CallMemberService() {
-		this.messageService = NurigoApp.INSTANCE.initialize("뭘봐", "궁금해?", "https://api.coolsms.co.kr");
+		this.messageService = NurigoApp.INSTANCE.initialize("NCSS1WJQZAXJTOU3", "95SLEOIUVUDQP9MAR7MY2CTQRHCLZWHY", "https://api.coolsms.co.kr");
 	}
 	public void execute(String bookNum) {
 		String storeNum = storeMapper.waitNumSelectOne(bookNum).getStoreNum();
