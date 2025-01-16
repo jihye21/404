@@ -48,7 +48,7 @@ $(function(){
 	}
 	
 	$(".themeTimeBookBtn").css("display","none");
-
+	
 	switch(starRate){
 	case "1" : $("#star1").prop("checked",true);break;
 	case "2" : $("#star2").prop("checked",true);break;
@@ -173,13 +173,23 @@ function reviewDelete(reviewNum){
 		<div id="content"></div>
 		</td>
 	</tr>
-					
+	<th:block th:if="${dto.finalPrice} != null">
+		<tr><th colspan="2">
+		<form action = "/book/bookAfterPay" method = "POST">
+		<table>
+			<input type = "hidden" name = "bookNum" th:value = "${dto.bookNum}">
+			<input type ="submit" value="후불 결제">
+		</table>
+		</form>
+		</th></tr>
+	</th:block>	
 	<th:block th:if="${dto.bookStatus} != '방문완료' and ${dto.bookStatus} != '예약취소'">
 		<tr><th colspan="2" th:attr="onclick=|bookCancle('${dto.bookNum}')|"><button>예약 취소</button></th></tr>
 	</th:block>
 	<th:block th:if="${dto.bookStatus} == '예약취소'">
 		<tr><th colspan="2">예약이 취소되었습니다.</th></tr>
 	</th:block>
+	
 	<th:block th:if="${dto.bookStatus} == '방문완료'">
 		<th:block th:if="${reviewDTO == null} and ${dto.bookStatus} == '방문완료'">
 			<tr><th colspan="2"><span id="reviewContent"><button th:attr="onclick=|reviewForm('${dto.bookNum}');|">리뷰 작성</button></span></th></tr>
@@ -201,5 +211,6 @@ function reviewDelete(reviewNum){
 		</th:block>
 	</th:block>
 </table>
+
 </body>
 </html>

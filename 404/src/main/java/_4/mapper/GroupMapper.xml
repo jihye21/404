@@ -98,4 +98,9 @@
 		on b.group_num = gm.group_num
 		where book_num = #{bookNum} and gm.mem_num = #{memNum}
 	</select>
+	<select id="groupDutchMemberCount" parameterType="string" resultType="Integer">
+		select count(*) from groupdutchalarm 
+		where group_num = #{groupNum}
+	</select>
+	
 </mapper>

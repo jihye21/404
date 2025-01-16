@@ -14,10 +14,12 @@ public class BookDTO {
 	String themeNum;
 	String themeTime;
 	Integer people;
+	
 	Integer price;
 	Integer depositPrice;
 	Integer finalPrice;
 	Integer dutchPrice;
+	
 	String couponNum;
 	String bookStatus;
 	String storeName;

@@ -50,5 +50,7 @@ public interface GroupMapper {
 
 	public BookDTO groupMemberReview(String memNum, String bookNum);
 
+	public Integer groupDutchMemberCount(String groupNum);
+
 	
 }

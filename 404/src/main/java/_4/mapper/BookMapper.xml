@@ -13,9 +13,15 @@ insert into book (<include refid="bookBaseColumn"/>) values (#{bookNum}, #{memNu
 </insert>
 
 <select id="bookSelectOne" parameterType="string" resultType="bookDTO">
-select mem_nickname
- , book_num, b.theme_num, theme_time, b.mem_num, people, price, coupon_num, book_status, b.store_num
- , theme_name, group_num, dutch_price
+select 
+b.mem_num, mem_nickname
+ , book_num, book_status
+ , b.store_num
+ , b.theme_num, theme_time, theme_name
+ , group_num
+ , people
+ , coupon_num
+ , dutch_price, price, DEPOSIT_PRICE, FINAL_PRICE
  from member m join book b 
  on m.mem_num = b.mem_num
  join theme t

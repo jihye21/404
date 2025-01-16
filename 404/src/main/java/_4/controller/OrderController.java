@@ -80,7 +80,6 @@ public class OrderController {
 	
 	@PostMapping("payment")
 	public String payment(BookCommand bookCommand, Model model, HttpSession session) {
-
 		if(bookCommand.getDepositPrice() == 0) {
 			bookCommand.setBookStatus("결제완료");
 			themeBookInsertService.execute(bookCommand, session);
@@ -115,5 +114,29 @@ public class OrderController {
 			return "thymeleaf/purchase/payment";
 		}
 	}
-
+	
+	@PostMapping("afterPayment")
+	public String afterPayment(BookCommand bookCommand, Model model, HttpSession session) {
+		//그룹 후불 결제인 경우
+		boolean isGroup = groupDutchService.execute(bookNum, session);
+		if(isGroup) {
+			
+		}
+		/*
+		
+		if(groupNum.equals("group_")) {
+			//그룹 더치페이 인원 수 가져오기
+			Integer memberCount = groupMapper.groupDutchMemberCount(groupNum);
+			
+			//finalPrice = 원가 + 추가 결제 금액
+			//finalPrice - 예약금 / 인원 수 
+			
+			//더치페이 알림을 받은 그룹원만 가져와서 후불 결제 알림 보내기
+			//dutchPrice에 후불 결제 금액 담기?
+		}
+		*/
+		
+		//1인 후불 결제인 경우 바로 보내기
+		return "redirect:/group/groupList";
+	}
 }

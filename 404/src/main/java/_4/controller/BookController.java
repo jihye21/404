@@ -21,14 +21,26 @@ import _4.mapper.BookMapper;
 import _4.mapper.ReviewMapper;
 import _4.mapper.StoreMapper;
 import _4.mapper.service.UserNumService;
+import _4.service.book.BookAfterPay;
 import _4.service.book.WaitNumInsertService;
 import _4.service.book.WaitNumService;
+import _4.service.coupon.memberCouponListService;
+import _4.service.group.GroupListService;
+import _4.service.member.MemberPointService;
 import _4.service.member.MemberSavePointService;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("book")
 public class BookController {
+	@Autowired
+	GroupListService groupListService;
+	@Autowired
+	memberCouponListService memberCouponListService;
+	@Autowired
+	MemberPointService memberPointService;
+	@Autowired
+	BookAfterPay bookAfterPay;
 	@Autowired
 	MemberSavePointService memberSavePointService;
 	@Autowired
@@ -128,5 +140,19 @@ public class BookController {
 		bookMapper.bookStatusUpdate(bookNum, bookStatus);
 		bookMapper.bookFinalPriceUpdate(bookNum, finalPrice);
 		memberSavePointService.execute(bookNum, finalPrice, session);
+	}
+	
+	@PostMapping("bookAfterPay")
+	public String bookAfterPay(HttpSession session,
+			@RequestParam String bookNum, Model model ) {
+		String memNum = userNumService.execute(session);
+		model.addAttribute("memNum", memNum);
+		
+		bookAfterPay.execute(session, bookNum, model);
+		memberPointService.execute(session, model);
+		memberCouponListService.execute(session, model);
+		groupListService.execute(session, model);
+		
+		return "thymeleaf/book/bookAfterPay";
 	}
 }

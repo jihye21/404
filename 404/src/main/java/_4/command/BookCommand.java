@@ -24,5 +24,7 @@ public class BookCommand {
 	Integer myDutchPrice;
 	Integer memPoint;
 	
+	Integer afterPrice;
+	Integer afterDutchPrice;
 }
 
