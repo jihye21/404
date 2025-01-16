@@ -13,13 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import _4.command.BookCommand;
+import _4.command.WaitNumCommand;
 import _4.domain.BookDTO;
 import _4.domain.ReviewDTO;
+import _4.domain.WaitNumDTO;
 import _4.mapper.BookMapper;
 import _4.mapper.ReviewMapper;
 import _4.mapper.StoreMapper;
 import _4.mapper.service.UserNumService;
+import _4.service.book.WaitNumInsertService;
 import _4.service.book.WaitNumService;
 import _4.service.member.MemberSavePointService;
 import jakarta.servlet.http.HttpSession;
@@ -31,8 +33,6 @@ public class BookController {
 	MemberSavePointService memberSavePointService;
 	@Autowired
 	UserNumService userNumService;
-	@Autowired
-	WaitNumService waitNumService;
 	@Autowired
 	BookMapper bookMapper;
 	@Autowired
@@ -50,10 +50,11 @@ public class BookController {
 	@GetMapping("memberBookDetail")
 	public String memberBookDetail(String bookNum, Model model) {
 		BookDTO dto = bookMapper.bookSelectOne(bookNum);
+		WaitNumDTO waitDTO = storeMapper.waitNumSelectOne(bookNum);
 		ReviewDTO reviewDTO = reviewMapper.reviewSelectOneWithBookNum(bookNum);
 		model.addAttribute("dto", dto);
 		model.addAttribute("reviewDTO", reviewDTO);
-		
+		model.addAttribute("waitDTO", waitDTO);
 		return "thymeleaf/book/memberBookDetail";
 	}
 	
@@ -65,24 +66,13 @@ public class BookController {
 	
 	@PostMapping("directBook")
 	public String directBook(@RequestParam("bookNum") String bookNum, Model model) {
-		BookDTO dto = bookMapper.bookSelectOne(bookNum);
-		String storeCrowded = storeMapper.storeSelectOne(dto.getStoreNum()).getStoreCrowded();
+		BookDTO bookDTO = bookMapper.bookSelectOne(bookNum);
+		WaitNumDTO waitDTO = storeMapper.waitNumSelectOne(bookNum);
+		String storeCrowded = storeMapper.storeSelectOne(bookDTO.getStoreNum()).getStoreCrowded();
 		model.addAttribute("storeCrowded", storeCrowded);
-		model.addAttribute("dto", dto);
+		model.addAttribute("bookDTO", bookDTO);
+		model.addAttribute("waitDTO", waitDTO);
 		return "thymeleaf/book/directBook";
-	}
-	
-	@PostMapping("getWaitNum")
-	public @ResponseBody Integer getWaitingNumber(String storeNum, HttpSession session) {
-		Integer waitNum = waitNumService.execute(storeNum, session);
-		return waitNum;
-	}
-	
-	@PostMapping("setWaitNum")
-	public String setWaitNum(Integer waitNum, BookCommand bookCommand) {
-		// 대기번호 테이블에 값 넣기
-		// bookStatus를 예약완료로 바꾸기
-		return "redirect:/book/memberBookDetail?bookNum=" + bookCommand.getBookNum();
 	}
 	
 	@PostMapping("registThemeTime")
@@ -101,9 +91,13 @@ public class BookController {
 			themeTime = hour + ":" + minute;
 
 			bookMapper.themeTimeUpdate(bookNum, themeTime);
+			String bookStatus = "예약완료";
+			bookMapper.bookStatusUpdate(bookNum, bookStatus);
 		}
 		else {
 			bookMapper.themeTimeUpdate(bookNum, themeTime);
+			String bookStatus = "예약완료";
+			bookMapper.bookStatusUpdate(bookNum, bookStatus);
 		}
 		return "redirect:/book/memberBookDetail?bookNum=" + bookNum;
 	}

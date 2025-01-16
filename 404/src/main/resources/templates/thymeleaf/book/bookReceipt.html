@@ -60,10 +60,6 @@ function bookFinished(bookNum){
 	<tr><td>가격</td><td>[[${dto.price}]]</td></tr>
 	<tr><td>쿠폰</td><td>[[${dto.couponNum}]]</td></tr>
 	<tr><td>예약 상태</td><td>[[${dto.bookStatus}]]</td></tr>
-	<th:block th:if="${dto.bookStatus == '결제완료'}">
-		<tr><th colspan="2"><button type="button" th:attr="onclick=|bookOk('${dto.bookNum}')|">승인</button> 
-							<button type="button" th:attr="onclick=|bookNo('${dto.bookNum}')|">거절</button></th></tr>
-	</th:block>
 	<th:block th:if="${dto.bookStatus == '예약완료'}">
 		<tr><td>최종 결제 금액 : </td><td><input type="text" name="finalPrice" id="finalPriceInput"/></td></tr>
 		<tr><th colspan="2"><button type="button" th:attr="onclick=|bookFinished('${dto.bookNum}')|">방문 완료</button></th></tr>

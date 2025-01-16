@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script type="text/javascript">
+function callWaitNum(bookNum){
+	$.ajax({
+		type: "post",
+		url: "/wait/callWaitNum",
+		data: {"bookNum":bookNum},
+		success: function(){
+			alert("호출되었습니다.");
+			$("#content2_"+bookNum).css("display","block");
+			$("#content1_"+bookNum).css("display","none");	
+		},
+		error: function(){
+			alert("waitNumList.html의 callWaitNum 오류");
+		}
+	});
+}
+
+function waitNumDelete(bookNum){
+	$.ajax({
+		type: "post",
+		url: "/wait/waitNumDelete",
+		data: {"bookNum":bookNum},
+		success: function(){
+			waitNumList();
+		},
+		error: function(){
+			alert("waitNumList.html의 waitNumDelete() 오류");
+		}
+	});
+}
+function waitNumPass(bookNum){
+	$("#content2_"+bookNum).css("display","none");
+	$("#content1_"+bookNum).css("display","block");	
+}
+</script>
+</head>
+<body>
+<table align="center" width="600" border="1">
+	<tr><th colspan="2">대기번호 리스트</th></tr>
+	<tr><th>대기번호</th><th>예약내역</th></tr>
+	<tr th:each="dto, idx : ${list}">
+		<td>[[${dto.waitNum}]]</td>
+		<td>
+			<span th:id="'content1_' + ${dto.bookNum}">
+				[[${dto.bookNum}]]<br/>
+				<button type="button" th:attr="onclick=|callWaitNum('${dto.bookNum}');|" >호출</button>
+			</span>
+			<span th:id="'content2_' + ${dto.bookNum}" style="display:none">
+				호출중...<br/>
+				<button type='button' th:attr="onclick=|waitNumDelete('${dto.bookNum}');|">호출완료</button><button th:attr="onclick=|waitNumPass('${dto.bookNum}');|">넘어가기</button>
+			</span>
+		</td>
+	</tr>
+</table>
+</body>
+</html>

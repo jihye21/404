@@ -8,10 +8,19 @@
 STORE_NUM, BUSS_REGIST_NUM, OWNER_NUM, STORE_NAME, STORE_TYPE, STORE_INTRODUCTION, STORE_CLOSED_DATE, STORE_OPEN_TIME, STORE_OPEN_DATE
 , STORE_ADDR, STORE_ADDR_DETAIL, STORE_CROWDED, STORE_PROFILE_IMAGE, STORE_PROFILE_STORE_IMAGE, STORE_DETAIL_IMAGE, STORE_DETAIL_STORE_IMAGE 
 </sql>
-
 <sql id="depositBaseColumn">
 deposit_num, store_num, start_price, end_price, deposit_rate
 </sql>
+
+<insert id="waitNumInsert" parameterType="waitNumDTO">
+insert into waiting_number (store_num, book_num, wait_num) values (#{storeNum}, #{bookNum}, #{waitNum})
+</insert>
+<select id="waitNumSelectOne" parameterType="string" resultType="waitNumDTO">
+select store_num, book_num, wait_num from waiting_number where book_num = #{bookNum}
+</select>
+<select id="waitNumSelectAll" parameterType="string" resultType="waitNumDTO">
+select store_num, book_num, wait_num from waiting_number where store_num = #{storeNum} order by wait_num
+</select>
 
 <select id="storeSelectOne" parameterType="string" resultType="storeDTO">
 	select <include refid="storeBaseColumn"/> from store 
@@ -53,6 +62,8 @@ update store set store_introduction = #{storeIntroduction}, store_closed_date = 
 			   , store_addr_detail = #{storeAddrDetail}
  where store_num = #{storeNum}
 </update>
+
+
 <update id="depositSettingUpdate" parameterType="depositDTO">
 merge into deposit d
  using (select store_num from store where store_num = #{storeNum}) s
@@ -63,4 +74,8 @@ merge into deposit d
 		insert (deposit_num, store_num, start_price, end_price, deposit_rate) values 
  		((select nvl(max(deposit_num),0)+1 from deposit where store_num = #{storeNum}), #{storeNum}, #{startPrice}, #{endPrice}, #{depositRate})
 </update>
+
+<delete id="waitNumDelete" parameterType="string">
+delete from waiting_number where book_num = #{bookNum}
+</delete>
 </mapper>

@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpSession;
 public class WaitNumService {
 	@Autowired
 	StoreMapper storeMapper;
-	public Integer execute(String storeNum, HttpSession session) {
+	public Integer execute(String storeNum) {
 		Integer waitNum = storeMapper.waitNumCheck(storeNum);
 		if(waitNum == null) { // 대기번호가 없다면 1번 부여
 			waitNum = 1;

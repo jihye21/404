@@ -154,7 +154,12 @@ function reviewDelete(reviewNum){
 		</th:block>
 		<th:block th:if="${dto.themeTime} == '종일권'">
 			<th:block th:if="${dto.bookStatus} == '결제완료'">
-				<span id="themeTime" >[[${dto.themeTime}]]</span>
+				<th:block th:if="${waitDTO} == null">
+					<span id="themeTime" >[[${dto.themeTime}]]</span>
+				</th:block>
+				<th:block th:if="${waitDTO} != null">
+					나의 대기 번호 : [[${waitDTO.waitNum}]]
+				</th:block>
 				<button class="themeTimeBookBtn" onclick="timeBook()">시간예약</button>
 				<button class="themeTimeBookBtn" onclick="directBook()">바로예약</button>
 			</th:block>

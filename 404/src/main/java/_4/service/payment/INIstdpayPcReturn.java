@@ -151,6 +151,7 @@ public class INIstdpayPcReturn {
 						}
 					}else {
 						//1인 결제인 경우
+						System.out.println("paymentCheck 직전");
 						purchaseMapper.paymentCheck(dto.getPurchaseNum());
 						purchaseMapper.patmentCouponCheck(dto.getPurchaseNum());
 						
