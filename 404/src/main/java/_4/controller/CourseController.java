@@ -18,6 +18,7 @@ import _4.service.course.CourseListPageService;
 import _4.service.course.CourseListService;
 import _4.service.course.CourseSessionService;
 import _4.service.course.CourseUpdateService;
+import _4.service.course.SessionUpdateService;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -37,6 +38,8 @@ public class CourseController {
 	CourseDetailService courseDetailService;
 	@Autowired
 	CourseUpdateService courseUpdateService;
+	@Autowired
+	SessionUpdateService sessionUpdateService;
 	@Autowired
 	StoreMapper storeMapper;
 	@Autowired
@@ -102,5 +105,11 @@ public class CourseController {
 		courseMapper.courseDelete(courseNum);
 		courseMapper.courseDetailDelete(courseNum);
 		return "1";
+	}
+	
+	@PostMapping("sessionUpdate")
+	public void sessionUpdate(HttpSession session) {
+		// 앞의 번호를 삭제한 후, 뒤에 세션의 번호를 하나씩 당기는 서비스
+		sessionUpdateService.execute(session);
 	}
 }

@@ -23,7 +23,7 @@ $(function(){
 				$("#storeTable").html(result);
 			},
 			error: function(){
-				//alert("storeList.html의 searchStore() 오류");
+				alert("storeList.html의 searchStore() 오류");
 			}
 		});
 	});
@@ -84,7 +84,7 @@ function storedStoreDelete(storeNum, order){
 </head>
 
 <body>
-<span id="order"></span><br/>
+<span id="order">하이</span><br/>
 <br/><br/>
 <th:block th:if="${storedStoreDTO != null}">
 	<table border="1" width="400">
@@ -95,7 +95,7 @@ function storedStoreDelete(storeNum, order){
 검색 : <input type="text" name="storeSearch"/><br/><br/>
 <div id="storeTable"></div>
 <th:block th:if="${storedStoreDTO} != null">
-	<button type="button" th:attr="onclick=|storedStoreDelete('${storedStoreDTO.storeNum}', '${storeCount}');|">삭제하기</button>
+	<button type="button" th:attr="onclick=|storedStoreDelete('${storedStoreDTO.storeNum}', '${storeCount}');|">삭제하기ㅋ</button>
 </th:block>
 </body>
 </html>
