@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import _4.domain.AuthDTO;
 import _4.domain.MemberDTO;
+import _4.domain.PointDTO;
 
 @Mapper
 public interface MemberMapper {
@@ -19,4 +20,5 @@ public interface MemberMapper {
 	public void memberDelete(AuthDTO authDTO);
 	public Date lastLoginGetDate(AuthDTO auth);
 	public void memberStatusUpadate(String memNum);
+	public void pointUseInsert(PointDTO pointDTO);
 }

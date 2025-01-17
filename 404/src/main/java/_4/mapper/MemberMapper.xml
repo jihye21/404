@@ -67,4 +67,8 @@ update member set status = null
 	where mem_num = #{memNum}
 </update>
 
+<insert id="pointUseInsert" parameterType="pointDTO">
+insert into member_Point (BOOK_NUM, USED_POINT, MEM_NUM)
+values (#{bookNum}, #{usedPoint}, #{memNum})
+</insert>
 </mapper>

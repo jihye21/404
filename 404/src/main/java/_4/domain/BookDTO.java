@@ -27,4 +27,7 @@ public class BookDTO {
 	String themeName;
 	String memNickname;
 	Integer memPoint;
+	
+	Integer afterPrice;
+	Integer afterDutchPrice;
 }

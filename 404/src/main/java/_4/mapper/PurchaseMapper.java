@@ -13,4 +13,6 @@ public interface PurchaseMapper {
 	public void groupPaymentCheck(String bookNum, String memNum);
 	public String groupPaySuccess(String bookNum);
 	public void themeTimeBookStatusUpdate(String purchaseNum);
+	public void paymentPointCheck(String bookNum, String memNum);
+	public void memberPointUpdate(String bookNum, String memNum);
 }

@@ -24,4 +24,5 @@ public class GroupDetailService {
 		model.addAttribute("groupName", groupName);
 		model.addAttribute("groupDetailList", groupDetailList);
 	}
+	
 }

@@ -13,6 +13,7 @@ import com.inicis.std.util.ParseUtil;
 import com.inicis.std.util.SignatureUtil;
 
 import _4.domain.PaymentDTO;
+import _4.mapper.MemberMapper;
 import _4.mapper.PurchaseMapper;
 import _4.mapper.service.UserNumService;
 import _4.service.group.GroupDutchAlarmService;
@@ -30,6 +31,8 @@ public class INIstdpayPcReturn {
 	GroupDutchService groupDutchService;
 	@Autowired
 	PurchaseMapper purchaseMapper;
+	@Autowired
+	MemberMapper memberMapper;
 	public void execute(HttpServletRequest request, HttpSession session) {
 		Map<String, String> resultMap = new HashMap<String, String>();
 		try{
@@ -133,13 +136,17 @@ public class INIstdpayPcReturn {
 					System.out.println("주문번호 : " + dto.getPurchaseNum());
 					purchaseMapper.paymentInsert(dto);
 					
+					String memNum = userNumService.execute(session);
 					String bookNum = dto.getPurchaseNum();
+					
 					//그룹 결제이면 그룹 더치 금액을 결제하도록 함.
 					boolean isGroup = groupDutchService.execute(bookNum, session);
 					if(isGroup) {
-						String memNum = userNumService.execute(session);
+						
 						purchaseMapper.groupPaymentCheck(bookNum, memNum);
 						purchaseMapper.patmentCouponCheck(dto.getPurchaseNum());
+						purchaseMapper.paymentPointCheck(bookNum, memNum);
+						purchaseMapper.memberPointUpdate(bookNum, memNum);
 						
 						String groupPaySuccess = purchaseMapper.groupPaySuccess(bookNum);
 						//모든 그룹원이 결제가 되었는지 확인하기
@@ -151,9 +158,10 @@ public class INIstdpayPcReturn {
 						}
 					}else {
 						//1인 결제인 경우
-						System.out.println("paymentCheck 직전");
 						purchaseMapper.paymentCheck(dto.getPurchaseNum());
 						purchaseMapper.patmentCouponCheck(dto.getPurchaseNum());
+						purchaseMapper.paymentPointCheck(bookNum, memNum);
+						purchaseMapper.memberPointUpdate(bookNum, memNum);
 						
 						//theme_time != '종일권'이면 시간제 테마 예약 완료로 update 
 						purchaseMapper.themeTimeBookStatusUpdate(dto.getPurchaseNum());

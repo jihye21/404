@@ -16,7 +16,7 @@ font-size: 20px;
 <script type="text/javascript">
 var depositPrice = "[[${dto.depositPrice}]]";//예약금
 var totalPrice = "[[${dto.finalPrice}]]";//총금액
-var afterDutchTotalPrice = totalPrice - depositPrice;//후불금액
+var afterDutchTotalPrice = "[[${dto.afterDutchPrice}]]";//후불금액
 
 
 $(function(){
@@ -218,10 +218,10 @@ function pointRevert(memPoint){
 	afterPrice = parseInt($(".afterPrice").text()); //결제금액
 	afterDutchPrice = parseInt($(".afterDutchPrice").text()); //더치페이 금액
 	afterDutchTotalPrice = parseInt($("#afterDutchTotalPrice").text());
-
+	
 	//1인 결제
 	if($("input[type='checkbox']:visible").length == 0){
-		if(usePoint > 0 && afterPrice >= 100 + afterDutchTotalPrice){
+		if(usePoint > 0 && afterDutchTotalPrice >= 100 + afterPrice){
 			usePoint = usePoint - 100;
 			
 			$(".usePoint").text(usePoint);
@@ -231,7 +231,6 @@ function pointRevert(memPoint){
 			$(".afterPrice").text(afterPrice.toString());
 		}
 	}else{
-
 		//그룹 결제
 		if(usePoint > 0 && afterDutchPrice >= 100 + afterPrice){
 			usePoint = usePoint - 100;
@@ -297,49 +296,20 @@ function dutchPrice(){
 	$(".afterPrice").text((afterPrice).toString());
 }
 
-function checkAll(){
-	if($(".allCheckBox:visible:checked").length > 0){
-		$(".checkBox").prop('checked', true);
-	}else {
-		$(".checkBox").prop('checked', false);
-	}
-	dutchPrice();
-	couponDiscount();
-	pointCount();
-	payPrice();
-}
-
-function checkBox(){
-	if( $(".checkBox:visible").not(':checked').length > 0){
-		$(".allCheckBox").prop('checked', false);
-	}else{
-		$(".allCheckBox").prop('checked', true);
-	}
-	dutchPrice();
-	couponDiscount();
-	pointCount();
-	payPrice();
-}
-
 function memberCheck(){
 	afterPrice = parseInt($(".afterPrice").text());
-	alert(afterPrice);
 	afterDutchPrice = parseInt($(".afterDutchPrice").text());
 	
 	$("#afterPrice").val(afterPrice);
 	$("#afterDutchPrice").val(afterDutchPrice);
 	
-	if($(".checkBox:visible:checked").length == 0 && $(".checkBox:visible").length > 0){
-		alert("적어도 한 명 이상의 그룹원을 체크해주세요.");
-		return false;
-	}
 }
 
 </script>
 </head>
 <body>
 
-<form action="/order/afterPayment" method="post" onsubmit="return memberCheck(); return a();">
+<form action="/order/afterGroupPayment" method="post" onsubmit="return memberCheck(); return a();">
 	
 	<input type = "hidden" name="memNum" th:value="${memNum}" class ="memNum">
 	<input type = "hidden" name="groupNum" th:value="${dto.groupNum}">
@@ -431,31 +401,21 @@ function memberCheck(){
 		</tr>
 	</table>
 	
+	<table border ="1" width="200">
+		<tr>	
+			<th>결제 금액 : <span class="afterPrice">[[${dto.afterDutchPrice}]]</span>원<br/></th>
+		</tr>
+		<tr>
+	</table>
+	
+	<table style = "display:none;">
+		<th><span class = "afterDutchPrice">[[${dto.afterDutchPrice}]]</span></th>
+		</tr>
+		<tr>
+		<th><span id = "afterDutchTotalPrice">[[${dto.afterDutchPrice}]]</span></th>
+		</tr>
+	</table>
 	<br>
-		
-		<div class = "memberCheckList">
-			<table style="margin:20px; width:300px;" border="1">
-			   <tr>
-			       <td>그룹</td>
-			       <td>[[${groupName}]]</td>
-			   </tr>
-			   <tr>
-			   		<td><input type = "checkbox" onclick="checkAll();" class="allCheckBox"></td>
-			   		<th>참여자</th>
-			   </tr>
-			   <th:block th:each="groupDetailList:${groupDetailList}">
-			   <tr>
-			   		<td><input type = "checkbox" name = "dutchMember" class = "checkBox" onclick="checkBox();" th:value="${groupDetailList.memNum}"></td>
-			   		<td colspan="2">[[${groupDetailList.memNickname}]]([[${groupDetailList.memName}]])</td>
-			   </tr>
-			   </th:block>
-			</table>
-			<b>더치페이 금액</b><br>
-			<span class = "afterDutchPrice">0</span><br>
-			<b>결제 금액</b><br>
-			<span class = "afterPrice">0</span><br>
-			<br><br>
-		</div>
 		
 		<button type="submit" class = "payBtn">결제하기</button>
 	</div>

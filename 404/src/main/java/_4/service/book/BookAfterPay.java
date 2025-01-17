@@ -26,6 +26,5 @@ public class BookAfterPay {
 		String groupNum = bookDTO.getGroupNum();
 		
 		model.addAttribute("dto", bookDTO);
-		
 	}
 }

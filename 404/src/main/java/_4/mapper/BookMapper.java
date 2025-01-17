@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import _4.domain.BookDTO;
+import jakarta.servlet.http.HttpSession;
 
 @Mapper
 public interface BookMapper {
@@ -22,4 +23,6 @@ public interface BookMapper {
 	public BookDTO memberBookCheck(String bookNum, String memNum);
 	public String bookMemberCheck(String bookNum, String memNum);
 	public void bookMemberPointUpdate(BookDTO bookDTO);
+	public String groupNumSelectOne(String bookNum);
+	public void afterPayUpdate(BookDTO bookDTO);
 }

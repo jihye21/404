@@ -37,4 +37,14 @@
 	update book set book_status = '예약완료' 
 	where book_num = #{bookNum} and theme_time not like '종일권'
 	</update>
+	<update id="paymentPointCheck" parameterType="string">
+	update member_point set POINT_UPDATE_TIME = SYSDATE
+	where book_num = #{bookNum} and mem_num = #{memNum}
+	</update>
+	<update id="memberPointUpdate" parameterType="string">
+	update member set mem_point = mem_point + (select used_point from member_point 
+	where book_num = #{bookNum}
+	and mem_num = #{memNum})
+	where mem_num = #{memNum}
+	</update>
 </mapper>

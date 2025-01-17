@@ -22,6 +22,7 @@ b.mem_num, mem_nickname
  , people
  , coupon_num
  , dutch_price, price, DEPOSIT_PRICE, FINAL_PRICE
+ , AFTER_PRICE, AFTER_DUTCH_PRICE
  from member m join book b 
  on m.mem_num = b.mem_num
  join theme t
@@ -90,4 +91,13 @@ delete from book where mem_num = #{memberNum} and book_status = '결제대기중
 	select 'yes' from book 
 	where mem_num = #{memNum}
 </select>
+<select id="groupNumSelectOne" parameterType="string" resultType="string">
+	select group_num from book 
+	where book_Num = #{bookNum}
+</select>
+
+<update id="afterPayUpdate" parameterType="bookDTO">
+	update book set after_price = #{afterPrice}, after_dutch_price = #{afterDutchPrice}
+	where mem_num = #{memNum} and book_num = #{bookNum}
+</update>
 </mapper>

@@ -18,12 +18,14 @@ import _4.mapper.StoreMapper;
 import _4.mapper.ThemeMapper;
 import _4.mapper.service.AutoNumService;
 import _4.mapper.service.UserNumService;
+import _4.service.book.AfterPayUpdateService;
 import _4.service.book.ThemeBookInsertService;
 import _4.service.coupon.memberCouponListService;
 import _4.service.group.GroupDutchAlarmService;
 import _4.service.group.GroupDutchService;
 import _4.service.group.GroupListService;
 import _4.service.member.MemberPointService;
+import _4.service.member.PointUseService;
 import _4.service.purchase.IniPayReqService;
 import _4.service.purchase.PriceCalcService;
 import jakarta.servlet.http.HttpSession;
@@ -31,6 +33,10 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("order")
 public class OrderController {
+	@Autowired
+	AfterPayUpdateService afterPayUpdateService;
+	@Autowired
+	PointUseService pointUseService;
 	@Autowired
 	MemberPointService memberPointService;
 	@Autowired
@@ -117,26 +123,45 @@ public class OrderController {
 	
 	@PostMapping("afterPayment")
 	public String afterPayment(BookCommand bookCommand, Model model, HttpSession session) {
+		String bookNum = bookCommand.getBookNum();
 		//그룹 후불 결제인 경우
 		boolean isGroup = groupDutchService.execute(bookNum, session);
 		if(isGroup) {
+			bookCommand.setDutchPrice(bookCommand.getAfterDutchPrice());
 			
+			//afterDutchPrice에 대한 알림을 dutchMember 에게 보내기
+			groupDutchAlarmService.execute(bookNum, bookCommand, session);
 		}
-		/*
 		
-		if(groupNum.equals("group_")) {
-			//그룹 더치페이 인원 수 가져오기
-			Integer memberCount = groupMapper.groupDutchMemberCount(groupNum);
-			
-			//finalPrice = 원가 + 추가 결제 금액
-			//finalPrice - 예약금 / 인원 수 
-			
-			//더치페이 알림을 받은 그룹원만 가져와서 후불 결제 알림 보내기
-			//dutchPrice에 후불 결제 금액 담기?
-		}
-		*/
+		//포인트 사용 완료
+		Integer usedPoint = bookCommand.getMemPoint();
+		pointUseService.execute(session, bookNum, usedPoint);
 		
-		//1인 후불 결제인 경우 바로 보내기
-		return "redirect:/group/groupList";
+		//후불 결제 update 
+		afterPayUpdateService.execute(session, bookCommand);
+		
+		//afterPrice를 이니시스로 결제하기
+		BookDTO bookDTO = bookMapper.bookSelectOne(bookNum);
+		
+		iniPayReqService.execute(bookDTO, model);
+		
+		return "thymeleaf/purchase/payment";
+	}
+	
+	@PostMapping("afterGroupPayment")
+	public String afterGroupPayment(BookCommand bookCommand, Model model, HttpSession session) {
+		String bookNum = bookCommand.getBookNum();
+		
+		//포인트 사용 완료
+		Integer usedPoint = bookCommand.getMemPoint();
+		pointUseService.execute(session, bookNum, usedPoint);
+		
+		//afterPrice를 이니시스로 결제하기
+		BookDTO bookDTO = bookMapper.bookSelectOne(bookNum);
+		bookDTO.setDepositPrice(bookCommand.getAfterPrice());
+		
+		iniPayReqService.execute(bookDTO, model);
+		
+		return "thymeleaf/purchase/payment";
 	}
 }

@@ -22,9 +22,11 @@ import _4.mapper.ReviewMapper;
 import _4.mapper.StoreMapper;
 import _4.mapper.service.UserNumService;
 import _4.service.book.BookAfterPay;
+import _4.service.book.GroupNumService;
 import _4.service.book.WaitNumInsertService;
 import _4.service.book.WaitNumService;
 import _4.service.coupon.memberCouponListService;
+import _4.service.group.GroupDetailService;
 import _4.service.group.GroupListService;
 import _4.service.member.MemberPointService;
 import _4.service.member.MemberSavePointService;
@@ -33,6 +35,10 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("book")
 public class BookController {
+	@Autowired
+	GroupNumService groupNumService;
+	@Autowired
+	GroupDetailService groupDetailService;
 	@Autowired
 	GroupListService groupListService;
 	@Autowired
@@ -148,11 +154,29 @@ public class BookController {
 		String memNum = userNumService.execute(session);
 		model.addAttribute("memNum", memNum);
 		
+		String groupNum = groupNumService.execute(bookNum);
+		
 		bookAfterPay.execute(session, bookNum, model);
 		memberPointService.execute(session, model);
 		memberCouponListService.execute(session, model);
-		groupListService.execute(session, model);
+		groupDetailService.execute(groupNum, model);
 		
 		return "thymeleaf/book/bookAfterPay";
+	}
+	
+	@PostMapping("groupAfterPay")
+	public String groupAfterPay(HttpSession session,
+			@RequestParam String bookNum, Model model ) {
+		String memNum = userNumService.execute(session);
+		model.addAttribute("memNum", memNum);
+		
+		String groupNum = groupNumService.execute(bookNum);
+		
+		bookAfterPay.execute(session, bookNum, model);
+		memberPointService.execute(session, model);
+		memberCouponListService.execute(session, model);
+		groupDetailService.execute(groupNum, model);
+		
+		return "thymeleaf/book/groupAfterPay";
 	}
 }
