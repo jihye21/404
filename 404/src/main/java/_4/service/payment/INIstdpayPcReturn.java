@@ -12,7 +12,9 @@ import com.inicis.std.util.HttpUtil;
 import com.inicis.std.util.ParseUtil;
 import com.inicis.std.util.SignatureUtil;
 
+import _4.domain.BookDTO;
 import _4.domain.PaymentDTO;
+import _4.mapper.BookMapper;
 import _4.mapper.MemberMapper;
 import _4.mapper.PurchaseMapper;
 import _4.mapper.service.UserNumService;
@@ -33,6 +35,8 @@ public class INIstdpayPcReturn {
 	PurchaseMapper purchaseMapper;
 	@Autowired
 	MemberMapper memberMapper;
+	@Autowired
+	BookMapper bookMapper;
 	public void execute(HttpServletRequest request, HttpSession session) {
 		Map<String, String> resultMap = new HashMap<String, String>();
 		try{
@@ -143,28 +147,55 @@ public class INIstdpayPcReturn {
 					boolean isGroup = groupDutchService.execute(bookNum, session);
 					if(isGroup) {
 						
-						purchaseMapper.groupPaymentCheck(bookNum, memNum);
-						purchaseMapper.patmentCouponCheck(dto.getPurchaseNum());
-						purchaseMapper.paymentPointCheck(bookNum, memNum);
-						purchaseMapper.memberPointUpdate(bookNum, memNum);
+						BookDTO bookDTO = bookMapper.bookSelectOne(bookNum);
+						String bookStatus = bookDTO.getBookStatus();
+						//후불 결제인지 확인하기 book_status == "후불결제대기"이면 
+						if(bookStatus.equals("후불결제대기")) {
+							
+							purchaseMapper.groupPaymentCheck(bookNum, memNum);
+							purchaseMapper.patmentCouponCheck(dto.getPurchaseNum());
+							purchaseMapper.pointStatusUpdate(bookNum, memNum);
+							purchaseMapper.paymentPointCheck(bookNum, memNum);
+							purchaseMapper.memberPointUpdate(bookNum, memNum);
 						
-						String groupPaySuccess = purchaseMapper.groupPaySuccess(bookNum);
-						//모든 그룹원이 결제가 되었는지 확인하기
-						if(!"미결제".equals(groupPaySuccess)) {
+							String groupPaySuccess = purchaseMapper.groupPaySuccess(bookNum);
+							//모든 그룹원이 결제가 되었는지 확인하기
+							if(!"미결제".equals(groupPaySuccess)) {
+								//모든 그룹원이 결제가 되었다면 후불결제 완료 상태로 변경하기
+								purchaseMapper.afterPaySuccess(bookNum);
+							}
+						}else {
+							String groupPaySuccess = purchaseMapper.groupPaySuccess(bookNum);
+							//모든 그룹원이 결제가 되었는지 확인하기
+							if(!"미결제".equals(groupPaySuccess)) {
+
 							purchaseMapper.paymentCheck(dto.getPurchaseNum());
 							
 							//theme_time != '종일권'이면 시간제 테마 예약 완료로 update 
 							purchaseMapper.themeTimeBookStatusUpdate(dto.getPurchaseNum());
+							}
 						}
 					}else {
 						//1인 결제인 경우
-						purchaseMapper.paymentCheck(dto.getPurchaseNum());
-						purchaseMapper.patmentCouponCheck(dto.getPurchaseNum());
-						purchaseMapper.paymentPointCheck(bookNum, memNum);
-						purchaseMapper.memberPointUpdate(bookNum, memNum);
 						
-						//theme_time != '종일권'이면 시간제 테마 예약 완료로 update 
-						purchaseMapper.themeTimeBookStatusUpdate(dto.getPurchaseNum());
+						BookDTO bookDTO = bookMapper.bookSelectOne(bookNum);
+						String bookStatus = bookDTO.getBookStatus();
+						//후불 결제인지 확인하기 book_status == "후불결제대기"이면 
+						if(bookStatus.equals("후불결제대기")) {
+							//후불결제완료 상태로 변경하기
+							purchaseMapper.afterPaySuccess(bookNum);
+							
+							purchaseMapper.patmentCouponCheck(dto.getPurchaseNum());
+							purchaseMapper.paymentPointCheck(bookNum, memNum);
+							//포인트 적용 상태로 update하기
+							purchaseMapper.pointStatusUpdate(bookNum, memNum);
+							purchaseMapper.memberPointUpdate(bookNum, memNum);
+						}
+						else{
+							purchaseMapper.paymentCheck(dto.getPurchaseNum());
+							//theme_time != '종일권'이면 시간제 테마 예약 완료로 update 
+							purchaseMapper.themeTimeBookStatusUpdate(dto.getPurchaseNum());
+						}
 					}
 					
 				} catch (Exception ex) {

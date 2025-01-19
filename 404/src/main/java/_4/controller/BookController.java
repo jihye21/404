@@ -142,7 +142,18 @@ public class BookController {
 	@PostMapping("bookFinished")
 	public @ResponseBody void bookFinished(@RequestParam("bookNum") String bookNum, @RequestParam("finalPrice") String finalPrice
 			, HttpSession session) {
+		BookDTO bookDTO = bookMapper.bookSelectOne(bookNum);
+		Integer depositPrice = bookDTO.getDepositPrice();
+		
 		String bookStatus = "방문완료";
+		
+		if( Integer.parseInt(finalPrice)- depositPrice > 0) {
+			//후불결제대기 update
+			bookStatus = "후불결제대기";
+		}else {
+			bookStatus = "후불결제완료";
+		}
+		
 		bookMapper.bookStatusUpdate(bookNum, bookStatus);
 		bookMapper.bookFinalPriceUpdate(bookNum, finalPrice);
 		memberSavePointService.execute(bookNum, finalPrice, session);

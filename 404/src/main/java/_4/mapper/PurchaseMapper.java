@@ -15,4 +15,6 @@ public interface PurchaseMapper {
 	public void themeTimeBookStatusUpdate(String purchaseNum);
 	public void paymentPointCheck(String bookNum, String memNum);
 	public void memberPointUpdate(String bookNum, String memNum);
+	public void afterPaySuccess(String bookNum);
+	public void pointStatusUpdate(String bookNum, String memNum);
 }

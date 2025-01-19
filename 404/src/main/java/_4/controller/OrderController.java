@@ -142,6 +142,7 @@ public class OrderController {
 		
 		//afterPrice를 이니시스로 결제하기
 		BookDTO bookDTO = bookMapper.bookSelectOne(bookNum);
+		bookDTO.setDepositPrice(bookDTO.getAfterPrice());
 		
 		iniPayReqService.execute(bookDTO, model);
 		
@@ -151,7 +152,7 @@ public class OrderController {
 	@PostMapping("afterGroupPayment")
 	public String afterGroupPayment(BookCommand bookCommand, Model model, HttpSession session) {
 		String bookNum = bookCommand.getBookNum();
-		
+		//더치페이 결제
 		//포인트 사용 완료
 		Integer usedPoint = bookCommand.getMemPoint();
 		pointUseService.execute(session, bookNum, usedPoint);

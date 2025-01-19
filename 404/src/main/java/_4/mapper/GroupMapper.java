@@ -52,5 +52,7 @@ public interface GroupMapper {
 
 	public Integer groupDutchMemberCount(String groupNum);
 
+	public void dutchAlarmDelete(String bookNum);
+
 	
 }

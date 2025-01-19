@@ -182,16 +182,9 @@ function reviewDelete(reviewNum){
 		</table>
 		</form>
 		</th></tr>
-	</th:block>	
-	<th:block th:if="${dto.bookStatus} != '방문완료' and ${dto.bookStatus} != '예약취소'">
-		<tr><th colspan="2" th:attr="onclick=|bookCancle('${dto.bookNum}')|"><button>예약 취소</button></th></tr>
-	</th:block>
-	<th:block th:if="${dto.bookStatus} == '예약취소'">
-		<tr><th colspan="2">예약이 취소되었습니다.</th></tr>
-	</th:block>
-	
+		
 	<th:block th:if="${dto.bookStatus} == '방문완료'">
-		<th:block th:if="${reviewDTO == null} and ${dto.bookStatus} == '방문완료'">
+		<th:block th:if="${reviewDTO == null} and ${dto.bookStatus} == '후불결제완료'">
 			<tr><th colspan="2"><span id="reviewContent"><button th:attr="onclick=|reviewForm('${dto.bookNum}');|">리뷰 작성</button></span></th></tr>
 		</th:block>
 		
@@ -209,6 +202,13 @@ function reviewDelete(reviewNum){
 			</td></tr>
 			<tr><th colspan="2"><button type="button" th:attr="onclick=|reviewDelete('${reviewDTO.reviewNum}')|">삭제</button></th></tr>
 		</th:block>
+	</th:block>
+	</th:block>	
+	<th:block th:if="${dto.bookStatus} != '방문완료' and ${dto.bookStatus} != '예약취소'">
+		<tr><th colspan="2" th:attr="onclick=|bookCancle('${dto.bookNum}')|"><button>예약 취소</button></th></tr>
+	</th:block>
+	<th:block th:if="${dto.bookStatus} == '예약취소'">
+		<tr><th colspan="2">예약이 취소되었습니다.</th></tr>
 	</th:block>
 </table>
 

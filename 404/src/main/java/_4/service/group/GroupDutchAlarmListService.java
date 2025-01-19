@@ -24,6 +24,19 @@ public class GroupDutchAlarmListService {
 	public void execute(HttpSession session, Model model) {
 		String memNum = userNumService.execute(session);
 		
+		List<GroupDTO> groupDTO = groupMapper.groupDutchAlarmSelectAll(memNum);
+		
+		for(GroupDTO book : groupDTO) {
+			String bookNum = book.getBookNum();
+			
+			BookDTO bookDTO = bookMapper.bookSelectOne(bookNum);
+			
+			if(bookDTO.getBookStatus().equals("결제대기중")) {
+				//"결제대기중"인 더치페이 요청은 삭제
+				groupMapper.dutchAlarmDelete(bookNum);
+			}
+		}
+		
 		List<GroupDTO> groupDutchAlarmList = groupMapper.groupDutchAlarmSelectAll(memNum);
 		
 		model.addAttribute("groupDutchAlarmList", groupDutchAlarmList);

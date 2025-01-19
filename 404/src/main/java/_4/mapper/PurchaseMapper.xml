@@ -47,4 +47,12 @@
 	and mem_num = #{memNum})
 	where mem_num = #{memNum}
 	</update>
+	<update id="afterPaySuccess" parameterType="string">
+	update book set book_status = '후불결제대기'
+	where book_num = #{bookNum}
+	</update>
+	<update id="pointStatusUpdate" parameterType="string">
+	update member_point set POINT_STATUS = '반영'
+	where book_num = #{bookNum} and mem_num = #{memNum}
+	</update>
 </mapper>

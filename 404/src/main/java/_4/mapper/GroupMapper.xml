@@ -102,5 +102,7 @@
 		select count(*) from groupdutchalarm 
 		where group_num = #{groupNum}
 	</select>
-	
+	<delete id="dutchAlarmDelete" parameterType="string">
+	delete from groupdutchalarm where book_num = #{bookNum}
+	</delete>
 </mapper>
