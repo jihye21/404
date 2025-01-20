@@ -142,6 +142,7 @@ img:hover {
     word-break: keep-all;
 }
 
+
 /* 리스트 항목 앞에 동그라미 표시 추가 */
 #rnwFtrWrn > ul > li:before {
     width: 3px;
@@ -385,6 +386,10 @@ html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address
     display: none
 }
 
+#cateTable tr>td {
+	width:200px;
+	text-align:center;
+};
 </style>
 <script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <script type="text/javascript">
@@ -491,8 +496,22 @@ $(function(){
 </nav>
 
 <!-- header -->
-<div id="category">
-카테고리
+<div id="category" align="center">
+<table id="cateTable" text-align="center">
+	<tr><th colspan="4">카테고리</th></tr>
+	<tr height="150">
+		<td><a href="/store/storeList?category=식당">식당</a></td>
+		<td><a href="/store/storeList?category=카페">카페</a></td>
+		<td><a href="/store/storeList?category=방탈출">방탈출</a></td>
+		<td><a href="/store/storeList?category=동물카페">동물카페</a></td>
+	</tr>
+	<tr>
+		<td><a href="/store/storeList?category='연극'">연극</a></td>
+		<td><a href="/store/storeList?category='실내 테마파크'">실내 테마파크</a></td>
+		<td><a href="/store/storeList?category='힐링'">힐링</a></td>
+		<td><a href="/store/storeList?category='야외'">야외</a></td>
+	</tr>
+</table>
 
 </div>
 
