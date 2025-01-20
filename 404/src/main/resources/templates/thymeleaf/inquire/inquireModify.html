@@ -30,11 +30,20 @@
 		<!-- owner -->
 		<th:block th:if="${session.auth.grade == 'owner'}">
 		<option th:value="${dto.ownerInquireType}">[[${dto.ownerInquireType}]]</option>
-		<th:block th:if="${dto.ownerInquireType != '환불하기'}">
-		<option value = "환불하기">환불하기</option>
+		<th:block th:if="${dto.ownerInquireType != '유저신고'}">
+		<option value = "유저신고">유저신고</option>
 		</th:block>
-		<th:block th:if="${dto.ownerInquireType != '가게신고'}">
-		<option value = "가게신고">가게신고</option>
+		<th:block th:if="${dto.ownerInquireType != '리뷰신고'}">
+		<option value = "리뷰신고">리뷰신고</option>
+		</th:block>
+		<th:block th:if="${dto.ownerInquireType != '쿠폰발급'}">
+		<option value = "쿠폰발급">쿠폰발급</option>
+		</th:block>
+		<th:block th:if="${dto.ownerInquireType != '가게명 변경'}">
+		<option value = "가게명 변경">가게명 변경</option>
+		</th:block>
+		<th:block th:if="${dto.ownerInquireType != '기타'}">
+		<option value = "기타">기타</option>
 		</th:block>
 		</th:block>
 		
