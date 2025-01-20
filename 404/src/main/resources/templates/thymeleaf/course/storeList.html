@@ -84,13 +84,15 @@ function storedStoreDelete(storeNum, order){
 </head>
 
 <body>
-<span id="order">하이</span><br/>
+<span id="order"></span><br/>
 <br/><br/>
 <th:block th:if="${storedStoreDTO != null}">
 	<table border="1" width="400">
-		<tr><td>이미지</td><td>[[${storedStoreDTO.storeName}]]</td></tr>
+		<tr><td width="100" height="100">
+				<img th:src="|/static/upload/${storedDetailDTO.storeProfileStoreImage}|" width="100" height="100"/>
+		</td><td>[[${storedStoreDTO.storeName}]]</td></tr>
 	</table>
-</th:block>
+</th:block><br/>	
 <!-- 검색해서 가게 리스트를 다시 출력하는 기능 -->
 검색 : <input type="text" name="storeSearch"/><br/><br/>
 <div id="storeTable"></div>

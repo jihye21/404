@@ -19,17 +19,13 @@ public class CourseInsertService {
 	@Autowired
 	CourseMapper courseMapper;
 	public String execute(HttpSession session, String maxOrder, String courseName) {
-		// course에 넣기
 		String memberNum = userNumService.execute(session);
 		String courseNum = autoNumService.execute("course", "course_num", "course_");
 		CourseDTO courseDTO = new CourseDTO();
 		courseDTO.setCourseNum(courseNum);
 		courseDTO.setMemNum(memberNum);
 		courseDTO.setCourseName(courseName);
-		// 모든 값을 안넣었을 경우
-		// 값이 하나라도 들어갔다면
-		//if()
-		// 세션 첫 번째의 값이 null값이라면 근데 0은 안넣고 1을 넣는다면?
+
 		if((CourseDetailDTO)session.getAttribute(memberNum + "/" + 1) != null){
 			courseMapper.courseInsert(courseDTO);
 			// courseDetail에 넣기

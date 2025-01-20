@@ -108,8 +108,9 @@ public class CourseController {
 	}
 	
 	@PostMapping("sessionUpdate")
-	public void sessionUpdate(HttpSession session) {
+	public @ResponseBody void sessionUpdate(String courseOrder, String maxOrder, HttpSession session) {
+		System.out.println(courseOrder + " " + maxOrder);
 		// 앞의 번호를 삭제한 후, 뒤에 세션의 번호를 하나씩 당기는 서비스
-		sessionUpdateService.execute(session);
+		sessionUpdateService.execute(courseOrder, maxOrder, session);
 	}
 }

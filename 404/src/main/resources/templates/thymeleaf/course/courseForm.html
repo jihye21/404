@@ -12,7 +12,7 @@ body{
 <script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <script type="text/javascript">
 var count = 2;
-var maxOrder = "";
+var maxOrder = 0;
 function storeList(courseNum, order){
 	$.ajax({
 		type: "post",
@@ -42,6 +42,7 @@ function addCourse(){
 	item += "	<span id='storedStoreName_" + count + "' style='position:fixed'></span><br/>";
 	item += "	<input type='hidden' id='cousrse" + count + "' value='" + count + "'/>";
 	item += "</span>";
+	maxOrder = count;
 	count = count + 1;
 	$("#course").append(item);
 }
@@ -80,33 +81,32 @@ function deleteStore(order){
 	$("#image" + order).remove(); // 삭제할 순서의 이미지 삭제
 	$("#storedStoreName_" + order).remove(); // 삭제할 순서의 가게명 삭제
 	for(var i = 1; i <= count - 1; i++){
-		alert(i + "번째 반복문");
 		if(i > order){ // 삭제한 순서의 다음 가게들일 경우
-			//-- order;
-			alert("삭제할 번호 : " + order);
-			alert("삭제할 번호의 다음 코스의 번호 : " + i)
-			alert("i - 1의 값은 :" + (i - 1));
-			//var item = "<img width='80' height='180' src='/static/upload/heart.png'  id='image" + (i - 1) + "' onclick='storeList(&#39;a&#39;, " + (i - 1) + ");'/>"; //
-			//$("#image" + i).html(item);
 			$("#image" + i).attr("onclick","storeList('a','" + (i - 1) + "')");
 			$("#image" + i).attr("id","image"+ (i - 1));
 			$("#storedStoreName_" + i).attr("id", "storedStoreName_" + (i - 1));
 			newOrder = i - 1
-			alert("다음 코스의 새 번호 : " + newOrder);
 		}
 	}
-	alert("newOrder : " + newOrder);
 	// 세션의 번호도 앞당기게
-	sessionUpdate();
+	count = count - 1;
+	sessionUpdate(order);
+	maxOrder = count - 1;
 	storeList("1", newOrder);
 }
-/*function sessionUpdate(){
+function sessionUpdate(order){
 	$.ajax({
 		type: "post",
 		url: "/course/sessionUpdate",
-		data: {},
+		data: {"courseOrder":order, "maxOrder":maxOrder},
+		success: function(){
+			storeList(1, order);
+		},
+		error: function(){
+			alert("couresForm.html의 sessionUpdate() 오류");
+		}
 	});
-}*/
+}
 </script>
 </head>
 <body>

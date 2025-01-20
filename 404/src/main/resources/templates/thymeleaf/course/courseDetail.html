@@ -22,9 +22,10 @@ function storeList(courseNum, count){
 		dataType: "html",
 		success: function(result){
 			$("#storeList").html(result);
+			$("#order").text(order);
 		},
 		error: function(){
-			alert("storeList() 오류");
+			alert("courseDetail.html의 storeList() 오류");
 		}
 	});
 }
