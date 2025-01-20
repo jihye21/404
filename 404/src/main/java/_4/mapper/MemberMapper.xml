@@ -31,12 +31,12 @@ update member set
 </update>
 
 <update id="wishCheck" parameterType="string">
-	merge into wish w
-	using (select mem_num from member) m
-     on (w.mem_num = m.mem_num)
+    merge into wish w
+	using (select mem_num from member where mem_num = #{userNum}) m
+     on (w.mem_num = m.mem_num AND w.store_num = #{storeNum})
      
 	when matched then 
-	update set wish_date = SYSDATE
+	update set wish_date = SYSDATE where mem_num = #{userNum} and store_num = #{storeNum}
     delete where mem_num = #{userNum} and store_num = #{storeNum}
     
     when not matched then 
