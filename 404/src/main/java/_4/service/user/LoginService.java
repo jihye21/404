@@ -1,6 +1,7 @@
 package _4.service.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
@@ -18,11 +19,13 @@ public class LoginService {
 	MemberMapper memberMapper;
 	@Autowired
 	MemberDeleteCheckService memberDeleteCheckService;
+	@Autowired
+	PasswordEncoder passwordEncoder;
 	
 	public AuthDTO execute(UserCommand userCommand, BindingResult result, HttpSession session) {
 		AuthDTO auth = userMapper.login(userCommand.getUserId());
 		if(auth != null) {
-			if(auth.getUserPw() != userCommand.getUserPw()) {
+			if(passwordEncoder.matches(userCommand.getUserPw(), auth.getUserPw())) {
 				
 				if(auth.getGrade().equals("member")) memberDeleteCheckService.execute(userCommand, session);
 				else session.setAttribute("auth", auth);
@@ -41,3 +44,22 @@ public class LoginService {
 	}
 	
 }
+/*
+if(auth.getUserEmailCheck() == null) {
+	// 회원에는 있지만 이메일 인증이 안되었을때
+	result.rejectValue("userId", "loginCommand.userId", "이메일 인증이 안되었습니다.");
+}
+else {
+	if(auth.getGrade().equals("member")) {
+		memberDeleteCheckService.execute(userCommand, session);
+	}
+	else {
+		session.setAttribute("auth", auth);
+	}
+
+}
+
+auth.getUserPw() == userCommand.getUserPw(
+*/
+
+
