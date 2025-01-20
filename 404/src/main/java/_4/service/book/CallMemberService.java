@@ -7,7 +7,7 @@ import _4.domain.StoreDTO;
 import _4.mapper.BookMapper;
 import _4.mapper.MemberMapper;
 import _4.mapper.StoreMapper;
-import net.nurigo.sdk.NurigoApp;
+//import net.nurigo.sdk.NurigoApp;
 import net.nurigo.sdk.message.model.Balance;
 import net.nurigo.sdk.message.model.Message;
 import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
@@ -23,10 +23,10 @@ public class CallMemberService {
 	@Autowired
 	StoreMapper storeMapper;
 	
-	final DefaultMessageService messageService;
-	public CallMemberService() {
-		this.messageService = NurigoApp.INSTANCE.initialize("뭘봐", "뭘봐", "https://api.coolsms.co.kr");
-	}
+	//final DefaultMessageService messageService;
+	//public CallMemberService() {
+		//this.messageService = NurigoApp.INSTANCE.initialize("NCSS1WJQZAXJTOU3", "95SLEOIUVUDQP9MAR7MY2CTQRHCLZWHY", "https://api.coolsms.co.kr");
+	//}
 	public void execute(String bookNum) {
 		String storeNum = storeMapper.waitNumSelectOne(bookNum).getStoreNum();
 		String storeName = storeMapper.storeSelectOne(storeNum).getStoreName();
@@ -39,10 +39,10 @@ public class CallMemberService {
 		message.setFrom(storePhone);
 		message.setTo(memberPhone);
 		message.setText(content);
-		SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
-		System.out.println(response);
-		Balance balance = this.messageService.getBalance();
-		System.out.println(balance);
+		//SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
+		//System.out.println(response);
+		//Balance balance = this.messageService.getBalance();
+		//System.out.println(balance);
 	}
 	
 }
