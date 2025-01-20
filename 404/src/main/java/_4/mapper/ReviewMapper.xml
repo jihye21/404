@@ -34,6 +34,10 @@ select review_num, book_num, r.mem_num, store_num, review_contents, review_date,
 select <include refid="reviewBaseColumn"/> from review where book_num = #{bookNum}
 </select>
 
+<select id="groupReviewSelectOneWithBookNum" parameterType="string" resultType="reviewDTO">
+select <include refid="reviewBaseColumn"/> from review where book_num = #{bookNum}
+</select>
+
 <update id="reviewUpdate" parameterType="reviewDTO">
 update review set
 	review_contents = #{reviewContents},

@@ -21,7 +21,6 @@ public interface ReviewMapper {
 
 	public void reviewDelete(String reviewNum);
 	public void reviewAnswerDelete(String reviewNum);
-	
-	
+	public List<ReviewDTO> groupReviewSelectOneWithBookNum(String bookNum);
 
 }

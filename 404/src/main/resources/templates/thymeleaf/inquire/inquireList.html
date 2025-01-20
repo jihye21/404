@@ -19,7 +19,7 @@
 	
 	<tr th:each = "list:${list}">
 	<td>
-		<a th:href = "|inquireDetail?inquireNum=${list.inquireNum}|">
+		<a th:href = "|/inquire/inquireDetail?inquireNum=${list.inquireNum}|">
 		[[${list.inquireSubject}]]
 		</a>
 	</td>

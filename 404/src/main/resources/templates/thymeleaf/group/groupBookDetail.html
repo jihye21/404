@@ -166,10 +166,15 @@ function reviewDelete(reviewNum){
 	<th:block th:if="${dto.bookStatus} == '예약취소'">
 		<tr><th colspan="2">예약이 취소되었습니다.</th></tr>
 	</th:block>
-	<th:block th:if="${dto.bookStatus} == '방문완료'">
-		<th:block th:if="${reviewDTO == null} and ${dto.bookStatus} == '방문완료'">
+	
+	<!-- review -->
+	<th:block th:if="${#lists.isEmpty(reviewDTO)} or ${reviewNull}">
 			<tr><th colspan="2"><span id="reviewContent"><button th:attr="onclick=|reviewForm('${dto.bookNum}');|">리뷰 작성</button></span></th></tr>
-		</th:block>
+	</th:block>
+
+	<th:block th:each="reviewDTO:${reviewDTO}">
+	<th:block th:each = "member : ${groupMemberList}">
+	<th:block th:if="${dto.bookStatus} == '방문완료' and ${member.memNum} == ${memNum}">
 		<th:block th:if="${reviewDTO != null}">
 			<tr><td colspan="2">
 				<div class="star-rating">
@@ -182,8 +187,12 @@ function reviewDelete(reviewNum){
 				</div>
 				<textarea cols="60" rows="5" readonly="readonly">[[${reviewDTO.reviewContents}]]</textarea>
 			</td></tr>
+			<th:block th:if="${member.memNum} == ${memNum} and ${reviewDTO.memNum == memNum}">
 			<tr><th colspan="2"><button type="button" th:attr="onclick=|reviewDelete('${reviewDTO.reviewNum}')|">삭제</button></th></tr>
+			</th:block>
 		</th:block>
+	</th:block>
+	</th:block>
 	</th:block>
 </table>
 

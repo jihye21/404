@@ -1,5 +1,7 @@
 package _4.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +17,7 @@ import _4.domain.BookDTO;
 import _4.domain.GroupDTO;
 import _4.domain.ReviewDTO;
 import _4.mapper.BookMapper;
+import _4.mapper.GroupMapper;
 import _4.mapper.ReviewMapper;
 import _4.mapper.service.UserNumService;
 import _4.service.group.GroupCheckService;
@@ -62,6 +65,8 @@ public class ReviewController {
 	BookMapper bookMapper;
 	@Autowired
 	ReviewMapper reviewMapper;
+	@Autowired
+	GroupMapper groupMapper;
 	
 	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@RequestMapping("reviewList")
@@ -82,6 +87,7 @@ public class ReviewController {
 			if(bookDTO != null) {
 				BookDTO dto = bookMapper.bookSelectOne(bookNum);
 				model.addAttribute("dto", dto);
+			
 				return "thymeleaf/review/reviewWrite";
 			}else {
 				return "403";
@@ -104,9 +110,17 @@ public class ReviewController {
 	
 	@PostMapping("reviewWrite")
 	public String reviewWrite(ReviewCommand reviewCommand, HttpSession session) {
+		
 		reviewWriteService.execute(reviewCommand, session);
 		memberReviewSavePointService.execute(session);
-		return "redirect:/book/memberBookDetail?bookNum=" + reviewCommand.getBookNum();
+		
+		String bookNum = reviewCommand.getBookNum();
+		//그룹 결제인지 확인하기
+		String groupCheck = groupCheckService.execute(bookNum);
+		if(groupCheck != null) {
+			return "redirect:/group/groupBookDetail?bookNum=" + bookNum;
+		}
+		return "redirect:/book/memberBookDetail?bookNum=" + bookNum;
 	}
 	
 	///@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

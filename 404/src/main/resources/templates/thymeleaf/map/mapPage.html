@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>코스 시스템</title>
+<title>그룹 채팅</title>
 <script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.1/dist/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
@@ -31,22 +31,22 @@ text-align:center;
 </head>
 <body>
 
-<h1>코스</h1>
-
 <div class = "container">
 	<div class = "innerBox">
 		<div id = "eventList">
 			
 		</div>
+		<h3>그룹 채팅</h3>
 		<div id="messageList"></div>
 		<input type="text" id="messageInput" placeholder="내용을 입력해주세요.">
         <button id="sendButton">전송</button>
 	</div>
 	<div class = "innerBox" style="overflow:scroll;">
+		<h3>인스타그램 게시물</h3>
 		<!-- 키워드 검색 페이지 연동하기 -->
 		<form action = "keywordSearch" method = "post">
 		<input type = "hidden" id = "groupNum" name = "groupNum" th:value="${groupNum}">
-			키워드: <input type = "text" name = "keyword" th:value="${keyword}">
+			#해시태그 검색: <input type = "text" name = "keyword" th:value="${keyword}" placeholder="키워드를 입력하세요.">
 			<input type = "submit" value = "검색">
 		</form>
 		<br>

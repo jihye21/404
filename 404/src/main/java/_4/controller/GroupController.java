@@ -38,6 +38,7 @@ import _4.service.group.GroupRegistService;
 import _4.service.group.MemberDutchPaymentCheckService;
 import _4.service.member.MemberPointService;
 import _4.service.purchase.IniPayReqService;
+import _4.service.review.ReviewGroupMemberListService;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -81,6 +82,8 @@ public class GroupController {
 	GroupRegistService groupRegistService;
 	@Autowired
 	GroupMemberSearchService groupMemberSearchService;
+	@Autowired
+	ReviewGroupMemberListService reviewGroupMemberListService;
 	@GetMapping("groupList")
 	public String groupList(HttpSession session, Model model) {
 		groupListService.execute(session, model);
@@ -139,11 +142,24 @@ public class GroupController {
 	}
 	
 	@GetMapping("groupBookDetail")
-	public String groupBookDetail(String bookNum, Model model) {
+	public String groupBookDetail(String bookNum, Model model, HttpSession session) {
+		String memNum = userNumService.execute(session);
+		
 		BookDTO dto = bookMapper.bookSelectOne(bookNum);
-		ReviewDTO reviewDTO = reviewMapper.reviewSelectOneWithBookNum(bookNum);
+		List<ReviewDTO> reviewDTO = reviewMapper.groupReviewSelectOneWithBookNum(bookNum);
+		
+		boolean reviewNull = true;
+		for(ReviewDTO reviewMem : reviewDTO) {
+			if(reviewMem.getMemNum().equals(memNum)) {
+				reviewNull = false;
+			}
+		}
+		
+		model.addAttribute("reviewNull", reviewNull);
 		model.addAttribute("dto", dto);
 		model.addAttribute("reviewDTO", reviewDTO);
+
+		reviewGroupMemberListService.execute(bookNum, model, session);
 		
 		return "thymeleaf/group/groupBookDetail";
 	}
