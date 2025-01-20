@@ -31,6 +31,10 @@ select book_num from called_wait_num where store_num = #{storeNum}
 delete from called_wait_num where book_num = #{bookNum}
 </delete>
 
+<select id="categoryStoreSelect" parameterType="string" resultType="storeDTO">
+	select <include refid="storeBaseColumn"/> from store where category = #{category}
+</select>
+
 <select id="storeSelectOne" parameterType="string" resultType="storeDTO">
 	select <include refid="storeBaseColumn"/> from store 
 	where owner_num = #{ownerNum} or store_num = #{ownerNum}

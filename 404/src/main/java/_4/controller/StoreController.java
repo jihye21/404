@@ -62,6 +62,14 @@ public class StoreController {
 		return result;
 	}
 	
+	@GetMapping("storeList")
+	public String storeList(String category, Model model) {
+		List<StoreDTO> list = storeMapper.categoryStoreSelect(category);
+		model.addAttribute("list", list);
+		model.addAttribute("category", category);
+		return "thymeleaf/store/storeList";
+	}
+	
 	@PostMapping("storeList")
 	public String storeList(Model model) {
 		List<StoreDTO> list = storeMapper.storeSelectAll();

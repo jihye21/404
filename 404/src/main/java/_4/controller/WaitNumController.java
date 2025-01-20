@@ -40,7 +40,7 @@ public class WaitNumController {
 	
 	@PostMapping("setWaitNum")
 	public String setWaitNum(WaitNumCommand waitNumCommand) {
-		waitNumInsertService.execute(waitNumCommand);
+		//waitNumInsertService.execute(waitNumCommand);
 		return "redirect:/book/memberBookDetail?bookNum=" + waitNumCommand.getBookNum();
 	}
 	

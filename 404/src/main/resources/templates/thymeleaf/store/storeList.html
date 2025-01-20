@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<table align="center" border="1px solid black">
+	<tr><th colspan="2">[[${category}]]</th></tr>
+	<tr th:each="dto : ${list}">
+		<td><img th:src="|/static/upload/${dto.storeProfileStoreImage}|" width="150" height="150"/></td>
+		<td>
+			<a th:href = "|/store/storeMainPage?ownerNum=${dto.ownerNum}|">
+				[[${dto.storeName}]]<br/>
+				[[${dto.storeIntroduction}]]
+			</a>
+		</td>
+	</tr>
+</table>
+</body>
+</html>

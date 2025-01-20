@@ -15,4 +15,5 @@ public class AuthDTO {
 	String userEmail;
 	String userName;
 	LocalDateTime lastLoginTime;
+	String userEmailCheck;
 }

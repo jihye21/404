@@ -24,6 +24,7 @@ public interface StoreMapper {
 	public StoreDTO storeSelectOne(String ownerNum);
 	public String storeNumSelect(String ownerNum);
 	public List<DepositDTO> depositSettingSelect(String storeNum);
+	public List<StoreDTO> categoryStoreSelect(String category);
 	
 	public List<StoreDTO> storeSelectAll();
 	public List<StoreDTO> storeSearch(String storeName);
