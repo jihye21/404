@@ -145,7 +145,7 @@ public class FriendsController {
 	@GetMapping("friendDetail")
 	public String friendDetail(@RequestParam("friendNum") String friendNum, Model model) {
 		friendDetailService.execute(friendNum, model);
-		return "thymeleaf/friend/friendDetail";
+		return "thymeleaf/friend/friendDetail2";
 	}
 	
 	@GetMapping("friendDelete")
