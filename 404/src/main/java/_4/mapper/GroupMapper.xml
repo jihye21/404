@@ -74,10 +74,13 @@
 		where dutch_status is null and mem_num = #{memNum}
 	</select>
 	<select id="groupDutchAlarmSelectAll" parameterType="string" resultType="groupDTO">
-		select gda.group_num, group_name, book_num from groupdutchalarm gda join group_list gl
+		select gda.group_num, group_name, gda.book_num, gda.dutch_price, book_status 
+		from groupdutchalarm gda join group_list gl
 		on gda.group_num = gl.group_num
+		join book b
+		on b.book_num = gda.book_num
 		where dutch_status is null 
-		and mem_num = #{memNum}
+		and gda.mem_num = #{memNum}
 	</select>
 	<select id="groupPaymentHistorySelectAll" parameterType="string" resultType="groupDTO">
 		select group_num, book_num, gda.mem_num, mem_name, mem_nickname

@@ -22,4 +22,6 @@ public class GroupDTO {
 	
 	String bookNum;
 	Integer dutchPrice;
+	
+	String bookStatus;
 }

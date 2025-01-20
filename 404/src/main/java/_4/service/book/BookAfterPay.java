@@ -24,7 +24,8 @@ public class BookAfterPay {
 		BookDTO bookDTO = bookMapper.bookSelectOne(bookNum);
 		
 		String groupNum = bookDTO.getGroupNum();
-		
+
 		model.addAttribute("dto", bookDTO);
+
 	}
 }

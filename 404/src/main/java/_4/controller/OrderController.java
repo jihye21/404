@@ -114,7 +114,7 @@ public class OrderController {
 				}
 			}
 			
-			dto.setDepositPrice(bookCommand.getDepositPrice());
+			dto.setDepositPrice(bookCommand.getPrice());
 			iniPayReqService.execute(dto, model);
 			
 			return "thymeleaf/purchase/payment";

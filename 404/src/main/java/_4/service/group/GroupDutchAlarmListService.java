@@ -1,5 +1,6 @@
 package _4.service.group;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,14 +32,20 @@ public class GroupDutchAlarmListService {
 			
 			BookDTO bookDTO = bookMapper.bookSelectOne(bookNum);
 			
-			if(bookDTO.getBookStatus().equals("결제대기중")) {
-				//"결제대기중"인 더치페이 요청은 삭제
+			if(bookDTO == null || bookDTO.getBookStatus().equals("결제대기중") 
+					|| bookDTO.getBookStatus().equals("예약취소")){
+				/*
+				if(bookDTO.getBookStatus().equals("결제대기중")) {
+					//"결제대기중"인 더치페이 요청은 삭제 }
+				*/
 				groupMapper.dutchAlarmDelete(bookNum);
+				
 			}
 		}
 		
-		List<GroupDTO> groupDutchAlarmList = groupMapper.groupDutchAlarmSelectAll(memNum);
-		
+		List<GroupDTO> groupDutchAlarmList = new ArrayList<>();
+		groupDutchAlarmList = groupMapper.groupDutchAlarmSelectAll(memNum);
+		System.out.println(groupDutchAlarmList);
 		model.addAttribute("groupDutchAlarmList", groupDutchAlarmList);
 	}
 }

@@ -1,6 +1,7 @@
 package _4.controller;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ import _4.service.book.WaitNumInsertService;
 import _4.service.book.WaitNumService;
 import _4.service.coupon.memberCouponListService;
 import _4.service.group.GroupDetailService;
+import _4.service.group.GroupDutchService;
 import _4.service.group.GroupListService;
 import _4.service.member.MemberPointService;
 import _4.service.member.MemberSavePointService;
@@ -35,6 +37,8 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("book")
 public class BookController {
+	@Autowired
+	GroupDutchService groupDutchService;
 	@Autowired
 	GroupNumService groupNumService;
 	@Autowired
@@ -66,12 +70,15 @@ public class BookController {
 		return "thymeleaf/book/memberBookList";
 	}
 	@GetMapping("memberBookDetail")
-	public String memberBookDetail(String bookNum, Model model) {
+	public String memberBookDetail(String bookNum, Model model, HttpSession session) {
 		BookDTO dto = bookMapper.bookSelectOne(bookNum);
 		WaitNumDTO waitDTO = storeMapper.waitNumSelectOne(bookNum);
-		ReviewDTO reviewDTO = reviewMapper.reviewSelectOneWithBookNum(bookNum);
-		model.addAttribute("dto", dto);
+		
+		//reviewDTO = reviewMapper.reviewSelectOneWithBookNum(bookNum);
+		List<ReviewDTO> reviewDTO = reviewMapper.groupReviewSelectOneWithBookNum(bookNum);
 		model.addAttribute("reviewDTO", reviewDTO);
+		
+		model.addAttribute("dto", dto);
 		model.addAttribute("waitDTO", waitDTO);
 		return "thymeleaf/book/memberBookDetail";
 	}

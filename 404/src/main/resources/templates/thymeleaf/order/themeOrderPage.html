@@ -44,6 +44,8 @@ $(function(){
 	
 	//쿠폰 적용 후 금액 표기
 	$(".useCoupon").click(function(){
+		
+		pointCount();
 		couponDiscount();
 	});
 	
@@ -54,7 +56,7 @@ $(function(){
 			pointCount();
 		}else{
 			//그룹 결제
-			dutchPrice();
+			//dutchPrice();
 			pointCount();
 		}
 		
@@ -94,22 +96,23 @@ function pointCount(){
 		var revertCoupon = totalPrice - parseInt($(".usePoint").text());
 		$("#discountedPrice").val(revertCoupon);
 		$(".discountedPrice").text(revertCoupon);
+		$(".payPrice").text(revertCoupon);
 	}else{
-		//var myDutchPrice = parseInt($("#myDutchPrice").val());
-		var myDutchPrice = parseInt($(".myTotalDutchPrice").text());
-		
-		if(myDutchPrice > 0){
-			myDuthcPrice = myDutchPrice - parseInt($(".usePoint").text());
-			
-			//$("#myTotalDutchPrice").val(myDuthcPrice);
+		var myDutchPrice = parseInt($(".totalDutchPrice").text());
+		var usePoint = parseInt($(".usePoint").text());
+		if(myDutchPrice >= usePoint){
+			myDuthcPrice = myDutchPrice - usePoint;
+
 			$(".myTotalDutchPrice").text(myDuthcPrice.toString());
+			$(".myDutchPrice").text(myDuthcPrice.toString());
+			$(".payPrice").text(myDuthcPrice.toString());
 		}
 	}
 	
 	memPointCount();
 };
 function couponDiscount(){
-	pointCount();
+
 	//모든 .couponNum의 name을 "coupon"으로 초기화
 	$(".couponNum").attr("name", "coupon");
 	//선택된 라디오 버튼의 값
@@ -118,9 +121,8 @@ function couponDiscount(){
 	var selectedCoupon = $("input[type=radio][name=selectCoupon]:checked").closest("td").find(".couponNum");
 	
 	if(selectedRadio != undefined){
-		var totalPrice = parseInt($(".totalDutchPrice").text());
+		var totalPrice = parseInt($(".myTotalDutchPrice").text());
 		var dutchPrice = $("#myDutchPrice").val();
-		//var myDutchPrice = $("#myDutchPrice").val();
 		var myDutchPrice = parseInt($(".myTotalDutchPrice").text());
 
 		var discountedPrice = 0;
@@ -128,7 +130,6 @@ function couponDiscount(){
 		$(".discountedPrice").text(totalPrice);
 		$("#discountedPrice").val(totalPrice);
 		if(myDutchPrice > 0){
-			//totalPrice = dutchPrice;
 			//쿠폰 적용 후 금액 (총 금액)
 			
 			// n% 할인
@@ -146,11 +147,9 @@ function couponDiscount(){
 				$(selectedCoupon).attr("name", "couponNum");
 				discountedPrice = Math.ceil(discountedPrice);
 				
-				//더치 페이 했을 경우 .dutchPrice의 text 값 변경하기
-				//$(".myDutchPrice").text(discountedPrice);
-				//$("#myDutchPrice").val(discountedPrice);
-				
 				$(".myTotalDutchPrice").text(discountedPrice);
+				$(".myDutchPrice").text(discountedPrice);
+				$(".payPrice").text(discountedPrice);
 			}else{
 				$("input[name='selectCoupon']").prop('checked', false);
 			}
@@ -160,6 +159,8 @@ function couponDiscount(){
 			if($("input[type='checkbox']:visible").length == 0){
 				//총금액
 				var totalPrice = parseInt($("#totalPrice").text());
+				totalPrice = parseInt($(".payPrice").text());
+				var discountedPrice = 0;
 				//쿠폰 적용 후 금액 (총 금액)
 				
 				// n% 할인
@@ -177,6 +178,7 @@ function couponDiscount(){
 					discountedPrice = Math.ceil(discountedPrice);
 					$(".discountedPrice").text(discountedPrice);
 					$("#discountedPrice").val(discountedPrice);
+					$(".payPrice").text(discountedPrice);
 				}else{
 					$("input[name='selectCoupon']").prop('checked', false);
 				}
@@ -192,15 +194,12 @@ function couponDiscount(){
 
 function pointDiscount(memPoint){
 	var usePoint = parseInt( $(".usePoint").text(), 10);
-	//var totalPrice = parseInt($(".discountedPrice").text());
 	var totalPrice = parseInt($("#totalPrice").text());
-	//var dutchPrice = $("#myDutchPrice").val();
-	var dutchPrice = parseInt($(".myTotalDutchPrice").text());
-	var totalDutchPrice = parseInt($(".totalDutchPrice").text());
 	
 	//1인 결제
 	if($("input[type='checkbox']:visible").length == 0){
-		if(usePoint < memPoint && totalPrice > 0){
+		var totalPrice = parseInt($(".discountedPrice").text());
+		if(usePoint < memPoint && totalPrice >= 100){
 			usePoint = usePoint + 100;
 			
 			$(".usePoint").text(usePoint);
@@ -208,19 +207,25 @@ function pointDiscount(memPoint){
 			//1인 결제
 			totalPrice = totalPrice - 100;
 			$(".discountedPrice").text(totalPrice.toString());
+			$(".payPrice").text(totalPrice.toString());
 		}
 	}else{
+		totalPrice = 0;
+		dutchPrice = parseInt($(".totalDutchPrice").text());
+		var totalDutchPrice = parseInt($(".myTotalDutchPrice").text());
+
 		//그룹 결제
-		if(dutchPrice > 0 && dutchPrice + 100 <= totalDutchPrice){
+		if(dutchPrice >= 100 && totalDutchPrice - 100 >= 0){
 			if(usePoint < memPoint){
 				usePoint = usePoint + 100;
 				
 				$(".usePoint").text(usePoint);
 				
-				totalPrice = dutchPrice - 100;
+				totalPrice = totalDutchPrice - 100;
 				
 				$(".myTotalDutchPrice").text(totalPrice.toString());
-				//$("#myDutchPrice").val(totalPrice);
+				$(".myDutchPrice").text(totalPrice.toString());
+				$(".payPrice").text(totalPrice.toString());
 			}
 		}
 		
@@ -231,15 +236,12 @@ function pointDiscount(memPoint){
 function pointRevert(memPoint){
 	var usePoint = parseInt( $(".usePoint").text(), 10);
 	var depositPrice = parseInt($("#depositPrice").text());
-	//var totalPrice = parseInt($(".discountedPrice").text());
 	var totalPrice = parseInt($("#totalPrice").text());
-	//var dutchPrice = $("#myDutchPrice").val();
-	//var dutchPrice = parseInt($(".totalDutchPrice").text());
-	var myDutchPrice = parseInt($(".myTotalDutchPrice").text());
 	
-	//1인 결제
+	//1인 결제 #totalPrice 기준
 	if($("input[type='checkbox']:visible").length == 0){
-		if(usePoint > 0 && depositPrice >= 100 + totalPrice){
+		var totalPrice = parseInt($(".discountedPrice").text());
+		if(usePoint >= 100 && depositPrice >= 100 + totalPrice){
 			usePoint = usePoint - 100;
 			
 			$(".usePoint").text(usePoint);
@@ -247,11 +249,13 @@ function pointRevert(memPoint){
 			//1인 결제
 			totalPrice = totalPrice + 100;
 			$(".discountedPrice").text(totalPrice.toString());
+			$(".payPrice").text(totalPrice.toString());
 		}
 	}else{
+		var dutchPrice = $(".totalDutchPrice").text();
 		var myDutchPrice = $(".myTotalDutchPrice").text();
 		//그룹 결제
-		if(usePoint > 0 && myDutchPrice >= 100 + myDutchPrice){
+		if(usePoint >= 100 && dutchPrice >= 100 + myDutchPrice){
 			usePoint = usePoint - 100;
 			
 			$(".usePoint").text(usePoint);
@@ -259,9 +263,9 @@ function pointRevert(memPoint){
 			//1인 결제
 			myDutchPrice = parseInt(myDutchPrice) + 100;
 			
-			//$(".myDutchPrice").text(totalPrice.toString());
-			//$("#myDutchPrice").val(totalPrice);
 			$(".myTotalDutchPrice").text(myDutchPrice.toString());
+			$(".myDutchPrice").text(myDutchPrice.toString());
+			$(".payPrice").text(myDutchPrice.toString());
 		}
 		
 	}
@@ -343,6 +347,8 @@ function back(){
 	$(".people").show();
 	$(".discountResult").hide();
 	$(".pointContent").hide();
+
+	$(".payPrice").text($("#depositPrice").text());
 }
 
 function groupChoose(groupNum){
@@ -356,8 +362,14 @@ function groupChoose(groupNum){
 		if($(this).data("group-num") === groupNum){
 			$(this).show();
 			$("input[name='selectCoupon']").prop('checked', false);
+			$("input[type='checkbox']").prop('checked', false);
 			$(".discountedPrice").text(totalPrice);
 			$(".usePoint").text('0');
+			$(".payPrice").text('0');
+			$(".totalDutchPrice").text('0');
+			$(".myTotalDutchPrice").text('0');
+			$(".myDutchPrice").text('0');
+			$(".dutchPrice").text('0');
 		}
 	})
 	
@@ -369,6 +381,8 @@ function groupBack(){
 	$(".memberCheckList").hide();
 	$(".discountResult").show();
 	$(".pointContent").show();
+	$(".discountedPrice").text($("#depositPrice").text());
+	$(".payPrice").text($("#depositPrice").text());
 }
 
 function dutchPrice(){
@@ -392,6 +406,7 @@ function dutchPrice(){
 		myTotalDutchPrice = 0;
 		totalDutchPrice = 0;
 	}else{
+		totalPrice = $(".depositPrice").val();
 		totalDutchPrice = Math.round(totalPrice/memberCount);
 		
 		if(withMem){
@@ -455,6 +470,9 @@ function checkBox(){
 }
 
 function memberCheck(){
+	$("#lastPrice").val($(".payPrice").text());
+	$("#myDutchPrice").val($(".myTotalDutchPrice").text());
+	$("#dutchPrice").val($(".totalDutchPrice").text());
 	if($(".checkBox:visible:checked").length == 0 && $(".checkBox:visible").length > 0){
 		alert("적어도 한 명 이상의 그룹원을 체크해주세요.");
 		return false;
@@ -541,7 +559,7 @@ function memberCheck(){
 	<div class="discountResult">
 	<table border = "1" width="200">
 		<tr>
-			<th colspan="3">할인 후 금액: <span class="discountedPrice"></span>원</th>
+			<th colspan="3">할인 금액: <span class="discountedPrice"></span>원</th>
 		</tr>
 	</table>
 	</div>
