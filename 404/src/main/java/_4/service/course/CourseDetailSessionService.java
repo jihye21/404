@@ -25,5 +25,6 @@ public class CourseDetailSessionService {
 		dto.setStoreName(storeName);
 		dto.setCourseOrder(Integer.parseInt(courseOrder));
 		session.setAttribute(memberNum + "/" + courseOrder, dto);
+		System.out.println(session.getAttribute(memberNum + "/" + courseOrder));
 	}
 }

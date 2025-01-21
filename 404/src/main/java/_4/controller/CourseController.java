@@ -58,8 +58,9 @@ public class CourseController {
 	}
 	
 	@PostMapping("storeList")
-	public String storeList(@RequestParam("courseNum") String courseNum, @RequestParam("courseCount") Integer courseOrder, Model model, HttpSession session) {
-		courseListPageService.execute(courseNum, courseOrder, model, session);
+	public String storeList(@RequestParam("courseNum") String courseNum, @RequestParam("courseCount") Integer courseOrder, Model model
+			, String deleteCheck, HttpSession session) {
+		courseListPageService.execute(courseNum, courseOrder, model, deleteCheck, session);
 		return "thymeleaf/course/storeList";
 	}
 	

@@ -14,11 +14,12 @@ body{
 var originalMaxOrder = Number("[[${#numbers.formatInteger(maxOrder,1)}]]");
 var maxCount = originalMaxOrder + 1;
 var courseNum = "[[${cDTO.courseNum}]]";
-function storeList(courseNum, count){
+var deleteCheck = "N";
+function storeList(courseNum, count, deleteCheck){
 	$.ajax({
 		type: "post",
 		url: "/course/storeList",
-		data: {"courseNum":courseNum, "courseCount":count},
+		data: {"courseNum":courseNum, "courseCount":count, "deleteCheck":deleteCheck},
 		dataType: "html",
 		success: function(result){
 			$("#storeList").html(result);
@@ -42,9 +43,10 @@ function storedStoreName(idx, storeName){
 
 function addCourse(){
 	item = "<span>";
-	item += "	<img width='80' height='80' src='/static/upload/heart.png' id='image" + maxCount + "' onclick='storeList(&#39;a&#39;, " + maxCount + ");'/>";
+	item += "	<img width='80' height='80' src='/static/upload/heart.png' id='image" + maxCount + "' onclick='storeList(&#39;a&#39;, " + maxCount + ", &#39;N&#39;);'/>";
 	item += "	<span id='storedStoreName_" + maxCount + "' style='position:fixed'></span><br/>";
 	item += "	<input type='hidden' id='course" + maxCount + "' value='" + maxCount + "'/>";
+	item += "	<input type='hidden' th:id='&#39;storedStoreNum_&#39;+" + maxCount + "' th:value='${dto.storeNum}'/>;";	
 	item += "</span>";
 	maxCount = maxCount + 1;
 	$("#course").append(item);
@@ -78,7 +80,7 @@ function deleteStore(order){
 	$("#storedStoreName_" + order).remove(); // 삭제할 순서의 가게명 삭제
 	for(var i = 1; i <= maxCount - 1; i++){
 		if(i > order){ // 삭제한 순서의 다음 가게들일 경우
-			$("#image" + i).attr("onclick","storeList('a','" + (i - 1) + "')");
+			$("#image" + i).attr("onclick","storeList('a','" + (i - 1) + "', 'Y')");
 			$("#image" + i).attr("id","image"+ (i - 1));
 			$("#storedStoreName_" + i).attr("id", "storedStoreName_" + (i - 1));
 			newOrder = i - 1;
@@ -98,7 +100,7 @@ function sessionUpdate(storeNum, order){
 		url: "/course/courseDetailSession",
 		data: {"courseNum" : courseNum, "storeNum" : storeNum, "courseOrder":order},
 		success: function(){
-			storeList(corseNum, order);
+			storeList(corseNum, order, 'Y');
 		},
 		error: function(){
 			alert("courseDetail.html의 sessionUpdate() 오류");
@@ -135,11 +137,11 @@ function updateCourse(courseNum, courseName){
 </div>
 
 <!-- 중앙 바 -->
-<div style="border:1px solid black; width:450px; height:800px; position:absolute;left:500px;"align="center"><br/>
+<div style="border:1px solid black; width:450px; height:800px; position:absolute;left:500px;"align="center" id="courseBar"><br/>
 	코스명 : <input type="text" name="courseName" th:value="${cDTO.courseName}"/><br/>
 	<span id="course">
 		<div th:each="dto, idx : ${cdList}">
-			<img width="60" height="50" src="/static/upload/heart_filled.png" th:attr="onclick=|storeList('${dto.courseNum}','${dto.courseOrder}');|" th:id="'image' + ${dto.courseOrder}"/>
+			<img width="60" height="50" src="/static/upload/heart_filled.png" th:attr="onclick=|storeList('${dto.courseNum}','${dto.courseOrder}', 'N');|" th:id="'image' + ${dto.courseOrder}"/>
 			<span th:id="'storedStoreName_'+${idx.count}" style="position:fixed;">[[${dto.storeName}]]</span><br/>
 			<input type="hidden" th:id="'storedStoreNum_'+${idx.count}" th:value="${dto.storeNum}"/>
 		</div>
