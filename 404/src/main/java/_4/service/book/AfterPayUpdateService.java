@@ -26,6 +26,10 @@ public class AfterPayUpdateService {
 		bookDTO.setMemNum(memNum);
 		bookDTO.setBookNum(bookNum);
 		bookDTO.setAfterPrice(afterPrice);
+		
+		if(afterDutchPrice == null) {
+			afterDutchPrice = 0;
+		}
 		bookDTO.setAfterDutchPrice(afterDutchPrice);
 		
 		bookMapper.afterPayUpdate(bookDTO);

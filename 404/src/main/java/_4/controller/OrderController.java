@@ -13,6 +13,7 @@ import _4.command.BookCommand;
 import _4.domain.BookDTO;
 import _4.domain.ThemeDTO;
 import _4.mapper.BookMapper;
+import _4.mapper.MemberMapper;
 import _4.mapper.PurchaseMapper;
 import _4.mapper.StoreMapper;
 import _4.mapper.ThemeMapper;
@@ -65,6 +66,8 @@ public class OrderController {
 	BookMapper bookMapper;
 	@Autowired
 	StoreMapper storeMapper;
+	@Autowired
+	MemberMapper memberMapper;
 	
 	@PostMapping("themeOrder")
 	public String themeOrder(String themeNum, String themeTime, Model model, HttpSession session) {
@@ -86,28 +89,43 @@ public class OrderController {
 	
 	@PostMapping("payment")
 	public String payment(BookCommand bookCommand, Model model, HttpSession session) {
+		String memNum = memNum = userNumService.execute(session);
+		
+		System.out.println("OrderController: " + bookCommand);
 		/*
-		 * BookCommand(bookNum=null, memNum=mem_100001, 
-		 * groupNum=on, storeNum=null, themeNum=theme_100022, 
-		 * themeTime=종일권, people=1, price=900, depositPrice=4500, 
-		 * finalPrice=null, dutchPrice=0, couponNum=null, bookStatus=null, 
-		 * dutchMember=null, myDutchPrice=0, memPoint=47300, afterPrice=null, 
-		 * afterDutchPrice=null)
+		OrderController: BookCommand(bookNum=null, memNum=mem_100002, 
+		groupNum=group_100002, storeNum=null, themeNum=theme_100003, 
+		themeTime=10:00, people=1, price=390, depositPrice=1000, finalPrice=null, 
+		dutchPrice=500, couponNum=emp_coupon_100001, bookStatus=null, 
+		dutchMember=[mem_100001, mem_100002], myDutchPrice=390, memPoint=9600, 
+		afterPrice=null, afterDutchPrice=null)
 		 */
 		
+		//예약금이 0원인 경우
 		if(bookCommand.getDepositPrice() == 0) {
+			bookCommand.setBookStatus("결제완료");
+			themeBookInsertService.execute(bookCommand, session);
+			return "redirect:/book/memberBookList";
+			
+		}else if(bookCommand.getPrice() == 0) {
 			bookCommand.setBookStatus("결제대기중");
 			String bookNum = themeBookInsertService.execute(bookCommand, session);
 			
 			//포인트 사용 완료
 			Integer usedPoint = bookCommand.getMemPoint();
-			if(usedPoint > 0) {
-				pointUseService.execute(session, bookNum, usedPoint);
+			pointUseService.execute(session, bookNum, usedPoint);
+			purchaseMapper.memberPointUpdate(bookNum, memNum);
+			purchaseMapper.paymentPointCheck(bookNum, memNum);
+			purchaseMapper.pointStatusUpdate(bookNum, memNum);
+			
+			//쿠폰 적용하기
+			if(bookCommand.getCouponNum() != null) {
+				purchaseMapper.patmentCouponCheck(bookNum);
 			}
 			
 			bookCommand.setBookStatus("결제완료");
 			themeBookInsertService.execute(bookCommand, session);
-			return "redirect:/book/memberBookList"; 
+			return "redirect:/book/memberBookList";
 		}
 		else {
 			bookCommand.setBookStatus("결제대기중");
@@ -124,29 +142,46 @@ public class OrderController {
 				
 				//리더의 결제 금액이 0원이면
 				if(bookCommand.getMyDutchPrice() == 0) {
-					String memNum = userNumService.execute(session);
+					
+					//포인트 사용 완료
+					Integer usedPoint = bookCommand.getMemPoint();
+					pointUseService.execute(session, bookNum, usedPoint);
+					purchaseMapper.memberPointUpdate(bookNum, memNum);
+					purchaseMapper.paymentPointCheck(bookNum, memNum);
+					purchaseMapper.pointStatusUpdate(bookNum, memNum);
+					
+					//쿠폰 적용하기
+					if(bookCommand.getCouponNum() != null) {
+						purchaseMapper.patmentCouponCheck(bookNum);
+					}
+					
 					//결제 완료 상태로 변경
 					purchaseMapper.groupPaymentCheck(bookNum, memNum);
 				}else {
+					Integer usedPoint = bookCommand.getMemPoint();
+					pointUseService.execute(session, bookNum, usedPoint);
 					dto.setDepositPrice(bookCommand.getMyDutchPrice());
 					iniPayReqService.execute(dto, model);
 				}
-			}
-			//1인 결제
-			else if(bookCommand.getPrice() == 0) {
+				
+				//1인 결제
+				}else {
+				
 				//포인트 사용 완료
 				Integer usedPoint = bookCommand.getMemPoint();
-				if(usedPoint > 0) {
-					pointUseService.execute(session, bookNum, usedPoint);
+				pointUseService.execute(session, bookNum, usedPoint);
+				purchaseMapper.memberPointUpdate(bookNum, memNum);
+				purchaseMapper.paymentPointCheck(bookNum, memNum);
+				purchaseMapper.pointStatusUpdate(bookNum, memNum);
+				
+				//쿠폰 적용하기
+				if(bookCommand.getCouponNum() != null) {
+					purchaseMapper.patmentCouponCheck(bookNum);
 				}
 				
-				bookCommand.setBookStatus("결제완료");
-				themeBookInsertService.execute(bookCommand, session);
-				return "redirect:/book/memberBookList"; 
+				dto.setDepositPrice(bookCommand.getPrice());
+				iniPayReqService.execute(dto, model);
 			}
-			
-			dto.setDepositPrice(bookCommand.getPrice());
-			iniPayReqService.execute(dto, model);
 			
 			return "thymeleaf/purchase/payment";
 		}
@@ -154,7 +189,19 @@ public class OrderController {
 	
 	@PostMapping("afterPayment")
 	public String afterPayment(BookCommand bookCommand, Model model, HttpSession session) {
+		String memNum = userNumService.execute(session);
 		String bookNum = bookCommand.getBookNum();
+		
+		/*
+		 * orderController: BookCommand(bookNum=book_100015, 
+		 * memNum=mem_100002, groupNum=on, storeNum=null, 
+		 * themeNum=theme_100003, themeTime=10:00, people=null, 
+		 * price=null, depositPrice=1000, finalPrice=null, dutchPrice=null, 
+		 * couponNum=emp_coupon_100005, bookStatus=null, dutchMember=null, 
+		 * myDutchPrice=null, memPoint=9900, afterPrice=710, afterDutchPrice=null)
+		 */
+		System.out.println("orderController: " + bookCommand);
+		
 		//그룹 후불 결제인 경우
 		boolean isGroup = groupDutchService.execute(bookNum, session);
 		if(isGroup) {
@@ -162,13 +209,57 @@ public class OrderController {
 			
 			//afterDutchPrice에 대한 알림을 dutchMember 에게 보내기
 			groupDutchAlarmService.execute(bookNum, bookCommand, session);
-		}
-		
+			
+			//결제 금액이 0원인 경우
+			if(bookCommand.getAfterPrice() == 0) {
+				//포인트 사용 완료
+				Integer usedPoint = bookCommand.getMemPoint();
+				pointUseService.execute(session, bookNum, usedPoint);
+				purchaseMapper.memberPointUpdate(bookNum, memNum);
+				purchaseMapper.paymentPointCheck(bookNum, memNum);
+				purchaseMapper.pointStatusUpdate(bookNum, memNum);
+				
+				//쿠폰 적용하기
+				if(bookCommand.getCouponNum() != null) {
+					purchaseMapper.patmentCouponCheck(bookNum);
+				}
+				
+				//후불 결제 update 
+				afterPayUpdateService.execute(session, bookCommand);
+				
+				//후불 결제 완료 상태로 udpate
+				purchaseMapper.afterPaySuccess(bookNum);
+				
+				return "redirect:/book/memberBookList";
+			}
+		}else //결제 금액이 0원인 경우
+			if(bookCommand.getAfterPrice() == 0) {
+				//포인트 사용 완료
+				Integer usedPoint = bookCommand.getMemPoint();
+				pointUseService.execute(session, bookNum, usedPoint);
+				purchaseMapper.memberPointUpdate(bookNum, memNum);
+				purchaseMapper.paymentPointCheck(bookNum, memNum);
+				purchaseMapper.pointStatusUpdate(bookNum, memNum);
+				
+				//쿠폰 적용하기
+				if(bookCommand.getCouponNum() != null) {
+					purchaseMapper.patmentCouponCheck(bookNum);
+				}
+				
+				//후불 결제 update 
+				afterPayUpdateService.execute(session, bookCommand);
+				
+				//후불 결제 완료 상태로 udpate
+				purchaseMapper.afterPaySuccess(bookNum);
+				
+				return "redirect:/book/memberBookList";
+			}
+			
 		//포인트 사용 완료
 		Integer usedPoint = bookCommand.getMemPoint();
-		if(usedPoint > 0) {
-			pointUseService.execute(session, bookNum, usedPoint);
-		}
+		pointUseService.execute(session, bookNum, usedPoint);
+		purchaseMapper.paymentPointCheck(bookNum, memNum);
+		purchaseMapper.pointStatusUpdate(bookNum, memNum);
 		
 		//후불 결제 update 
 		afterPayUpdateService.execute(session, bookCommand);

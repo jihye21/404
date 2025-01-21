@@ -118,7 +118,7 @@ function couponDiscount(){
 	//선택된 라디오 버튼의 값
 	var selectedRadio = $("input[type=radio][name=selectCoupon]:checked").val();
 	//선택된 라디오 버튼의 쿠폰 번호
-	var selectedCoupon = $("input[type=radio][name=selectCoupon]:checked").closest("td").find(".couponNum");
+	var selectedCoupon = $("input[type=radio][name=selectCoupon]:checked").closest("th").find(".couponNum");
 	
 	if(selectedRadio != undefined){
 		var totalPrice = parseInt($(".myTotalDutchPrice").text());
@@ -176,6 +176,7 @@ function couponDiscount(){
 					//<input type = "hidden" name = "coupon"> -> <name = "couponNum"> 변경
 					$(selectedCoupon).attr("name", "couponNum");
 					discountedPrice = Math.ceil(discountedPrice);
+					
 					$(".discountedPrice").text(discountedPrice);
 					$("#discountedPrice").val(discountedPrice);
 					$(".payPrice").text(discountedPrice);

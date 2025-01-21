@@ -32,8 +32,8 @@ public class GroupDutchAlarmListService {
 			
 			BookDTO bookDTO = bookMapper.bookSelectOne(bookNum);
 			
-			if(bookDTO == null || bookDTO.getBookStatus().equals("결제대기중") 
-					|| bookDTO.getBookStatus().equals("예약취소")){
+			if(bookDTO == null || 
+				bookDTO.getBookStatus().equals("예약취소")){
 				/*
 				if(bookDTO.getBookStatus().equals("결제대기중")) {
 					//"결제대기중"인 더치페이 요청은 삭제 }
@@ -45,7 +45,7 @@ public class GroupDutchAlarmListService {
 		
 		List<GroupDTO> groupDutchAlarmList = new ArrayList<>();
 		groupDutchAlarmList = groupMapper.groupDutchAlarmSelectAll(memNum);
-		System.out.println(groupDutchAlarmList);
+		
 		model.addAttribute("groupDutchAlarmList", groupDutchAlarmList);
 	}
 }

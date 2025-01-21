@@ -20,11 +20,14 @@ import _4.mapper.PurchaseMapper;
 import _4.mapper.service.UserNumService;
 import _4.service.group.GroupDutchAlarmService;
 import _4.service.group.GroupDutchService;
+import _4.service.member.PointUseService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Service
 public class INIstdpayPcReturn {
+	@Autowired
+	PointUseService pointUseService;
 	@Autowired
 	UserNumService userNumService;
 	@Autowired
@@ -142,7 +145,7 @@ public class INIstdpayPcReturn {
 					
 					String memNum = userNumService.execute(session);
 					String bookNum = dto.getPurchaseNum();
-					
+
 					//그룹 결제이면 그룹 더치 금액을 결제하도록 함.
 					boolean isGroup = groupDutchService.execute(bookNum, session);
 					if(isGroup) {
@@ -154,9 +157,9 @@ public class INIstdpayPcReturn {
 							
 							purchaseMapper.groupPaymentCheck(bookNum, memNum);
 							purchaseMapper.patmentCouponCheck(dto.getPurchaseNum());
-							purchaseMapper.pointStatusUpdate(bookNum, memNum);
-							purchaseMapper.paymentPointCheck(bookNum, memNum);
 							purchaseMapper.memberPointUpdate(bookNum, memNum);
+							purchaseMapper.paymentPointCheck(bookNum, memNum);
+							purchaseMapper.pointStatusUpdate(bookNum, memNum);
 						
 							String groupPaySuccess = purchaseMapper.groupPaySuccess(bookNum);
 							//모든 그룹원이 결제가 되었는지 확인하기
@@ -167,13 +170,22 @@ public class INIstdpayPcReturn {
 						}else {
 							String groupPaySuccess = purchaseMapper.groupPaySuccess(bookNum);
 							//모든 그룹원이 결제가 되었는지 확인하기
-							if(!"미결제".equals(groupPaySuccess)) {
+							if(!groupPaySuccess.equals("미결제") && groupPaySuccess.equals(null)) {
 
 							purchaseMapper.paymentCheck(dto.getPurchaseNum());
 							
 							//theme_time != '종일권'이면 시간제 테마 예약 완료로 update 
 							purchaseMapper.themeTimeBookStatusUpdate(dto.getPurchaseNum());
+							}else {
+								
+								//그룹원들의 결제 되지 않았다면
+								purchaseMapper.patmentCouponCheck(dto.getPurchaseNum());
+								purchaseMapper.memberPointUpdate(bookNum, memNum);
+								purchaseMapper.paymentPointCheck(bookNum, memNum);
+								purchaseMapper.pointStatusUpdate(bookNum, memNum);
 							}
+							
+							
 						}
 					}else {
 						//1인 결제인 경우
@@ -186,10 +198,10 @@ public class INIstdpayPcReturn {
 							purchaseMapper.afterPaySuccess(bookNum);
 							
 							purchaseMapper.patmentCouponCheck(dto.getPurchaseNum());
-							purchaseMapper.paymentPointCheck(bookNum, memNum);
-							//포인트 적용 상태로 update하기
-							purchaseMapper.pointStatusUpdate(bookNum, memNum);
+							//포인트 update
 							purchaseMapper.memberPointUpdate(bookNum, memNum);
+							purchaseMapper.paymentPointCheck(bookNum, memNum);
+							purchaseMapper.pointStatusUpdate(bookNum, memNum);
 						}
 						else{
 							purchaseMapper.paymentCheck(dto.getPurchaseNum());

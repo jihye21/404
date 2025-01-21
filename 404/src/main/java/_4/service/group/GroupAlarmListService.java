@@ -25,5 +25,6 @@ public class GroupAlarmListService {
 		List<GroupDTO> groupAlarmList = groupMapper.groupAlarmSelectAll(memNum);
 
 		model.addAttribute("groupAlarmList", groupAlarmList);
+
 	}
 }

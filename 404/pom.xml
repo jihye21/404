@@ -187,7 +187,7 @@
 		<artifactId>sdk</artifactId>
 		<version>4.3.0</version>
 		</dependency>
-		
+
 		<!-- kafka -->
 		<!-- Jsoup 의존성 (HTML 크롤링 라이브러리) -->
 	    <dependency>

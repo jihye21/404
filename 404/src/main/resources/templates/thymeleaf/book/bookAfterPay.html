@@ -23,6 +23,7 @@ $(function(){
 
 	//후불 금액 = finalPrice - depositPrice
 	$("#afterDutchTotalPrice").text(afterDutchTotalPrice);
+	$(".afterPrice").text(afterDutchTotalPrice);
 	
 	var afterPrice = parseInt($(".afterPrice").text()); //결제금액
 	var afterDutchPrice = parseInt($(".afterDutchPrice").text()); //더치페이 금액
@@ -98,8 +99,7 @@ function couponDiscount(){
 	var selectedCoupon = $("input[type=radio][name=selectCoupon]:checked").closest("th").find(".couponNum");
 	afterDutchPrice = parseInt($(".afterDutchPrice").text());
 	afterPrice = parseInt($(".afterPrice").text());
-	afterDutchTotalPrice = parseInt($("#afterDutchTotalPrice").text());
-		
+	
 	if(selectedRadio != undefined){
 		var discountedPrice = 0;
 		
@@ -107,7 +107,7 @@ function couponDiscount(){
 			afterDutchPrice = afterDutchTotalPrice;
 		}
 		
-		if(afterPrice > 0){
+		if(afterDutchPrice > 0){
 			//쿠폰 적용 후 금액 (총 금액)
 			
 			// n% 할인
@@ -134,7 +134,10 @@ function couponDiscount(){
 			
 		}
 		else{
+			//1인 결제
 			if($("input[type='checkbox']:visible").length == 0){
+				afterDutchTotalPrice = parseInt($(".afterPrice").text());
+				discountedPrice = 0;
 				//총금액
 				//쿠폰 적용 후 금액 (총 금액)
 				
@@ -146,12 +149,10 @@ function couponDiscount(){
 				else if(selectedRadio >= 100){
 					discountedPrice = afterDutchTotalPrice - selectedRadio;
 				}
-				
 				if(discountedPrice > 0){
 					//<input type = "hidden" name = "coupon"> -> <name = "couponNum"> 변경
 					$(selectedCoupon).attr("name", "couponNum");
 					discountedPrice = Math.ceil(discountedPrice);
-					
 					//.afterPrice의 text 값 변경하기
 					$(".afterPrice").text(discountedPrice);
 				}else{
@@ -175,7 +176,7 @@ function pointDiscount(memPoint){
 
 	//1인 결제
 	if($("input[type='checkbox']:visible").length == 0){
-		if(usePoint < memPoint && afterPrice > 0){
+		if(usePoint + 100 < memPoint && afterPrice >= 100){
 			usePoint = usePoint + 100;
 			
 			$(".usePoint").text(usePoint);
@@ -221,7 +222,7 @@ function pointRevert(memPoint){
 
 	//1인 결제
 	if($("input[type='checkbox']:visible").length == 0){
-		if(usePoint > 0 && afterPrice >= 100 + afterDutchTotalPrice){
+		if(usePoint >= 100 && afterPrice + 100 <= afterDutchTotalPrice){
 			usePoint = usePoint - 100;
 			
 			$(".usePoint").text(usePoint);
@@ -326,7 +327,9 @@ function memberCheck(){
 	afterDutchPrice = parseInt($(".afterDutchPrice").text());
 	
 	$("#afterPrice").val(afterPrice);
-	$("#afterDutchPrice").val(afterDutchPrice);
+	if(!isNaN(afterDutchPrice)){
+		$("#afterDutchPrice").val(afterDutchPrice);
+	}
 	
 	if($(".checkBox:visible:checked").length == 0 && $(".checkBox:visible").length > 0){
 		alert("적어도 한 명 이상의 그룹원을 체크해주세요.");
@@ -433,6 +436,7 @@ function memberCheck(){
 	<br>
 		
 		<div class = "memberCheckList">
+		<th:block th:each="groupDetailList:${groupDetailList}">
 			<table style="margin:20px; width:300px;" border="1">
 			   <tr>
 			       <td>그룹</td>
@@ -442,20 +446,22 @@ function memberCheck(){
 			   		<td><input type = "checkbox" onclick="checkAll();" class="allCheckBox"></td>
 			   		<th>참여자</th>
 			   </tr>
-			   <th:block th:each="groupDetailList:${groupDetailList}">
 			   <tr>
 			   		<td><input type = "checkbox" name = "dutchMember" class = "checkBox" onclick="checkBox();" th:value="${groupDetailList.memNum}"></td>
 			   		<td colspan="2">[[${groupDetailList.memNickname}]]([[${groupDetailList.memName}]])</td>
 			   </tr>
-			   </th:block>
+			  
 			</table>
+			
 			<b>더치페이 금액</b><br>
 			<span class = "afterDutchPrice">0</span><br>
-			<b>결제 금액</b><br>
-			<span class = "afterPrice">0</span><br>
-			<br><br>
+			<br>
+		</th:block>
 		</div>
-		
+		<table border = "1" width="200">
+		<tr><th>결제 금액: <span class = "afterPrice">0</span>원</th></tr>
+		</table>
+		<br>
 		<button type="submit" class = "payBtn">결제하기</button>
 	</div>
 </form>

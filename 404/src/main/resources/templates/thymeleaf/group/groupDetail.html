@@ -45,6 +45,11 @@ body{
 				<a th:href="|/group/groupBookDetail?bookNum=${dto.bookNum}|">[[${dto.bookNum}]],[[${dto.storeNum}]], 가게명, 가게 이미지</a>
 			</td></tr>
 		<br>
+	<!-- 
+	groupPaymentHistoryListService: [GroupDTO(groupNum=group_100002, groupName=null, 
+	memNum=mem_100001, memName=null, memNickname=null, friendNum=null, bookNum=book_100016, 
+	dutchPrice=500, bookStatus=null)]
+	 -->
 	<th:block th:each="groupPaymentHistoryList:${groupPaymentHistoryList}">
 	<th:block th:if="${dto.bookNum} == ${groupPaymentHistoryList.bookNum}">
 		<tr>
@@ -59,21 +64,22 @@ body{
 		<tr>
 			<td style="text-align:center;">[[${groupPaymentHistoryList.dutchPrice}]]원</td>
 		</tr>
+	
+	</th:block>
+	</th:block>
 	<th:block th:each="memberPay:${memberPay}">
 	<th:block th:if="${dto.bookNum} == ${memberPay.bookNum}">
 		<tr>
 			<th>
 				<form action = "/group/groupDutchPay" method = "POST">
-					<input type = "hidden" name = "groupNum" th:value="${groupPaymentHistoryList.groupNum}">
-					<input type = "hidden" name = "bookNum" th:value="${groupPaymentHistoryList.bookNum}">
+					<input type = "hidden" name = "groupNum" th:value="${memberPay.groupNum}">
+					<input type = "hidden" name = "bookNum" th:value="${memberPay.bookNum}">
 					<input type = "submit" value="결제하기">
 				</form>
 			</th>
 		</tr>
 	</th:block>
 	</th:block>	
-	</th:block>
-	</th:block>
 	</table>
 	</th:block>
 </div>

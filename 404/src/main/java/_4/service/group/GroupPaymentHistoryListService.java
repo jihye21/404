@@ -21,5 +21,6 @@ public class GroupPaymentHistoryListService {
 		= groupMapper.groupPaymentHistorySelectAll(groupNum);
 
 		model.addAttribute("groupPaymentHistoryList", groupPaymentHistoryList);
+
 	}
 }

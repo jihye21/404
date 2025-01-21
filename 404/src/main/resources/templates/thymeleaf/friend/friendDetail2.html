@@ -5,6 +5,12 @@
 <title>Insert title here</title>
 </head>
 <body>
-친구 정보
+<a href="/friends/friendsList">뒤로 가기</a>
+<table border="1" width="600" align="center">
+<tr><th colspan="2">친구 정보</th></tr>
+<tr><td>닉네임</td><td>[[${dto.friendNickname}]]</td></tr>
+<tr><td>친구가 된 날짜</td><td>[[${#dates.format(dto.friendRegistDate, 'yyyy-MM-dd')}]]</td></tr>
+<tr><td colspan="2"><a href="/friends/friendDelete">친구 삭제</a></td></tr>
+</table>
 </body>
 </html>

@@ -22,7 +22,7 @@
 	</update>
 	<!-- 모든 그룹원의 결제가 완료되었는지 확인하기 -->
 	<select id="groupPaySuccess" parameterType="string" resultType="string">
-	select '미결제' from groupdutchalarm
+	select DISTINCT '미결제' from groupdutchalarm
 	where book_num = #{bookNum} and dutch_status is null
 	</select>
 	<!-- 쿠폰 사용 완료 처리 -->
@@ -42,13 +42,13 @@
 	where book_num = #{bookNum} and mem_num = #{memNum}
 	</update>
 	<update id="memberPointUpdate" parameterType="string">
-	update member set mem_point = mem_point + (select used_point from member_point 
+	update member set mem_point = mem_point + (select nvl(used_point, 0) from member_point 
 	where book_num = #{bookNum}
-	and mem_num = #{memNum})
+	and mem_num = #{memNum} and POINT_STATUS is null)
 	where mem_num = #{memNum}
 	</update>
 	<update id="afterPaySuccess" parameterType="string">
-	update book set book_status = '후불결제대기'
+	update book set book_status = '후불결제완료'
 	where book_num = #{bookNum}
 	</update>
 	<update id="pointStatusUpdate" parameterType="string">

@@ -173,7 +173,8 @@ function reviewDelete(reviewNum){
 		<div id="content"></div>
 		</td>
 	</tr>
-	<th:block th:if="${dto.finalPrice} != null">
+
+	<th:block th:if="(${dto.finalPrice} != null) and (${dto.bookStatus} != '후불결제완료')">
 		<tr><th colspan="2">
 		<form action = "/book/bookAfterPay" method = "POST">
 		<table>
@@ -182,29 +183,30 @@ function reviewDelete(reviewNum){
 		</table>
 		</form>
 		</th></tr>
-		
-	<th:block th:if="${dto.bookStatus} == '방문완료'">
-		<th:block th:if="${reviewDTO == null} and ${dto.bookStatus} == '후불결제완료'">
-			<tr><th colspan="2"><span id="reviewContent"><button th:attr="onclick=|reviewForm('${dto.bookNum}');|">리뷰 작성</button></span></th></tr>
-		</th:block>
-		
-		<th:block th:if="${reviewDTO != null}">
-			<tr><td colspan="2">
-				<div class="star-rating">
-					<input type="hidden" id="starRate" th:value="${reviewDTO.starRate}"/>
-					<input type="radio" class="star" id="star1" value="1" name="starRate" onclick="return(false);">
-					<input type="radio" class="star" id="star2" value="2" name="starRate" onclick="return(false);">
-					<input type="radio" class="star" id="star3" value="3" name="starRate" onclick="return(false);">
-					<input type="radio" class="star" id="star4" value="4" name="starRate" onclick="return(false);">
-					<input type="radio" class="star" id="star5" value="5" name="starRate" onclick="return(false);">
-				</div>
-				<textarea cols="60" rows="5" readonly="readonly">[[${reviewDTO.reviewContents}]]</textarea>
-			</td></tr>
-			<tr><th colspan="2"><button type="button" th:attr="onclick=|reviewDelete('${reviewDTO.reviewNum}')|">삭제</button></th></tr>
+	</th:block>	
+
+	<th:block th:if="${reviewDTO.size == 0} and ${dto.bookStatus} == '후불결제완료'">
+		<tr><th colspan="2"><span id="reviewContent"><button th:attr="onclick=|reviewForm('${dto.bookNum}');|">리뷰 작성</button></span></th></tr>
+	</th:block>
+
+	<th:block th:if="${reviewDTO.size() > 0}">
+		<th:block th:each = "reviewDTO:${reviewDTO}">
+		<tr><td colspan="2">
+		 <div class="star-rating">
+				<input type="hidden" id="starRate" th:value="${reviewDTO.starRate}"/>
+				<input type="radio" class="star" id="star1" value="1" name="starRate" onclick="return(false);">
+				<input type="radio" class="star" id="star2" value="2" name="starRate" onclick="return(false);">
+				<input type="radio" class="star" id="star3" value="3" name="starRate" onclick="return(false);">
+				<input type="radio" class="star" id="star4" value="4" name="starRate" onclick="return(false);">
+				<input type="radio" class="star" id="star5" value="5" name="starRate" onclick="return(false);">
+			</div> 
+			<textarea cols="60" rows="5" readonly="readonly">[[${reviewDTO.reviewContents}]]</textarea>
+		</td></tr>
+		<tr><th colspan="2"><button type="button" th:attr="onclick=|reviewDelete('${reviewDTO.reviewNum}')|">삭제</button></th></tr>
 		</th:block>
 	</th:block>
-	</th:block>	
-	<th:block th:if="${dto.bookStatus} != '방문완료' and ${dto.bookStatus} != '예약취소'">
+
+	<th:block th:if="${dto.bookStatus} != '방문완료' and ${dto.bookStatus} != '예약취소' and ${dto.bookStatus} != '후불결제대기' and ${dto.bookStatus} != '후불결제완료'">
 		<tr><th colspan="2" th:attr="onclick=|bookCancle('${dto.bookNum}')|"><button>예약 취소</button></th></tr>
 	</th:block>
 	<th:block th:if="${dto.bookStatus} == '예약취소'">

@@ -22,7 +22,7 @@ public class PointUseService {
 		MemberDTO memberDTO = memberMapper.memberSelectOne(memNum);
 		Integer memPoint = memberDTO.getMemPoint();
 		usedPoint = usedPoint - memPoint;
-		
+
 		PointDTO pointDTO = new PointDTO();
 		pointDTO.setBookNum(bookNum);
 		pointDTO.setMemNum(memNum);
