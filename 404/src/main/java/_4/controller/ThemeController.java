@@ -79,9 +79,9 @@ public class ThemeController {
 		return "thymeleaf/theme/themeModifyForm";
 	}
 	@PostMapping("themeUpdate") // 테마 수정
-	public String themeUpdate(ThemeCommand themeCommand) {
+	public String themeUpdate(ThemeCommand themeCommand, HttpServletResponse response) {
 		themeModifyService.execute(themeCommand);
-		return "redirect:/theme/themeManagePage";
+		return "redirect:/owner/ownerMainPage";
 	}
 	@PostMapping("themeDelete") // 테마 삭제
 	public @ResponseBody void themeDelete(@RequestBody @RequestParam("themeNum") String themeNum) {

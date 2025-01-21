@@ -20,7 +20,5 @@ public class ThemeModifyService {
 		dto.setLimitPeople(themeCommand.getLimitPeople());
 		dto.setStoreNum(themeCommand.getStoreNum());
 		themeMapper.themeUpdate(dto);
-		
-		// 사진 변경 추가해야 함.
 	}
 }
