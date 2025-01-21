@@ -13,11 +13,12 @@ body{
 <script type="text/javascript">
 var count = 2;
 var maxOrder = 0;
-function storeList(courseNum, order){
+var deleteCheck = "N";
+function storeList(courseNum, order, deleteCheck){
 	$.ajax({
 		type: "post",
 		url: "/course/storeList",
-		data: {"courseNum":courseNum, "courseCount":order},
+		data: {"courseNum":courseNum, "courseCount":order, "deleteCheck":deleteCheck},
 		dataType: "html",
 		success: function(result){
 			$("#storeList").html(result);
@@ -38,7 +39,7 @@ function storedStoreName(idx, storeName){
 }
 function addCourse(){
 	item = "<span>";
-	item += "	<img width='80' height='80' src='/static/upload/heart.png' id='image" + count + "' onclick='storeList(&#39;a&#39;, " + count + ");'/>";
+	item += "	<img width='80' height='80' src='/static/upload/heart.png' id='image" + count + "' onclick='storeList(&#39;a&#39;, " + count + ", &#39;N&#39;);'/>";
 	item += "	<span id='storedStoreName_" + count + "' style='position:fixed'></span><br/>";
 	item += "	<input type='hidden' id='cousrse" + count + "' value='" + count + "'/>";
 	item += "</span>";
@@ -82,7 +83,7 @@ function deleteStore(order){
 	$("#storedStoreName_" + order).remove(); // 삭제할 순서의 가게명 삭제
 	for(var i = 1; i <= count - 1; i++){
 		if(i > order){ // 삭제한 순서의 다음 가게들일 경우
-			$("#image" + i).attr("onclick","storeList('a','" + (i - 1) + "')");
+			$("#image" + i).attr("onclick","storeList('a','" + (i - 1) + "', 'N')");
 			$("#image" + i).attr("id","image"+ (i - 1));
 			$("#storedStoreName_" + i).attr("id", "storedStoreName_" + (i - 1));
 			newOrder = i - 1
@@ -92,7 +93,8 @@ function deleteStore(order){
 	count = count - 1;
 	sessionUpdate(order);
 	maxOrder = count - 1;
-	storeList("1", newOrder);
+	storeList("1", newOrder, 'N');
+	deleteCheck="Y";
 }
 function sessionUpdate(order){
 	$.ajax({
@@ -100,7 +102,7 @@ function sessionUpdate(order){
 		url: "/course/sessionUpdate",
 		data: {"courseOrder":order, "maxOrder":maxOrder},
 		success: function(){
-			storeList(1, order);
+			storeList(1, order, 'N');
 		},
 		error: function(){
 			alert("couresForm.html의 sessionUpdate() 오류");
@@ -118,7 +120,7 @@ function sessionUpdate(order){
 <div style="border:1px solid black; width:450px; height:800px; position:absolute;left:500px;"align="center"><br/>
 	코스명 : <input type="text" name="courseName"/><br/>
 	<span id="course">
-		<img width="80" height="80" src="/static/upload/heart.png" id="image1" onclick="storeList('a', 1);"/>
+		<img width="80" height="80" src="/static/upload/heart.png" id="image1" onclick="storeList('a', 1, 'N');"/>
 		<span id="storedStoreName_1" style="position:fixed"></span><br/>
 	</span>
 	<button type="button" onclick="addCourse();"> + </button><br/>

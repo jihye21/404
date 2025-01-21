@@ -26,8 +26,9 @@ select <include refid="themeBaseColumn"/> from theme where theme_num = #{themeNu
 </select>
 
 <update id="themeUpdate" parameterType="themeDTO">
-update theme set theme_name=#{themeName}, theme_introduction=#{themeIntroduction}, theme_price=#{themePrice}, limit_people=#{limitPeople}
-			   ,  store_num=#{storeNum}
+update theme set theme_name = #{themeName}, theme_introduction = #{themeIntroduction}, theme_price = #{themePrice}, limit_people = #{limitPeople}
+			   ,  store_num = #{storeNum}
+ where theme_num = #{themeNum}
 </update>
 
 <delete id="themeDelete" parameterType="string">

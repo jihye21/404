@@ -53,7 +53,7 @@ function storeAdd(storeNum, storeName){
 			data: {"storeNum" : storeNum, "courseOrder" : courseOrder, "storeName" : storeName},
 			success: function(){
 				alert(storeName + "이 저장되었습니다.");
-				storeList('1', courseOrder);
+				storeList('1', courseOrder, 'N');
 				fillHeart(courseOrder);
 				storedStoreName(courseOrder, storeName);
 			},
