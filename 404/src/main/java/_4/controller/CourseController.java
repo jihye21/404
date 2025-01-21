@@ -13,6 +13,7 @@ import _4.mapper.CourseMapper;
 import _4.mapper.StoreMapper;
 import _4.mapper.service.UserNumService;
 import _4.service.course.CourseDetailService;
+import _4.service.course.CourseDetailSessionService;
 import _4.service.course.CourseInsertService;
 import _4.service.course.CourseListPageService;
 import _4.service.course.CourseListService;
@@ -40,6 +41,8 @@ public class CourseController {
 	CourseUpdateService courseUpdateService;
 	@Autowired
 	SessionUpdateService sessionUpdateService;
+	@Autowired
+	CourseDetailSessionService courseDetailSessionService;
 	@Autowired
 	StoreMapper storeMapper;
 	@Autowired
@@ -88,7 +91,16 @@ public class CourseController {
 	@GetMapping("courseDetail")
 	public String courseDetail(String courseNum, Model model, HttpSession session) {
 		courseDetailService.execute(courseNum, model);
+		String memberNum = userNumService.execute(session);
+		for(int i = 0; i < 10; i++) {
+			session.removeAttribute(memberNum + "/" + i);
+		}
 		return "thymeleaf/course/courseDetail";
+	}
+	
+	@PostMapping("courseDetailSession")
+	public @ResponseBody void courseDetailSession(String courseNum, String storeNum, String courseOrder, HttpSession session) {
+		courseDetailSessionService.execute(courseNum, storeNum, courseOrder, session);
 	}
 	
 	@PostMapping("courseUpdate")

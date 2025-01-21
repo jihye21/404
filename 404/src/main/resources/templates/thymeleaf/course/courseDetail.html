@@ -12,8 +12,8 @@ body{
 <script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <script type="text/javascript">
 var originalMaxOrder = Number("[[${#numbers.formatInteger(maxOrder,1)}]]");
-var order = originalMaxOrder + 1; 
-
+var maxCount = originalMaxOrder + 1;
+var courseNum = "[[${cDTO.courseNum}]]";
 function storeList(courseNum, count){
 	$.ajax({
 		type: "post",
@@ -22,7 +22,7 @@ function storeList(courseNum, count){
 		dataType: "html",
 		success: function(result){
 			$("#storeList").html(result);
-			$("#order").text(order);
+			$("#order").text(count);
 		},
 		error: function(){
 			alert("courseDetail.html의 storeList() 오류");
@@ -42,34 +42,12 @@ function storedStoreName(idx, storeName){
 
 function addCourse(){
 	item = "<span>";
-	item += "	<img width='80' height='80' src='/static/upload/heart.png' id='image" + order + "' onclick='storeList(&#39;a&#39;, " + order + ");'/>";
-	item += "	<span id='storedStoreName_" + order + "' style='position:fixed'></span><br/>";
-	item += "	<input type='hidden' id='course" + order + "' value='" + order + "'/>";
+	item += "	<img width='80' height='80' src='/static/upload/heart.png' id='image" + maxCount + "' onclick='storeList(&#39;a&#39;, " + maxCount + ");'/>";
+	item += "	<span id='storedStoreName_" + maxCount + "' style='position:fixed'></span><br/>";
+	item += "	<input type='hidden' id='course" + maxCount + "' value='" + maxCount + "'/>";
 	item += "</span>";
-	order = order + 1;
+	maxCount = maxCount + 1;
 	$("#course").append(item);
-}
-
-function updateCourse(){
-	var courseName = $("input[name='courseName']").val();
-	if(courseName == ""){
-		alert(" 코스명을 입력해 주세요.");
-		return false;
-	}
-	// course 및 courseDetail을 완전히 저장하는 함수
-	var maxOrder = order;
-	$.ajax({
-		type: "post",
-		url: "/course/courseUpdate",
-		data: {"maxOrder" : maxOrder, "courseName" : courseName, courseNum : "[[${cDTO.courseNum}]]", "originalMaxOrder" : originalMaxOrder},
-		success: function(){
-			alert("저장되었습니다.");
-			window.location.href="/course/courseList";
-		},
-		error: function(){
-			alert("courseDetail의 updateCourse() 오류");
-		}
-	});
 }
 
 function deleteCourse(courseNum){
@@ -91,6 +69,63 @@ function deleteCourse(courseNum){
 		return false;
 	}
 }
+
+// 부분 삭제
+function deleteStore(order){
+	// 보이는 것들 삭제
+	var newOrder = 0;
+	$("#image" + order).remove(); // 삭제할 순서의 이미지 삭제
+	$("#storedStoreName_" + order).remove(); // 삭제할 순서의 가게명 삭제
+	for(var i = 1; i <= maxCount - 1; i++){
+		if(i > order){ // 삭제한 순서의 다음 가게들일 경우
+			$("#image" + i).attr("onclick","storeList('a','" + (i - 1) + "')");
+			$("#image" + i).attr("id","image"+ (i - 1));
+			$("#storedStoreName_" + i).attr("id", "storedStoreName_" + (i - 1));
+			newOrder = i - 1;
+		}
+	}
+	// 세션의 번호도 앞당기게
+	maxCount = maxCount - 1;
+	// 바뀐 코스의 정보를 세션에 저장
+	for(var j = 1; j < maxCount; j ++){
+		var storeNum = $("#storedStoreNum_" + j).val();
+		sessionUpdate(storeNum, j);
+	}
+}
+function sessionUpdate(storeNum, order){
+	$.ajax({
+		type: "post",
+		url: "/course/courseDetailSession",
+		data: {"courseNum" : courseNum, "storeNum" : storeNum, "courseOrder":order},
+		success: function(){
+			storeList(corseNum, order);
+		},
+		error: function(){
+			alert("courseDetail.html의 sessionUpdate() 오류");
+		}
+	});
+}
+//저장하기를 눌렀을 경우 그대로 저장
+function updateCourse(courseNum, courseName){
+	var courseName = $("input[name='courseName']").val();
+	if(courseName == ""){
+		alert(" 코스명을 입력해 주세요.");
+		return false;
+	}
+	// course 및 courseDetail을 완전히 저장하는 함수
+	$.ajax({
+		type: "post",
+		url: "/course/courseUpdate",
+		data: {"maxOrder" : maxCount, "courseName" : courseName, "courseNum" : courseNum, "originalMaxOrder" : originalMaxOrder},
+		success: function(){
+			alert("저장되었습니다.");
+			window.location.href="/course/courseList";
+		},
+		error: function(){
+			alert("courseDetail의 updateCourse() 오류");
+		}
+	});
+}
 </script>
 </head>
 <body>
@@ -104,12 +139,13 @@ function deleteCourse(courseNum){
 	코스명 : <input type="text" name="courseName" th:value="${cDTO.courseName}"/><br/>
 	<span id="course">
 		<div th:each="dto, idx : ${cdList}">
-			<img width="60" height="50" src="/static/upload/heart_filled.png" th:attr="onclick=|storeList('${dto.courseNum}','${dto.courseOrder}');|"/>
+			<img width="60" height="50" src="/static/upload/heart_filled.png" th:attr="onclick=|storeList('${dto.courseNum}','${dto.courseOrder}');|" th:id="'image' + ${dto.courseOrder}"/>
 			<span th:id="'storedStoreName_'+${idx.count}" style="position:fixed;">[[${dto.storeName}]]</span><br/>
+			<input type="hidden" th:id="'storedStoreNum_'+${idx.count}" th:value="${dto.storeNum}"/>
 		</div>
 	</span>
 	<button type="button" onclick="addCourse();"> + </button><br/>
-	<button type="button" onclick="updateCourse();">수정하기</button>
+	<button type="button" th:attr="onclick=|updateCourse('${cDTO.courseNum}');|">수정하기</button>
 	<button type="button" th:attr="onclick=|deleteCourse('${cDTO.courseNum}');|">삭제하기</button>
 </div>
 
