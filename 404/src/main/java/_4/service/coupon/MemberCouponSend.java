@@ -13,7 +13,7 @@ public class MemberCouponSend {
 	@Autowired
 	CouponMapper couponMapper;
 	public void execute(String memNickname, String couponCode) {
-		String memNum = friendMapper.changeNick(memNickname);
+		String memNum = friendMapper.changeNum(memNickname);
 		String couponNum = couponMapper.couponNumSelect(couponCode);
 		couponMapper.memberCouponSend(memNum, couponNum);
 	}

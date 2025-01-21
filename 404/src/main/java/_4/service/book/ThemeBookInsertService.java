@@ -23,6 +23,7 @@ public class ThemeBookInsertService {
 	@Autowired
 	BookMapper bookMapper;
 	public String execute(BookCommand bookCommand, HttpSession session) {
+		
 		String bookNum = autoNumService.execute("book", "book_num", "book_");
 		String memberNum = userNumService.execute(session);
 		ThemeDTO themeInfo = themeMapper.themeSelectOne(bookCommand.getThemeNum());

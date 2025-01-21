@@ -86,7 +86,25 @@ public class OrderController {
 	
 	@PostMapping("payment")
 	public String payment(BookCommand bookCommand, Model model, HttpSession session) {
+		/*
+		 * BookCommand(bookNum=null, memNum=mem_100001, 
+		 * groupNum=on, storeNum=null, themeNum=theme_100022, 
+		 * themeTime=종일권, people=1, price=900, depositPrice=4500, 
+		 * finalPrice=null, dutchPrice=0, couponNum=null, bookStatus=null, 
+		 * dutchMember=null, myDutchPrice=0, memPoint=47300, afterPrice=null, 
+		 * afterDutchPrice=null)
+		 */
+		
 		if(bookCommand.getDepositPrice() == 0) {
+			bookCommand.setBookStatus("결제대기중");
+			String bookNum = themeBookInsertService.execute(bookCommand, session);
+			
+			//포인트 사용 완료
+			Integer usedPoint = bookCommand.getMemPoint();
+			if(usedPoint > 0) {
+				pointUseService.execute(session, bookNum, usedPoint);
+			}
+			
 			bookCommand.setBookStatus("결제완료");
 			themeBookInsertService.execute(bookCommand, session);
 			return "redirect:/book/memberBookList"; 
@@ -94,6 +112,7 @@ public class OrderController {
 		else {
 			bookCommand.setBookStatus("결제대기중");
 			String bookNum = themeBookInsertService.execute(bookCommand, session);
+			
 			BookDTO dto = bookMapper.bookSelectOne(bookNum);
 			
 			//그룹 결제이면 그룹 더치 금액을 결제하도록 함.
@@ -112,6 +131,18 @@ public class OrderController {
 					dto.setDepositPrice(bookCommand.getMyDutchPrice());
 					iniPayReqService.execute(dto, model);
 				}
+			}
+			//1인 결제
+			else if(bookCommand.getPrice() == 0) {
+				//포인트 사용 완료
+				Integer usedPoint = bookCommand.getMemPoint();
+				if(usedPoint > 0) {
+					pointUseService.execute(session, bookNum, usedPoint);
+				}
+				
+				bookCommand.setBookStatus("결제완료");
+				themeBookInsertService.execute(bookCommand, session);
+				return "redirect:/book/memberBookList"; 
 			}
 			
 			dto.setDepositPrice(bookCommand.getPrice());
@@ -135,7 +166,9 @@ public class OrderController {
 		
 		//포인트 사용 완료
 		Integer usedPoint = bookCommand.getMemPoint();
-		pointUseService.execute(session, bookNum, usedPoint);
+		if(usedPoint > 0) {
+			pointUseService.execute(session, bookNum, usedPoint);
+		}
 		
 		//후불 결제 update 
 		afterPayUpdateService.execute(session, bookCommand);
@@ -155,7 +188,9 @@ public class OrderController {
 		//더치페이 결제
 		//포인트 사용 완료
 		Integer usedPoint = bookCommand.getMemPoint();
-		pointUseService.execute(session, bookNum, usedPoint);
+		if(usedPoint > 0) {
+			pointUseService.execute(session, bookNum, usedPoint);
+		}
 		
 		//afterPrice를 이니시스로 결제하기
 		BookDTO bookDTO = bookMapper.bookSelectOne(bookNum);
