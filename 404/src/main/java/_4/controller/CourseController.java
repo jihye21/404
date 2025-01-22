@@ -133,9 +133,6 @@ public class CourseController {
 											, HttpSession session) {
 		sessionUpdateNewService.execute(maxCount, deleteOrder, courseNum, deleteStoreNum, session);
 		String memberNum = userNumService.execute(session);
-		for(int i = 1; i < Integer.parseInt(maxCount); i ++) {
-			System.out.println("세션은 " + session.getAttribute(memberNum + "/" + i));
-		}
 	}
 	
 	@PostMapping("sessionUpdate")
