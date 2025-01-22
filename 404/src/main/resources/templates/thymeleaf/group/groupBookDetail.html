@@ -160,7 +160,8 @@ function reviewDelete(reviewNum){
 							<button class="themeTimeBookBtn" onclick="directBook()">바로예약</button>
 							<div id="content"></div></td></tr>
 					
-	<th:block th:if="${dto.bookStatus} != '방문완료' and ${dto.bookStatus} != '예약취소'">
+	<!--  <th:block th:if="${dto.bookStatus} != '방문완료' and ${dto.bookStatus} != '예약취소'">-->
+		<th:block th:if="${dto.bookStatus} != '방문완료' and ${dto.bookStatus} != '예약취소' and ${dto.bookStatus} != '후불결제대기' and ${dto.bookStatus} != '후불결제완료'">
 		<tr><th colspan="2" th:attr="onclick=|bookCancle('${dto.bookNum}')|"><button>예약 취소</button></th></tr>
 	</th:block>
 	<th:block th:if="${dto.bookStatus} == '예약취소'">
@@ -168,14 +169,14 @@ function reviewDelete(reviewNum){
 	</th:block>
 	
 	<!-- review -->
-	<th:block th:if="${#lists.isEmpty(reviewDTO)} or ${reviewNull}">
+	<th:block th:if="${#lists.isEmpty(reviewDTO)} or ${reviewNull} and ${dto.bookStatus} == '후불결제완료'">
 			<tr><th colspan="2"><span id="reviewContent"><button th:attr="onclick=|reviewForm('${dto.bookNum}');|">리뷰 작성</button></span></th></tr>
 	</th:block>
 
 	<th:block th:each="reviewDTO:${reviewDTO}">
 	<th:block th:each = "member : ${groupMemberList}">
-	<th:block th:if="${dto.bookStatus} == '방문완료' and ${member.memNum} == ${memNum}">
-		<th:block th:if="${reviewDTO != null}">
+	<th:block th:if="${dto.bookStatus} == '후불결제완료' and ${member.memNum} == ${memNum}">
+		<th:block th:if="${reviewDTO != null} and ${reviewDTO.bookNum} == ${dto.bookNum}">
 			<tr><td colspan="2">
 				<div class="star-rating">
 					<input type="hidden" id="starRate" th:value="${reviewDTO.starRate}"/>

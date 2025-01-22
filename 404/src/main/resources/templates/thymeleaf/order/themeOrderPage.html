@@ -519,7 +519,7 @@ function memberCheck(){
 	<div class="content">
 		<!-- 쿠폰 적용 하는 부분 -->
 		<div class="couponContent">
-		<table border = "1" width="200">
+		<table border = "1" width="200" style ="overscroll:scroll;">
 			<th:block th:each="list:${couponList}">
 				 <!-- <input type = "hidden" name = "couponNum" th:value = "${list.couponNum}"> -->
 				<input type = "hidden" class = "expirationDate" name = "expirationDate" th:value = "${list.expirationDate}">

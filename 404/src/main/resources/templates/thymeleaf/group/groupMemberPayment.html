@@ -155,8 +155,15 @@ function pointDiscount(memPoint){
 		}
 		
 	}
-	
+	memPointCount();
 }
+
+function memPointCount(){
+	var memPoint = parseInt($(".memPoint").text());
+	
+	memPoint = memPoint - parseInt($(".usePoint").text());
+	$("#memPoint").val(memPoint);
+};
 
 function pointRevert(memPoint){
 	var usePoint = parseInt( $(".usePoint").text(), 10);
@@ -192,7 +199,7 @@ function pointRevert(memPoint){
 		}
 		
 	}
-	
+	memPointCount();
 }
 
 </script>
@@ -200,6 +207,7 @@ function pointRevert(memPoint){
 <body>
 
 <form action="/group/groupDutchPay" method="post">
+	<input type = "hidden" name = "memPoint" id = "memPoint" th:value = "${memPoint}">
 	<input type ="hidden" name = "bookNum" th:value="${bookDTO.bookNum}">
 	<input type = "hidden" name="memNum" th:value="${memNum}" class ="memNum">
 	<input type="hidden" name="themeNum" th:value="${bookDTO.themeNum}"/>
