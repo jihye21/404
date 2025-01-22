@@ -6,10 +6,13 @@
 <script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <script type="text/javascript">
 
-var timeInput = "<input type='text' size='4' name='themeTime' class='themeTime'/><button type='button'>X</buttons>";
+
 var item = timeInput;
 
 function themeTimeAdd(){
+	var count = 1;
+	var timeInput = "<span id='input_" + count + "'><input type='text' size='4' name='themeTime' class='themeTime'/><button type='button' onclick='deleteTime(" + count + ")'>X</buttons></span>";
+	count = count + 1;
 	$("#item").append(timeInput);
 }
 function partType(){
@@ -31,6 +34,9 @@ function allType(){
 	else{
 		$("#timeType").append("<tr id='tr'><td colspan='2'>종일권을 선택하셨습니다.<input type='hidden' name='themeTime' value='종일권'/></td></tr>");
 	}
+}
+function deleteTime(count){
+	$("#input_" + count).remove();
 }
 function themeTimeNullCheck(){
 	// 테마 시간 중 null값이 있는지 확인
