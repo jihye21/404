@@ -81,7 +81,7 @@ function depositOptionPlus(){
 			<span th:id="'detailFile_' + ${idx.index}"></span>
 			<span th:id="'detail_' + ${idx.index}">[[${image}]]</span><button type="button" th:attr="onclick=|javascript:fileDel(this,'${image}'
 					,'${#strings.arraySplit(dto.storeDetailStoreImage,'[`/]')[idx.index]}', 'detail', '${idx.index}');|">삭제</button>
-		</div><br/>
+		</div>
 	</td></tr>
 	 
 	 <tr><td>혼잡도</td><td>	
