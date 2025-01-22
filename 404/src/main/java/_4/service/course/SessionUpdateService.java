@@ -22,7 +22,7 @@ public class SessionUpdateService {
 			CourseDetailDTO dto2 = (CourseDetailDTO)session.getAttribute(memberNum + "/" + (i + 1));
 			// 다음 세션의 정보를 dto에 담기
 			CourseDetailDTO dto = new CourseDetailDTO();
-			dto.setCourseOrder(dto2.getCourseOrder());
+			dto.setCourseOrder(dto2.getCourseOrder() - 1);
 			dto.setStoreNum(dto2.getStoreNum());
 			dto.setStoreName(dto2.getStoreName());
 			dto.setMemberNum(memberNum);

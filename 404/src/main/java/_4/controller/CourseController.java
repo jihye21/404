@@ -1,5 +1,7 @@
 package _4.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,16 +11,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import _4.domain.CourseDetailDTO;
 import _4.mapper.CourseMapper;
 import _4.mapper.StoreMapper;
 import _4.mapper.service.UserNumService;
 import _4.service.course.CourseDetailService;
-import _4.service.course.CourseDetailSessionService;
 import _4.service.course.CourseInsertService;
 import _4.service.course.CourseListPageService;
 import _4.service.course.CourseListService;
 import _4.service.course.CourseSessionService;
 import _4.service.course.CourseUpdateService;
+import _4.service.course.SessionUpdateDBService;
+import _4.service.course.SessionUpdateNewService;
 import _4.service.course.SessionUpdateService;
 import jakarta.servlet.http.HttpSession;
 
@@ -42,7 +46,9 @@ public class CourseController {
 	@Autowired
 	SessionUpdateService sessionUpdateService;
 	@Autowired
-	CourseDetailSessionService courseDetailSessionService;
+	SessionUpdateDBService sessionUpdateDBService;
+	@Autowired
+	SessionUpdateNewService sessionUpdateNewService;
 	@Autowired
 	StoreMapper storeMapper;
 	@Autowired
@@ -99,10 +105,6 @@ public class CourseController {
 		return "thymeleaf/course/courseDetail";
 	}
 	
-	@PostMapping("courseDetailSession")
-	public @ResponseBody void courseDetailSession(String courseNum, String storeNum, String courseOrder, HttpSession session) {
-		courseDetailSessionService.execute(courseNum, storeNum, courseOrder, session);
-	}
 	
 	@PostMapping("courseUpdate")
 	public @ResponseBody void courseUpdate(@RequestParam("maxOrder") String maxOrder
@@ -120,9 +122,24 @@ public class CourseController {
 		return "1";
 	}
 	
+	@PostMapping("sessionUpdateDB")
+	public @ResponseBody void sessionUpdateDB(String maxOrder, String courseNum, String deleteOrder
+											, HttpSession session) {
+		sessionUpdateDBService.execute(maxOrder, deleteOrder, courseNum, session);
+	}
+	
+	@PostMapping("sessionUpdateNew")
+	public @ResponseBody void sessionUpdateNew(String maxCount, String deleteOrder, String courseNum, String deleteStoreNum
+											, HttpSession session) {
+		sessionUpdateNewService.execute(maxCount, deleteOrder, courseNum, deleteStoreNum, session);
+		String memberNum = userNumService.execute(session);
+		for(int i = 1; i < Integer.parseInt(maxCount); i ++) {
+			System.out.println("세션은 " + session.getAttribute(memberNum + "/" + i));
+		}
+	}
+	
 	@PostMapping("sessionUpdate")
 	public @ResponseBody void sessionUpdate(String courseOrder, String maxOrder, HttpSession session) {
-		System.out.println(courseOrder + " " + maxOrder);
 		// 앞의 번호를 삭제한 후, 뒤에 세션의 번호를 하나씩 당기는 서비스
 		sessionUpdateService.execute(courseOrder, maxOrder, session);
 	}

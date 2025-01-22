@@ -11,10 +11,13 @@ body{
 </style>
 <script src = "https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <script type="text/javascript">
+
 var originalMaxOrder = Number("[[${#numbers.formatInteger(maxOrder,1)}]]");
+var DBMaxOrder = originalMaxOrder;
 var maxCount = originalMaxOrder + 1;
 var courseNum = "[[${cDTO.courseNum}]]";
 var deleteCheck = "N";
+
 function storeList(courseNum, count, deleteCheck){
 	$.ajax({
 		type: "post",
@@ -46,7 +49,6 @@ function addCourse(){
 	item += "	<img width='80' height='80' src='/static/upload/heart.png' id='image" + maxCount + "' onclick='storeList(&#39;a&#39;, " + maxCount + ", &#39;N&#39;);'/>";
 	item += "	<span id='storedStoreName_" + maxCount + "' style='position:fixed'></span><br/>";
 	item += "	<input type='hidden' id='course" + maxCount + "' value='" + maxCount + "'/>";
-	item += "	<input type='hidden' th:id='&#39;storedStoreNum_&#39;+" + maxCount + "' th:value='${dto.storeNum}'/>;";	
 	item += "</span>";
 	maxCount = maxCount + 1;
 	$("#course").append(item);
@@ -78,34 +80,52 @@ function deleteStore(order){
 	var newOrder = 0;
 	$("#image" + order).remove(); // 삭제할 순서의 이미지 삭제
 	$("#storedStoreName_" + order).remove(); // 삭제할 순서의 가게명 삭제
-	for(var i = 1; i <= maxCount - 1; i++){
-		if(i > order){ // 삭제한 순서의 다음 가게들일 경우
+	for(var i = 1; i < maxCount; i++){
+		if(order < i){ // 삭제한 순서의 다음 가게들일 경우
 			$("#image" + i).attr("onclick","storeList('a','" + (i - 1) + "', 'Y')");
 			$("#image" + i).attr("id","image"+ (i - 1));
 			$("#storedStoreName_" + i).attr("id", "storedStoreName_" + (i - 1));
+			$("#storedStoreNum_" + i).attr("id", "storedStoreNum_" + (i - 1));
 			newOrder = i - 1;
 		}
 	}
 	// 세션의 번호도 앞당기게
 	maxCount = maxCount - 1;
 	// 바뀐 코스의 정보를 세션에 저장
-	for(var j = 1; j < maxCount; j ++){
-		var storeNum = $("#storedStoreNum_" + j).val();
-		sessionUpdate(storeNum, j);
-	}
+	// DB에 저장되어 있던 것들 세션에 저장
+	sessionUpdateDB(order);
+	// 새롭게 추가되어 세션에 저장된 것들은 앞당기기
+	sessionUpdateNew(maxCount, order);
 }
-function sessionUpdate(storeNum, order){
+
+function sessionUpdateDB(order){
 	$.ajax({
 		type: "post",
-		url: "/course/courseDetailSession",
-		data: {"courseNum" : courseNum, "storeNum" : storeNum, "courseOrder":order},
+		url: "/course/sessionUpdateDB",
+		data: {"maxOrder"  : originalMaxOrder, "courseNum" : courseNum, "deleteOrder" : order},
 		success: function(){
-			storeList(corseNum, order, 'Y');
+			
 		},
 		error: function(){
-			alert("courseDetail.html의 sessionUpdate() 오류");
+			alert("courseDetail.html의 sessionUpdateDB 오류");
 		}
-	});
+	})
+}
+
+function sessionUpdateNew(maxCount, order){
+	alert(maxCount);
+	var storeNum = $("#storedStoreNum_" + order).text();
+	$.ajax({
+		type: "post",
+		url: "/course/sessionUpdateNew",
+		data: {"maxCount" : maxCount, "deleteOrder" : order, "courseNum" : courseNum, "deleteStoreNum" : storeNum},
+		success: function(){
+			
+		},
+		error: function(){
+			alert("courseDetail.html의 sessionUpdateNew 오류");
+		}
+	})
 }
 //저장하기를 눌렀을 경우 그대로 저장
 function updateCourse(courseNum, courseName){
@@ -143,7 +163,7 @@ function updateCourse(courseNum, courseName){
 		<div th:each="dto, idx : ${cdList}">
 			<img width="60" height="50" src="/static/upload/heart_filled.png" th:attr="onclick=|storeList('${dto.courseNum}','${dto.courseOrder}', 'N');|" th:id="'image' + ${dto.courseOrder}"/>
 			<span th:id="'storedStoreName_'+${idx.count}" style="position:fixed;">[[${dto.storeName}]]</span><br/>
-			<input type="hidden" th:id="'storedStoreNum_'+${idx.count}" th:value="${dto.storeNum}"/>
+			<span th:id="'storedStoreNum_'+${idx.count}" style="display:none">[[${dto.storeNum}]]</span>
 		</div>
 	</span>
 	<button type="button" onclick="addCourse();"> + </button><br/>

@@ -22,9 +22,8 @@ public class CourseListPageService {
 	@Autowired
 	StoreMapper storeMapper;
 	public void execute(String courseNum, Integer courseOrder, Model model, String deleteCheck, HttpSession session) {
-		System.out.println(courseOrder);
 		if(deleteCheck.equals("N")) {
-			System.out.println("N");
+			//System.out.println("N");
 			// 세션에 저장된 가게 정보 가져오기
 			String memberNum = userNumService.execute(session);
 			CourseDetailDTO sessionStoredDTO = (CourseDetailDTO)session.getAttribute(memberNum + "/" + courseOrder);
@@ -51,9 +50,10 @@ public class CourseListPageService {
 			model.addAttribute("storeCount", courseOrder);
 		}
 		else {
-			System.out.println("Y");
+			//System.out.println("Y");
 			String memberNum = userNumService.execute(session);
 			CourseDetailDTO sessionStoredDTO = (CourseDetailDTO)session.getAttribute(memberNum + "/" + courseOrder);
+			//System.out.println(sessionStoredDTO.getCourseOrder() + "," + sessionStoredDTO.getStoreName());
 			StoreDTO sessionStoredDetailDTO = storeMapper.storeSelectOne(sessionStoredDTO.getStoreNum());
 			model.addAttribute("storedStoreDTO", sessionStoredDTO);// storeNum, memberNum, storeName
 			model.addAttribute("storedDetailDTO", sessionStoredDetailDTO);
