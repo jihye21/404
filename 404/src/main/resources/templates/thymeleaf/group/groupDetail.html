@@ -67,15 +67,26 @@ body{
 	
 	</th:block>
 	</th:block>
+	
 	<th:block th:each="memberPay:${memberPay}">
-	<th:block th:if="${dto.bookNum} == ${memberPay.bookNum}">
+	<th:block th:if="${dto.bookNum} == ${memberPay.bookNum} and ${memberPay.memNum} == ${memNum}">
 		<tr>
 			<th>
+			<th:block th:if="${dto.bookStatus} == '결제대기중'">
 				<form action = "/group/groupDutchPay" method = "POST">
+					<input type = "hidden" name ="myDutchPrice" th:value="${memberPay.dutchPrice}">
 					<input type = "hidden" name = "groupNum" th:value="${memberPay.groupNum}">
 					<input type = "hidden" name = "bookNum" th:value="${memberPay.bookNum}">
 					<input type = "submit" value="결제하기">
 				</form>
+			</th:block>
+			<th:block th:if = "${dto.bookStatus == '후불결제대기'}">
+				<form action = "/book/groupAfterPay" method = "POST">
+					<input type = "hidden" name = "groupNum" th:value="${memberPay.groupNum}">
+					<input type = "hidden" name = "bookNum" th:value="${memberPay.bookNum}">
+					<input type = "submit" value="후불 결제">
+				</form>
+			</th:block>
 			</th>
 		</tr>
 	</th:block>

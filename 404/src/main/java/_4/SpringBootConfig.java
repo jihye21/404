@@ -9,8 +9,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.session.web.http.HttpSessionIdResolver;
-import org.springframework.session.web.http.HeaderHttpSessionIdResolver;
 @Component
 @Configuration
 public class SpringBootConfig implements WebMvcConfigurer {

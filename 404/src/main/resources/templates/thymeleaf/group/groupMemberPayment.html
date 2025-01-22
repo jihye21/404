@@ -129,7 +129,7 @@ function pointDiscount(memPoint){
 	
 	//1인 결제
 	if($("input[type='checkbox']:visible").length == 0){
-		if(usePoint < memPoint && totalPrice > 0){
+		if(usePoint + 100 < memPoint && totalPrice > 100){
 			usePoint = usePoint + 100;
 			
 			$(".usePoint").text(usePoint);
@@ -142,7 +142,7 @@ function pointDiscount(memPoint){
 	}else{
 		//그룹 결제
 		if(dutchPrice > 0){
-			if(usePoint < memPoint){
+			if(usePoint + 100 < memPoint){
 				usePoint = usePoint + 100;
 				
 				$(".usePoint").text(usePoint);
@@ -166,7 +166,7 @@ function pointRevert(memPoint){
 	
 	//1인 결제
 	if($("input[type='checkbox']:visible").length == 0){
-		if(usePoint > 0 && depositPrice >= 100 + totalPrice){
+		if(usePoint >= 100 && depositPrice >= 100 + totalPrice){
 			usePoint = usePoint - 100;
 			
 			$(".usePoint").text(usePoint);
@@ -179,7 +179,7 @@ function pointRevert(memPoint){
 	}else{
 		var myDutchPrice = $(".myDutchPrice").text();
 		//그룹 결제
-		if(usePoint > 0 && myDutchPrice >= 100 + dutchPrice){
+		if(usePoint >= 100 && myDutchPrice >= 100 + dutchPrice){
 			usePoint = usePoint - 100;
 			
 			$(".usePoint").text(usePoint);
@@ -223,10 +223,9 @@ function pointRevert(memPoint){
 			</table>
 		</div>
 	<div class="content">
-		<div class="people">
-		가격 : <span id="totalPrice"></span><br/>
+
+		<span id="totalPrice"></span><br/>
 		<br/>
-		</div>
 		<!-- 쿠폰 적용 하는 부분 -->
 		<div class="couponContent">
 		<table border = "1" width="200">

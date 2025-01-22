@@ -242,19 +242,20 @@ function groupRegistCheck(){
 							<th colspan="2">
 							<!-- 그룹 결제 대기중  -->
 							<th:block th:if = "${groupDutchAlarmList.bookStatus == '결제대기중'}">
-								<!--  form action = "/group/groupMemberPayment" method = "POST"-->
-								<form action = "/group/groupDutchPay" method = "POST">
+								<form action = "/group/groupMemberPayment" method = "POST">
+								<!--  form action = "/group/groupDutchPay" method = "POST"-->
 									<input type = "hidden" name ="myDutchPrice" th:value="${groupDutchAlarmList.dutchPrice}">
 									<input type = "hidden" name = "groupNum" th:value="${groupDutchAlarmList.groupNum}">
 									<input type = "hidden" name = "bookNum" th:value="${groupDutchAlarmList.bookNum}">
 									<input type = "submit" value="결제하기">
 								</form>
 							</th:block>
-							<th:block th:if = "${groupDutchAlarmList.bookStatus == '후불결제대기중'}">
-								<form action = "/book/groupAfterPay" method = "POST">
+							<th:block th:if = "${groupDutchAlarmList.bookStatus == '후불결제대기'}">
+							<form action = "/group/groupMemberPayment" method = "POST">
+								<!--  form action = "/book/groupAfterPay" method = "POST"-->
 									<input type = "hidden" name = "groupNum" th:value="${groupDutchAlarmList.groupNum}">
 									<input type = "hidden" name = "bookNum" th:value="${groupDutchAlarmList.bookNum}">
-									<input type = "submit" value="결제하기">
+									<input type = "submit" value="후불 결제">
 								</form>
 							</th:block>
 							</th>
