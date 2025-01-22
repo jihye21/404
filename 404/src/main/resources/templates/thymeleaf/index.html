@@ -486,6 +486,10 @@ $(function(){
                 <li><a href="/inquire/inquireList">문의</a></li>
                 <li><a href="/kafka/app">복지 포인트</a></li>
                 </th:block>
+                
+                <th:block th:if="${session.auth.grade == 'owner'}">
+                <li><a href = "/owner/ownerMainPage">사장님 가게</a>
+                </th:block>
                 <li>
                     <a href="/user/logout">로그아웃</a>
                 </li>

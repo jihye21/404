@@ -275,19 +275,27 @@ public class OrderController {
 	
 	@PostMapping("afterGroupPayment")
 	public String afterGroupPayment(BookCommand bookCommand, Model model, HttpSession session) {
+		String memNum = userNumService.execute(session);
+		
 		String bookNum = bookCommand.getBookNum();
 		//더치페이 결제
+		
 		//포인트 사용 완료
 		Integer usedPoint = bookCommand.getMemPoint();
-		if(usedPoint > 0) {
-			pointUseService.execute(session, bookNum, usedPoint);
-		}
+		pointUseService.execute(session, bookNum, usedPoint);
+		purchaseMapper.paymentPointCheck(bookNum, memNum);
+		purchaseMapper.pointStatusUpdate(bookNum, memNum);
 		
 		//afterPrice를 이니시스로 결제하기
 		BookDTO bookDTO = bookMapper.bookSelectOne(bookNum);
 		bookDTO.setDepositPrice(bookCommand.getAfterPrice());
 		
-		iniPayReqService.execute(bookDTO, model);
+		if(bookCommand.getAfterPrice() > 0) {
+			iniPayReqService.execute(bookDTO, model);
+		}
+		
+		//더치 결제 완료
+		purchaseMapper.groupPaymentCheck(bookNum, memNum);
 		
 		return "thymeleaf/purchase/payment";
 	}

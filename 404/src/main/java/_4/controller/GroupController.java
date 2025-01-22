@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import _4.command.BookCommand;
 import _4.command.GroupCommand;
 import _4.domain.BookDTO;
 import _4.domain.GroupDTO;
 import _4.domain.PaymentDTO;
 import _4.domain.ReviewDTO;
 import _4.mapper.BookMapper;
+import _4.mapper.PurchaseMapper;
 import _4.mapper.ReviewMapper;
 import _4.mapper.service.AutoNumService;
 import _4.mapper.service.UserNumService;
@@ -37,6 +39,7 @@ import _4.service.group.GroupQuitService;
 import _4.service.group.GroupRegistService;
 import _4.service.group.MemberDutchPaymentCheckService;
 import _4.service.member.MemberPointService;
+import _4.service.member.PointUseService;
 import _4.service.purchase.IniPayReqService;
 import _4.service.review.ReviewGroupMemberListService;
 import jakarta.servlet.http.HttpSession;
@@ -44,6 +47,8 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("group")
 public class GroupController {
+	@Autowired
+	PointUseService pointUseService;
 	@Autowired
 	GroupBookInfoService groupBookInfoService;
 	@Autowired
@@ -84,6 +89,8 @@ public class GroupController {
 	GroupMemberSearchService groupMemberSearchService;
 	@Autowired
 	ReviewGroupMemberListService reviewGroupMemberListService;
+	@Autowired
+	PurchaseMapper purchaseMapper;
 	@GetMapping("groupList")
 	public String groupList(HttpSession session, Model model) {
 		groupListService.execute(session, model);
@@ -165,13 +172,59 @@ public class GroupController {
 	}
 	
 	@PostMapping("groupDutchPay")
-	public String groupDutchPayEnter(GroupCommand groupCommand, Model model, HttpSession session) {
+	public String groupDutchPayEnter(GroupCommand groupCommand, Model model, HttpSession session, BookCommand bookCommand) {
+		
 		BookDTO dto = new BookDTO();
 		
+		String memNum = memNum = userNumService.execute(session);
 		String bookNum = groupCommand.getBookNum();
 		dto = bookMapper.bookSelectOne(bookNum);
+		/*
 		dto.setDepositPrice(groupCommand.getMyDutchPrice());
 		iniPayReqService.execute(dto, model);
+		*/
+		if(groupCommand.getMyDutchPrice() == 0) {
+
+			//포인트 사용 완료
+			Integer usedPoint = bookCommand.getMemPoint();
+			pointUseService.execute(session, bookNum, usedPoint);
+			purchaseMapper.memberPointUpdate(bookNum, memNum);
+			purchaseMapper.paymentPointCheck(bookNum, memNum);
+			purchaseMapper.pointStatusUpdate(bookNum, memNum);
+			
+			//쿠폰 적용하기
+			if(bookCommand.getCouponNum() != null) {
+				purchaseMapper.patmentCouponCheck(bookNum);
+			}
+			
+			//더치 결제 완료
+			purchaseMapper.groupPaymentCheck(bookNum, memNum);
+			
+			return "redirect:/group/groupList";
+		}
+		else {
+			
+			dto = bookMapper.bookSelectOne(bookNum);
+				
+			//포인트 사용 완료
+			Integer usedPoint = bookCommand.getMemPoint();
+			pointUseService.execute(session, bookNum, usedPoint);
+			purchaseMapper.memberPointUpdate(bookNum, memNum);
+			purchaseMapper.paymentPointCheck(bookNum, memNum);
+			purchaseMapper.pointStatusUpdate(bookNum, memNum);
+				
+			//쿠폰 적용하기
+			if(bookCommand.getCouponNum() != null) {
+				purchaseMapper.patmentCouponCheck(bookNum);
+			}
+				
+			dto.setDepositPrice(bookCommand.getMyDutchPrice());
+			iniPayReqService.execute(dto, model);
+			
+			//더치 결제 완료
+			purchaseMapper.groupPaymentCheck(bookNum, memNum);
+			}
+		
 		return "thymeleaf/purchase/payment";
 	}
 	

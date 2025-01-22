@@ -23,5 +23,6 @@ public class MemberDutchPaymentCheckService {
 		List<GroupDTO> memberPay = groupMapper.memberDutchPaymentCheckSelectOne(memNum, groupNum);
 	
 		model.addAttribute("memberPay", memberPay);
+		model.addAttribute("memNum", memNum);
 	}
 }
