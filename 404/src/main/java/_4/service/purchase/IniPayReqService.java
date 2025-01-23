@@ -1,22 +1,29 @@
 package _4.service.purchase;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+
 import com.inicis.std.util.SignatureUtil;
+
 import _4.domain.BookDTO;
+import _4.mapper.MemberMapper;
 @Service
 public class IniPayReqService {
-	
+	@Autowired
+	MemberMapper memberMapper;
 	public void execute(BookDTO dto, Model model) {	
 		Integer purchasePrice = dto.getDepositPrice();
-		
+		String buyeremail = memberMapper.memberSelectOne(dto.getMemNum()).getMemEmail();
 		String deliveryName = dto.getMemNum();
 		String purchaseName = dto.getStoreNum();
 		Integer deliveryPhone = 1234;
 		String purchaseNum = dto.getBookNum();
 		
-		String mid					= "INIpayTest";		                    // 상점아이디					
+		String mid					
+		= "INIpayTest";		                    // 상점아이디					
 		String signKey			    = "SU5JTElURV9UUklQTEVERVNfS0VZU1RS";	// 웹 결제 signkey
 		
 		String mKey;
@@ -52,6 +59,7 @@ public class IniPayReqService {
 		model.addAttribute("deliveryName", deliveryName);
 		model.addAttribute("purchaseName", purchaseName);
 		model.addAttribute("deliveryPhone", deliveryPhone);
+		model.addAttribute("buyeremail", buyeremail);
 		
 		//상품명
 		String goodsName = dto.getThemeNum();

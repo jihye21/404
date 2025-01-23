@@ -119,6 +119,6 @@ public class StoreInfoModifyService {
 			}
 		}		
 		storeMapper.storeUpdate(dto);
-		System.out.println("zz");
+		System.out.println("zzsdg");
 	}
 }
