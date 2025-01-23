@@ -168,8 +168,8 @@ function reviewDelete(reviewNum){
 		<tr><th colspan="2">예약이 취소되었습니다.</th></tr>
 	</th:block>
 	
-	<!-- review -->
-	<th:block th:if="${#lists.isEmpty(reviewDTO)} or ${reviewNull} and ${dto.bookStatus} == '후불결제완료'">
+	<!-- review --><!-- or ${reviewNull} -->
+	<th:block th:if="${#lists.isEmpty(reviewDTO)} and ${dto.bookStatus} == '후불결제완료'">
 			<tr><th colspan="2"><span id="reviewContent"><button th:attr="onclick=|reviewForm('${dto.bookNum}');|">리뷰 작성</button></span></th></tr>
 	</th:block>
 
