@@ -42,9 +42,9 @@
 	where book_num = #{bookNum} and mem_num = #{memNum}
 	</update>
 	<update id="memberPointUpdate" parameterType="string">
-	update member set mem_point = mem_point + (select nvl(used_point, 0) from member_point 
+	update member set mem_point = mem_point + nvl((select nvl(used_point, 0) from member_point 
 	where book_num = #{bookNum}
-	and mem_num = #{memNum} and POINT_STATUS is null)
+	and mem_num = #{memNum} and POINT_STATUS is null), 0)
 	where mem_num = #{memNum}
 	</update>
 	<update id="afterPaySuccess" parameterType="string">
