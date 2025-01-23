@@ -377,12 +377,12 @@ function memberCheck(){
 		<div class="couponContent" style="overflow:scroll; width: 220px;height:200px;">
 		<th:block th:each="list:${couponList}">
 		<th:block th:if="${list!=null}">
-		<table border = "1" width="200">
-				
+
 				 <!-- <input type = "hidden" name = "couponNum" th:value = "${list.couponNum}"> -->
 				<input type = "hidden" class = "expirationDate" name = "expirationDate" th:value = "${list.expirationDate}">
 				<th:block th:if="${today < list.expirationDate}">
 					<th:block th:if = "${list.couponStatus != '사용완료'}" >
+					<table border = "1" width="200">
 						<a th:href = "|/coupon/couponDetail?couponNum=${list.couponNum}|" style="text-decoration: none; color: black;">
 						<tr>
 							<th rowspan="2"><input type = "radio" name = "selectCoupon" th:value = "${list.discountRate}">
@@ -397,9 +397,10 @@ function memberCheck(){
 							</h1></th>
 						</tr>
 						</a>
+						</table>
 					</th:block>
 				</th:block>
-		</table>
+		
 		</th:block>
 		</th:block>
 		</div>
@@ -436,7 +437,7 @@ function memberCheck(){
 	<br>
 		
 		<div class = "memberCheckList">
-		<th:block th:each="groupDetailList:${groupDetailList}">
+		
 			<table style="margin:20px; width:300px;" border="1">
 			   <tr>
 			       <td>그룹</td>
@@ -446,17 +447,19 @@ function memberCheck(){
 			   		<td><input type = "checkbox" onclick="checkAll();" class="allCheckBox"></td>
 			   		<th>참여자</th>
 			   </tr>
+			   
+			   <th:block th:each="groupDetailList:${groupDetailList}">
 			   <tr>
 			   		<td><input type = "checkbox" name = "dutchMember" class = "checkBox" onclick="checkBox();" th:value="${groupDetailList.memNum}"></td>
 			   		<td colspan="2">[[${groupDetailList.memNickname}]]([[${groupDetailList.memName}]])</td>
 			   </tr>
+			   </th:block>
 			  
 			</table>
-			
 			<b>더치페이 금액</b><br>
 			<span class = "afterDutchPrice">0</span><br>
 			<br>
-		</th:block>
+		
 		</div>
 		<table border = "1" width="200">
 		<tr><th>결제 금액: <span class = "afterPrice">0</span>원</th></tr>

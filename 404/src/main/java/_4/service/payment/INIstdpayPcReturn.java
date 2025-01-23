@@ -152,6 +152,10 @@ public class INIstdpayPcReturn {
 						
 						BookDTO bookDTO = bookMapper.bookSelectOne(bookNum);
 						String bookStatus = bookDTO.getBookStatus();
+						
+						//리더 결제 완료
+						purchaseMapper.groupPaymentCheck(bookNum, memNum);
+						
 						//후불 결제인지 확인하기 book_status == "후불결제대기"이면 
 						if(bookStatus.equals("후불결제대기")) {
 							
@@ -169,9 +173,9 @@ public class INIstdpayPcReturn {
 							}
 						}else {
 							String groupPaySuccess = purchaseMapper.groupPaySuccess(bookNum);
-							//모든 그룹원이 결제가 되었는지 확인하기
-							if(!groupPaySuccess.equals("미결제") && groupPaySuccess.equals(null)) {
 
+							//모든 그룹원이 결제가 되었는지 확인하기
+							if(groupPaySuccess == null) {
 							purchaseMapper.paymentCheck(dto.getPurchaseNum());
 							
 							//theme_time != '종일권'이면 시간제 테마 예약 완료로 update 
