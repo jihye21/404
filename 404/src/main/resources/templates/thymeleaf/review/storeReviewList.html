@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<table border="1" width="800">
+	<tr><th>리뷰 리스트</th></tr>
+	<tr th:each="dto : ${list}">
+		<td>[[${dto.reviewContents}]]</td>
+	</tr>
+</table>
+</body>
+</html>

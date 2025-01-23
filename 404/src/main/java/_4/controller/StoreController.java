@@ -15,9 +15,11 @@ import _4.command.DepositCommand;
 import _4.command.StoreApplicationCommand;
 import _4.command.StoreCommand;
 import _4.domain.AuthDTO;
+import _4.domain.ReviewDTO;
 import _4.domain.StoreDTO;
 import _4.mapper.BookMapper;
 import _4.mapper.MainMapper;
+import _4.mapper.ReviewMapper;
 import _4.mapper.StoreApplMapper;
 import _4.mapper.StoreMapper;
 import _4.mapper.service.UserNumService;
@@ -100,7 +102,7 @@ public class StoreController {
 			String memberNum = userNumService.execute(session);
 			bookMapper.waitedBookDelete(memberNum);
 		}
-		
+		model.addAttribute("storeDTO", storeDTO);
 		String storeNum = storeDTO.getStoreNum();
 		wishCheckService.execute(storeDTO, session, model);
 		themelistService.execute(storeDTO.getStoreNum(), model);
@@ -116,4 +118,12 @@ public class StoreController {
 		return "redirect:/owner/ownerMainPage";
 	}
 	
+	@Autowired
+	ReviewMapper reviewMapper;
+	@PostMapping("storeReview")
+	public String storeReview(String storeNum, Model model) {
+		List<ReviewDTO> list = reviewMapper.reviewSelectAll(storeNum);
+		model.addAttribute("list", list);
+		return "thymeleaf/review/storeReviewList";
+	}
 }
