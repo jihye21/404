@@ -54,9 +54,6 @@ public class FriendsController {
 	FriendMapper friendMapper;
 	@Autowired
 	LoginMapper loginMapper;
-
-	@Autowired
-	HttpSession session;
 	
 	@PostMapping("friendNickCheck") // 친구 추가 중복 시스템
 	public @ResponseBody String friendNickCheck(

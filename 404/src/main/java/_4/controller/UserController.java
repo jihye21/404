@@ -30,7 +30,6 @@ public class UserController {
 	UserNumService userNumService;
 	@Autowired
 	OwnerLoginService ownerLoginService;
-	
 	@Autowired
 	MemberMapper memberMapper;
 	
