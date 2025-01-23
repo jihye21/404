@@ -101,6 +101,8 @@ public class StoreInfoModifyService {
 				for (String img : dbStore)
 					storeTotal += img + "/";
 			}
+			
+			
 			dto.setStoreDetailStoreImage(storeTotal);
 			dto.setStoreDetailImage(originalTotal);
 			
@@ -115,13 +117,7 @@ public class StoreInfoModifyService {
 					
 				}
 			}
-		}
-		
-		
-		
-		
-		
-		
-		
+		}		
+		storeMapper.storeUpdate(dto);
 	}
 }
