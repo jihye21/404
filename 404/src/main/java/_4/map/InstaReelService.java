@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class InstaReelService {
-	private static final String ACCESS_TOKEN = "EAAPs0aERPXgBO50FezGHWnI63KkP14HBAqGnRYqJQcApefOcMYK2AHnFEgLCrYsxmxdHYq5msPtZA03uPAEutRZATgiH2ZCvQLrVkp5biqAhFWZCBm8oyLZB2uK1okJ1UbOORDaZATOvkNqTbtoLFszqj62ZCgSixGKYZCEEQP3lEQxeyrR4bnJZCFYoM9ZCIoHCjVFGUXXkw2oMXqZA3hEV2y9y5UTR2gZD";
+	private static final String ACCESS_TOKEN = "";
     private static final String USER_ID = "17841449857311304";
     private static String nextPageUrl = "";
     
